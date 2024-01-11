@@ -1,7 +1,8 @@
-const Header = () => {
-  return (
-    <div>Header</div>
-  )
-}
+import useBoundStore from '../../store/store';
 
-export default Header
+const Header = () => {
+  const bearPopulation = useBoundStore((state) => state.bears);
+  return <div>Header d{bearPopulation}</div>;
+};
+
+export default Header;
