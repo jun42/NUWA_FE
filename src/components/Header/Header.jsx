@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import useBoundStore from '../../store/store';
+import { Button as ChButton } from '@chakra-ui/react';
 
 const Header = () => {
   const bearPopulation = useBoundStore((state) => state.bears);
@@ -27,12 +27,7 @@ const Header = () => {
   return (
     <>
       <div>bear population:{bearPopulation}</div>
-      {primary.map((item, index) => (
-        <Palette key={index} backgroundColor={item} />
-      ))}
-      {variant.map((item, index) => (
-        <Palette2 key={index} value={item} />
-      ))}
+      <ChButton>차크라 버튼</ChButton>
     </>
   );
 };
