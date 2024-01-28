@@ -9,6 +9,7 @@ const StText = styled.span`
   color: ${({ theme, $color = 'grey700' }) => theme.color[$color]};
   font-weight: ${(props) => props.$weight};
   font-size: ${(props) => props.$size}px; // px
+  text-decoration: ${({ $decoration }) => $decoration};
 `;
 
 export default StText;
