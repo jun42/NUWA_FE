@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import StTextDiv from '@components/Text/StTextDiv';
-import StText from '../../components/Text/StText';
+import StText from '@components/Text/StText';
 
 const CardHeader = ({ id, headerTitle, headerText }) => {
   let content;

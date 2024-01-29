@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import StText from '@components/Text/StText';
-import Button from '../../components/Button/Button';
+import Button from '@components/Button/Button';
 
 const CardMiddle = ({ middlePrimary, id }) => {
   return (
