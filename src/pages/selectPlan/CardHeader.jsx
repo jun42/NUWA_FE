@@ -25,7 +25,7 @@ const CardHeader = ({ id, headerTitle, headerText }) => {
   }
   return (
     <StCardHeader>
-      <StTextDiv $size={32} $weight={700}>
+      <StTextDiv $size={36} $weight={700}>
         {headerTitle}
       </StTextDiv>
       {id !== 'PRO' ? (
@@ -55,7 +55,6 @@ const StCardHeader = styled.div`
 // string => str[]  []로 감싼 문자열 찾기.
 const splitHighlightText = (text) => {
   const textArr = [];
-  console.log(text);
   let temporaryStr = '';
   for (let i = 0; i < text.length; i++) {
     if (text[i] !== '[' && text[i] !== ']') {
