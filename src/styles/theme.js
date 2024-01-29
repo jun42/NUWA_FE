@@ -18,6 +18,9 @@ const theme = {
   shadow: {
     primary: '10px 12px 33px 0px rgba(102, 102, 102, 0.10)',
   },
+  border: {
+    specialBorder: 'linear-gradient(#7097dc, #b19ace, #e18fbd)',
+  },
 };
 
 export default theme;
