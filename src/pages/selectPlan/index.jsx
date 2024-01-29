@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import PlanCard from './PlanCard';
 import PageTitle from './PageTitle';
-import { SELECT_PLAN_INFO } from '@constants/constants';
 import PlanCardPro from './PlanCardPro';
+import SELECT_PLAN_INFO from '@constants/selectPlan/SELECT_PLAN_INFO.js';
 const SelectPlan = () => {
   return (
     <StContainer>

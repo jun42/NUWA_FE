@@ -4,7 +4,7 @@ import NotFoundPage from '../pages/not_found/NotFoundPage';
 import MainPage from '../pages/main/MainPage';
 import LoginPage from '../pages/login/LoginPage';
 import SignupPage from '../pages/signup/SignupPage';
-import PlanSelect from '../pages/selectPlan/SelectPlan';
+import SelectPlan from '../pages/selectPlan';
 export const Router = createBrowserRouter([
   {
     path: '/',
@@ -25,7 +25,7 @@ export const Router = createBrowserRouter([
       },
       {
         path: '/select-plan',
-        element: <PlanSelect />,
+        element: <SelectPlan />,
       },
     ],
   },
