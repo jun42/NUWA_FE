@@ -7,14 +7,15 @@ import Header from '@components/Header/Header';
 import Footer from '@components/Footer/Footer';
 import SideBar from '@components/SideBar/SideBar';
 import GlobalStyle from '@styles/globalStyle';
-import theme from './styles/theme';
+import theme from '@styles/theme';
+import chakraTheme from '@styles/chakraTheme';
 
 const queryClient = new QueryClient();
 function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <ChakraProvider>
+        <ChakraProvider theme={chakraTheme}>
           <GlobalStyle />
           <Header />
           <SideBar />
