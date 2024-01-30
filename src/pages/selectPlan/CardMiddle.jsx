@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import StText from '@components/Text/StText';
-import Button from '@components/Button/Button';
+import { Button } from '@chakra-ui/react';
 
 const CardMiddle = ({ middlePrimary, id }) => {
+  // linear-gradient(91deg, #5158FF 0%, rgba(81, 88, 255, 0.80) 100%);
   return (
     <StMiddle>
       {/* PRO용  */}
@@ -20,10 +21,15 @@ const CardMiddle = ({ middlePrimary, id }) => {
         </StText>
       </StTextContainer>
       <Button
-        $type={'solid'}
-        $color={'primary400'}
-        $rounded={'50px'}
-        $padding={'12px'}
+        // bg={'secondary.500'}
+        bgGradient={'linear(to-r,#5158FF 0%, #7479ff 100%)'}
+        _hover={{ bgGradient: 'linear(to-r,#4F52F2 0%, #7275f5 100%)' }}
+        _active={{ bgGradient: 'linear(to-r,#4548EA 0%, #6a6dee 100%)' }}
+        width={'100%'}
+        borderRadius={'full'}
+        paddingTop={'13px'}
+        paddingBottom={'13px'}
+        height={'3rem'}
       >
         <StText $color="grey100" $size={20} $weight={600}>
           시작하기
