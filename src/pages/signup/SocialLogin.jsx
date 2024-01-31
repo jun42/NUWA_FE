@@ -1,14 +1,14 @@
 import styled from 'styled-components';
-import ToSignUp from './ToSignUp';
 import GoogleLogin from '@components/Button/GoogleLogin';
 import NaverLogin from '@components/Button/NaverLogin';
+import ToLogin from './ToLogin';
 
 const SocialLogin = () => {
   return (
     <StButtonBox>
       <GoogleLogin />
       <NaverLogin />
-      <ToSignUp />
+      <ToLogin />
     </StButtonBox>
   );
 };

@@ -28,5 +28,3 @@ const StLogoBox = styled.div`
   display: flex;
   gap: 8px;
 `;
-
-// #fafbfd    #f6f8fb
