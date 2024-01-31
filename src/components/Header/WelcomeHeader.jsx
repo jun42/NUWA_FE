@@ -3,7 +3,7 @@ import StText from '@components/Text/StText';
 import Logo from '@components/Image/Logo';
 import { Flex } from '@chakra-ui/react';
 
-const Header = () => {
+const WelcomeHeader = () => {
   return (
     <StHeaderContainer>
       <Flex gap={'0.25rem'} alignItems={'center'}>
@@ -21,7 +21,7 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default WelcomeHeader;
 
 const StHeaderContainer = styled.div`
   display: flex;
