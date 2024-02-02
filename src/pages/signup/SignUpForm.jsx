@@ -95,7 +95,12 @@ const SignUpForm = () => {
             e.preventDefault();
           }}
         >
-          <Text color={'white'} fontWeight={'700'} py={'14px'}>
+          <Text
+            color={'white'}
+            fontSize={'18px'}
+            fontWeight={'700'}
+            py={'14px'}
+          >
             회원가입
           </Text>
         </Button>

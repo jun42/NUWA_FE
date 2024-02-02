@@ -16,7 +16,7 @@ const NaverLogin = () => {
     >
       <StLogoBox>
         <img src={NaverLogo} alt="네이버 로고" />
-        <StText $size={16} $weight={600} $color={'grey100'}>
+        <StText $size={18} $weight={600} $color={'grey100'}>
           네이버 로그인
         </StText>
       </StLogoBox>

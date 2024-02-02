@@ -1,29 +1,29 @@
 import styled from 'styled-components';
 import { Button } from '@chakra-ui/react';
 import StText from '@components/Text/StText';
-import GoogleLogo from '@assets/googleLogo.svg';
+import KaKaoLogo from '@assets/kakaoLogo.svg';
 
-const GoogleLogin = () => {
+const KakaoLogin = () => {
   return (
     <Button
       borderRadius={'8px'}
-      bg={'#fff'}
-      _hover={{ bg: '#fafbfd' }}
-      _active={{ bg: '#f6f8fb  ' }}
+      bg={'#FEE500'}
+      _hover={{ bg: '#FAE000' }}
+      _active={{ bg: '#F6DD00  ' }}
       width={'100%'}
       height={'52px'}
     >
       <StLogoBox>
-        <img src={GoogleLogo} alt="구글 로고" />
+        <img src={KaKaoLogo} width={'20px'} alt="카카오 로고" />
         <StText $size={18} $weight={600} $color={'grey700'}>
-          Google로 계정 생성
+          카카오 로그인
         </StText>
       </StLogoBox>
     </Button>
   );
 };
 
-export default GoogleLogin;
+export default KakaoLogin;
 const StLogoBox = styled.div`
   display: flex;
   gap: 8px;
