@@ -12,6 +12,10 @@ const GoogleLogin = () => {
       _active={{ bg: '#f6f8fb  ' }}
       width={'100%'}
       height={'52px'}
+      onClick={() => {
+        window.location.href =
+          'https://nuwa.o-r.kr/oauth2/authorization/google';
+      }}
     >
       <StLogoBox>
         <img src={GoogleLogo} alt="구글 로고" />

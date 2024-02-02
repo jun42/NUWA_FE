@@ -13,6 +13,9 @@ const NaverLogin = () => {
       _active={{ bg: '#01a73a' }}
       width={'100%'}
       height={'52px'}
+      onClick={() => {
+        window.location.href = 'https://nuwa.o-r.kr/oauth2/authorization/naver';
+      }}
     >
       <StLogoBox>
         <img src={NaverLogo} alt="네이버 로고" />
