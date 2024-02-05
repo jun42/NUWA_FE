@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import Header from '@components/Header/Header';
 import Footer from '@components/Footer/Footer';
-import SideBar from '@components/SideBar/SideBar';
+// import SideBar from '@components/SideBar/SideBar';
 import GlobalStyle from '@styles/globalStyle';
 import theme from '@styles/theme';
 import chakraTheme from '@styles/chakraTheme';
@@ -18,7 +18,7 @@ function App() {
         <ChakraProvider theme={chakraTheme}>
           <GlobalStyle />
           <Header />
-          <SideBar />
+          {/* <SideBar /> */}
           <QueryClientProvider client={queryClient}>
             <ReactQueryDevtools initialIsOpen={false} />
             <Outlet />
