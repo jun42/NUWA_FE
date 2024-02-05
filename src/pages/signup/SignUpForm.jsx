@@ -1,104 +1,68 @@
 import styled from 'styled-components';
-import AtIcon from '@components/Image/AtIcon';
-import {
-  Button,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Text,
-} from '@chakra-ui/react';
+import { useForm } from 'react-hook-form';
+import NicknameInput from './NicknameInput';
+import EmailInput from './EmailInput';
+import PasswordInput from './PasswordInput';
+import PasswordConfirmInput from './PasswordConfirmInput';
+import PhoneNumberInput from './PhoneNumberInput';
+import { createAccount } from '@apis/axios/auth';
+import { useNavigate } from 'react-router-dom';
+import SubmitButton from './SubmitButton';
 
 const SignUpForm = () => {
+  const navigate = useNavigate();
+  const {
+    register,
+    formState: { errors, isValid, isDirty, isSubmitting, isSubmitted },
+    handleSubmit,
+    getValues,
+    control,
+  } = useForm({
+    mode: 'onTouched',
+    defaultValues: {
+      nickname: '',
+      email: '',
+      password: '',
+      passwordConfirm: '',
+      phoneNumber: '',
+    },
+  });
+
+  const onSubmit = async (data) => {
+    const newData = {
+      ...data,
+      phoneNumber: unmaskPhoneNumber(data.phoneNumber),
+    };
+    try {
+      setTimeout(async () => {
+        const response = await createAccount(newData);
+        if (response.data.status === 'success') {
+          console.log('redirect to login');
+          navigate('/login');
+        }
+      }, 1000);
+    } catch (error) {
+      alert('에러!');
+    }
+  };
   return (
     <StLoginContainer>
-      <StForm action="">
-        <InputGroup>
-          <InputLeftElement pointerEvents="none" paddingTop={'12px'}>
-            <AtIcon />
-          </InputLeftElement>
-          <Input
-            width={'100%'}
-            height={'52px'}
-            borderRadius={'8px'}
-            type="text"
-            placeholder="닉네임"
-            bg={'white'}
-            border={'none'}
-            maxLength={30}
-          />
-        </InputGroup>
-        <InputGroup>
-          <InputLeftElement pointerEvents="none" paddingTop={'12px'}>
-            <AtIcon />
-          </InputLeftElement>
-          <Input
-            width={'100%'}
-            height={'52px'}
-            borderRadius={'8px'}
-            type="text"
-            placeholder="이메일"
-            bg={'white'}
-            border={'none'}
-            maxLength={20}
-          />
-        </InputGroup>
-        <InputGroup>
-          <InputLeftElement pointerEvents="none" paddingTop={'12px'}>
-            <AtIcon />
-          </InputLeftElement>
-          <Input
-            width={'100%'}
-            height={'52px'}
-            borderRadius={'8px'}
-            type="password"
-            placeholder="비밀번호 8자리 이상"
-            bg={'white'}
-            border={'none'}
-            maxLength={30}
-          />
-        </InputGroup>
-        <InputGroup>
-          <InputLeftElement pointerEvents="none" paddingTop={'12px'}>
-            <AtIcon />
-          </InputLeftElement>
-          <Input
-            width={'100%'}
-            height={'52px'}
-            borderRadius={'8px'}
-            type="password"
-            placeholder="비밀번호 재입력"
-            bg={'white'}
-            border={'none'}
-            maxLength={30}
-          />
-        </InputGroup>
-        <InputGroup>
-          <InputLeftElement pointerEvents="none" paddingTop={'12px'}>
-            <AtIcon />
-          </InputLeftElement>
-          <Input
-            width={'100%'}
-            height={'52px'}
-            borderRadius={'8px'}
-            type="text"
-            placeholder="전화번호"
-            bg={'white'}
-            border={'none'}
-            maxLength={30}
-          />
-        </InputGroup>
-        <Button
-          height={'52px'}
-          type="submit"
-          colorScheme="secondary"
-          onClick={(e) => {
-            e.preventDefault();
-          }}
-        >
-          <Text color={'white'} fontWeight={'700'} py={'14px'}>
-            회원가입
-          </Text>
-        </Button>
+      <StForm onSubmit={handleSubmit(onSubmit)}>
+        <NicknameInput register={register} errors={errors} />
+        <EmailInput register={register} errors={errors} />
+        <PasswordInput register={register} errors={errors} />
+        <PasswordConfirmInput
+          register={register}
+          errors={errors}
+          getValues={getValues}
+        />
+        <PhoneNumberInput control={control} errors={errors} />
+        <SubmitButton
+          isSubmitting={isSubmitting}
+          isSubmitted={isSubmitted}
+          isDirty={isDirty}
+          isValid={isValid}
+        />
       </StForm>
     </StLoginContainer>
   );
@@ -114,5 +78,9 @@ const StForm = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
 `;
+
+const unmaskPhoneNumber = (phoneNumber) => {
+  return phoneNumber.replace(/\D/, '');
+};
