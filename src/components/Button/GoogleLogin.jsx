@@ -12,10 +12,14 @@ const GoogleLogin = () => {
       _active={{ bg: '#f6f8fb  ' }}
       width={'100%'}
       height={'52px'}
+      onClick={() => {
+        window.location.href =
+          'https://nuwa.o-r.kr/oauth2/authorization/google';
+      }}
     >
       <StLogoBox>
-        <img src={GoogleLogo} alt="네이버 로고" />
-        <StText $size={16} $weight={600} $color={'grey700'}>
+        <img src={GoogleLogo} alt="구글 로고" />
+        <StText $size={18} $weight={600} $color={'grey700'}>
           Google로 계정 생성
         </StText>
       </StLogoBox>

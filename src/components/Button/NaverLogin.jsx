@@ -13,10 +13,13 @@ const NaverLogin = () => {
       _active={{ bg: '#01a73a' }}
       width={'100%'}
       height={'52px'}
+      onClick={() => {
+        window.location.href = 'https://nuwa.o-r.kr/oauth2/authorization/naver';
+      }}
     >
       <StLogoBox>
         <img src={NaverLogo} alt="네이버 로고" />
-        <StText $size={16} $weight={600} $color={'grey100'}>
+        <StText $size={18} $weight={600} $color={'grey100'}>
           네이버 로그인
         </StText>
       </StLogoBox>
