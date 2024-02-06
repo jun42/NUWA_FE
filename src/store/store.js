@@ -2,11 +2,12 @@ import { create } from 'zustand';
 import { createBearSlice, createFishSlice } from './testSlice';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
+import { createSocialSignupSlice } from './socialSignupSlice';
 
-const persisitKeys = ['bears'];
+const persisitKeys = ['email', 'provider'];
 
 const persistOption = {
-  name: 'food-storage', // name of the item in the storage (must be unique)
+  name: 'NUWA-Storage', // name of the item in the storage (must be unique)
   storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
   partialize: (state) =>
     Object.fromEntries(
@@ -22,6 +23,7 @@ const useBoundStore = create(
         (...a) => ({
           ...createBearSlice(...a),
           ...createFishSlice(...a),
+          ...createSocialSignupSlice(...a),
         }),
         persistOption
       )
