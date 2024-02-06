@@ -5,7 +5,9 @@ import MainPage from '../pages/main/MainPage';
 import LoginPage from '../pages/login/index';
 import SignupPage from '../pages/signup/index';
 import SelectPlan from '../pages/selectPlan';
-import Feature from "../pages/Feature";
+import Feature from '../pages/Feature';
+import FAQ from '../pages/FAQ';
+
 export const Router = createBrowserRouter([
   {
     path: '/',
@@ -30,7 +32,11 @@ export const Router = createBrowserRouter([
       },
       {
         path: '/feat-description',
-        element: <Feature/>,
+        element: <Feature />,
+      },
+      {
+        path: '/faq',
+        element: <FAQ />,
       },
     ],
   },
