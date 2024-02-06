@@ -13,6 +13,8 @@ const AuthProvider = (props) => {
     };
   }, []);
 
+  //todo 뒤로가기  제어
+
   // useEffect(() => {
   //   window.addEventListener('click', logout);
   //   return () => {
