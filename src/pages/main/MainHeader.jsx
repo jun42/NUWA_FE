@@ -6,10 +6,12 @@ import mainTool from'@assets/mainTool.png';
 const MainHeader = () => {
   return(
     <StContainer>
+
       <MainSection>
+
         <StTextBox>
-          <Flex flexDirection="column" gap="30">
-            <Text width="100%" fontSize="45px" fontWeight="700">
+          <Flex flexDirection="column" gap="60px" marginTop={'40px'}>
+            <Text width="100%" fontSize="45px" fontWeight="700" >
               생산성 향상을 위한 
               <br/>
               간편한 협업툴
@@ -34,10 +36,13 @@ const MainHeader = () => {
 
           </Button>
         </StTextBox>
+
         <StImageBox>
-          <img src={mainTool} alt="메인 툴 이미지" style={{ width: '100%', height: '100%' }} />
+          <img src={mainTool} alt="메인 툴 이미지" width={'880px'} height={'600px'}/>
         </StImageBox>
+
       </MainSection>
+
     </StContainer>
   );
 };
@@ -47,19 +52,20 @@ export default MainHeader;
 const StContainer = styled.div`
     width: 100%;
     height: 100%;
-    padding: 110px 200px;
+    padding: 80px 200px;
     background-color: #ebecee;
+    justify-content: center;
+    align-items: center;
     //border: 1px solid blue;
 `;
 
 const MainSection = styled.div`
-    width: 450px
+    width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
     gap: 79px;
-    //border: 1px solid green;
+    border: 1px solid green;
 `;
 
 const StTextBox = styled.div`
@@ -67,12 +73,13 @@ const StTextBox = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 100px;  
+    gap: 120px;
 `;
 
 const StImageBox = styled.div`
-    width: 80%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid red;
 `;

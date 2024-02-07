@@ -55,6 +55,12 @@ const scroll = keyframes`
 const StContainer = styled.div`
   width: 100%;
   overflow: hidden; 
+  display: flex;
+  flex-direction: column;
+  padding : 80px 20px;
+  border: 1px solid blue;
+  gap: 35px;
+
 `;
 
 const MainSection = styled.div`

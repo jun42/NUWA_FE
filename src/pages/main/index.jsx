@@ -29,7 +29,6 @@ const StContainer = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
   justify-content: center;
   align-items: start;
 `;

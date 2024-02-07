@@ -31,6 +31,7 @@ const CustomerStories = () => {
 export default CustomerStories;
 
 const StContainer = styled.div`
+width: 100%;
   display: flex;
   background-color: #f8f9fb;
   justify-content: center;
