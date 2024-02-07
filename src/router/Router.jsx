@@ -5,6 +5,10 @@ import MainPage from '../pages/main/MainPage';
 import LoginPage from '../pages/login/index';
 import SignupPage from '../pages/signup/index';
 import SelectPlan from '../pages/selectPlan';
+import Feature from '../pages/Feature';
+import FAQ from '../pages/FAQ';
+import Inquiry from '../pages/Inquiry';
+
 export const Router = createBrowserRouter([
   {
     path: '/',
@@ -26,6 +30,18 @@ export const Router = createBrowserRouter([
       {
         path: '/select-plan',
         element: <SelectPlan />,
+      },
+      {
+        path: '/feat-description',
+        element: <Feature />,
+      },
+      {
+        path: '/faq',
+        element: <FAQ />,
+      },
+      {
+        path: '/inquiry',
+        element: <Inquiry />,
       },
     ],
   },

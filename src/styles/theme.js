@@ -14,6 +14,7 @@ const theme = {
     grey500: '#656565',
     grey600: '#434343',
     grey700: '#242424',
+    white: '#ffffff',
   },
   shadow: {
     primary: '10px 12px 33px 0px rgba(102, 102, 102, 0.10)',
