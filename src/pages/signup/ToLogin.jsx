@@ -7,7 +7,7 @@ const ToLogin = () => {
     <StTextDiv $size={16} $weight={500} $color={'grey700'}>
       <Flex gap={'0.75rem'}>
         <span>이미 NUWA를 사용하는 중이신가요?</span>
-        <Link>
+        <Link to={'/login'}>
           <Text as={'u'} size={16} color={'primary.400'} fontWeight={500}>
             로그인
           </Text>

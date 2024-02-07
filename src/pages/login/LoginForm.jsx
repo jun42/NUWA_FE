@@ -50,7 +50,12 @@ const LoginForm = () => {
             e.preventDefault();
           }}
         >
-          <Text color={'white'} fontWeight={'700'} py={'14px'}>
+          <Text
+            color={'white'}
+            fontSize={'18px'}
+            fontWeight={'700'}
+            py={'14px'}
+          >
             로그인
           </Text>
         </Button>
