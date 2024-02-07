@@ -95,7 +95,7 @@ const StContainer = styled.div`
     padding-bottom: 160px;
     position: relative;
     gap: 20%;
-`;
+   `;
 
 const StTextBox = styled.div`
     display: flex;

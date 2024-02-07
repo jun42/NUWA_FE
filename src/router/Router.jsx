@@ -1,20 +1,21 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import NotFoundPage from '../pages/not_found/NotFoundPage';
-import MainPage from '../pages/main/MainPage';
+import MainPage from '../pages/main/index';
 import LoginPage from '../pages/login/index';
 import SignupPage from '../pages/signup/index';
 import SignupSocialPage from '../pages/signupSocial';
 import SelectPlan from '../pages/selectPlan';
+import Feature from "../pages/Feature";
+import WorkAccess from "../pages/workAccess";
 import SocialSignupRedirect from '../pages/signupSocial/SocialSignupRedirect';
 import SocialLoginRedirect from '../pages/signupSocial/SocialLoginRedirect';
-import Feature from '../pages/Feature';
 import FAQ from '../pages/FAQ';
 import Inquiry from '../pages/Inquiry';
 
 export const Router = createBrowserRouter([
   {
-    path: '/',
+    path: '/', 
     element: <App />,
     errorElement: <NotFoundPage />,
     children: [
@@ -58,6 +59,14 @@ export const Router = createBrowserRouter([
       {
         path: '/inquiry',
         element: <Inquiry />,
+      },
+      {
+        path: '/feat-description',
+        element: <Feature/>,
+      },
+      {
+        path: '/workAccess',
+        element: <WorkAccess/>,
       },
     ],
   },
