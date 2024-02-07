@@ -24,3 +24,7 @@ export const ButtonWrap = styled(Wrap)`
     font-weight: 600;
   }
 `;
+
+export const ImgWrap = styled(Wrap)`
+width: 100px;
+`
