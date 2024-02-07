@@ -3,42 +3,44 @@ import styled from 'styled-components';
 import React, { useState } from 'react';
 import Polygon from '@assets/Polygon.svg';
 import { FAQ_text } from '@constants/selectPlan/SELECT_FEAT_INFO';
-const FAQBox = () => {
-  const [detailVisible, setDetailVisible] = useState(false);
 
-  const toggleDetail = () => {
-    setDetailVisible(!detailVisible);
+const FAQBox = () => {
+  const [activeIndex, setActiveIndex] = useState(null);
+
+  const toggleDetail = (index) => {
+    setActiveIndex(activeIndex === index ? null : index);
   };
 
   return (
     <>
       <BoxContainer>
         {FAQ_text.map((FAQ, index) => (
-          <TextBoxContainer onClick={toggleDetail}>
-            <Flex gap={'15px'}>
-              <ButtonBox color={'#575dfb'}>질문</ButtonBox>
-              <Text fontSize={'14px'} fontWeight={'black'}>
-                워크스페이스 아이콘 이미지는 어디서 변경하면 되나요?
-              </Text>
-            </Flex>
+          <React.Fragment key={index}>
+            <TextBoxContainer onClick={() => toggleDetail(index)}>
+              <Flex gap={'15px'}>
+                <ButtonBox color={'#575dfb'}>질문</ButtonBox>
+                <Text fontSize={'14px'} fontWeight={'black'}>
+                  {FAQ.QuestionText}
+                </Text>
+              </Flex>
 
-            <img src={Polygon} alt="삼각형 아이콘" />
-          </TextBoxContainer>
+              <img src={Polygon} alt="삼각형 아이콘" />
+            </TextBoxContainer>
+
+            {activeIndex === index && (
+              <DetailContainer>
+                <Flex gap={'15px'}>
+                  <ButtonBox color={'red'}>답변</ButtonBox>
+                  <Text fontSize={'14px'} fontWeight={'black'}>
+                    {FAQ.AnswerText}
+                  </Text>
+                </Flex>
+
+                <img src={Polygon} alt="삼각형 아이콘" />
+              </DetailContainer>
+            )}
+          </React.Fragment>
         ))}
-
-        {detailVisible && (
-          <DetailContainer>
-            <Flex gap={'15px'}>
-              <ButtonBox color={'red'}>답변</ButtonBox>
-              <Text fontSize={'14px'} fontWeight={'black'}>
-                NUWA 대쉬보드에 접속 후 사이드바 프로필 상단 워크스페이스 이름을
-                클릭하시면 이름 수정과 아이콘 변경하는 창이 나옵니다.
-              </Text>
-            </Flex>
-
-            <img src={Polygon} alt="삼각형 아이콘" />
-          </DetailContainer>
-        )}
       </BoxContainer>
     </>
   );

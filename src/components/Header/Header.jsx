@@ -108,6 +108,7 @@ const HeaderBottom = styled.div`
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid #ccc;
+  box-shadow: 0px 25px 60px 0px rgba(0, 0, 0, 0.05);
 `;
 
 const ButtonBox = styled.div`

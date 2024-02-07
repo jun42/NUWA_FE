@@ -19,6 +19,7 @@ const StContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid red;
   flex-direction: column;
+  padding: 200px 300px;
+  gap: 50px;
 `;

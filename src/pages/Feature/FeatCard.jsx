@@ -63,7 +63,7 @@ const FeatCard = ({
 export default FeatCard;
 
 const StCardContainer = styled.div`
-  width: 100%;
+  width: 90%;
   border-radius: 20px;
   background-image: url(${(props) => props.backgroundImage});
   display: flex;
