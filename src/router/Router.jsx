@@ -8,6 +8,10 @@ import SignupSocialPage from '../pages/signupSocial';
 import SelectPlan from '../pages/selectPlan';
 import SocialSignupRedirect from '../pages/signupSocial/SocialSignupRedirect';
 import SocialLoginRedirect from '../pages/signupSocial/SocialLoginRedirect';
+import Feature from '../pages/Feature';
+import FAQ from '../pages/FAQ';
+import Inquiry from '../pages/Inquiry';
+
 export const Router = createBrowserRouter([
   {
     path: '/',
@@ -42,6 +46,18 @@ export const Router = createBrowserRouter([
       {
         path: '/loading/auth',
         element: <SocialLoginRedirect />,
+      },
+      {
+        path: '/feat-description',
+        element: <Feature />,
+      },
+      {
+        path: '/faq',
+        element: <FAQ />,
+      },
+      {
+        path: '/inquiry',
+        element: <Inquiry />,
       },
     ],
   },
