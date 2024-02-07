@@ -10,7 +10,6 @@ import Feature from "../pages/Feature";
 import WorkAccess from "../pages/workAccess";
 import SocialSignupRedirect from '../pages/signupSocial/SocialSignupRedirect';
 import SocialLoginRedirect from '../pages/signupSocial/SocialLoginRedirect';
-import Feature from '../pages/Feature';
 import FAQ from '../pages/FAQ';
 import Inquiry from '../pages/Inquiry';
 
