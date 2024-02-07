@@ -7,6 +7,8 @@ import SignupPage from '@pages/signup/index';
 import SelectPlan from '@pages/selectPlan';
 import CreateWorkspace from '@pages/createWorkspace';
 import Agreement from '@pages/createWorkspace/agreement';
+import Create from '@pages/createWorkspace/create';
+
 export const Router = createBrowserRouter([
   {
     path: '/',
@@ -32,11 +34,16 @@ export const Router = createBrowserRouter([
       {
         path: '/create-workspace',
         element: <CreateWorkspace />,
+        children:[
+          {
+            element: <Create />,
+            index:true
+          },
+          {
+          path: '/create-workspace/agreement',
+          element: <Agreement />,
+        }]
       },
-      {
-        path: '/create-workspace/agreement',
-        element: <Agreement/>,
-      }
     ],
   }, 
 ]);
