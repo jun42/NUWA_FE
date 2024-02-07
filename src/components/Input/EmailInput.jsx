@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { chekcDuplicateEmail } from '@apis/axios/auth';
 import InputSpaceBox from '@components/Box/InputSpaceBox';
 
-const EmailInput = ({ register, errors }) => {
+const EmailInput = ({ register, errors, disabled }) => {
   return (
     <div>
       <InputGroup>
@@ -22,6 +22,7 @@ const EmailInput = ({ register, errors }) => {
           border={'none'}
           maxLength={30}
           {...register('email', {
+            disabled: disabled === undefined ? false : true,
             required: '이메일을 입력해주세요',
             pattern: {
               value:
