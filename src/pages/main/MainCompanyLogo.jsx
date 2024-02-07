@@ -58,7 +58,6 @@ const StContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding : 80px 20px;
-  border: 1px solid blue;
   gap: 35px;
 
 `;
@@ -67,14 +66,14 @@ const MainSection = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
- //border: 1px solid blue;
+ 
 `;
 
 const StTextBox = styled.div`
  text-align: center;
  padding: 20px;
  margin-bottom: 40px;
- //border: 1px solid blue;
+ 
 `;
 
 const StImageBox = styled.div`
@@ -82,7 +81,7 @@ const StImageBox = styled.div`
   animation: ${scroll} 10s linear infinite; 
   will-change: transform; 
   gap: 50px;
-  //border: 1px solid blue;
+
   
 `;
 

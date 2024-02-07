@@ -56,7 +56,7 @@ const StContainer = styled.div`
     background-color: #ebecee;
     justify-content: center;
     align-items: center;
-    //border: 1px solid blue;
+    
 `;
 
 const MainSection = styled.div`
@@ -65,7 +65,7 @@ const MainSection = styled.div`
     display: flex;
     justify-content: center;
     gap: 79px;
-    border: 1px solid green;
+    
 `;
 
 const StTextBox = styled.div`
@@ -81,5 +81,5 @@ const StImageBox = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid red;
+    
 `;
