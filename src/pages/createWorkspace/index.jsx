@@ -4,10 +4,14 @@ import CreateWorkspaceImg from '@assets/create_workspace.png';
 import { StWrap, ButtonWrap } from '@components/Wrap/StWrap';
 import StText from '@components/Text/StText';
 import { Button } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const CreateWorkspace = () => {
+    const navigate = useNavigate()
+    const handleButtonClick = () => {
+        navigate('agreement')
+    }
   return (
     <StSection>
       <Image src={CreateWorkspaceImg} alt="create-workspace" />
@@ -28,7 +32,7 @@ const CreateWorkspace = () => {
           새로운 워크스페이스를 생성하시겠어요?
         </StText>
         <ButtonWrap>
-          <Button rounded={100} bg={'#5158FFCC'} color={'#fff'} w={'100%'}>
+          <Button rounded={100} bg={'#5158FFCC'} color={'#fff'} w={'100%'} onClick={handleButtonClick  }>
             생성하기
           </Button>
           <div>
