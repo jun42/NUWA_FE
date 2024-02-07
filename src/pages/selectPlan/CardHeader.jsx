@@ -29,9 +29,9 @@ const CardHeader = ({ id, headerTitle, headerText }) => {
         {headerTitle}
       </StTextDiv>
       {id !== 'PRO' ? (
-        <. $size={16} $weight={500} $color={'grey500'}>
+        <StTextDiv $size={16} $weight={500} $color={'grey500'}>
           {headerText}
-        </.>
+        </StTextDiv>
       ) : (
         <StTextDiv $size={16} $weight={500} $color={'grey500'}>
           {content}
@@ -40,6 +40,7 @@ const CardHeader = ({ id, headerTitle, headerText }) => {
     </StCardHeader>
   );
 };
+
 
 export default CardHeader;
 

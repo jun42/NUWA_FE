@@ -59,3 +59,9 @@ export const footer_categories =[
 
     }
 ]
+
+export const percent_section = [
+    {number: '85', percent: '%', text:'NUWA가 커뮤니케이션을\n개선했다고 답변한 사용자의 비율'},
+    {number: '86', percent: '%', text:'원격 근무 능력이\n향상되었음을 느끼는 직원의 비율'},
+    {number: '92', percent: '%', text:'팀과 더욱\n연계되어있음을 느낌'},
+]
