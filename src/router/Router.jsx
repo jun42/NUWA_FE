@@ -8,6 +8,8 @@ import SelectPlan from '@pages/selectPlan';
 import CreateWorkspace from '@pages/createWorkspace';
 import Agreement from '@pages/createWorkspace/agreement';
 import Create from '@pages/createWorkspace/create';
+import CreateWorkSapceName from '@pages/createWorkspace/create/workspaceName';
+import UserInfo from '@pages/createWorkspace/create/userInfo';
 
 export const Router = createBrowserRouter([
   {
@@ -34,16 +36,25 @@ export const Router = createBrowserRouter([
       {
         path: '/create-workspace',
         element: <CreateWorkspace />,
-        children:[
+        children: [
           {
             element: <Create />,
-            index:true
+            index: true,
           },
           {
-          path: '/create-workspace/agreement',
-          element: <Agreement />,
-        }]
+            path: '/create-workspace/agreement',
+            element: <Agreement />,
+          },
+          {
+            path: '/create-workspace/workspace-name',
+            element: <CreateWorkSapceName />,
+          },
+          {
+            path: '/create-workspace/user-info',
+            element: <UserInfo />,
+          },
+        ],
       },
     ],
-  }, 
+  },
 ]);
