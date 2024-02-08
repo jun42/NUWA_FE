@@ -13,17 +13,17 @@ export const createAccount = async ({
     phoneNumber,
   });
 
-export const createSocialAccount = async (
+export const createSocialAccount = async ({
   nickname,
   email,
-  password,
-  phoneNumber
-) =>
+  phoneNumber,
+  provider,
+}) =>
   await request.post('/signup/social', {
     nickname,
     email,
-    password,
     phoneNumber,
+    provider,
   });
 
 export const chekcDuplicateNickname = async (nickname) => {
@@ -100,7 +100,12 @@ export const login = async (email, password) =>
     password,
   });
 
-export const logout = async () => await request.post('/logout');
+export const logout = async () =>
+  await request.post('/logout').then((r) => {
+    if (r.data.status === 'success') {
+      localStorage.removeItem('accessToken');
+    }
+  });
 
 //
 // TODO: 해당 에러 핸들링 CODE 404

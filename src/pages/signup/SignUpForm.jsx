@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
-import NicknameInput from './NicknameInput';
-import EmailInput from './EmailInput';
-import PasswordInput from './PasswordInput';
-import PasswordConfirmInput from './PasswordConfirmInput';
-import PhoneNumberInput from './PhoneNumberInput';
+import NicknameInput from '@components/Input/NicknameInput';
+import EmailInput from '@components/Input/EmailInput';
+import PasswordInput from '@components/Input/PasswordInput';
+import PasswordConfirmInput from '@components/Input/PasswordConfirmInput';
+import PhoneNumberInput from '@components/Input/PhoneNumberInput';
 import { createAccount } from '@apis/axios/auth';
 import { useNavigate } from 'react-router-dom';
-import SubmitButton from './SubmitButton';
+import SubmitButton from '@components/Button/SubmitButton';
 
 const SignUpForm = () => {
   const navigate = useNavigate();
@@ -30,7 +30,9 @@ const SignUpForm = () => {
 
   const onSubmit = async (data) => {
     const newData = {
-      ...data,
+      nickname: data.nickname,
+      email: data.email,
+      password: data.password,
       phoneNumber: unmaskPhoneNumber(data.phoneNumber),
     };
     try {
