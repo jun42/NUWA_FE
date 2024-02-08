@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import NotFoundPage from '@pages/not_found/NotFoundPage';
-import MainPage from '@pages/main/MainPage';
+import MainPage from '@pages/main';
 import LoginPage from '@pages/login';
 import SignupPage from '@pages/signup';
 import SelectPlan from '@pages/selectPlan';
