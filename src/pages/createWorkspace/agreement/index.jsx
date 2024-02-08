@@ -10,7 +10,7 @@ import { useState } from 'react';
 
 const Agreement = () => {
   
-  const navigate = useNavigate;
+  const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false)
   
   const handleCheckboxChange = () => {
@@ -19,12 +19,12 @@ const Agreement = () => {
   
   const handleButtonClick = () => {
     if(isChecked === true) {
-    return navigate('create')
+    return navigate('/create-workspace/workspace-name')
   } else return 
 }
   return (
     <>
-      <Flex alignItems="center" justifyContent="space-between" w="70%">
+      <Flex alignItems="center" justifyContent="space-between" gap="134px">
         <div>
           <div>
             <Flex alignItems="center">
@@ -47,7 +47,7 @@ const Agreement = () => {
               as="p"
               fontSize="xl"
               color="#898989"
-              mb="30px"
+              mb="48px"
               fontWeight={500}
             >
               팀 협업에 사용해보세요. 이메일 보다 빠르고 안전하게
