@@ -9,6 +9,7 @@ import Footer from '@components/Footer/Footer';
 import GlobalStyle from '@styles/globalStyle';
 import theme from '@styles/theme';
 import chakraTheme from '@styles/chakraTheme';
+import AuthProvider from './provider/AuthProvider';
 
 const queryClient = new QueryClient();
 function App() {
@@ -16,14 +17,16 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <ChakraProvider theme={chakraTheme}>
-          <GlobalStyle />
-          <Header />
-          {/* <SideBar /> */}
           <QueryClientProvider client={queryClient}>
             <ReactQueryDevtools initialIsOpen={false} />
-            <Outlet />
+            <AuthProvider>
+              <GlobalStyle />
+              <Header />
+              {/* <SideBar /> */}
+              <Outlet />
+              <Footer />
+            </AuthProvider>
           </QueryClientProvider>
-          <Footer />
         </ChakraProvider>
       </ThemeProvider>
     </>

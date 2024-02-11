@@ -14,7 +14,9 @@ const NaverLogin = () => {
       width={'100%'}
       height={'52px'}
       onClick={() => {
-        window.location.href = 'https://nuwa.o-r.kr/oauth2/authorization/naver';
+        window.location.href = `${
+          import.meta.env.VITE_SERVER_ADDRESS
+        }/oauth2/authorization/naver`;
       }}
     >
       <StLogoBox>

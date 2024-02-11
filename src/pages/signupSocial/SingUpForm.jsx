@@ -2,28 +2,29 @@ import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import NicknameInput from '@components/Input/NicknameInput';
 import EmailInput from '@components/Input/EmailInput';
-import PasswordInput from '@components/Input/PasswordInput';
-import PasswordConfirmInput from '@components/Input/PasswordConfirmInput';
 import PhoneNumberInput from '@components/Input/PhoneNumberInput';
-import { createAccount } from '@apis/axios/auth';
 import { useNavigate } from 'react-router-dom';
 import SubmitButton from '@components/Button/SubmitButton';
-
+import useBoundStore from '../../store/store';
+import { createSocialAccount } from '@apis/axios/auth';
+//social
 const SignUpForm = () => {
+  const email = useBoundStore((state) => state.email);
+  const provider = useBoundStore((state) => state.provider);
+  const resetSocialSignupInfo = useBoundStore(
+    (state) => state.resetSocialSignupInfo
+  );
   const navigate = useNavigate();
   const {
     register,
     formState: { errors, isValid, isDirty, isSubmitting, isSubmitted },
     handleSubmit,
-    getValues,
     control,
   } = useForm({
     mode: 'onTouched',
     defaultValues: {
       nickname: '',
-      email: '',
-      password: '',
-      passwordConfirm: '',
+      email: `${email}`,
       phoneNumber: '',
     },
   });
@@ -31,16 +32,21 @@ const SignUpForm = () => {
   const onSubmit = async (data) => {
     const newData = {
       nickname: data.nickname,
-      email: data.email,
-      password: data.password,
+      email: email,
       phoneNumber: unmaskPhoneNumber(data.phoneNumber),
+      provider,
     };
     try {
       setTimeout(async () => {
-        const response = await createAccount(newData);
+        const response = await createSocialAccount(newData);
+        console.log(response);
         if (response.data.status === 'success') {
+          resetSocialSignupInfo();
+          localStorage.setItem('accessToken', response.data.data.accessToken);
+          // todo : to main page
           console.log('redirect to login');
-          navigate('/login');
+
+          navigate('/');
         }
       }, 1000);
     } catch (error) {
@@ -51,13 +57,7 @@ const SignUpForm = () => {
     <StLoginContainer>
       <StForm onSubmit={handleSubmit(onSubmit)}>
         <NicknameInput register={register} errors={errors} />
-        <EmailInput register={register} errors={errors} />
-        <PasswordInput register={register} errors={errors} />
-        <PasswordConfirmInput
-          register={register}
-          errors={errors}
-          getValues={getValues}
-        />
+        <EmailInput register={register} errors={errors} disabled={true} />
         <PhoneNumberInput control={control} errors={errors} />
         <SubmitButton
           isSubmitting={isSubmitting}
