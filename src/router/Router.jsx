@@ -6,16 +6,17 @@ import LoginPage from '../pages/login/index';
 import SignupPage from '../pages/signup/index';
 import SignupSocialPage from '../pages/signupSocial';
 import SelectPlan from '../pages/selectPlan';
-import Feature from "../pages/Feature";
-import WorkAccess from "../pages/workAccess";
+import Feature from '../pages/Feature';
+import WorkAccess from '../pages/workAccess';
 import SocialSignupRedirect from '../pages/signupSocial/SocialSignupRedirect';
 import SocialLoginRedirect from '../pages/signupSocial/SocialLoginRedirect';
 import FAQ from '../pages/FAQ';
 import Inquiry from '../pages/Inquiry';
+import HelpDesk from '../pages/HelpDesk';
 
 export const Router = createBrowserRouter([
   {
-    path: '/', 
+    path: '/',
     element: <App />,
     errorElement: <NotFoundPage />,
     children: [
@@ -49,10 +50,6 @@ export const Router = createBrowserRouter([
         element: <SocialLoginRedirect />,
       },
       {
-        path: '/feat-description',
-        element: <Feature />,
-      },
-      {
         path: '/faq',
         element: <FAQ />,
       },
@@ -62,11 +59,15 @@ export const Router = createBrowserRouter([
       },
       {
         path: '/feat-description',
-        element: <Feature/>,
+        element: <Feature />,
       },
       {
         path: '/workAccess',
-        element: <WorkAccess/>,
+        element: <WorkAccess />,
+      },
+      {
+        path: '/helpdesk',
+        element: <HelpDesk />,
       },
     ],
   },

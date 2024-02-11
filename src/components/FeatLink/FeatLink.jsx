@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import StTextDiv from '@components/Text/StTextDiv';
 import StText from '@components/Text/StText';

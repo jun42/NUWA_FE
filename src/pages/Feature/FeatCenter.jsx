@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { Flex, Text, Box, Button } from '@chakra-ui/react';
 import FeatCard from './FeatCard';
