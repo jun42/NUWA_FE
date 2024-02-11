@@ -172,7 +172,7 @@ const SideBar = () => {
               color="#656565"
               position="relative"
               mb="8px"
-              pl="16px"
+              pl="12px"
             >
               <IconButton
                 size="xs"
@@ -271,7 +271,7 @@ const SideBar = () => {
               color="#656565"
               position="relative"
               mb="8px"
-              pl="16px"
+              pl="12px"
             >
               <IconButton
                 size="xs"
