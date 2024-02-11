@@ -189,7 +189,7 @@ const SideBar = () => {
               />
             </Flex>
             <Box
-              maxH="120px"
+              maxH="160px"
               overflowY="auto"
               mr="7px"
               css={{
@@ -251,6 +251,17 @@ const SideBar = () => {
                 <Image src={chat_ch} alt="" w="20px" h="21px" mr="20px" />
                 전체-정보공유
               </Button>
+              <Button
+                fontSize="14px"
+                fontWeight="500"
+                color="#656565"
+                width="100%"
+                justifyContent="flex-start"
+                backgroundColor="#f1f1f1"
+              >
+                <Image src={chat_ch} alt="" w="20px" h="21px" mr="20px" />
+                전체-정보공유
+              </Button>
             </Box>
           </Box>
           <Box m="20px 0">
@@ -277,7 +288,7 @@ const SideBar = () => {
               />
             </Flex>
             <Box
-              maxH="120px"
+              maxH="160px"
               overflowY="auto"
               mr="7px"
               css={{
@@ -305,6 +316,17 @@ const SideBar = () => {
               >
                 <Image src={voice_ch} alt="" w="20px" h="21px" mr="20px" />
                 프론트회의실
+              </Button>
+              <Button
+                fontSize="14px"
+                fontWeight="500"
+                color="#656565"
+                width="100%"
+                justifyContent="flex-start"
+                backgroundColor="#f1f1f1"
+              >
+                <Image src={voice_ch} alt="" w="20px" h="21px" mr="20px" />
+                백엔드회의실
               </Button>
               <Button
                 fontSize="14px"
