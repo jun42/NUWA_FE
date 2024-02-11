@@ -1,6 +1,6 @@
 import { Controller } from 'react-hook-form';
-import InputErrorBox from '../Form/InputErrorBox';
-import CustomInput from './CustomInput';
+import InputErrorBox from './InputErrorBox';
+import CustomInput from '../Input/CustomInput';
 
 const PhoneNumberInput = ({ control, errors }) => {
   return (

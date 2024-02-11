@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { chekcDuplicateEmail } from '@apis/axios/auth';
-import InputErrorBox from '../Form/InputErrorBox';
-import CustomInput from './CustomInput';
+import InputErrorBox from './InputErrorBox';
+import CustomInput from '../Input/CustomInput';
 import { emailPattern } from '@constants/regex';
 
 const EmailInput = ({ register, errors, disabled }) => {

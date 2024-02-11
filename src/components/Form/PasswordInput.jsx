@@ -1,6 +1,6 @@
 import { passwordPattern } from '../../constants/regex';
-import InputErrorBox from '../Form/InputErrorBox';
-import CustomInput from './CustomInput';
+import InputErrorBox from './InputErrorBox';
+import CustomInput from '../Input/CustomInput';
 
 const PasswordInput = ({ register, errors }) => {
   return (
