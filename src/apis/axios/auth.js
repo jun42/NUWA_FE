@@ -37,7 +37,7 @@ export const chekcDuplicateNickname = async (nickname) => {
     .then((r) => {
       const data = r.data;
 
-      if (data.status === 'success') {
+      if (data?.status === 'success') {
         isValid = true;
         errorMessage = '사용가능한 닉네임입니다.';
       }
@@ -94,7 +94,7 @@ export const chekcDuplicateEmail = async (email) => {
     });
 };
 
-export const login = async (email, password) =>
+export const login = async ({ email, password }) =>
   await request.post('/login', {
     email,
     password,

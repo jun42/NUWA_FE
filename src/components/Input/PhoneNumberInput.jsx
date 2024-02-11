@@ -1,8 +1,6 @@
-import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
-import AtIcon from '@components/Image/AtIcon';
-import FormErrorMessage from '@components/Text/FormErrorMessage';
 import { Controller } from 'react-hook-form';
-import InputSpaceBox from '@components/Box/InputSpaceBox';
+import InputErrorBox from '../Form/InputErrorBox';
+import CustomInput from './CustomInput';
 
 const PhoneNumberInput = ({ control, errors }) => {
   return (
@@ -29,50 +27,29 @@ const PhoneNumberInput = ({ control, errors }) => {
         }}
         render={({ field }) => {
           return (
-            <InputGroup>
-              <InputLeftElement pointerEvents="none" paddingTop={'12px'}>
-                <AtIcon />
-              </InputLeftElement>
-              <Input
-                width={'100%'}
-                height={'52px'}
-                borderRadius={'8px'}
-                type="text"
-                placeholder="전화번호"
-                bg={'white'}
-                border={'none'}
-                maxLength={13}
-                {...field} // onBlur value onChange
-                // {...register('phoneNumber', {
-                //   required: '전화번호를 입력해주세요.',
-                // })}
-                onChange={(e) => {
-                  field.onChange(phoneNumberMask(e.target.value));
-                }}
-              />
-            </InputGroup>
+            <CustomInput
+              width={'100%'}
+              height={'52px'}
+              borderRadius={'8px'}
+              type="text"
+              placeholder="전화번호"
+              bg={'white'}
+              border={'none'}
+              maxLength={13}
+              {...field} // onBlur value onChange
+              onChange={(e) => {
+                field.onChange(phoneNumberMask(e.target.value));
+              }}
+            />
           );
         }}
       />
-      {errors.phoneNumber ? (
-        <FormErrorMessage>{errors.phoneNumber?.message}</FormErrorMessage>
-      ) : (
-        <InputSpaceBox />
-      )}
+      <InputErrorBox error={errors.phoneNumber} />
     </div>
   );
 };
 
 export default PhoneNumberInput;
-
-// const phoneNumberMask = (value) => {
-//   return (
-//     value
-//       .replace(/-/g, '')
-//       .replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')
-//       .substr(0, 13) || ''
-//   );
-// };
 
 const phoneNumberMask = (value) => {
   const digits = value.replace(/\D/g, '');

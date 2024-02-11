@@ -18,8 +18,9 @@ import StText from '@components/Text/StText';
 import Logo from '@components/Image/Logo';
 import { Flex, Text, Button } from '@chakra-ui/react';
 import { categories } from '@constants/selectPlan/SELECT_ALL_INFO';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 const Header = () => {
+  const navitate = useNavigate();
   return (
     <>
       <HeaderTop>
@@ -61,6 +62,9 @@ const Header = () => {
             color={'white'}
             fontSize={'16px'}
             fontWeight={'700'}
+            onClick={() => {
+              navitate('/login');
+            }}
           >
             로그인
           </Button>
@@ -75,6 +79,9 @@ const Header = () => {
             color={'white'}
             fontSize={'16px'}
             fontWeight={'700'}
+            onClick={() => {
+              navitate('/signup');
+            }}
           >
             무료 회원가입
           </Button>
