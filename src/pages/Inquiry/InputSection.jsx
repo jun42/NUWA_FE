@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import CustomInput from '@components/Input/CustomInput';
 import { Flex, Button, Checkbox, Text, Center } from '@chakra-ui/react';
