@@ -11,16 +11,13 @@
 //   );
 // };
 // export default Header;
-
-import React from 'react';
 import styled from 'styled-components';
 import StText from '@components/Text/StText';
 import Logo from '@components/Image/Logo';
 import { Flex, Text, Button } from '@chakra-ui/react';
 import { categories } from '@constants/selectPlan/SELECT_ALL_INFO';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 const Header = () => {
-  const navitate = useNavigate();
   return (
     <>
       <HeaderTop>
@@ -31,60 +28,62 @@ const Header = () => {
       </HeaderTop>
 
       <HeaderCenter>
-        <Logo width={'122px'} height={'32px'} />
+        <Link to="/">
+          <Logo width={'122px'} height={'32px'} />
+        </Link>
       </HeaderCenter>
 
       <HeaderBottom>
         <CategoryBox>
           {categories.map((category) => (
-            <Flex key={category.name} gap={'8px'}>
-              <Text fontSize={'16px'} fontWeight={'500'}>
-                {category.name}
-              </Text>
-              <img
-                width={'14px'}
-                height={'9px'}
-                src={category.icon}
-                alt="아이콘"
-              />
-            </Flex>
+            <Link to={category.link} key={category.name}>
+              <Flex gap={'8px'}>
+                <Text fontSize={'16px'} fontWeight={'500'}>
+                  {category.name}
+                </Text>
+                <img
+                  width={'14px'}
+                  height={'9px'}
+                  src={category.icon}
+                  alt="아이콘"
+                />
+              </Flex>
+            </Link>
           ))}
         </CategoryBox>
 
         <ButtonBox>
-          <Button
-            borderRadius={'4px'}
-            bg={'#575DFB'}
-            _hover={{ bg: '#5055f3' }}
-            _active={{ bg: '#5359f6' }}
-            bgColor={'primary400'}
-            padding={'9px 22px'}
-            color={'white'}
-            fontSize={'16px'}
-            fontWeight={'700'}
-            onClick={() => {
-              navitate('/login');
-            }}
-          >
-            로그인
-          </Button>
+          <Link to="/login">
+            <Button
+              borderRadius={'4px'}
+              bg={'#575DFB'}
+              _hover={{ bg: '#5055f3' }}
+              _active={{ bg: '#5359f6' }}
+              bgColor={'primary400'}
+              padding={'9px 22px'}
+              color={'white'}
+              fontSize={'16px'}
+              fontWeight={'700'}
+            >
+              로그인
+            </Button>
+          </Link>
 
-          <Button
-            borderRadius={'4px'}
-            bg={'#313131'}
-            _hover={{ bg: '#212121' }}
-            _active={{ bg: '#101010' }}
-            bgColor={'primary400'}
-            padding={'9px 22px'}
-            color={'white'}
-            fontSize={'16px'}
-            fontWeight={'700'}
-            onClick={() => {
-              navitate('/signup');
-            }}
-          >
-            무료 회원가입
-          </Button>
+          <Link to="/signup">
+            <Button
+              borderRadius={'4px'}
+              bg={'#313131'}
+              _hover={{ bg: '#212121' }}
+              _active={{ bg: '#101010' }}
+              bgColor={'primary400'}
+              padding={'9px 22px'}
+              color={'white'}
+              fontSize={'16px'}
+              fontWeight={'700'}
+            >
+              무료 회원가입
+            </Button>
+          </Link>
         </ButtonBox>
       </HeaderBottom>
     </>

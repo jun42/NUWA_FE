@@ -6,16 +6,18 @@ import LoginPage from '../pages/login/index';
 import SignupPage from '../pages/signup/index';
 import SignupSocialPage from '../pages/signupSocial';
 import SelectPlan from '../pages/selectPlan';
-import Feature from "../pages/Feature";
-import WorkAccess from "../pages/workAccess";
+import Files from '../pages/sidebar_link/Files';
+import Feature from '../pages/Feature';
+import WorkAccess from '../pages/workAccess';
 import SocialSignupRedirect from '../pages/signupSocial/SocialSignupRedirect';
 import SocialLoginRedirect from '../pages/signupSocial/SocialLoginRedirect';
 import FAQ from '../pages/FAQ';
 import Inquiry from '../pages/Inquiry';
+import HelpDesk from '../pages/HelpDesk';
 
 export const Router = createBrowserRouter([
   {
-    path: '/', 
+    path: '/',
     element: <App />,
     errorElement: <NotFoundPage />,
     children: [
@@ -39,6 +41,10 @@ export const Router = createBrowserRouter([
         path: '/select-plan',
         element: <SelectPlan />,
       },
+      {
+        path: '/files',
+        element: <Files />,
+      },
       //oauth 회원 가입시 이메일과 provider(kakao,naver) 받는 페이지
       {
         path: '/signup/social',
@@ -47,10 +53,6 @@ export const Router = createBrowserRouter([
       {
         path: '/loading/auth',
         element: <SocialLoginRedirect />,
-      },
-      {
-        path: '/feat-description',
-        element: <Feature />,
       },
       {
         path: '/faq',
@@ -62,11 +64,15 @@ export const Router = createBrowserRouter([
       },
       {
         path: '/feat-description',
-        element: <Feature/>,
+        element: <Feature />,
       },
       {
         path: '/workAccess',
-        element: <WorkAccess/>,
+        element: <WorkAccess />,
+      },
+      {
+        path: '/helpdesk',
+        element: <HelpDesk />,
       },
     ],
   },
