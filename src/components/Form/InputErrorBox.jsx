@@ -1,5 +1,5 @@
 import FormErrorMessage from '@components/Text/FormErrorMessage';
-import InputSpaceBox from '@components/Box/InputSpaceBox';
+import InputSpaceBox from '@components/Form/InputSpaceBox';
 
 const InputErrorBox = ({ error }) => {
   return (

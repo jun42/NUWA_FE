@@ -1,3 +1,4 @@
+import { setTokenInStorage } from '../../utils/auth';
 import { request } from './axios';
 
 export const createAccount = async ({
@@ -94,11 +95,36 @@ export const chekcDuplicateEmail = async (email) => {
     });
 };
 
-export const login = async ({ email, password }) =>
-  await request.post('/login', {
-    email,
-    password,
-  });
+export const login = async ({ email, password }) => {
+  return request
+    .post('/login', {
+      email,
+      password,
+    })
+    .then((r) => {
+      if (r.data?.status === 'success') {
+        setTokenInStorage(r.data.data.accessToken);
+        return {
+          isLoginFailed: false,
+          message: '로그인에 성공했습니다.',
+        };
+      }
+    })
+    .catch((err) => {
+      if (err.response.data.status === 'fail') {
+        return {
+          isLoginFailed: true,
+          message: err.response.data.message,
+        };
+      } else {
+        console.log('LOGIN_ERROR :', err);
+        return {
+          isLoginFailed: true,
+          message: 'LOGIN ERROR',
+        };
+      }
+    });
+};
 
 export const logout = async () =>
   await request.post('/logout').then((r) => {

@@ -4,7 +4,21 @@ import InputErrorBox from './InputErrorBox';
 import CustomInput from '../Input/CustomInput';
 import { emailPattern } from '@constants/regex';
 
-const EmailInput = ({ register, errors, disabled }) => {
+/**
+ *
+ * @param {object} register : react-hook-form register객체, ({ ref, onBlur, onChange, name}
+ * @param {object} errors : react-hook-form formstate의 errors 객체,
+ * @param {boolean} disabled : input disabled
+ * @param {boolean} checkDuplicattion : api를 이용한 중복확인 여부
+ *
+ *
+ */
+const EmailInput = ({
+  register,
+  errors,
+  disabled = false,
+  checkDuplication = false,
+}) => {
   return (
     <div>
       <CustomInput
@@ -12,19 +26,21 @@ const EmailInput = ({ register, errors, disabled }) => {
         type="text"
         placeholder="이메일"
         {...register('email', {
-          disabled: disabled === undefined ? false : true,
+          disabled: disabled,
           required: '이메일을 입력해주세요',
           pattern: {
             value: emailPattern,
             message: '유효한 이메일 양식이 아닙니다.',
           },
           validate: {
-            isEmailUnique: _.debounce(async (email) => {
-              const { isValid, errorMessage } = await chekcDuplicateEmail(
-                email
-              );
-              return isValid || errorMessage;
-            }, 400),
+            isEmailUnique: checkDuplication
+              ? _.debounce(async (email) => {
+                  const { isValid, errorMessage } = await chekcDuplicateEmail(
+                    email
+                  );
+                  return isValid || errorMessage;
+                }, 400)
+              : () => {},
           },
         })}
       />
