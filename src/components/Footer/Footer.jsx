@@ -1,5 +1,4 @@
 import { Flex, Grid, GridItem, Text, Box } from '@chakra-ui/react';
-import React from 'react';
 import styled from 'styled-components';
 import Logo from '@components/Image/Logo';
 import { footer_categories } from '@constants/selectPlan/SELECT_ALL_INFO';
