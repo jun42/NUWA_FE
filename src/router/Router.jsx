@@ -6,6 +6,7 @@ import LoginPage from '../pages/login/index';
 import SignupPage from '../pages/signup/index';
 import SignupSocialPage from '../pages/signupSocial';
 import SelectPlan from '../pages/selectPlan';
+import Files from '../pages/sidebar_link/Files';
 import Feature from '../pages/Feature';
 import WorkAccess from '../pages/workAccess';
 import SocialSignupRedirect from '../pages/signupSocial/SocialSignupRedirect';
@@ -39,6 +40,10 @@ export const Router = createBrowserRouter([
       {
         path: '/select-plan',
         element: <SelectPlan />,
+      },
+      {
+        path: '/files',
+        element: <Files />,
       },
       //oauth 회원 가입시 이메일과 provider(kakao,naver) 받는 페이지
       {
