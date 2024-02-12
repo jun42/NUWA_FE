@@ -5,7 +5,7 @@ import EmailInput from '@components/Form/EmailInput';
 import PhoneNumberInput from '@components/Form/PhoneNumberInput';
 import { useNavigate } from 'react-router-dom';
 import SubmitButton from '@components/Button/SubmitButton';
-import useBoundStore from '../../store/store';
+import useBoundStore from '@store/store';
 import { createSocialAccount } from '@apis/axios/auth';
 //social
 const SignUpForm = () => {

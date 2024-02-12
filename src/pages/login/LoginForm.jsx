@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { Button, Text, useToast } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
-import { login } from '../../apis/axios/auth';
-import EmailInput from '../../components/Form/EmailInput';
-import PasswordInput from '../../components/Form/PasswordInput';
+import { login } from '@apis/axios/auth';
+import EmailInput from '@components/Form/EmailInput';
+import PasswordInput from '@components/Form/PasswordInput';
 import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {

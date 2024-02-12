@@ -1,4 +1,4 @@
-import { passwordPattern } from '../../constants/regex';
+import { passwordPattern } from '@constants/regex';
 import InputErrorBox from './InputErrorBox';
 import CustomInput from '../Input/CustomInput';
 

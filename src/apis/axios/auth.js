@@ -1,4 +1,4 @@
-import { setTokenInStorage } from '../../utils/auth';
+import { setTokenInStorage } from '@utils/auth';
 import { request } from './axios';
 
 export const createAccount = async ({

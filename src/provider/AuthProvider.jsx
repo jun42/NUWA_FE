@@ -1,16 +1,12 @@
 import { useEffect } from 'react';
-import { logout, reissueToken } from '../apis/axios/auth';
-import useInterval from '../hooks/useInterval';
+import { logout, reissueToken } from '@apis/axios/auth';
+import useInterval from '@hooks/useInterval';
 
 const AuthProvider = ({ children }) => {
-  const deleteAccessToken = () => {
-    localStorage.removeItem('accessToken');
-  };
-
   useEffect(() => {
-    window.addEventListener('beforeunload', deleteAccessToken);
+    window.addEventListener('beforeunload', logout);
     return () => {
-      window.removeEventListener('beforeunload', deleteAccessToken);
+      window.removeEventListener('beforeunload', logout);
     };
   }, []);
   // 5분간격 토큰 재발행

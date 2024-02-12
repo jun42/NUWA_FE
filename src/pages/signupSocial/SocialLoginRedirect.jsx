@@ -1,7 +1,7 @@
-import { Spinner } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { setTokenInStorage } from '../../utils/auth';
+import { Spinner } from '@chakra-ui/react';
+import { setTokenInStorage } from '@utils/auth';
 
 const SocialLoginRedirect = () => {
   const navigate = useNavigate();
