@@ -127,19 +127,25 @@ export const login = async ({ email, password }) => {
 };
 
 export const logout = async () =>
-  await request.post('/logout').then((r) => {
-    if (r.data.status === 'success') {
-      localStorage.removeItem('accessToken');
-    }
+  await request.post('/logout').then(() => {
+    localStorage.removeItem('accessToken');
   });
 
-//
-// TODO: 해당 에러 핸들링 CODE 404
-// JSON
-// 토큰 값을 찾을 수 없는 경우
-// {
-// 	"status" : "fail",
-// 	"message" : "이메일로 리프레쉬 토큰 값을 찾을 수 없습니다."
-// }
-
-// export const refreshToekn = (oldToken) => request.post('/reissue',)
+export const reissueToken = async () => {
+  return await request
+    .post('/reissue')
+    .then((r) => {
+      if (r.data?.status === 'success') {
+        setTokenInStorage(r.data.data.accessToken);
+      }
+    })
+    .catch((err) => {
+      if (err.response.data.status === 'fail') {
+        console.log(err.response.data.message);
+        logout();
+      } else {
+        console.error('REISSUE_TOKEN_ERROR :', err);
+      }
+    });
+};
+// TODO 토큰이 없거나 로그아웃 되었을 경우에 로그인이나 메인으로 리다이렉트
