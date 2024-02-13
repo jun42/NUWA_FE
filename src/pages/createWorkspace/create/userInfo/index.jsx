@@ -18,7 +18,7 @@ const UserInfo = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const handleButttonClick = (event) => {
     const { name } = event.target;
-    if (name === 'next') return navigate('/create-workspace/invite-member');
+    if (name === 'next') return navigate('/create-workspace/work');
     else return navigate(-1);
   };
   return (
