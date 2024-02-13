@@ -10,6 +10,7 @@ import Agreement from '@pages/createWorkspace/agreement';
 import Create from '@pages/createWorkspace/create';
 import CreateWorkSapceName from '@pages/createWorkspace/create/workspaceName';
 import UserInfo from '@pages/createWorkspace/create/userInfo';
+import Work from '@pages/createWorkspace/create/work';
 import SignupSocialPage from '@pages/signupSocial';
 import Feature from '@pages/Feature';
 import Files from '@pages/sidebar_link/Files';
@@ -104,6 +105,10 @@ export const Router = createBrowserRouter([
             path: '/create-workspace/user-info',
             element: <UserInfo />,
           },
+          {
+          path: '/create-workspace/work',
+          element:<Work/>
+          }
         ],
       },
       {
