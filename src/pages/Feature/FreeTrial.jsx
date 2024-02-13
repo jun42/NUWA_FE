@@ -1,4 +1,3 @@
-import React from 'react';
 import Logo from '@components/Image/Logo';
 import styled from 'styled-components';
 import StTextDiv from '@components/Text/StTextDiv';

@@ -13,6 +13,7 @@ import SocialSignupRedirect from '../pages/signupSocial/SocialSignupRedirect';
 import SocialLoginRedirect from '../pages/signupSocial/SocialLoginRedirect';
 import FAQ from '../pages/FAQ';
 import Inquiry from '../pages/Inquiry';
+import HelpDesk from '../pages/HelpDesk';
 
 export const Router = createBrowserRouter([
   {
@@ -54,10 +55,6 @@ export const Router = createBrowserRouter([
         element: <SocialLoginRedirect />,
       },
       {
-        path: '/feat-description',
-        element: <Feature />,
-      },
-      {
         path: '/faq',
         element: <FAQ />,
       },
@@ -72,6 +69,10 @@ export const Router = createBrowserRouter([
       {
         path: '/workAccess',
         element: <WorkAccess />,
+      },
+      {
+        path: '/helpdesk',
+        element: <HelpDesk />,
       },
     ],
   },
