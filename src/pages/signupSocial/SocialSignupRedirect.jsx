@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import useBoundStore from '../../store/store';
-import { Spinner } from '@chakra-ui/react';
 import { useEffect } from 'react';
-import { chekcDuplicateEmail } from '../../apis/axios/auth';
+import useBoundStore from '@store/store';
+import { Spinner } from '@chakra-ui/react';
+import { chekcDuplicateEmail } from '@apis/axios/auth';
 
 const SocialSignupRedirect = () => {
   const navigate = useNavigate();

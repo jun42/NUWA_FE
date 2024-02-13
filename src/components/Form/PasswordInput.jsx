@@ -1,12 +1,31 @@
-import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
-import AtIcon from '@components/Image/AtIcon';
-import FormErrorMessage from '@components/Text/FormErrorMessage';
-import InputSpaceBox from '@components/Box/InputSpaceBox';
+import { passwordPattern } from '@constants/regex';
+import InputErrorBox from './InputErrorBox';
+import CustomInput from '../Input/CustomInput';
 
 const PasswordInput = ({ register, errors }) => {
   return (
     <div>
-      <InputGroup>
+      <CustomInput
+        width={'100%'}
+        placeholder={'비밀번호 8자리 이상'}
+        type="password"
+        {...register('password', {
+          required: '비밀번호를 입력해주세요.',
+          pattern: {
+            value: passwordPattern,
+            message: '8자리 이상의 알파벳과 숫자를 조합해주세요.',
+          },
+        })}
+      />
+      <InputErrorBox error={errors.password} />
+    </div>
+  );
+};
+
+export default PasswordInput;
+
+{
+  /* <InputGroup>
         <InputLeftElement pointerEvents="none" paddingTop={'12px'}>
           <AtIcon />
         </InputLeftElement>
@@ -27,14 +46,5 @@ const PasswordInput = ({ register, errors }) => {
             },
           })}
         />
-      </InputGroup>
-      {errors.password ? (
-        <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
-      ) : (
-        <InputSpaceBox />
-      )}
-    </div>
-  );
-};
-
-export default PasswordInput;
+      </InputGroup> */
+}
