@@ -82,27 +82,27 @@ export const Router = createBrowserRouter([
             element: <WorkAccess />,
           },
           { path: '/helpdesk', element: <HelpDesk /> },
+        ],
+      },
+      {
+        path: '/create-workspace',
+        element: <CreateWorkspace />,
+        children: [
           {
-            path: '/create-workspace',
-            element: <CreateWorkspace />,
-            children: [
-              {
-                element: <Create />,
-                index: true,
-              },
-              {
-                path: '/create-workspace/agreement',
-                element: <Agreement />,
-              },
-              {
-                path: '/create-workspace/workspace-name',
-                element: <CreateWorkSapceName />,
-              },
-              {
-                path: '/create-workspace/user-info',
-                element: <UserInfo />,
-              },
-            ],
+            element: <Create />,
+            index: true,
+          },
+          {
+            path: '/create-workspace/agreement',
+            element: <Agreement />,
+          },
+          {
+            path: '/create-workspace/workspace-name',
+            element: <CreateWorkSapceName />,
+          },
+          {
+            path: '/create-workspace/user-info',
+            element: <UserInfo />,
           },
         ],
       },
