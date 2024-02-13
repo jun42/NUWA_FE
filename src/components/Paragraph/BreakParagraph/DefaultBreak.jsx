@@ -1,8 +1,8 @@
 import Paragraph from '../Paragraph';
 
-const DefaultBreak = ({ firstText, secondText }) => {
+const DefaultBreak = ({ firstText, secondText, ...props }) => {
   return (
-    <Paragraph>
+    <Paragraph {...props}>
       {firstText}
       <br />
       {secondText}
