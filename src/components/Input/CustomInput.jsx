@@ -1,4 +1,3 @@
-import React from 'react';
 import { InputGroup, InputLeftElement, Input } from '@chakra-ui/react';
 import AtIcon from '@components/Image/AtIcon';
 

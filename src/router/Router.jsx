@@ -12,11 +12,13 @@ import CreateWorkSapceName from '@pages/createWorkspace/create/workspaceName';
 import UserInfo from '@pages/createWorkspace/create/userInfo';
 import SignupSocialPage from '@pages/signupSocial';
 import Feature from '@pages/Feature';
+import Files from '@pages/sidebar_link/Files';
 import WorkAccess from '@pages/workAccess';
 import SocialSignupRedirect from '@pages/signupSocial/SocialSignupRedirect';
 import SocialLoginRedirect from '@pages/signupSocial/SocialLoginRedirect';
 import FAQ from '@pages/FAQ';
 import Inquiry from '@pages/Inquiry';
+import HelpDesk from '@pages/HelpDesk';
 
 export const Router = createBrowserRouter([
   {
@@ -44,6 +46,10 @@ export const Router = createBrowserRouter([
         path: '/select-plan',
         element: <SelectPlan />,
       },
+      {
+        path: '/files',
+        element: <Files />,
+      },
       //oauth 회원 가입시 이메일과 provider(kakao,naver) 받는 페이지
       {
         path: '/signup/social',
@@ -52,10 +58,6 @@ export const Router = createBrowserRouter([
       {
         path: '/loading/auth',
         element: <SocialLoginRedirect />,
-      },
-      {
-        path: '/feat-description',
-        element: <Feature />,
       },
       {
         path: '/faq',
@@ -73,6 +75,7 @@ export const Router = createBrowserRouter([
         path: '/workAccess',
         element: <WorkAccess />,
       },
+      { path: '/helpdesk', element: <HelpDesk /> },
       {
         path: '/create-workspace',
         element: <CreateWorkspace />,
