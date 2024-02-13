@@ -19,6 +19,9 @@ import SocialLoginRedirect from '@pages/signupSocial/SocialLoginRedirect';
 import FAQ from '@pages/FAQ';
 import Inquiry from '@pages/Inquiry';
 import HelpDesk from '@pages/HelpDesk';
+import MainLayout from '../components/Layout/MainLayout';
+import WorkspaceLayout from '../components/Layout/WorkspaceLayout';
+import { Button } from '@chakra-ui/react';
 
 export const Router = createBrowserRouter([
   {
@@ -26,75 +29,90 @@ export const Router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        index: true,
-        element: <MainPage />,
-      },
-      { path: '*', element: <NotFoundPage /> },
-      {
-        path: '/login',
-        element: <LoginPage />,
-      },
-      {
-        path: '/signup',
-        element: <SignupPage />,
-      },
-      {
-        path: '/signup-social',
-        element: <SignupSocialPage />,
-      },
-      {
-        path: '/select-plan',
-        element: <SelectPlan />,
-      },
-      {
-        path: '/files',
-        element: <Files />,
-      },
-      //oauth 회원 가입시 이메일과 provider(kakao,naver) 받는 페이지
-      {
-        path: '/signup/social',
-        element: <SocialSignupRedirect />,
-      },
-      {
-        path: '/loading/auth',
-        element: <SocialLoginRedirect />,
-      },
-      {
-        path: '/faq',
-        element: <FAQ />,
-      },
-      {
-        path: '/inquiry',
-        element: <Inquiry />,
-      },
-      {
-        path: '/feat-description',
-        element: <Feature />,
-      },
-      {
-        path: '/workAccess',
-        element: <WorkAccess />,
-      },
-      { path: '/helpdesk', element: <HelpDesk /> },
-      {
-        path: '/create-workspace',
-        element: <CreateWorkspace />,
+        element: <MainLayout />,
         children: [
           {
-            element: <Create />,
             index: true,
+            element: <MainPage />,
+          },
+          { path: '*', element: <NotFoundPage /> },
+          {
+            path: 'login',
+            element: <LoginPage />,
           },
           {
-            path: '/create-workspace/agreement',
-            element: <Agreement />,
+            path: '/signup',
+            element: <SignupPage />,
           },
           {
-            path: '/create-workspace/workspace-name',
-            element: <CreateWorkSapceName />,
+            path: '/signup-social',
+            element: <SignupSocialPage />,
           },
           {
-            path: '/create-workspace/user-info',
-            element: <UserInfo />,
+            path: '/select-plan',
+            element: <SelectPlan />,
+          },
+          {
+            path: '/files',
+            element: <Files />,
+          },
+          //oauth 회원 가입시 이메일과 provider(kakao,naver) 받는 페이지
+          {
+            path: '/signup/social',
+            element: <SocialSignupRedirect />,
+          },
+          {
+            path: '/loading/auth',
+            element: <SocialLoginRedirect />,
+          },
+          {
+            path: '/faq',
+            element: <FAQ />,
+          },
+          {
+            path: '/inquiry',
+            element: <Inquiry />,
+          },
+          {
+            path: '/feat-description',
+            element: <Feature />,
+          },
+          {
+            path: '/workAccess',
+            element: <WorkAccess />,
+          },
+          { path: '/helpdesk', element: <HelpDesk /> },
+          {
+            path: '/create-workspace',
+            element: <CreateWorkspace />,
+            children: [
+              {
+                element: <Create />,
+                index: true,
+              },
+              {
+                path: '/create-workspace/agreement',
+                element: <Agreement />,
+              },
+              {
+                path: '/create-workspace/workspace-name',
+                element: <CreateWorkSapceName />,
+              },
+              {
+                path: '/create-workspace/user-info',
+                element: <UserInfo />,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: '/workspace',
+        element: <WorkspaceLayout />,
+        children: [
+          {
+            path: '/workspace/test',
+            element: <Button />,
           },
         ],
       },
