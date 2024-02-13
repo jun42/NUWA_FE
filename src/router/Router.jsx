@@ -22,12 +22,12 @@ export const Router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    errorElement: <NotFoundPage />,
     children: [
       {
         index: true,
         element: <MainPage />,
       },
+      { path: '*', element: <NotFoundPage /> },
       {
         path: '/login',
         element: <LoginPage />,

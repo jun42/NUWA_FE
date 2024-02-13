@@ -8,7 +8,7 @@ const Step = ({ isStep, step }) => {
   return (
     <Flex gap="10px" w="600px" mr="338px" mb="32px">
       {step.map((stepItem) => (
-        <Flex key={stepItem} alignItems="center">
+        <Flex key={stepItem.step} alignItems="center">
           <Circle
             bg={isStep.endsWith(stepItem.step) ? '#5158FF' : '#D6D6D6'}
             size="16px"

@@ -2,12 +2,19 @@ import { Box, Button, Flex, Input, Text } from '@chakra-ui/react';
 import Image from '@components/Image/Image';
 import WorksapceNameImg from '@assets/workspace_name.png';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const CreateWorkSapceName = () => {
   const navigate = useNavigate();
-  const handleButtonClick = () => {
-    navigate('/create-workspace/user-info');
+  const [workspaceName, setWorkspaceName] = useState('');
+  const handleInputChange = (event) => {
+    const { value } = event.target;
+    if (value !== '') setWorkspaceName(value);
   };
+  const handleButtonClick = () => {
+    if (workspaceName) return navigate('/create-workspace/user-info');
+  };
+
   return (
     <>
       <Flex
@@ -39,8 +46,16 @@ const CreateWorkSapceName = () => {
               rounded="50px"
               border="2px"
               borderColor="#8989897a"
+              defaultValue={workspaceName}
+              onChange={handleInputChange}
             />
-            <Button rounded="50px" w="140px"bg="#575DFB" color="#fff" onClick={handleButtonClick}>
+            <Button
+              rounded="50px"
+              w="140px"
+              bg="#575DFB"
+              color="#fff"
+              onClick={handleButtonClick}
+            >
               다음
             </Button>
           </Flex>

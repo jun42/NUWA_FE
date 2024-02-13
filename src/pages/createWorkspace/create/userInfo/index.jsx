@@ -6,13 +6,16 @@ import {
   Input,
   InputGroup,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
 import Image from '@components/Image/Image';
 import UserInfoImg from '@assets/user-info.png';
 import { useNavigate } from 'react-router-dom';
+import CreateProfileImage from '@components/Modal/ProfileModal/create/CreateProfileImage';
 
 const UserInfo = () => {
   const navigate = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const handleButttonClick = (event) => {
     const { name } = event.target;
     if (name === 'next') return navigate('/create-workspace/invite-member');
@@ -20,6 +23,7 @@ const UserInfo = () => {
   };
   return (
     <>
+    <CreateProfileImage isOpen={isOpen} onClose={onClose}/>
       <Flex
         alignItems="center"
         justifyContent="space-between"
@@ -57,7 +61,7 @@ const UserInfo = () => {
               spacing="0"
               w="320px"
             >
-              <Button rounded="50px">프로필 설정하기</Button>
+              <Button rounded="50px" onClick={onOpen}>프로필 설정하기</Button>
               <ButtonGroup mt="10px" w="320px">
                 <Button
                   rounded="50px"
