@@ -1,11 +1,11 @@
 import StTextDiv from '@components/Text/StTextDiv';
-import LogoSrc from '@assets/logo.png';
 import styled from 'styled-components';
+import Logo from '@components/Image/Logo';
 
 const PageTitle = () => {
   return (
     <StTitle>
-      <StLogo src={LogoSrc} width={'120px'} height={'30px'} />
+      <Logo width={'120px'} height={'30px'} />
       <StTextDiv $size={32} $weight={700} $color="primary400">
         구독 및 결제
       </StTextDiv>
@@ -14,8 +14,6 @@ const PageTitle = () => {
 };
 
 export default PageTitle;
-
-const StLogo = styled.img``;
 
 const StTitle = styled.div`
   display: flex;
