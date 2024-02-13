@@ -37,7 +37,7 @@ export const Router = createBrowserRouter([
           },
           { path: '*', element: <NotFoundPage /> },
           {
-            path: '/login',
+            path: 'login',
             element: <LoginPage />,
           },
           {
@@ -111,7 +111,7 @@ export const Router = createBrowserRouter([
         element: <WorkspaceLayout />,
         children: [
           {
-            path: 'test',
+            path: '/workspace/test',
             element: <Button />,
           },
         ],
