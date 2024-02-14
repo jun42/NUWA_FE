@@ -19,7 +19,7 @@ const ChannelRadio = ({ name, RadioConstants, value, setValue }) => {
               key={item.id}
             >
               <Flex gap={'8px'}>
-                <Image src={item.icon} />
+                <Image src={item.icon} alt={'아이콘'} />
                 <div>{item.label + ' - ' + item.description}</div>
               </Flex>
               <Radio
