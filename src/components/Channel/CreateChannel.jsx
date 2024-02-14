@@ -6,23 +6,34 @@ import {
   ModalBody,
   Button,
   useDisclosure,
-  Text,
-  Flex,
-  Input,
-  Box,
-  Stack,
+  IconButton,
+  Image,
 } from '@chakra-ui/react';
-import { Radio, RadioGroup } from '@chakra-ui/react';
 import { useState } from 'react';
 import CreateChannelHeader from './CreateChannelHeader';
 import CreateChannelNameInput from './CreateChannelNameInput';
 import CreateChannelGuide from './CreateChannelGuide';
+import ChannelRadio from './ChannelRadio';
+import {
+  CHANNEL_OPEN_TYPE,
+  CHANNEL_TYPE,
+} from '@constants/channel/CHANNEL_TYPE';
+import add_sm from '@assets/add_sm.svg';
+
 const CreateChannel = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [value, setValue] = useState('1');
+  const [channelType, setChannelType] = useState('');
+  const [channelOpenType, setChannelOpenType] = useState('');
   return (
     <>
-      <Button onClick={onOpen}>Open Modal</Button>
+      <IconButton
+        size="xs"
+        position="absolute"
+        right="0"
+        bgColor="#f1f1f1"
+        icon={<Image src={add_sm} alt="" />}
+        onClick={onOpen}
+      />
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -31,22 +42,16 @@ const CreateChannel = () => {
           <ModalBody display={'flex'} flexDirection={'column'} gap={'2rem'}>
             <CreateChannelGuide />
             <CreateChannelNameInput />
-            <Flex flexDirection={'column'}>
-              <div>채널 종류 선택</div>
-              <RadioGroup onChange={setValue} value={value}>
-                <Stack>
-                  <Radio colorScheme="grey" value="1" bgColor={'grey'}>
-                    First
-                  </Radio>
-                  <Radio value="2">Second</Radio>
-                  <Radio value="3">Third</Radio>
-                </Stack>
-              </RadioGroup>
-              <div>
-                채팅채널 - 파일, 이미지, TEXT를 통해 팀원에게 정보를 전달하세요
-              </div>
-              <div></div>
-            </Flex>
+            <ChannelRadio
+              value={channelType}
+              setValue={setChannelType}
+              RadioConstants={CHANNEL_TYPE}
+            />
+            <ChannelRadio
+              value={channelOpenType}
+              setValue={setChannelOpenType}
+              RadioConstants={CHANNEL_OPEN_TYPE}
+            />
           </ModalBody>
 
           <ModalFooter>

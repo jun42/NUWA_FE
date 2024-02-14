@@ -26,6 +26,7 @@ import {
   Divider,
 } from '@chakra-ui/react';
 import UserInfo from './UserInfo';
+import CreateChannel from '../Channel/CreateChannel';
 
 const SideBar = () => {
   return (
@@ -135,13 +136,7 @@ const SideBar = () => {
                 icon={<Image src={arrowdown} alt="" />}
               />
               <Text ml="16px">채팅채널</Text>
-              <IconButton
-                size="xs"
-                position="absolute"
-                right="0"
-                bgColor="#f1f1f1"
-                icon={<Image src={add_sm} alt="" />}
-              />
+              <CreateChannel />
             </Flex>
             <Box
               maxH="160px"
@@ -234,13 +229,7 @@ const SideBar = () => {
                 icon={<Image src={arrowdown} alt="" />}
               />
               <Text ml="16px">음성채널</Text>
-              <IconButton
-                size="xs"
-                position="absolute"
-                right="0"
-                bgColor="#f1f1f1"
-                icon={<Image src={add_sm} alt="" />}
-              />
+              <CreateChannel />
             </Flex>
             <Box
               maxH="160px"
