@@ -28,7 +28,7 @@ const UserInfo = () => {
         alignItems="center"
         justifyContent="space-between"
         w="930px"
-        h="364px"
+        h="400px"
       >
         <Flex flexDirection="column">
           <Box>
@@ -91,7 +91,7 @@ const UserInfo = () => {
             </ButtonGroup>
           </Box>
         </Flex>
-        <Box w={360}>
+        <Box w={400}>
           <Image src={UserInfoImg} alt="" />
         </Box>
       </Flex>

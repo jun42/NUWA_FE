@@ -23,6 +23,7 @@ import HelpDesk from '@pages/HelpDesk';
 import MainLayout from '../components/Layout/MainLayout';
 import WorkspaceLayout from '../components/Layout/WorkspaceLayout';
 import { Button } from '@chakra-ui/react';
+import InviteMember from '@pages/createWorkspace/create/inviteMember';
 
 export const Router = createBrowserRouter([
   {
@@ -106,9 +107,13 @@ export const Router = createBrowserRouter([
             element: <UserInfo />,
           },
           {
-          path: '/create-workspace/work',
-          element:<Work/>
-          }
+            path: '/create-workspace/work',
+            element: <Work />,
+          },
+          {
+            path: '/create-workspace/invite-member',
+            element: <InviteMember />,
+          },
         ],
       },
       {

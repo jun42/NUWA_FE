@@ -1,7 +1,16 @@
 import UserInfoForm from './type/UserInfoForm';
+import WorkInfoForm from './type/WorkInfoForm';
 import WorkspaceNameForm from './type/WorkspaceNameForm';
 
-const Form = ({ formType,formMessage, name, value, onChange, ...props }) => {
+const Form = ({
+  formType,
+  formMessage,
+  name,
+  value,
+  onClick,
+  onChange,
+  ...props
+}) => {
   const renderFormType = (formType) => {
     switch (formType) {
       case 'workspaceName':
@@ -15,7 +24,16 @@ const Form = ({ formType,formMessage, name, value, onChange, ...props }) => {
           />
         );
       case 'userInfo':
-        return <UserInfoForm {...props}  formMessage={formMessage}/>;
+        return <UserInfoForm {...props} formMessage={formMessage} />;
+      case 'workInfo':
+        return (
+          <WorkInfoForm
+            {...props}
+            formMessage={formMessage}
+            onClick={onClick}
+          />
+        );
+      default:
     }
   };
   return <form>{renderFormType(formType)}</form>;
