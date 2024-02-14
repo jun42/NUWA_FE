@@ -20,9 +20,8 @@ import SocialLoginRedirect from '@pages/signupSocial/SocialLoginRedirect';
 import FAQ from '@pages/FAQ';
 import Inquiry from '@pages/Inquiry';
 import HelpDesk from '@pages/HelpDesk';
-import MainLayout from '../components/Layout/MainLayout';
-import WorkspaceLayout from '../components/Layout/WorkspaceLayout';
-import { Button } from '@chakra-ui/react';
+import MainLayout from '@components/Layout/MainLayout';
+import WorkspaceLayout from '@components/Layout/WorkspaceLayout';
 import InviteMember from '@pages/createWorkspace/create/inviteMember';
 
 export const Router = createBrowserRouter([
@@ -119,12 +118,7 @@ export const Router = createBrowserRouter([
       {
         path: '/workspace',
         element: <WorkspaceLayout />,
-        children: [
-          {
-            path: '/workspace/test',
-            element: <Button />,
-          },
-        ],
+        children: [],
       },
     ],
   },
