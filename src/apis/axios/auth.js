@@ -1,3 +1,4 @@
+import { setTokenInStorage } from '@utils/auth';
 import { request } from './axios';
 
 export const createAccount = async ({
@@ -37,7 +38,7 @@ export const chekcDuplicateNickname = async (nickname) => {
     .then((r) => {
       const data = r.data;
 
-      if (data.status === 'success') {
+      if (data?.status === 'success') {
         isValid = true;
         errorMessage = '사용가능한 닉네임입니다.';
       }
@@ -94,26 +95,57 @@ export const chekcDuplicateEmail = async (email) => {
     });
 };
 
-export const login = async (email, password) =>
-  await request.post('/login', {
-    email,
-    password,
-  });
+export const login = async ({ email, password }) => {
+  return request
+    .post('/login', {
+      email,
+      password,
+    })
+    .then((r) => {
+      if (r.data?.status === 'success') {
+        setTokenInStorage(r.data.data.accessToken);
+        return {
+          isLoginFailed: false,
+          message: '로그인에 성공했습니다.',
+        };
+      }
+    })
+    .catch((err) => {
+      if (err.response.data.status === 'fail') {
+        return {
+          isLoginFailed: true,
+          message: err.response.data.message,
+        };
+      } else {
+        console.log('LOGIN_ERROR :', err);
+        return {
+          isLoginFailed: true,
+          message: 'LOGIN ERROR',
+        };
+      }
+    });
+};
 
 export const logout = async () =>
-  await request.post('/logout').then((r) => {
-    if (r.data.status === 'success') {
-      localStorage.removeItem('accessToken');
-    }
+  await request.post('/logout').then(() => {
+    localStorage.removeItem('accessToken');
   });
 
-//
-// TODO: 해당 에러 핸들링 CODE 404
-// JSON
-// 토큰 값을 찾을 수 없는 경우
-// {
-// 	"status" : "fail",
-// 	"message" : "이메일로 리프레쉬 토큰 값을 찾을 수 없습니다."
-// }
-
-// export const refreshToekn = (oldToken) => request.post('/reissue',)
+export const reissueToken = async () => {
+  return await request
+    .post('/reissue')
+    .then((r) => {
+      if (r.data?.status === 'success') {
+        setTokenInStorage(r.data.data.accessToken);
+      }
+    })
+    .catch((err) => {
+      if (err.response.data.status === 'fail') {
+        console.log(err.response.data.message);
+        logout();
+      } else {
+        console.error('REISSUE_TOKEN_ERROR :', err);
+      }
+    });
+};
+// TODO 토큰이 없거나 로그아웃 되었을 경우에 로그인이나 메인으로 리다이렉트

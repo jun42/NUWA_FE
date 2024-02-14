@@ -9,9 +9,9 @@ import mainCard3 from '@assets/mainCard3.png';
 
 export const categories = [
     {name: "기능", link: '/feat-description' ,icon: Polygon},
-    {name: "자주하는 질문", link: "/some-path", icon: Polygon},
-    {name: "도입문의",link: "/some-path", icon: Polygon},
-    {name: "서비스 문의",link: "/some-path", icon: Polygon},
+    {name: "자주하는 질문", link: "/faq", icon: Polygon}, 
+    {name: "도입문의",link: "/inquiry", icon: Polygon},
+    {name: "서비스 문의",link: "/helpdesk", icon: Polygon},
     {name: "구독 및 결제",link: '/select-plan', icon: Polygon},
 ]
 

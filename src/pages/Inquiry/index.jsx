@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import TitleText from './TitleText';
 import InputSection from './InputSection';
@@ -21,5 +20,4 @@ const StContainer = styled.div`
   flex-direction: column;
   padding: 200px 300px;
   gap: 50px;
-  border: 1px solid red;
 `;
