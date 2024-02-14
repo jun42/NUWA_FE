@@ -37,17 +37,24 @@ const CreateChannel = () => {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent maxWidth={'600px'}>
+        <ModalContent
+          minWidth={'600px'}
+          paddingTop={'27px'}
+          paddingLeft={'40px'}
+          paddingRight={'27px'}
+        >
           <CreateChannelHeader />
           <ModalBody display={'flex'} flexDirection={'column'} gap={'2rem'}>
             <CreateChannelGuide />
             <CreateChannelNameInput />
             <ChannelRadio
+              name={'채널 종류'}
               value={channelType}
               setValue={setChannelType}
               RadioConstants={CHANNEL_TYPE}
             />
             <ChannelRadio
+              name={'채널 공개/비공개 여부'}
               value={channelOpenType}
               setValue={setChannelOpenType}
               RadioConstants={CHANNEL_OPEN_TYPE}

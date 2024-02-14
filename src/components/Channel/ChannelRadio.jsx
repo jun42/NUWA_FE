@@ -1,16 +1,20 @@
 import { Flex, Image, Radio, RadioGroup, Stack } from '@chakra-ui/react';
 
-const ChannelRadio = ({ RadioConstants, value, setValue }) => {
+const ChannelRadio = ({ name, RadioConstants, value, setValue }) => {
   return (
-    <Flex flexDirection={'column'} gap={'14px'} pb={'3rem'}>
-      <div>채널 종류 선택</div>
+    <Flex flexDirection={'column'} gap={'14px'} pb={'4rem'} fontSize={'14px'}>
+      <div>{name}</div>
       <RadioGroup onChange={setValue} value={value}>
         <Stack spacing={'14px'}>
           {RadioConstants.map((item) => (
-            <Flex justifyContent={'space-between'} key={item.id}>
-              <Flex gap={'10px'}>
+            <Flex
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              key={item.id}
+            >
+              <Flex gap={'8px'}>
                 <Image src={item.icon} />
-                {item.label + ' - ' + item.description}
+                <div>{item.label + ' - ' + item.description}</div>
               </Flex>
               <Radio
                 colorScheme="gray"

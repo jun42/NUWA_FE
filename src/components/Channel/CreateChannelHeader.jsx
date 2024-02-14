@@ -10,7 +10,7 @@ const CreateChannelHeader = () => {
       justifyContent={'space-between'}
     >
       채널생성하기
-      <ModalCloseButton size={'24px'} position={'static'} />
+      <ModalCloseButton size={'lg'} position={'static'} />
     </ModalHeader>
   );
 };
