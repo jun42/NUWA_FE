@@ -1,18 +1,22 @@
-import { Box, Button, Flex, Input, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import Image from '@components/Image/Image';
 import WorksapceNameImg from '@assets/workspace_name.png';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+
+import useBoundStore from '@store/store';
+import Form from '@components/Form/createWorkspace/Form';
+import { WORKERSPACE_FORM_MESSAGE } from '@constants/workspace/WORKSPACE_FORM_MESSAGE';
 
 const CreateWorkSapceName = () => {
   const navigate = useNavigate();
-  const [workspaceName, setWorkspaceName] = useState('');
+  const {workspace,setWorkspace} = useBoundStore();
   const handleInputChange = (event) => {
-    const { value } = event.target;
-    if (value !== '') setWorkspaceName(value);
+    const { value, name } = event.target;
+    setWorkspace({ ...workspace, [name]:value});
   };
+  
   const handleButtonClick = () => {
-    if (workspaceName) return navigate('/create-workspace/user-info');
+    if (workspace.workspaceName) return navigate('/create-workspace/user-info');
   };
 
   return (
@@ -40,14 +44,18 @@ const CreateWorkSapceName = () => {
             NUWA의 워크스페이스 이름이 됩니다.
           </Text>
           <Flex mt="180px">
-            <Input
+            <Form
+              formType="workspaceName"
               w="300px"
               mr=" 12px"
               rounded="50px"
+              name="workspaceName"
               border="2px"
               borderColor="#8989897a"
-              defaultValue={workspaceName}
+              value={workspace.workspaceName}
+              placeholder="워크페이스를 입력해주세요."
               onChange={handleInputChange}
+              formMessage ={WORKERSPACE_FORM_MESSAGE.workspaceName}
             />
             <Button
               rounded="50px"

@@ -3,8 +3,6 @@ import {
   Button,
   ButtonGroup,
   Flex,
-  Input,
-  InputGroup,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -12,10 +10,12 @@ import Image from '@components/Image/Image';
 import UserInfoImg from '@assets/user-info.png';
 import { useNavigate } from 'react-router-dom';
 import CreateProfileImage from '@components/Modal/ProfileModal/create/CreateProfileImage';
+import Form from '@components/Form/createWorkspace/Form';
+import { WORKERSPACE_FORM_MESSAGE } from '../../../../constants/workspace/WORKSPACE_FORM_MESSAGE';
 
 const UserInfo = () => {
   const navigate = useNavigate();
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const handleButttonClick = (event) => {
     const { name } = event.target;
     if (name === 'next') return navigate('/create-workspace/work');
@@ -23,7 +23,7 @@ const UserInfo = () => {
   };
   return (
     <>
-    <CreateProfileImage isOpen={isOpen} onClose={onClose}/>
+      <CreateProfileImage isOpen={isOpen} onClose={onClose} />
       <Flex
         alignItems="center"
         justifyContent="space-between"
@@ -51,17 +51,25 @@ const UserInfo = () => {
             </Text>
           </Box>
           <Box>
-            <InputGroup flexDirection="column" m="16px 0" w="320px">
-              <Input rounded="50px" mb="16px" />
-              <Input rounded="50px" />
-            </InputGroup>
+            <Form
+              formType="userInfo"
+              w="320px"
+              mr=" 12px"
+              rounded="50px"
+              name="workspaceName"
+              border="2px"
+              borderColor="#8989897a"
+              formMessage={WORKERSPACE_FORM_MESSAGE.userInfo}
+            />
             <ButtonGroup
               justifyContent="space-between"
               flexDirection="column"
               spacing="0"
               w="320px"
             >
-              <Button rounded="50px" onClick={onOpen}>프로필 설정하기</Button>
+              <Button rounded="50px" onClick={onOpen}>
+                프로필 설정하기
+              </Button>
               <ButtonGroup mt="10px" w="320px">
                 <Button
                   rounded="50px"
