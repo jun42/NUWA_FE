@@ -15,10 +15,11 @@ export const ButtonWrap = styled(Wrap)`
   flex-direction: column;
   align-items: center;
   margin-top: 30px;
-  button {
-    margin-bottom: 12px;
-  }
   a {
+    width: 100%;
+    button {
+      margin-bottom: 12px;
+    }
     color: #575dfb;
     text-decoration: underline;
     font-weight: 600;
@@ -26,5 +27,5 @@ export const ButtonWrap = styled(Wrap)`
 `;
 
 export const ImgWrap = styled(Wrap)`
-width: 100px;
-`
+  width: 100px;
+`;
