@@ -6,17 +6,22 @@ import { useNavigate } from 'react-router-dom';
 import useBoundStore from '@store/store';
 import Form from '@components/Form/createWorkspace/Form';
 import { WORKERSPACE_FORM_MESSAGE } from '@constants/workspace/WORKSPACE_FORM_MESSAGE';
+import { useState } from 'react';
 
 const CreateWorkSapceName = () => {
   const navigate = useNavigate();
+  const [workspaceName, setWorkspaceName] = useState('')
   const {workspace,setWorkspace} = useBoundStore();
   const handleInputChange = (event) => {
-    const { value, name } = event.target;
-    setWorkspace({ ...workspace, [name]:value});
+    const { value, } = event.target;
+
+    setWorkspaceName(value);
   };
   
   const handleButtonClick = () => {
-    if (workspace.workspaceName) return navigate('/create-workspace/user-info');
+    if (workspaceName) { 
+      setWorkspace({...workspace, workspaceName: workspaceName});
+      navigate('/create-workspace/user-info');}
   };
 
   return (
@@ -52,7 +57,7 @@ const CreateWorkSapceName = () => {
               name="workspaceName"
               border="2px"
               borderColor="#8989897a"
-              value={workspace.workspaceName}
+              value={workspaceName}
               placeholder="워크페이스를 입력해주세요."
               onChange={handleInputChange}
               formMessage ={WORKERSPACE_FORM_MESSAGE.workspaceName}

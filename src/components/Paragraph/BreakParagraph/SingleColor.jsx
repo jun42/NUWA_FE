@@ -1,13 +1,23 @@
 import Span from '../../Span/Span';
 import Paragraph from '../Paragraph';
 
-const SingleColor = ({ firstText, secondText, hasColor, spanColor, ...props }) => {
+const SingleColor = ({
+  firstText,
+  subText,
+  secondText,
+  hasColor,
+  spanColor,
+  isBreak,
+  ...props
+}) => {
   const renderTextColor = (hasColor) => {
     switch (hasColor) {
       case 'first':
         return (
           <Paragraph {...props}>
             <Span spanColor={spanColor} spanText={firstText} />
+            {subText && <Span spanText={subText} />}
+            {isBreak && <br />}
             {secondText}
           </Paragraph>
         );

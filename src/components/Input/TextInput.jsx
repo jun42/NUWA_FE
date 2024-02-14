@@ -1,6 +1,7 @@
 import { Input } from '@chakra-ui/react';
+import { forwardRef } from 'react';
 
-const TextInput = ({ name,value, onChange,placeholder, ...props })=> {
+function TextInput({ name, value, onChange, placeholder, ...props }, ref) {
   return (
     <Input
       {...props}
@@ -9,8 +10,9 @@ const TextInput = ({ name,value, onChange,placeholder, ...props })=> {
       defaultValue={value}
       onChange={onChange}
       placeholder={placeholder}
+      ref={ref}
     />
   );
-};
+}
 
-export default TextInput;
+export default forwardRef(TextInput);
