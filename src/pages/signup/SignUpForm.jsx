@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
-import NicknameInput from '@components/Input/NicknameInput';
-import EmailInput from '@components/Input/EmailInput';
-import PasswordInput from '@components/Input/PasswordInput';
-import PasswordConfirmInput from '@components/Input/PasswordConfirmInput';
-import PhoneNumberInput from '@components/Input/PhoneNumberInput';
+import NicknameInput from '@components/Form/NicknameInput';
+import EmailInput from '@components/Form/EmailInput';
+import PasswordInput from '@components/Form/PasswordInput';
+import PasswordConfirmInput from '@components/Form/PasswordConfirmInput';
+import PhoneNumberInput from '@components/Form/PhoneNumberInput';
 import { createAccount } from '@apis/axios/auth';
 import { useNavigate } from 'react-router-dom';
 import SubmitButton from '@components/Button/SubmitButton';
@@ -51,7 +51,11 @@ const SignUpForm = () => {
     <StLoginContainer>
       <StForm onSubmit={handleSubmit(onSubmit)}>
         <NicknameInput register={register} errors={errors} />
-        <EmailInput register={register} errors={errors} />
+        <EmailInput
+          register={register}
+          errors={errors}
+          checkDuplication={true}
+        />
         <PasswordInput register={register} errors={errors} />
         <PasswordConfirmInput
           register={register}

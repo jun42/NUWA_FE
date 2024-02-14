@@ -1,55 +1,54 @@
 import styled from 'styled-components';
-import AtIcon from '@components/Image/AtIcon';
-import {
-  Button,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Text,
-} from '@chakra-ui/react';
+import { Button, Text, useToast } from '@chakra-ui/react';
+import { useForm } from 'react-hook-form';
+import { login } from '@apis/axios/auth';
+import EmailInput from '@components/Form/EmailInput';
+import PasswordInput from '@components/Form/PasswordInput';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
+  const navigate = useNavigate();
+  const toast = useToast();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const onSubmit = async (data) => {
+    const { isLoginFailed, message } = await login(data);
+    if (isLoginFailed) {
+      toast({
+        title: '로그인 실패',
+        description: message,
+        status: 'error',
+        duration: 3 * 1000,
+        isClosable: true,
+        position: 'top',
+      });
+    } else {
+      toast({
+        title: '로그인 성공.',
+        description: '로그인에 성공했습니다.',
+        status: 'success',
+        duration: 3 * 1000,
+        isClosable: true,
+        position: 'top',
+      });
+      navigate('/');
+    }
+  };
   return (
     <StLoginContainer>
-      <StForm action="">
-        <InputGroup>
-          <InputLeftElement pointerEvents="none" paddingTop={'12px'}>
-            <AtIcon />
-          </InputLeftElement>
-          <Input
-            width={'100%'}
-            height={'52px'}
-            borderRadius={'8px'}
-            type="text"
-            placeholder="이메일을 입력해주세요"
-            bg={'white'}
-            border={'none'}
-            maxLength={30}
-          />
-        </InputGroup>
-        <InputGroup>
-          <InputLeftElement pointerEvents="none" paddingTop={'12px'}>
-            <AtIcon />
-          </InputLeftElement>
-          <Input
-            width={'100%'}
-            height={'52px'}
-            borderRadius={'8px'}
-            type="password"
-            placeholder="비밀번호를 입력해주세요"
-            bg={'white'}
-            border={'none'}
-            maxLength={20}
-          />
-        </InputGroup>
-        <Button
-          height={'52px'}
-          type="submit"
-          colorScheme="secondary"
-          onClick={(e) => {
-            e.preventDefault();
-          }}
-        >
+      <StForm action="" onSubmit={handleSubmit(onSubmit)}>
+        <EmailInput register={register} errors={errors} />
+        <PasswordInput register={register} errors={errors} />
+        <Button height={'52px'} type="submit" colorScheme="secondary">
           <Text
             color={'white'}
             fontSize={'18px'}
@@ -74,5 +73,5 @@ const StForm = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.25rem;
 `;
