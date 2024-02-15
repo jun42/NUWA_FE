@@ -25,6 +25,8 @@ import WorkspaceLayout from '@components/Layout/WorkspaceLayout';
 import InviteMember from '@pages/createWorkspace/create/inviteMember';
 import ChatPage from '../pages/chatBoard';
 import DirectChatPage from '../pages/directChat';
+import DashBoard from '@pages/dashboard';
+import Canvas from '@pages/canvas';
 
 export const Router = createBrowserRouter([
   {
@@ -122,12 +124,20 @@ export const Router = createBrowserRouter([
         element: <WorkspaceLayout />,
         children: [
           {
+            element: <DashBoard />,
+            index: true,
+          },
+          {
             path: '/workspace/chatboard',
             element: <ChatPage />,
           },
           {
             path: '/workspace/direct-chat',
             element: <DirectChatPage />,
+          },
+          {
+            path: '/workspace/canvas',
+            element: <Canvas />,
           },
         ],
       },

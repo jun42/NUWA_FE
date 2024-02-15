@@ -1,26 +1,22 @@
 import React from 'react';
 import WhiteLogo from '@components/Image/WhiteLogo.jsx';
-import SearchBar from '@components/SearchBar/SearchBar.jsx';
 import styled from 'styled-components';
-const WorkspaceHeader = () => {
+
+const CreateWorkspaceHeader = () => {
   return (
     <StContainer>
       <WhiteLogo width={'87px'} height={'22px'} />
-      <SearchBar>검색창</SearchBar>
-      <Icon>알림</Icon>
     </StContainer>
   );
 };
 
-export default WorkspaceHeader;
+export default CreateWorkspaceHeader;
 
 const StContainer = styled.div`
   display: flex;
   width: 100%;
-  padding: 10px 30px;
-  align-items: center;
-  justify-content: space-between;
+  padding: 17px 33px;
+  flex-direction: column;
+  align-items: flex-start;
   background-color: black;
 `;
-
-const Icon = styled.div``;
