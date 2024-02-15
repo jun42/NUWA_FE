@@ -1,10 +1,11 @@
 import { Flex } from '@chakra-ui/react';
 import { Outlet } from 'react-router-dom';
 import SideBar from '../SideBar/SideBar';
+import WorkspaceHeader from '@components/Header/WorkspaceHeader.jsx';
 const WorkspaceLayout = () => {
   return (
     <>
-      <h1>헤더</h1>
+      <WorkspaceHeader />
       <Flex>
         <SideBar />
         <Outlet />
