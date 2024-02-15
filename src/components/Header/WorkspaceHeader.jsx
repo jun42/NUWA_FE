@@ -9,7 +9,7 @@ const WorkspaceHeader = () => {
       <WhiteLogo width={'87px'} height={'22px'} />
       <SearchBar>검색창</SearchBar>
       <IconButton
-        icon={<FaBell size={'20px'} color="#575dfb" />}
+        icon={<FaBell size={'20px'} color="#007bff" />}
         bgColor={'grey.700'}
         _hover={'grey.700'}
         _active={'grey.700'}
