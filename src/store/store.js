@@ -3,8 +3,8 @@ import { createBearSlice, createFishSlice } from './testSlice';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { createSocialSignupSlice } from './socialSignupSlice';
-
-const persistKeys = ['email', 'provider'];
+import { createWorkspaceNameSlice } from './createWorkspaceNameSlice';
+const persistKeys = ['email', 'provider', 'workspace'];
 
 const persistOption = {
   name: 'NUWA-Storage', // name of the item in the storage (must be unique)
@@ -24,6 +24,7 @@ const useBoundStore = create(
           ...createBearSlice(...a),
           ...createFishSlice(...a),
           ...createSocialSignupSlice(...a),
+          ...createWorkspaceNameSlice(...a),
         }),
         persistOption
       )

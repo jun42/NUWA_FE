@@ -10,6 +10,7 @@ import Agreement from '@pages/createWorkspace/agreement';
 import Create from '@pages/createWorkspace/create';
 import CreateWorkSapceName from '@pages/createWorkspace/create/workspaceName';
 import UserInfo from '@pages/createWorkspace/create/userInfo';
+import Work from '@pages/createWorkspace/create/work';
 import SignupSocialPage from '@pages/signupSocial';
 import Feature from '@pages/Feature';
 import Files from '@pages/sidebar_link/Files';
@@ -21,6 +22,7 @@ import Inquiry from '@pages/Inquiry';
 import HelpDesk from '@pages/HelpDesk';
 import MainLayout from '@components/Layout/MainLayout';
 import WorkspaceLayout from '@components/Layout/WorkspaceLayout';
+import InviteMember from '@pages/createWorkspace/create/inviteMember';
 
 export const Router = createBrowserRouter([
   {
@@ -81,27 +83,35 @@ export const Router = createBrowserRouter([
             element: <WorkAccess />,
           },
           { path: '/helpdesk', element: <HelpDesk /> },
+        ],
+      },
+      {
+        path: '/create-workspace',
+        element: <CreateWorkspace />,
+        children: [
           {
-            path: '/create-workspace',
-            element: <CreateWorkspace />,
-            children: [
-              {
-                element: <Create />,
-                index: true,
-              },
-              {
-                path: '/create-workspace/agreement',
-                element: <Agreement />,
-              },
-              {
-                path: '/create-workspace/workspace-name',
-                element: <CreateWorkSapceName />,
-              },
-              {
-                path: '/create-workspace/user-info',
-                element: <UserInfo />,
-              },
-            ],
+            element: <Create />,
+            index: true,
+          },
+          {
+            path: '/create-workspace/agreement',
+            element: <Agreement />,
+          },
+          {
+            path: '/create-workspace/workspace-name',
+            element: <CreateWorkSapceName />,
+          },
+          {
+            path: '/create-workspace/user-info',
+            element: <UserInfo />,
+          },
+          {
+            path: '/create-workspace/work',
+            element: <Work />,
+          },
+          {
+            path: '/create-workspace/invite-member',
+            element: <InviteMember />,
           },
         ],
       },

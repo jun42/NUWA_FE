@@ -1,7 +1,8 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import { StSection } from '@components/Section/StSection';
 import Step from '@components/Step/Step';
-import { WORKERSPACE_STEP } from '../../constants/workStep/WORKSPACE_STEP';
+import { WORKERSPACE_STEP} from '@constants/workspace/WORKSPACE_STEP';
+
 
 const CreateWorkspace = () => {
   const pathName = useLocation().pathname;
