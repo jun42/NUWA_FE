@@ -23,6 +23,8 @@ import HelpDesk from '@pages/HelpDesk';
 import MainLayout from '@components/Layout/MainLayout';
 import WorkspaceLayout from '@components/Layout/WorkspaceLayout';
 import InviteMember from '@pages/createWorkspace/create/inviteMember';
+import ChatPage from '../pages/chatBoard';
+import DirectChatPage from '../pages/directChat';
 
 export const Router = createBrowserRouter([
   {
@@ -118,7 +120,16 @@ export const Router = createBrowserRouter([
       {
         path: '/workspace',
         element: <WorkspaceLayout />,
-        children: [],
+        children: [
+          {
+            path: '/workspace/chatboard',
+            element: <ChatPage />,
+          },
+          {
+            path: '/workspace/direct-chat',
+            element: <DirectChatPage />,
+          },
+        ],
       },
     ],
   },
