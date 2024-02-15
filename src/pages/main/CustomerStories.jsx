@@ -1,4 +1,3 @@
-import React from 'react';
 import human_main from '@assets/human_main.png';
 import styled from 'styled-components';
 import { Flex, Text } from '@chakra-ui/react';

@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { Flex, Text, Box, Image } from "@chakra-ui/react";
 import { mainCards } from '@constants/selectPlan/SELECT_ALL_INFO';
@@ -46,7 +45,7 @@ const MainCenter = () => {
 export default MainCenter;
 
 const StContainer = styled.div`
-   width: 100%;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;

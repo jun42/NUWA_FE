@@ -1,65 +1,57 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Flex, Text, Button } from '@chakra-ui/react';
+import styled from "styled-components";
+import { Flex, Text, Button } from "@chakra-ui/react"; 
+import WorkspaceCard from "./WorkspaceCard";
+import { workspace_section } from '@constants/selectPlan/SELECT_ALL_INFO';
 
-const MainHeader = () => {
-  return (
+const workAccess = () => {
+  return(
+    
+
     <StContainer>
-      <MainSection>
-        <StTextBox1>
-          <Flex flexDirection="column" gap="30" alignItems="center">
-            <Text width="100%" fontSize="45px" fontWeight="700" color="#575DFB">
-              환영합니다!
-            </Text>
-          </Flex>
-        </StTextBox1>
-        <StTextBox2>
-          <Flex flexDirection="column" gap="30" alignItems="center">
-            <Text width="100%" fontSize="18px" fontWeight="400">
-              test123456@gmail.com의 워크스페이스
-            </Text>
-          </Flex>
-        </StTextBox2>
-      </MainSection>
+      <WorkspaceContainer>
+        <Flex flexDirection={'column'} gap={"10px"}>
+        <Text width="100%" fontSize="48px" fontWeight="600" color="#575DF8" >환영합니다!</Text>
+        <Text width="100%" fontSize="22px" fontWeight="250"  >test123456@gmail.com의 워크스페이스</Text>
+        </Flex>
+        <WorkspaceCard workspace_section={workspace_section} />
+        <Flex flexDirection={'column'}>  
+        <Text width="100%" fontSize="20px" fontWeignt="200" > 다른 이메일로 로그인 </Text>
+        </Flex>
+      </WorkspaceContainer>  
     </StContainer>
+   
   );
 };
 
-export default MainHeader;
+
+export default workAccess;
+
 
 const StContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 110px 200px;
-  background-color: #ebecee;
-  border: 1px solid blue;
+ //max-width: 1920px ;
+ width: 100%;
+ height: 100%;
+ justify-content: center;
+ align-items: center;
+ 
 `;
 
-const MainSection = styled.div`
-  width: 450px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  border: 1px solid green;
+const WorkspaceContainer = styled.div`
+ width: 100%;
+ height: 896px;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ text-align: center;
+ border: 1px solid black;
 `;
 
-const StTextBox1 = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: center;
-  align-items: center;
-  justify-content: center;
-  gap: 100px;
-  border: 1px solid green;
-`;
-
-const StTextBox2 = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: center;
-  align-items: center;
-  justify-content: center;
-  gap: 100px;
-  border: 1px solid green;
+const CardSection = styled.div`
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ 
+ 
 `;
