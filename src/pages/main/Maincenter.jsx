@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import { Flex, Text, Box, Image } from "@chakra-ui/react";
 import { mainCards } from '@constants/selectPlan/SELECT_ALL_INFO';
