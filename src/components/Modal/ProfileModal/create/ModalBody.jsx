@@ -67,16 +67,47 @@ const ModalBody = () => {
         </Box>
       </Flex>
       <Divider color="rgba(0, 0, 0, 0.1)" />
-      <ButtonGroup flexDirection="column" spacing={0}>
+      <ButtonGroup flexDirection="column" spacing={0} mt="18px">
         <input
           type="file"
           style={{ display: 'none' }}
           onChange={handleFileChange}
           ref={fileInputRef}
         />
-        <Button onClick={handleButtonClick}>프로필 추가</Button>
-        <Button>이미지 자르기</Button>
-        <Button>설정하지 않기</Button>
+        <Button
+          rounded="50px"
+          w="210px"
+          p="12px 60px"
+          bg="transparent"
+          color="#5158FFCC"
+          border="solid 2px #5158FFCC"
+          onClick={handleButtonClick}
+          mb="18px"
+        >
+          프로필 추가
+        </Button>
+        <Button
+          rounded="50px"
+          w="210px"
+          p="12px 60px"
+          bg="transparent"
+          color="#5158FFCC"
+          border="solid 2px #5158FFCC"
+          mb="18px"
+        >
+          이미지 자르기
+        </Button>
+        <Button
+          rounded="50px"
+          w="210px"
+          p="12px 60px"
+          bg="transparent"
+          color="#5158FFCC"
+          border="solid 2px #5158FFCC"
+          mb="18px"
+        >
+          설정하지 않기
+        </Button>
       </ButtonGroup>
     </div>
   );
