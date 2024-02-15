@@ -1,13 +1,19 @@
-import React from 'react';
 import WhiteLogo from '@components/Image/WhiteLogo.jsx';
 import SearchBar from '@components/SearchBar/SearchBar.jsx';
 import styled from 'styled-components';
+import { FaBell } from 'react-icons/fa6';
+import { IconButton } from '@chakra-ui/react';
 const WorkspaceHeader = () => {
   return (
     <StContainer>
       <WhiteLogo width={'87px'} height={'22px'} />
       <SearchBar>검색창</SearchBar>
-      <Icon>알림</Icon>
+      <IconButton
+        icon={<FaBell size={'20px'} color="#575dfb" />}
+        bgColor={'grey.700'}
+        _hover={'grey.700'}
+        _active={'grey.700'}
+      />
     </StContainer>
   );
 };
@@ -20,7 +26,5 @@ const StContainer = styled.div`
   padding: 10px 30px;
   align-items: center;
   justify-content: space-between;
-  background-color: black;
+  background-color: #242424;
 `;
-
-const Icon = styled.div``;
