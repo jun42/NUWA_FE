@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import SideBar from '@components/SideBar/SideBar';
 import search from '../../assets/search.svg';
-import switchIcon1 from '../../assets/switchIcon1.svg';
-import switchIcon2 from '../../assets/switchIcon2.svg';
 import AdobeIcon from '../../assets/AdobeIcon.svg';
 import ellipsis_vertical from '../../assets/ellipsis-vertical.svg';
 import illustratorIcon from '../../assets/illustratorIcon.svg';
 import nofile from '../../assets/nofile.png';
 
 import file_bg from '../../assets/file_bg.jpg';
+import file_bg2 from '../../assets/file_bg2.jpeg';
+import profile from '../../assets/cham.png';
 
 import {
   Button,
@@ -25,60 +25,42 @@ import {
   WrapItem,
   Center,
   Input,
+  useDisclosure,
 } from '@chakra-ui/react';
 
-import styled from '@emotion/styled';
-
-const ASwitch = styled(Switch)(({ theme, switchState }) => ({
-  '& .chakra-switch__track': {
-    borderRadius: '22px',
-    width: '85px',
-    height: '34px',
-    position: 'relative',
-    backgroundColor: '#434343',
-    '&::before': {
-      content: '""',
-      position: 'absolute',
-      top: '50%',
-      transform: 'translateY(-50%)',
-      width: '22px',
-      height: '21px',
-      backgroundImage: switchState ? `url(${switchIcon1})` : 'none',
-      left: '16px',
-    },
-    '&::after': {
-      content: '""',
-      position: 'absolute',
-      top: '50%',
-      transform: 'translateY(-50%)',
-      width: '20px',
-      height: '20px',
-      backgroundImage: switchState ? 'none' : `url(${switchIcon2})`,
-      right: '16px',
-    },
-  },
-  '& .chakra-switch__thumb': {
-    boxShadow: 'none',
-    width: '30px',
-    height: '30px',
-    margin: '2px',
-    transform: 'translateX(0px)', // Thumb을 시작 지점에 위치하도록 설정
-    transition: 'transform 0.2s ease', // Thumb이 움직일 때 애니메이션 효과 적용
-  },
-  '& input:checked + .chakra-switch__track .chakra-switch__thumb': {
-    transform: 'translateX(51px)',
-  },
-}));
+import GridSwitch from './GridSwitch.jsx';
+import Modal from '../../components/Modal/Modal.jsx';
+import FileBox from './FileBox.jsx';
 
 const Files = () => {
-  const [switchState, setSwitchState] = useState(false);
+  const [switchstate, setSwitchstate] = useState(false);
   const handleChange = () => {
-    setSwitchState((prev) => !prev);
+    setSwitchstate((prev) => !prev);
   };
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selectedImg, setSelectedImg] = useState('');
 
   return (
     <Flex>
       <SideBar />
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        modalTitle={
+          <Flex align="center">
+            <Avatar size="md" src={profile} />
+            <Box ml="10px">
+              <Text fontSize="16px" fontWeight="600">
+                김뿌꾸님
+              </Text>
+              <Text fontSize="12px" fontWeight="400">
+                14일전 확인됨
+              </Text>
+            </Box>
+          </Flex>
+        }
+        children={<Image src={selectedImg} objectFit="cover" />}
+      />
       <Box w="100%" p="52px 63px">
         <Text fontSize="40px" fontWeight="600">
           파일
@@ -119,6 +101,7 @@ const Files = () => {
               fontSize="14px"
               fontWeight="500"
               p="12px 26px"
+              _hover={{ bgColor: 'gray' }}
             >
               From 박미송
             </Button>
@@ -238,7 +221,7 @@ const Files = () => {
               </Button>
             </ButtonGroup>
           </Flex>
-          <ASwitch switchState={switchState} onChange={handleChange} />
+          <GridSwitch switchstate={switchstate} onChange={handleChange} />
         </Flex>
         <Box
           css={{
@@ -254,43 +237,8 @@ const Files = () => {
               1월18일
             </Text>
             <Wrap spacing="40px">
-              <Box w="245px" h="185px">
-                <Center
-                  h="136px"
-                  backgroundColor="#D6D6D6"
-                  borderRadius="13px 13px 0 0"
-                >
-                  <Image
-                    src={file_bg}
-                    w="245px"
-                    h="136px"
-                    objectFit="cover"
-                    borderRadius="13px 13px 0 0"
-                  />
-                </Center>
-                <Box
-                  h="49px"
-                  backgroundColor="#F1F1F1"
-                  borderRadius="0 0 13px 13px"
-                  p="8px 14px"
-                  position="relative"
-                >
-                  <Text fontSize="12px" fontWeight="600">
-                    240118_촬영본 업데이트
-                  </Text>
-                  <Text fontSize="10px" fontWeight="500" color="#898989">
-                    박미송 1월 18일
-                  </Text>
-                  <IconButton
-                    size="xs"
-                    bgColor="#f1f1f1"
-                    icon={<Image src={ellipsis_vertical} alt="" />}
-                    position="absolute"
-                    top="12px"
-                    right="12px"
-                  />
-                </Box>
-              </Box>
+              <FileBox src={file_bg} />
+              <FileBox src={file_bg2} />
 
               <Box w="245px" h="185px">
                 <Center
@@ -739,7 +687,13 @@ const Files = () => {
             </Flex>
             <Divider color="#0000001A" m="15px 0" />
             <Flex m="15px 0">
-              <Flex w="52%" align="center" fontSize="18px" fontWeight="600">
+              <Flex
+                w="52%"
+                align="center"
+                fontSize="18px"
+                fontWeight="600"
+                cursor="pointer"
+              >
                 <Image src={illustratorIcon} m="0 15px" />
                 KakaoTalk_13211_312313
               </Flex>
@@ -878,11 +832,10 @@ const Files = () => {
             <Image src={nofile} />
             <Text>파일을 찾을 수가 없습니다.</Text>
             <Text display="flex">
-              팀원과{' '}
+              팀원과
               <Text color="#575DFB" m="0 5px">
-                {' '}
-                파일 공유{' '}
-              </Text>{' '}
+                파일 공유
+              </Text>
               를 해보세요.
             </Text>
           </Center>
