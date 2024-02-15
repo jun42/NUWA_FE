@@ -20,7 +20,7 @@ import {
 } from '@constants/channel/CHANNEL_TYPE';
 import add_sm from '@assets/add_sm.svg';
 
-const CreateChannel = () => {
+const CreateChannelModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [channelType, setChannelType] = useState('');
   const [channelOpenType, setChannelOpenType] = useState('');
@@ -72,4 +72,4 @@ const CreateChannel = () => {
   );
 };
 
-export default CreateChannel;
+export default CreateChannelModal;
