@@ -53,10 +53,6 @@ export const Router = createBrowserRouter([
             path: '/select-plan',
             element: <SelectPlan />,
           },
-          {
-            path: '/files',
-            element: <Files />,
-          },
           //oauth 회원 가입시 이메일과 provider(kakao,naver) 받는 페이지
           {
             path: '/signup/social',
@@ -118,7 +114,12 @@ export const Router = createBrowserRouter([
       {
         path: '/workspace',
         element: <WorkspaceLayout />,
-        children: [],
+        children: [
+          {
+            path: '/workspace/files',
+            element: <Files />,
+          },
+        ],
       },
     ],
   },

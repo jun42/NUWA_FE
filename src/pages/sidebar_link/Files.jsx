@@ -37,30 +37,12 @@ const Files = () => {
   const handleChange = () => {
     setSwitchstate((prev) => !prev);
   };
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [selectedImg, setSelectedImg] = useState('');
+
+  const [fileType, setFileType] = useState('all');
+  const [sortBy, setSortBy] = useState('date');
 
   return (
     <Flex>
-      <SideBar />
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        modalTitle={
-          <Flex align="center">
-            <Avatar size="md" src={profile} />
-            <Box ml="10px">
-              <Text fontSize="16px" fontWeight="600">
-                김뿌꾸님
-              </Text>
-              <Text fontSize="12px" fontWeight="400">
-                14일전 확인됨
-              </Text>
-            </Box>
-          </Flex>
-        }
-        children={<Image src={selectedImg} objectFit="cover" />}
-      />
       <Box w="100%" p="52px 63px">
         <Text fontSize="40px" fontWeight="600">
           파일
@@ -115,55 +97,80 @@ const Files = () => {
             <ButtonGroup gap="4px">
               <Button
                 borderRadius="8px"
-                bgColor="#575DFB"
-                color="white"
                 fontSize="14px"
                 fontWeight="500"
                 p="12px 26px"
+                bgColor={fileType === 'all' ? '#575DFB' : '#FFFFFF'}
+                color={fileType === 'all' ? 'white' : 'black'}
+                _hover={fileType === 'all' ? { bgColor: '#575DFB' } : undefined}
+                border={
+                  fileType === 'all' ? '1px solid #575DFB' : '1px solid #898989'
+                }
+                onClick={() => setFileType('all')}
               >
                 모든 파일
               </Button>
               <Button
-                border="1px solid #898989"
                 borderRadius="8px"
-                bgColor="#FFFFFF"
-                color="black"
                 fontSize="14px"
                 fontWeight="500"
                 p="12px 26px"
+                bgColor={fileType === 'pic' ? '#575DFB' : '#FFFFFF'}
+                color={fileType === 'pic' ? 'white' : 'black'}
+                _hover={fileType === 'pic' ? { bgColor: '#575DFB' } : undefined}
+                border={
+                  fileType === 'pic' ? '1px solid #575DFB' : '1px solid #898989'
+                }
+                onClick={() => setFileType('pic')}
               >
                 사진
               </Button>
               <Button
-                border="1px solid #898989"
                 borderRadius="8px"
-                bgColor="#FFFFFF"
-                color="black"
                 fontSize="14px"
                 fontWeight="500"
                 p="12px 26px"
+                bgColor={fileType === 'file' ? '#575DFB' : '#FFFFFF'}
+                color={fileType === 'file' ? 'white' : 'black'}
+                _hover={
+                  fileType === 'file' ? { bgColor: '#575DFB' } : undefined
+                }
+                border={
+                  fileType === 'file'
+                    ? '1px solid #575DFB'
+                    : '1px solid #898989'
+                }
+                onClick={() => setFileType('file')}
               >
                 파일
               </Button>
               <Button
-                border="1px solid #898989"
                 borderRadius="8px"
-                bgColor="#FFFFFF"
-                color="black"
                 fontSize="14px"
                 fontWeight="500"
                 p="12px 26px"
+                bgColor={fileType === 'zip' ? '#575DFB' : '#FFFFFF'}
+                color={fileType === 'zip' ? 'white' : 'black'}
+                _hover={fileType === 'zip' ? { bgColor: '#575DFB' } : undefined}
+                border={
+                  fileType === 'zip' ? '1px solid #575DFB' : '1px solid #898989'
+                }
+                onClick={() => setFileType('zip')}
               >
                 ZIP
               </Button>
               <Button
-                border="1px solid #898989"
                 borderRadius="8px"
-                bgColor="#FFFFFF"
-                color="black"
                 fontSize="14px"
                 fontWeight="500"
                 p="12px 26px"
+                bgColor={fileType === 'pdf' ? '#575DFB' : '#FFFFFF'}
+                color={fileType === 'pdf' ? 'white' : 'black'}
+                _hover={fileType === 'pdf' ? { bgColor: '#575DFB' } : undefined}
+                border={
+                  fileType === 'pdf' ? '1px solid #575DFB' : '1px solid #898989'
+                }
+                onClick={() => setFileType('pdf')}
               >
                 PDF
               </Button>
@@ -178,44 +185,61 @@ const Files = () => {
             <ButtonGroup gap="4px">
               <Button
                 borderRadius="8px"
-                bgColor="#575DFB"
-                color="white"
                 fontSize="14px"
                 fontWeight="500"
                 p="12px 26px"
+                bgColor={sortBy === 'date' ? '#575DFB' : '#FFFFFF'}
+                color={sortBy === 'date' ? 'white' : 'black'}
+                _hover={sortBy === 'date' ? { bgColor: '#575DFB' } : undefined}
+                border={
+                  sortBy === 'date' ? '1px solid #575DFB' : '1px solid #898989'
+                }
+                onClick={() => setSortBy('date')}
               >
                 날짜 순
               </Button>
               <Button
-                border="1px solid #898989"
                 borderRadius="8px"
-                bgColor="#FFFFFF"
-                color="black"
                 fontSize="14px"
                 fontWeight="500"
                 p="12px 26px"
+                bgColor={sortBy === 'name' ? '#575DFB' : '#FFFFFF'}
+                color={sortBy === 'name' ? 'white' : 'black'}
+                _hover={sortBy === 'name' ? { bgColor: '#575DFB' } : undefined}
+                border={
+                  sortBy === 'name' ? '1px solid #575DFB' : '1px solid #898989'
+                }
+                onClick={() => setSortBy('name')}
               >
                 이름 순
               </Button>
               <Button
-                border="1px solid #898989"
                 borderRadius="8px"
-                bgColor="#FFFFFF"
-                color="black"
                 fontSize="14px"
                 fontWeight="500"
                 p="12px 26px"
+                bgColor={sortBy === 'size' ? '#575DFB' : '#FFFFFF'}
+                color={sortBy === 'size' ? 'white' : 'black'}
+                _hover={sortBy === 'size' ? { bgColor: '#575DFB' } : undefined}
+                border={
+                  sortBy === 'size' ? '1px solid #575DFB' : '1px solid #898989'
+                }
+                onClick={() => setSortBy('size')}
               >
                 크기 순
               </Button>
               <Button
-                border="1px solid #898989"
                 borderRadius="8px"
-                bgColor="#FFFFFF"
-                color="black"
                 fontSize="14px"
                 fontWeight="500"
                 p="12px 26px"
+                bgColor={sortBy === 'type' ? '#575DFB' : '#FFFFFF'}
+                color={sortBy === 'type' ? 'white' : 'black'}
+                _hover={sortBy === 'type' ? { bgColor: '#575DFB' } : undefined}
+                border={
+                  sortBy === 'type' ? '1px solid #575DFB' : '1px solid #898989'
+                }
+                onClick={() => setSortBy('type')}
               >
                 유형 순
               </Button>
