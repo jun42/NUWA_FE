@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { Flex, Text, Button } from "@chakra-ui/react"; 
 import mainTool from'@assets/mainTool.png';

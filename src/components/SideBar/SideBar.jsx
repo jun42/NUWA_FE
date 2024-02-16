@@ -26,7 +26,7 @@ import {
   Divider,
 } from '@chakra-ui/react';
 import UserInfo from './UserInfo';
-import CreateChannel from '../Channel/CreateChannel';
+import CreateChannel from '../Channel/CreateChannelModal';
 
 const SideBar = () => {
   return (
