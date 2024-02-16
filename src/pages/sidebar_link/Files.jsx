@@ -42,7 +42,7 @@ const Files = () => {
   const [sortBy, setSortBy] = useState('date');
 
   return (
-    <Flex>
+    <Flex h="100%">
       <Box w="100%" p="52px 63px">
         <Text fontSize="40px" fontWeight="600">
           파일
@@ -69,12 +69,7 @@ const Files = () => {
             _placeholder={{ color: 'black' }}
           />
         </Box>
-        <Flex
-          height="40px"
-          position="relative"
-          justify="space-between"
-          m="32px 0"
-        >
+        <Flex position="relative" justify="space-between" m="32px 0">
           <Flex>
             <Button
               borderRadius="8px"
@@ -252,8 +247,8 @@ const Files = () => {
             '&::-webkit-scrollbar': {
               display: 'none',
             },
-            height: 'calc(100vh - 277px)',
           }}
+          h="calc(100% - 184px)"
           overflowY="scroll"
         >
           <Box m="64px 0">

@@ -6,7 +6,7 @@ const WorkspaceLayout = () => {
   return (
     <>
       <WorkspaceHeader />
-      <Flex>
+      <Flex h="calc(100vh - 60px)">
         <SideBar />
         <Outlet />
       </Flex>
