@@ -13,9 +13,9 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <>
-      <GlobalStyle />
       <ThemeProvider theme={theme}>
         <ChakraProvider theme={chakraTheme}>
+          <GlobalStyle />
           <QueryClientProvider client={queryClient}>
             <ReactQueryDevtools initialIsOpen={false} />
             <AuthProvider>

@@ -26,12 +26,12 @@ import {
   Divider,
 } from '@chakra-ui/react';
 import UserInfo from './UserInfo';
-import CreateChannel from '../Channel/CreateChannel';
+import CreateChannel from '../Channel/CreateChannelModal';
 
 const SideBar = () => {
   return (
     <Flex>
-      <Box w="80px" h="100vh" backgroundColor="#5158ff" p="0 16px">
+      <Box w="80px" backgroundColor="#5158ff" p="0 16px">
         <Flex justify="center" pt="32px">
           <img src={workspace} alt="" />
         </Flex>
@@ -41,7 +41,6 @@ const SideBar = () => {
       </Box>
       <Box
         w="327px"
-        h="100vh"
         backgroundColor="#f1f1f1"
         p="0 18px"
         overflowY="scroll"
