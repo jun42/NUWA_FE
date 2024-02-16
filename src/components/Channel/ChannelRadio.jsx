@@ -1,5 +1,11 @@
 import { Flex, Image, Radio, RadioGroup, Stack } from '@chakra-ui/react';
-
+/**
+ *
+ * @param {string} name
+ * @param {string} value : react state
+ * @param {SetStateAction} state react setState
+ * @param {Array} RadioConstants 라디오 선택지 데이터 담긴 상수 배열
+ */
 const ChannelRadio = ({ name, RadioConstants, value, setValue }) => {
   return (
     <Flex flexDirection={'column'} gap={'14px'} pb={'4rem'} fontSize={'14px'}>
@@ -13,7 +19,7 @@ const ChannelRadio = ({ name, RadioConstants, value, setValue }) => {
               key={item.id}
             >
               <Flex gap={'8px'}>
-                <Image src={item.icon} />
+                <Image src={item.icon} alt={'아이콘'} />
                 <div>{item.label + ' - ' + item.description}</div>
               </Flex>
               <Radio
