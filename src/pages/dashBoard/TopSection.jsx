@@ -1,12 +1,12 @@
-import {Flex} from '@chakra-ui/react';
-import ComponentOne from './ComponertOne'  
+import { Grid } from '@chakra-ui/react';
+import ComponentLogin from './ComponentLogin'  
 
 const TopSection = () => {
   return (
-    <Flex justify="space-between">
-      <ComponentOne/>
+    <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+      <ComponentLogin/>
 
-    </Flex>
+    </Grid>
   )
 }
 

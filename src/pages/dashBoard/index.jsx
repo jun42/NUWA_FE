@@ -1,15 +1,18 @@
 import React from 'react'
-import {Flex} from '@chakra-ui/react'
+import { Grid } from '@chakra-ui/react'
 import TopSection from './TopSection' 
+import styled from 'styled-components'
 
 
 const dashBoard = () => {
   return (
     <StContainer>
-      <Flex direction="column" >
-        <TopSection/>
+      <Grid templateRows="" gap={6} >
+      <TopSection/>
         {/* <BottomSection/> */}
-      </Flex>
+
+      </Grid>
+       
     </StContainer>
   )
 }
@@ -20,5 +23,5 @@ export default dashBoard;
 const StContainer = styled.div`
     width: 100%;
     height: 100%;
-    display: flex;
+    display: grid;
 `;

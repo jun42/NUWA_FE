@@ -23,6 +23,7 @@ import HelpDesk from '@pages/HelpDesk';
 import MainLayout from '@components/Layout/MainLayout';
 import WorkspaceLayout from '@components/Layout/WorkspaceLayout';
 import InviteMember from '@pages/createWorkspace/create/inviteMember';
+import DashBoard from '@pages/dashBoard';
 
 
 export const Router = createBrowserRouter([
@@ -82,6 +83,10 @@ export const Router = createBrowserRouter([
           {
             path: '/workAccess',
             element: <WorkAccess />,
+          },
+          {
+            path: '/dashBoard',
+            element: <DashBoard/> 
           },
           { path: '/helpdesk', element: <HelpDesk /> },
         ],

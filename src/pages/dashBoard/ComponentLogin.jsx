@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {Box, Image, Text, Button, VStack, Flex } from '@chakra-ui/react';
 
 const mockUserInfo = {
@@ -11,8 +11,8 @@ const mockUserInfo = {
 
 
 
-const ComponertOne = () => {
-   const [userInfo, setUserInfo] = userState(mockUserInfo);
+const ComponentLogin = () => {
+   const [userInfo, setUserInfo] = useState(mockUserInfo);
 
    //api 호출시 대체 로직 구현예정
    
@@ -26,6 +26,16 @@ const ComponertOne = () => {
          src={userInfo.imageUrl}
          alt="프로필사진"     
          />
+         <Text fontSize="xl" > {userInfo.name}</Text>
+         <Text fontSize="md" > {userInfo.position}</Text>
+         <Text fontSize="sm" > {userInfo.email}</Text>
+         <Text fontSize="sm" > {userInfo.phone}</Text>
+         <Flex W="full" justify="center">
+          <Button mt={4}>프로필 편집 </Button>
+
+         </Flex>
+
+
 
 
       </VStack>
@@ -35,4 +45,4 @@ const ComponertOne = () => {
   )
 }
 
-export default ComponertOne
+export default ComponentLogin
