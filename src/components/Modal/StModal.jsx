@@ -1,16 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Flex, Text, CloseButton } from '@chakra-ui/react';
-const Modal = ({ isOpen, onClose, modalTitle, children, width, height }) => {
+const Modal = ({
+  isOpen,
+  onClose,
+  modalTitle,
+  subTitle,
+  children,
+  width,
+  height,
+}) => {
   return (
     <ModalContainer isOpen={isOpen}>
       <ModalContent width={width} height={height}>
         <ModalHeader>
           <Flex justify="space-between" alignItems="center">
-            <Text fontSize={'lg'} fontWeight={'bold'}>
-              {modalTitle}
-            </Text>
-            <CloseButton onClick={onClose} />
+            <Flex flexFlow={'column'}>
+              <Text fontSize={'2xl'} fontWeight={'bold'}>
+                {modalTitle}
+              </Text>
+              <Text fontSize={'xs'} fontWeight={'bold'} color={'grey'}>
+                {subTitle}
+              </Text>
+            </Flex>
+            <CloseButton onClick={onClose} size={'lg'} />
           </Flex>
         </ModalHeader>
         <ModalBody>{children}</ModalBody>

@@ -10,7 +10,7 @@ import NotCanvasData from '@components/DataBox/NotCanvasData';
 import CanvasModal from '@components/Modal/CanvasModal/index.jsx';
 import useModal from '@hooks/useModal';
 import WorkSpaceModalEdit from '@components/Modal/WorkspaceEdit';
-
+import StateModal from '@components/Modal/StateModal';
 const Canvas = () => {
   const { isOpen, onOpen, onClose } = useModal();
   return (
@@ -36,7 +36,8 @@ const Canvas = () => {
         <GreySort label="필터" />
         <GreySort label="정렬" />
       </Flex>
-
+      {/* <WorkSpaceModalEdit /> */}
+      <StateModal />
       <CanvasModal isOpen={isOpen} onClose={onClose} />
       <DataContainer>
         {canvas_data.length > 0 ? (
