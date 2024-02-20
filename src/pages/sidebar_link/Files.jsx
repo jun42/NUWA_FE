@@ -25,6 +25,7 @@ import {
   Center,
   Input,
   useDisclosure,
+  Checkbox,
 } from '@chakra-ui/react';
 
 import GridSwitch from './GridSwitch.jsx';
@@ -39,6 +40,7 @@ const Files = () => {
 
   const [fileType, setFileType] = useState('all');
   const [sortBy, setSortBy] = useState('date');
+  const [isOpen, setIsOpen] = useState(false);
 
   const data = [
     {
@@ -97,17 +99,82 @@ const Files = () => {
         </Box>
         <Flex position="relative" justify="space-between" m="32px 0">
           <Flex>
-            <Button
-              borderRadius="8px"
-              bgColor="#242424"
-              color="white"
-              fontSize="14px"
-              fontWeight="500"
-              p="12px 26px"
-              _hover={{ bgColor: 'gray' }}
-            >
-              From 박미송
-            </Button>
+            <Box position="relative">
+              <Button
+                borderRadius="8px"
+                bgColor="#242424"
+                color="white"
+                fontSize="14px"
+                fontWeight="500"
+                p="12px 26px"
+                _hover={{ bgColor: 'gray' }}
+                onClick={() => {
+                  setIsOpen(!isOpen);
+                }}
+              >
+                From 박미송
+              </Button>
+              {isOpen && (
+                <>
+                  <Box
+                    position="fixed"
+                    top="0"
+                    left="0"
+                    right="0"
+                    bottom="0"
+                    zIndex="99"
+                    onClick={() => {
+                      setIsOpen(false);
+                    }}
+                  />
+                  <Box w="100%" position="absolute" zIndex="100" mt="2px">
+                    <Flex
+                      flexDir="column"
+                      w="150%"
+                      zIndex="100"
+                      border="1px solid gray"
+                      borderRadius="md"
+                      backgroundColor="#f8f8f8"
+                    >
+                      <Center>
+                        <Input
+                          m="8px"
+                          backgroundColor="white"
+                          fontSize="14px"
+                          fontWeight="500"
+                          border="1px solid #767676"
+                          borderRadius="8px"
+                          placeholder="예: 고길동"
+                          _placeholder={{ color: 'black' }}
+                        />
+                      </Center>
+                      <Button
+                        fontSize="14px"
+                        fontWeight="500"
+                        color="#656565"
+                        w="100%"
+                        justifyContent="flex-start"
+                        backgroundColor="#f8f8f8"
+                      >
+                        <Checkbox backgroundColor="white" />
+                        김형섭
+                      </Button>
+                      <Button
+                        fontSize="14px"
+                        fontWeight="500"
+                        color="#656565"
+                        w="100%"
+                        justifyContent="flex-start"
+                        backgroundColor="#f8f8f8"
+                      >
+                        <Checkbox backgroundColor="white" />
+                        정현승
+                      </Button>
+                    </Flex>
+                  </Box>
+                </>
+              )}
+            </Box>
 
             <Divider
               orientation="vertical"
