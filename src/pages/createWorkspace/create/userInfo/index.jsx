@@ -89,7 +89,7 @@ const UserInfo = () => {
                 프로필 설정하기
               </Button>
               <ButtonGroup mt="10px" w="320px">
-                <Link to="/create-workspace/workspace-name" state={{workspaceName:workspace.workSpaceName}}>
+                <Link to="/create-workspace/workspace-name" state={{...workspace}}>
                   <Button rounded="50px" w="170px" name="prev">
                     이전
                   </Button>
