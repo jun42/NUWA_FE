@@ -16,7 +16,8 @@ import  { centerCrop, makeAspectCrop } from 'react-image-crop';
 const ASPECT_RATIO = 1;
 const MIN_DIMENSION = 500;
 
-const ModalBody = () => {
+const ModalBody = ({userInfo}) => {
+  const {userName, userJob} = userInfo
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [corpImageSrc, setCorpImageSrc] = useState('');
   const [imageSrc, setImageSrc] = useState('');
@@ -85,13 +86,13 @@ const ModalBody = () => {
                   <Text fontSize="md" fontWeight={500} color="#898989">
                     이름
                   </Text>
-                  김선미
+                  {userName}
                 </Text>
                 <Text fontSize="lg" fontWeight={600}>
                   <Text fontSize="md" fontWeight={500} color="#898989">
                     직무
                   </Text>
-                  프론트엔드
+                  {userJob}
                 </Text>
               </Flex>
               <Text mt="20px" fontSize="lg" fontWeight={600}>
