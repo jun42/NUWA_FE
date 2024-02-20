@@ -1,28 +1,37 @@
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import Image from '@components/Image/Image';
 import WorksapceNameImg from '@assets/workspace_name.png';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import useBoundStore from '@store/store';
 import Form from '@components/Form/createWorkspace/Form';
 import { WORKERSPACE_FORM_MESSAGE } from '@constants/workspace/WORKSPACE_FORM_MESSAGE';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const CreateWorkSapceName = () => {
   const navigate = useNavigate();
-  const [workspaceName, setWorkspaceName] = useState('')
-  const {workspace,setWorkspace} = useBoundStore();
+  const { state } = useLocation();
+  const [workspaceName, setWorkspaceName] = useState('');
+  const { workspace, setWorkspace } = useBoundStore();
+  
   const handleInputChange = (event) => {
-    const { value, } = event.target;
+    const { value } = event.target;
 
     setWorkspaceName(value);
   };
-  
+
   const handleButtonClick = () => {
-    if (workspaceName) { 
-      setWorkspace({...workspace, workspaceName: workspaceName});
-      navigate('/create-workspace/user-info');}
+    if (workspaceName) {
+      setWorkspace({ ...workspace, workSpaceName: workspaceName });
+      navigate('/create-workspace/user-info');
+    }
   };
+
+  useEffect(()=>{
+    if(state){
+      setWorkspaceName(state.workspaceName);
+    }
+  },[state])
 
   return (
     <>
@@ -30,7 +39,7 @@ const CreateWorkSapceName = () => {
         alignItems="center"
         justifyContent="space-between"
         h={362}
-        gap="134px"
+        gap="126px"
       >
         <Box h="362px" w="420px">
           <Text as="p" fontSize="3xl" fontWeight="700" mb="16px">
@@ -60,7 +69,7 @@ const CreateWorkSapceName = () => {
               value={workspaceName}
               placeholder="워크페이스를 입력해주세요."
               onChange={handleInputChange}
-              formMessage ={WORKERSPACE_FORM_MESSAGE.workspaceName}
+              formMessage={WORKERSPACE_FORM_MESSAGE.workspaceName}
             />
             <Button
               rounded="50px"
