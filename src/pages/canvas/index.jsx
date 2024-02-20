@@ -6,9 +6,10 @@ import OutletSearchBar from '@components/SearchBar/OutletSearchBar';
 import GreySort from '@components/Button/GreySort';
 import CanvasData from '@components/DataBox/CanvasData';
 import { canvas_data } from '@constants/selectPlan/SELECT_ALL_INFO';
-import NotCanvasData from '../../components/DataBox/NotCanvasData';
+import NotCanvasData from '@components/DataBox/NotCanvasData';
 import CanvasModal from '@components/Modal/CanvasModal/index.jsx';
 import useModal from '@hooks/useModal';
+import WorkSpaceModalEdit from '@components/Modal/WorkspaceEdit';
 
 const Canvas = () => {
   const { isOpen, onOpen, onClose } = useModal();
