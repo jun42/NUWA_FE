@@ -4,34 +4,33 @@ import FormControl from '../FormControl';
 import FormMessage from '../FormMessage';
 
 const UserInfoForm = ({
-  userName,
-  userJobName,
   userNameValue,
   userJobValue,
   formMessage,
   onChange,
   ...props
 }) => {
-  const { userName: user_name, userJob: user_job } = formMessage;
+  const { userName, userJob } = formMessage;
+
   return (
     <InputGroup display="block" mt="40px">
       <FormControl value={userNameValue}>
         <TextInput
           {...props}
-          name={userName}
+          name="userName"
           value={userNameValue}
           onChange={onChange}
         />
-        <FormMessage formMessage={user_name} />
+        <FormMessage formMessage={userName} value={userNameValue} />
       </FormControl>
-      <FormControl value={userJobValue} m="20px 0px">
+      <FormControl value={userJobValue} m="10px 0px">
         <TextInput
           {...props}
-          name={userJobName}
+          name="userJob"
           value={userJobValue}
           onChange={onChange}
         />
-        <FormMessage formMessage={user_job} />
+        <FormMessage formMessage={userJob} value={userJobValue}/>
       </FormControl>
     </InputGroup>
   );

@@ -7,10 +7,13 @@ const Form = ({
   formMessage,
   name,
   value,
+  userNameValue,
+  userJobValue,
   onClick,
   onChange,
   ...props
 }) => {
+  
   const renderFormType = (formType) => {
     switch (formType) {
       case 'workspaceName':
@@ -24,7 +27,15 @@ const Form = ({
           />
         );
       case 'userInfo':
-        return <UserInfoForm {...props} formMessage={formMessage} />;
+        return (
+          <UserInfoForm
+            {...props}
+            userJobValue={userJobValue}
+            userNameValue={userNameValue}
+            onChange={onChange}
+            formMessage={formMessage}
+          />
+        );
       case 'workInfo':
         return (
           <WorkInfoForm
