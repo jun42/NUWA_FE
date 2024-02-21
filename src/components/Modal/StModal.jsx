@@ -1,16 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Flex, Text, CloseButton } from '@chakra-ui/react';
-const Modal = ({ isOpen, onClose, modalTitle, children }) => {
+const Modal = ({
+  isOpen,
+  onClose,
+  modalTitle,
+  subTitle,
+  children,
+  width,
+  height,
+}) => {
   return (
     <ModalContainer isOpen={isOpen}>
-      <ModalContent>
+      <ModalContent width={width} height={height}>
         <ModalHeader>
           <Flex justify="space-between" alignItems="center">
-            <Text fontSize={'lg'} fontWeight={'bold'}>
-              {modalTitle}
-            </Text>
-            <CloseButton onClick={onClose} />
+            <Flex flexFlow={'column'}>
+              <Text fontSize={'2xl'} fontWeight={'bold'}>
+                {modalTitle}
+              </Text>
+              <Text fontSize={'xs'} fontWeight={'bold'} color={'grey'}>
+                {subTitle}
+              </Text>
+            </Flex>
+            <CloseButton onClick={onClose} size={'lg'} />
           </Flex>
         </ModalHeader>
         <ModalBody>{children}</ModalBody>
@@ -37,14 +50,17 @@ const ModalContent = styled.div`
   background-color: white;
   padding: 20px;
   border-radius: 10px;
-  width: 50%;
-  height: 80%;
+  width: ${(props) => props.width || '50%'};
+  height: ${(props) => props.height || '80%'};
   display: flex;
   flex-flow: column;
   gap: 20px;
 `;
 
-const ModalHeader = styled.div``;
+const ModalHeader = styled.div`
+  width: 100%;
+  height: 10%;
+`;
 
 const ModalBody = styled.div`
   width: 100%;
