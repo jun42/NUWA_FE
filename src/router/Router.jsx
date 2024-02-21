@@ -82,10 +82,6 @@ export const Router = createBrowserRouter([
             path: '/workAccess',
             element: <WorkAccess />,
           },
-          {
-            path: '/dashBoard',
-            element: <DashBoard/> 
-          },
           { path: '/helpdesk', element: <HelpDesk /> },
         ],
       },
