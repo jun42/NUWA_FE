@@ -2,6 +2,7 @@ import React from 'react';
 import StModal from '../StModal';
 import ModalBody from './ModalBody';
 const WorkSpaceModalEdit = ({ isOpen, onClose }) => {
+  if (!isOpen) return null;
   return (
     <StModal
       isOpen={isOpen}

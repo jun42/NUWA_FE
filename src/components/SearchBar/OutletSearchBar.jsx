@@ -7,7 +7,7 @@ const OutletSearchBar = () => {
     <InputGroup m={'32px 0px'}>
       <InputLeftElement
         pointerEvents="none"
-        // children={<Image src={search} boxSize="1.3rem" />}
+        children={<Image src={search} boxSize="1.3rem" />}
       />
       <Input
         w="100%"

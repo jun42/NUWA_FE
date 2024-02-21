@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Grid,
@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { state_seticon } from '@constants/selectPlan/SELECT_STATE_INFO';
 const ModalBody = () => {
+  const [selectedBox, setSelectedBox] = useState(null);
   return (
     <>
       <VStack spacing={4}>
@@ -28,6 +29,9 @@ const ModalBody = () => {
                 alignItems={'center'}
                 justifyContent={'center'}
                 borderRadius={'15px'}
+                cursor={'pointer'}
+                border={selectedBox === i ? '2px solid #575DFB' : 'none'}
+                onClick={() => setSelectedBox(i)}
               >
                 {/* 아이콘 이미지 또는 컴포넌트를 여기에 표시 */}
                 <Image src={state.icon} boxSize="60px" />
