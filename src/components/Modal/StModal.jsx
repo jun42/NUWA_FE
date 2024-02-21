@@ -15,7 +15,7 @@ const Modal = ({
       <ModalContent width={width} height={height}>
         <ModalHeader>
           <Flex justify="space-between" alignItems="center">
-            <Flex flexFlow={'column'}>
+            <Flex flexDir={'column'} justify={'flex-start'}>
               <Text fontSize={'2xl'} fontWeight={'bold'}>
                 {modalTitle}
               </Text>
@@ -44,6 +44,7 @@ const ModalContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 10;
 `;
 
 const ModalContent = styled.div`
@@ -64,5 +65,5 @@ const ModalHeader = styled.div`
 
 const ModalBody = styled.div`
   width: 100%;
-  height: 100%;
+  height: 90%;
 `;

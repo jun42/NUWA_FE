@@ -3,6 +3,7 @@ import StModal from '../StModal';
 import ModalBody from './ModalBody';
 import { Text } from '@chakra-ui/react';
 const index = ({ isOpen, onClose }) => {
+  if (!isOpen) return null;
   return (
     <div>
       <StModal
