@@ -4,6 +4,7 @@ import CustomToolBar from './CustomToolbar';
 import CustomToolbarBottom from './CustomToolbarBottom';
 import ReactQuill from 'react-quill';
 import './TextEditor.css';
+import 'react-quill/dist/quill.snow.css';
 
 const TextEditor = ({ width = '100%' }) => {
   const [value, setValue] = useState({ editorHtml: '' });
