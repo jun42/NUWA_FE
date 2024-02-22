@@ -9,30 +9,29 @@
   gap: 0.7rem;
   align-items: center;
   border: none;
+}
 
-  button {
-    border-radius: 4px;
-    padding: 2px;
-    display: flex;
-    justify-content: center;
+#toolbar button {
+  border-radius: 4px;
+  padding: 2px;
+  display: flex;
+  justify-content: center;
+}
+.toolbar-top__icon {
+  border-radius: 2px;
+  &:hover {
+    background-color: #d6d6d6;
   }
-
-  .toolbar-top__icon {
-    border-radius: 2px;
-    &:hover {
-      background-color: #d6d6d6;
-    }
-    &:active {
-      background-color: #afafaf;
-    }
+  &:active {
+    background-color: #afafaf;
   }
+}
 
-  .toolbar-bottom__icon {
-    &:hover {
-      background-color: #434343;
-    }
-    &:active {
-      background-color: #656565;
-    }
+.toolbar-bottom__icon {
+  &:hover {
+    background-color: #434343;
+  }
+  &:active {
+    background-color: #656565;
   }
 }
