@@ -1,8 +1,9 @@
 import { Box } from '@chakra-ui/react';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import CustomToolBar from './CustomToolbar';
 import CustomToolbarBottom from './CustomToolbarBottom';
 import ReactQuill from 'react-quill';
+import './TextEditor.css';
 
 const TextEditor = ({ width = '100%' }) => {
   const [value, setValue] = useState({ editorHtml: '' });
@@ -12,16 +13,14 @@ const TextEditor = ({ width = '100%' }) => {
       container: '#toolbar',
     },
   };
-  const formats = ['bold', 'italic', 'strike'];
+  const formats = ['bold', 'italic', 'strike', 'link'];
   const handleChange = (html) => {
     setValue({ editorHtml: html });
+    console.log(value);
   };
 
   return (
-    <Box border={'1px'} height={'15vh'} width={width}>
-      <div>
-        <i>hi</i>
-      </div>
+    <Box height={'15vh'} width={width}>
       <CustomToolBar />
       <ReactQuill onChange={handleChange} modules={modules} formats={formats} />
       <CustomToolbarBottom />

@@ -1,14 +1,13 @@
-import { Box, Divider } from '@chakra-ui/react';
-import BoldImage from '../../assets/textEditor/bold.svg';
-import ItalicImage from '../../assets/textEditor/italic.svg';
-import StrikeThroughImage from '../../assets/textEditor/strikethrough.svg';
-import LinkImage from '../../assets/textEditor/link.svg';
-import NumberListImage from '../../assets/textEditor/number-list.svg';
-import BulletListImage from '../../assets/textEditor/bullet-list.svg';
-import CodeImage from '../../assets/textEditor/code.svg';
-import CodeBlockImage from '../../assets/textEditor/code-block.svg';
-import { forwardRef, useEffect } from 'react';
-const CustomToolBar = forwardRef(function CustomToolbar(props, ref) {
+import { Divider } from '@chakra-ui/react';
+import BoldImage from '@assets/textEditor/bold.svg';
+import ItalicImage from '@assets/textEditor/italic.svg';
+import StrikeThroughImage from '@assets/textEditor/strikethrough.svg';
+import LinkImage from '@assets/textEditor/link.svg';
+import NumberListImage from '@assets/textEditor/number-list.svg';
+import BulletListImage from '@assets/textEditor/bullet-list.svg';
+// import CodeImage from '../../assets/textEditor/code.svg';
+import CodeBlockImage from '@assets/textEditor/code-block.svg';
+const CustomToolBar = () => {
   return (
     <div className="toolbar-top__container">
       <div className="toolbar-top" id="toolbar">
@@ -24,17 +23,17 @@ const CustomToolBar = forwardRef(function CustomToolbar(props, ref) {
 
         <ToolBarDevider />
 
-        <ToolBarIcon src={NumberListImage} />
+        <ToolBarIcon className="ql-list" src={NumberListImage} />
         <ToolBarIcon src={BulletListImage} />
 
         <ToolBarDevider />
 
-        <ToolBarIcon src={CodeImage} />
-        <ToolBarIcon className="ql-code" src={CodeBlockImage} />
+        {/* <ToolBarIcon src={CodeImage} /> */}
+        <ToolBarIcon className="ql-codeblock" src={CodeBlockImage} />
       </div>
     </div>
   );
-});
+};
 
 export default CustomToolBar;
 

@@ -1,15 +1,14 @@
 import { GrSend } from 'react-icons/gr';
 import './CustomToolbarBottom.css';
-import EmojiIcon from '../../assets/textEditor/emoji-1.svg';
-import FormattingIcon from '../../assets/textEditor/formatting.svg';
-import MentionIcon from '../../assets/textEditor/mention.svg';
-import { forwardRef } from 'react';
+import EmojiIcon from '@assets/textEditor/emoji-1.svg';
+import FormattingIcon from '@assets/textEditor/formatting.svg';
+import MentionIcon from '@assets/textEditor/mention.svg';
 
 const CustomToolbarBottom = () => {
   return (
     <div className="toolbar-bottom">
       <div id="toolbar">
-        {/*TODO + 버튼 */}
+        {/*TODO  + 버튼 */}
         {/* hide formatting show formatting button */}
         <button className="toolbar-bottom__icon">
           <img src={EmojiIcon} alt="포매팅 아이콘" />
