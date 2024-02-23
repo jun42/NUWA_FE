@@ -8,37 +8,63 @@ import {
 } from '@chakra-ui/react';
 import Image from '@components/Image/Image';
 import UserInfoImg from '@assets/user-info.png';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import CreateProfileImage from '@components/Modal/ProfileModal/create/CreateProfileImage';
 import Form from '@components/Form/createWorkspace/Form';
 import { WORKERSPACE_FORM_MESSAGE } from '@constants/workspace/WORKSPACE_FORM_MESSAGE';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useBoundStore from '@store/store';
+import { getToken } from '@utils/auth';
+import { jwtDecode } from 'jwt-decode';
+
 
 const UserInfo = () => {
+  const email = jwtDecode(getToken()).sub
+
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const { workspace, setWorkspace } = useBoundStore();
+  const { workSpaceMemberName, workSpaceMemberJob, workSpaceMemberImage } =
+    state;
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [userInfo, setUserInfo] = useState({
-    userName: '',
-    userJob: '',
-    profile: '',
+    workSpaceMemberName: '',
+    workSpaceMemberJob: '',
+    workSpaceMemberImage: '',
   });
+  console.log(userInfo)
 
   const handleFormChange = (event) => {
     const { name, value } = event.target;
     setUserInfo({ ...userInfo, [name]: value });
+    setWorkspace({
+      ...workspace,
+      [name]: value,
+    });
   };
-  const { workspace } = useBoundStore();
-  console.log(workspace.workSpaceName);
+
   const handleButttonClick = () => {
-    navigate('/create-workspace/work');
+    navigate('/create-workspace/work', { state: { ...state } });
   };
+
+  useEffect(() => {
+    const isPrevSatet = workSpaceMemberName && workSpaceMemberJob;
+    if (isPrevSatet)
+      setUserInfo({
+        workSpaceMemberName,
+        workSpaceMemberJob,
+        workSpaceMemberImage,
+      });
+  }, [workSpaceMemberName, workSpaceMemberJob, workSpaceMemberImage]);
   return (
     <>
       <CreateProfileImage
         isOpen={isOpen}
         onClose={onClose}
         userInfo={userInfo}
+        setUserInfo={setUserInfo}
+        email={email}
       />
       <Flex
         alignItems="center"
@@ -75,8 +101,8 @@ const UserInfo = () => {
               border="2px"
               borderColor="#8989897a"
               formMessage={WORKERSPACE_FORM_MESSAGE.userInfo}
-              userNameValue={userInfo.userName}
-              userJobValue={userInfo.userJob}
+              userNameValue={userInfo.workSpaceMemberName}
+              userJobValue={userInfo.workSpaceMemberJob}
               onChange={handleFormChange}
             />
             <ButtonGroup
@@ -89,7 +115,10 @@ const UserInfo = () => {
                 프로필 설정하기
               </Button>
               <ButtonGroup mt="10px" w="320px">
-                <Link to="/create-workspace/workspace-name" state={{...workspace}}>
+                <Link
+                  to="/create-workspace/workspace-name"
+                  state={{ ...workspace }}
+                >
                   <Button rounded="50px" w="170px" name="prev">
                     이전
                   </Button>

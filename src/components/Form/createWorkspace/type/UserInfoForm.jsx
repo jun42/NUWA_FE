@@ -11,13 +11,13 @@ const UserInfoForm = ({
   ...props
 }) => {
   const { userName, userJob } = formMessage;
-
+  console.log(userJobValue)
   return (
     <InputGroup display="block" mt="40px">
       <FormControl value={userNameValue}>
         <TextInput
           {...props}
-          name="userName"
+          name="workSpaceMemberName"
           value={userNameValue}
           onChange={onChange}
         />
@@ -26,7 +26,7 @@ const UserInfoForm = ({
       <FormControl value={userJobValue} m="10px 0px">
         <TextInput
           {...props}
-          name="userJob"
+          name="workSpaceMemberJob"
           value={userJobValue}
           onChange={onChange}
         />

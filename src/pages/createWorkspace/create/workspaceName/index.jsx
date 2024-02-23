@@ -13,25 +13,25 @@ const CreateWorkSapceName = () => {
   const { state } = useLocation();
   const [workspaceName, setWorkspaceName] = useState('');
   const { workspace, setWorkspace } = useBoundStore();
-  
+  const {workSpaceName} = state || {}
   const handleInputChange = (event) => {
     const { value } = event.target;
 
     setWorkspaceName(value);
+    setWorkspace({ ...workspace, workSpaceName: value });
   };
 
   const handleButtonClick = () => {
     if (workspaceName) {
-      setWorkspace({ ...workspace, workSpaceName: workspaceName });
-      navigate('/create-workspace/user-info');
+      navigate('/create-workspace/user-info',{state:{...state}});
     }
   };
 
   useEffect(()=>{
-    if(state){
-      setWorkspaceName(state.workspaceName);
-    }
-  },[state])
+    if(workSpaceName){
+      setWorkspaceName(workSpaceName);
+    } 
+  },[workSpaceName])
 
   return (
     <>

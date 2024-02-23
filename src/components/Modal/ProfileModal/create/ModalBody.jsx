@@ -11,26 +11,36 @@ import {
 import UserImg from '@assets/user.svg';
 import { useRef, useState } from 'react';
 import ImageCrop from './ImageCrop';
-import  { centerCrop, makeAspectCrop } from 'react-image-crop';
+import { centerCrop, makeAspectCrop } from 'react-image-crop';
+import { useImageCrop } from '@hooks/useImageCrop';
+import ModalFooter from './ModalFooter';
+import { useImage } from '@queries/useImage';
+import { dataURItoBlob } from '@utils/dataURItoBlob';
 
 const ASPECT_RATIO = 1;
 const MIN_DIMENSION = 500;
 
-const ModalBody = ({userInfo}) => {
-  const {userName, userJob} = userInfo
-  const [crop, setCrop] = useState({ x: 0, y: 0 })
-  const [corpImageSrc, setCorpImageSrc] = useState('');
-  const [imageSrc, setImageSrc] = useState('');
-  const fileInputRef = useRef(null);
+const ModalContent = ({ userInfo, email, onClose, setUserInfo}) => {
+  const { workSpaceMemberName, workSpaceMemberJob } = userInfo;
+  const { crop, setCrop, imageSrc, setImageSrc } = useImageCrop();
+  const { mutation} = useImage();
 
+  const [corpImageSrc, setCorpImageSrc] = useState('');
+  const fileInputRef = useRef(null);
+  const handleSaveFile = async() => {
+    const blob = dataURItoBlob(imageSrc);
+    const data = await mutation.mutateAsync(blob);
+    setUserInfo({...userInfo, workSpaceMemberImage: data.location})
+  
+    onClose()
+  };
   const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
+    const selectedFile = event.target.files?.[0];
     const reader = new FileReader();
     reader.readAsDataURL(selectedFile);
     return new Promise((resolve) => {
       reader.onload = () => {
         setCorpImageSrc(reader.result);
-        setImageSrc(reader.result);
         resolve();
       };
     });
@@ -68,6 +78,8 @@ const ModalBody = ({userInfo}) => {
           minWidth={MIN_DIMENSION}
           onChange={(pixelCrop, percentCrop) => setCrop(percentCrop)}
           onLoad={handleLoad}
+          setCorpImageSrc={setCorpImageSrc}
+          updateAvatar={setImageSrc}
         />
       ) : (
         <>
@@ -86,20 +98,20 @@ const ModalBody = ({userInfo}) => {
                   <Text fontSize="md" fontWeight={500} color="#898989">
                     이름
                   </Text>
-                  {userName}
+                  {workSpaceMemberName}
                 </Text>
                 <Text fontSize="lg" fontWeight={600}>
                   <Text fontSize="md" fontWeight={500} color="#898989">
                     직무
                   </Text>
-                  {userJob}
+                  {workSpaceMemberJob}
                 </Text>
               </Flex>
               <Text mt="20px" fontSize="lg" fontWeight={600}>
                 <Text fontSize="md" fontWeight={500} color="#898989">
                   이메일
                 </Text>{' '}
-                tjsalsun@gmail.com
+                {email}
               </Text>
             </Box>
           </Flex>
@@ -131,25 +143,18 @@ const ModalBody = ({userInfo}) => {
               color="#5158FFCC"
               border="solid 2px #5158FFCC"
               mb="18px"
-            >
-              이미지 자르기
-            </Button>
-            <Button
-              rounded="50px"
-              w="210px"
-              p="12px 60px"
-              bg="transparent"
-              color="#5158FFCC"
-              border="solid 2px #5158FFCC"
-              mb="18px"
+              onClick={() => {
+                setImageSrc('');
+              }}
             >
               설정하지 않기
             </Button>
           </ButtonGroup>
+          <ModalFooter onClose={onClose} handleSaveFile={handleSaveFile} />
         </>
       )}
     </>
   );
 };
 
-export default ModalBody;
+export default ModalContent;

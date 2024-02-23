@@ -1,22 +1,28 @@
 import Modal from '../../Modal';
 import ConfirmFooter from './ConfirmFooter';
-import ModalBody from './ModalBody';
-import ModalFooter from './ModalFooter';
+import ModalContent from './ModalBody';
 
-const CreateProfileImage = ({ isOpen, onClose, userInfo }) => {
-  const { userName, userJob } = userInfo;
-  const isEmptyProfile = !userName && !userJob;
+
+
+const CreateProfileImage = ({ isOpen, onClose, userInfo, email, setUserInfo }) => {
+  const { workSpaceMemberName, workSpaceMemberJob } = userInfo;
+  const isEmptyProfile = !workSpaceMemberName && !workSpaceMemberJob;
   if (isEmptyProfile)
     return (
-      <Modal isOpen={isOpen} onClose={onClose} modalTitle="사용자 정보 입력 확인">
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        modalTitle="사용자 정보 입력 확인"
+      >
         사용자 이름 또는 직무를 입력하세요
-        <ConfirmFooter onClose={onClose}/>
+        <ConfirmFooter onClose={onClose} />
       </Modal>
     );
   return (
     <Modal isOpen={isOpen} onClose={onClose} modalTitle="프로필 설정">
-      <ModalBody userInfo={userInfo} />
-      <ModalFooter onClose={onClose} />
+
+      <ModalContent userInfo={userInfo} email={email} onClose={onClose} setUserInfo={setUserInfo}/>
+      
     </Modal>
   );
 };

@@ -1,5 +1,7 @@
-const Image = ({ src, alt, ...props }) => {
-  return <img {...props} src={src} alt={alt} />;
+import { forwardRef } from 'react';
+
+const Image = ({ src, alt, ...props },ref) => {
+  return <img {...props} src={src} alt={alt} ref={ref}/>;
 };
 
-export default Image;
+export default forwardRef(Image);
