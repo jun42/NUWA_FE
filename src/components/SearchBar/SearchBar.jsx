@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
+import { IoOptionsOutline } from 'react-icons/io5';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
@@ -15,12 +16,17 @@ const SearchBar = () => {
   return (
     <SearchWrapper onSubmit={handleSubmit}>
       <SearchInput
+        id={'search-input'}
         type="text"
         value={query}
         onChange={handleChange}
         placeholder="NUWA_Project 검색"
       />
-      <SearchIcon onClick={handleSubmit}>
+      <SearchIcon>
+        <IoOptionsOutline />
+      </SearchIcon>
+
+      <SearchIcon>
         <FaSearch />
       </SearchIcon>
     </SearchWrapper>
@@ -33,22 +39,24 @@ const SearchWrapper = styled.form`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #ccc;
+  border: 1px solid #505050;
   border-radius: 5px;
   width: 50%;
+  background-color: #505050;
   color: white;
 `;
 
 const SearchInput = styled.input`
-  ::placeholder {
-    color: white; /* Placeholder 텍스트 흰색으로 설정 */
-  }
   flex: 1;
   padding: 5px 10px;
   font-size: 16px;
-  border: none;
+  /* border: none; */
+  border-radius: 5px;
   outline: none;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #505050;
+  &::placeholder {
+    color: white;
+  }
 `;
 
 const SearchIcon = styled.button`

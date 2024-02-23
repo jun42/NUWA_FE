@@ -23,6 +23,8 @@ import HelpDesk from '@pages/HelpDesk';
 import MainLayout from '@components/Layout/MainLayout';
 import WorkspaceLayout from '@components/Layout/WorkspaceLayout';
 import InviteMember from '@pages/createWorkspace/create/inviteMember';
+import ChatPage from '../pages/chatBoard';
+import DirectChatPage from '../pages/directChat';
 import DashBoard from '@pages/dashboard';
 import Canvas from '@pages/canvas';
 
@@ -54,10 +56,6 @@ export const Router = createBrowserRouter([
           {
             path: '/select-plan',
             element: <SelectPlan />,
-          },
-          {
-            path: '/files',
-            element: <Files />,
           },
           //oauth 회원 가입시 이메일과 provider(kakao,naver) 받는 페이지
           {
@@ -126,9 +124,18 @@ export const Router = createBrowserRouter([
             index: true,
           },
           {
+            path: '/workspace/chatboard',
+            element: <ChatPage />,
+          },
+          {
+            path: '/workspace/direct-chat',
+            element: <DirectChatPage />,
+          },
+          {
             path: '/workspace/canvas',
             element: <Canvas />,
           },
+          { path: '/workspace/files', element: <Files /> },
         ],
       },
     ],

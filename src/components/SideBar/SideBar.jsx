@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import workspace from '../../assets/WorkSpace.png';
 import add from '../../assets/add.svg';
 import profile from '../../assets/cham.png';
@@ -24,14 +25,71 @@ import {
   Avatar,
   Image,
   Divider,
+  useOutsideClick,
+  useDisclosure,
 } from '@chakra-ui/react';
 import UserInfo from './UserInfo';
-import CreateChannel from '../Channel/CreateChannel';
+import CreateChannel from '../Channel/CreateChannelModal';
+import Channel from './Channel';
+import WorkSpaceModalEdit from '@components/Modal/WorkspaceEdit';
+import useModal from '@hooks/useModal';
 
 const SideBar = () => {
+  const chData = [
+    {
+      chName: 'FE-정보공유',
+      chType: 'chat',
+    },
+    {
+      chName: 'BE-정보공유',
+      chType: 'chat',
+    },
+    {
+      chName: 'UI-정보공유',
+      chType: 'chat',
+    },
+    {
+      chName: 'UI-정보공유',
+      chType: 'chat',
+    },
+    {
+      chName: 'UI-정보공유',
+      chType: 'chat',
+    },
+  ];
+  const chData2 = [
+    {
+      chName: 'FE-회의실',
+      chType: 'voice',
+    },
+    {
+      chName: 'BE-회의실',
+      chType: 'voice',
+    },
+    {
+      chName: 'UI-회의실',
+      chType: 'voice',
+    },
+    {
+      chName: 'UI-회의실',
+      chType: 'voice',
+    },
+    {
+      chName: 'UI-회의실',
+      chType: 'voice',
+    },
+  ];
+
+  const [isOpen, setIsOpen] = useState(false);
+  const {
+    isOpen: isEditModalOpen,
+    onOpen: onEditModalOpen,
+    onClose: onEditModalClose,
+  } = useModal();
+
   return (
     <Flex>
-      <Box w="80px" h="100vh" backgroundColor="#5158ff" p="0 16px">
+      <Box w="80px" backgroundColor="#5158ff" p="0 16px">
         <Flex justify="center" pt="32px">
           <img src={workspace} alt="" />
         </Flex>
@@ -41,10 +99,9 @@ const SideBar = () => {
       </Box>
       <Box
         w="327px"
-        h="100vh"
         backgroundColor="#f1f1f1"
         p="0 18px"
-        overflowY="scroll"
+        overflowY={isOpen ? 'hidden' : 'scroll'}
         css={{
           '&::-webkit-scrollbar': {
             display: 'none',
@@ -56,9 +113,15 @@ const SideBar = () => {
           fontWeight="bold"
           textAlign="center"
           m="50px 20px 0"
+          cursor={'pointer'}
+          onClick={onEditModalOpen}
         >
           NUWA_PROJECT
         </Text>
+        <WorkSpaceModalEdit
+          isOpen={isEditModalOpen}
+          onClose={onEditModalClose}
+        />
         <UserInfo />
         <Box>
           <Box mb="10px">
@@ -106,207 +169,104 @@ const SideBar = () => {
               <Image src={file} alt="" w="20px" h="21px" mr="20px" />
               파일
             </Button>
-            <Button
-              fontSize="14px"
-              fontWeight="500"
-              color="#656565"
-              width="100%"
-              justifyContent="flex-start"
-              backgroundColor="#f1f1f1"
-            >
-              <Image src={exclude} alt="" w="20px" h="21px" mr="20px" />
-              더보기
-            </Button>
+            <Box position="relative">
+              <Button
+                fontSize="14px"
+                fontWeight="500"
+                color="#656565"
+                width="100%"
+                justifyContent="flex-start"
+                backgroundColor="#f1f1f1"
+                onClick={() => {
+                  setIsOpen(!isOpen);
+                }}
+              >
+                <Image src={exclude} alt="" w="20px" h="21px" mr="20px" />
+                더보기
+              </Button>
+              {isOpen && (
+                <>
+                  <Box
+                    position="fixed"
+                    top="0"
+                    left="0"
+                    right="0"
+                    bottom="0"
+                    zIndex="99"
+                    onClick={() => {
+                      setIsOpen(false);
+                    }}
+                  />
+                  <Box w="100%" position="absolute" zIndex="100">
+                    <Flex
+                      flexDir="column"
+                      w="100%"
+                      zIndex="100"
+                      backgroundColor="#D9D9D9"
+                      borderRadius="md"
+                    >
+                      <Button
+                        fontSize="14px"
+                        fontWeight="500"
+                        color="#656565"
+                        w="100%"
+                        justifyContent="flex-start"
+                        backgroundColor="#D9D9D9"
+                      >
+                        <Image
+                          src={exclude}
+                          alt=""
+                          w="20px"
+                          h="21px"
+                          mr="20px"
+                        />
+                        스레드
+                      </Button>
+                      <Button
+                        fontSize="14px"
+                        fontWeight="500"
+                        color="#656565"
+                        w="100%"
+                        justifyContent="flex-start"
+                        backgroundColor="#D9D9D9"
+                      >
+                        <Image
+                          src={exclude}
+                          alt=""
+                          w="20px"
+                          h="21px"
+                          mr="20px"
+                        />
+                        사용자 그룹 관리
+                      </Button>
+                      <Button
+                        fontSize="14px"
+                        fontWeight="500"
+                        color="#656565"
+                        w="100%"
+                        justifyContent="flex-start"
+                        backgroundColor="#D9D9D9"
+                      >
+                        <Image
+                          src={exclude}
+                          alt=""
+                          w="20px"
+                          h="21px"
+                          mr="20px"
+                        />
+                        환경설정
+                      </Button>
+                    </Flex>
+                  </Box>
+                </>
+              )}
+            </Box>
           </Box>
 
           <Divider color="white" />
 
-          <Box m="20px 0">
-            <Flex
-              fontSize="16px"
-              fontWeight="600"
-              color="#656565"
-              position="relative"
-              mb="8px"
-              pl="12px"
-            >
-              <IconButton
-                size="xs"
-                bgColor="#f1f1f1"
-                icon={<Image src={arrowdown} alt="" />}
-              />
-              <Text ml="16px">채팅채널</Text>
-              <CreateChannel />
-            </Flex>
-            <Box
-              maxH="160px"
-              overflowY="auto"
-              mr="7px"
-              css={{
-                '&::-webkit-scrollbar': {
-                  width: '10px',
-                },
-                '&::-webkit-scrollbar-track': {
-                  width: '6px',
-                  backgroundColor: '#FCFCFC',
-                  borderRadius: '10px',
-                },
-                '&::-webkit-scrollbar-thumb': {
-                  borderRadius: '10px',
-                  backgroundColor: '#7A7A7A',
-                },
-              }}
-            >
-              <Button
-                fontSize="14px"
-                fontWeight="500"
-                color="#656565"
-                width="100%"
-                justifyContent="flex-start"
-                backgroundColor="#f1f1f1"
-              >
-                <Image src={chat_ch} alt="" w="20px" h="21px" mr="20px" />
-                FE-정보공유
-              </Button>
-              <Button
-                fontSize="14px"
-                fontWeight="500"
-                color="#656565"
-                width="100%"
-                justifyContent="flex-start"
-                backgroundColor="#f1f1f1"
-              >
-                <Image src={chat_ch} alt="" w="20px" h="21px" mr="20px" />
-                BE-정보공유
-              </Button>
-              <Button
-                fontSize="14px"
-                fontWeight="500"
-                color="#656565"
-                width="100%"
-                justifyContent="flex-start"
-                backgroundColor="#f1f1f1"
-              >
-                <Image src={chat_ch} alt="" w="20px" h="21px" mr="20px" />
-                UI-정보공유
-              </Button>
-              <Button
-                fontSize="14px"
-                fontWeight="500"
-                color="#656565"
-                width="100%"
-                justifyContent="flex-start"
-                backgroundColor="#f1f1f1"
-              >
-                <Image src={chat_ch} alt="" w="20px" h="21px" mr="20px" />
-                전체-정보공유
-              </Button>
-              <Button
-                fontSize="14px"
-                fontWeight="500"
-                color="#656565"
-                width="100%"
-                justifyContent="flex-start"
-                backgroundColor="#f1f1f1"
-              >
-                <Image src={chat_ch} alt="" w="20px" h="21px" mr="20px" />
-                전체-정보공유
-              </Button>
-            </Box>
-          </Box>
-          <Box m="20px 0">
-            <Flex
-              fontSize="16px"
-              fontWeight="600"
-              color="#656565"
-              position="relative"
-              mb="8px"
-              pl="12px"
-            >
-              <IconButton
-                size="xs"
-                bgColor="#f1f1f1"
-                icon={<Image src={arrowdown} alt="" />}
-              />
-              <Text ml="16px">음성채널</Text>
-              <CreateChannel />
-            </Flex>
-            <Box
-              maxH="160px"
-              overflowY="auto"
-              mr="7px"
-              css={{
-                '&::-webkit-scrollbar': {
-                  width: '10px',
-                },
-                '&::-webkit-scrollbar-track': {
-                  width: '6px',
-                  backgroundColor: '#FCFCFC',
-                  borderRadius: '10px',
-                },
-                '&::-webkit-scrollbar-thumb': {
-                  borderRadius: '10px',
-                  backgroundColor: '#7A7A7A',
-                },
-              }}
-            >
-              <Button
-                fontSize="14px"
-                fontWeight="500"
-                color="#656565"
-                width="100%"
-                justifyContent="flex-start"
-                backgroundColor="#f1f1f1"
-              >
-                <Image src={voice_ch} alt="" w="20px" h="21px" mr="20px" />
-                프론트회의실
-              </Button>
-              <Button
-                fontSize="14px"
-                fontWeight="500"
-                color="#656565"
-                width="100%"
-                justifyContent="flex-start"
-                backgroundColor="#f1f1f1"
-              >
-                <Image src={voice_ch} alt="" w="20px" h="21px" mr="20px" />
-                백엔드회의실
-              </Button>
-              <Button
-                fontSize="14px"
-                fontWeight="500"
-                color="#656565"
-                width="100%"
-                justifyContent="flex-start"
-                backgroundColor="#f1f1f1"
-              >
-                <Image src={voice_ch} alt="" w="20px" h="21px" mr="20px" />
-                백엔드회의실
-              </Button>
-              <Button
-                fontSize="14px"
-                fontWeight="500"
-                color="#656565"
-                width="100%"
-                justifyContent="flex-start"
-                backgroundColor="#f1f1f1"
-              >
-                <Image src={voice_ch} alt="" w="20px" h="21px" mr="20px" />
-                백엔드회의실
-              </Button>
-              <Button
-                fontSize="14px"
-                fontWeight="500"
-                color="#656565"
-                width="100%"
-                justifyContent="flex-start"
-                backgroundColor="#f1f1f1"
-              >
-                <Image src={voice_ch} alt="" w="20px" h="21px" mr="20px" />
-                백엔드회의실
-              </Button>
-            </Box>
-          </Box>
+          <Channel type={'chat'} data={chData} />
+          <Channel type={'voice'} data={chData2} />
         </Box>
       </Box>
     </Flex>

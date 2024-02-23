@@ -1,5 +1,6 @@
+import React from 'react';
 import styled from 'styled-components';
-import { Flex, Text, Box, Image } from "@chakra-ui/react";
+import { Flex, Text, Box, Image } from '@chakra-ui/react';
 import { mainCards } from '@constants/selectPlan/SELECT_ALL_INFO';
 import React from 'react';
 
@@ -8,10 +9,7 @@ const MainCenter = () => {
     <StContainer>
       {mainCards.map((card, index) => (
         <MainSection key={index} style={{flexDirection:index === 1? 'row-reverse' : 'row'}}>
-         
             <Image src={card.src} alt={card.alt} width="50%" />
-         
-
           <StTextBox>
             <Flex flexDirection="column" gap="18px">
               <Text width="100%" fontSize="36px" fontWeight="700">
@@ -32,7 +30,12 @@ const MainCenter = () => {
               </Text>
             </Flex>
             <Flex flexDirection="column">
-              <Text width="100%" fontSize="20px" fontWeight="700" color="#575DFB">
+              <Text
+                width="100%"
+                fontSize="20px"
+                fontWeight="700"
+                color="#575DFB"
+              >
                 {card.detail}
               </Text>
             </Flex>
