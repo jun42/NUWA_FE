@@ -17,7 +17,7 @@ export default HelpDesk;
 
 const StContentWrap = styled.div`
   background-color: #f1f4f9;
-  padding: 10% 20%;
+  padding :64px 12px;
 `;
 const StContentBox = styled.div`
   display: flex;
