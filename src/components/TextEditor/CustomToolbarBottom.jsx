@@ -1,8 +1,8 @@
-import { GrSend } from 'react-icons/gr';
 import './CustomToolbarBottom.css';
 import EmojiIcon from '@assets/textEditor/emoji-1.svg';
 import FormattingIcon from '@assets/textEditor/formatting.svg';
 import MentionIcon from '@assets/textEditor/mention.svg';
+import SendIcon from '@assets/textEditor/send-fill.svg';
 
 const CustomToolbarBottom = () => {
   return (
@@ -20,6 +20,10 @@ const CustomToolbarBottom = () => {
         {/* 멘션 버튼 */}
         <button className="toolbar-bottom__icon">
           <img src={MentionIcon} alt="멘션 아이콘" />
+        </button>
+
+        <button id="send-button">
+          <img src={SendIcon} alt="" />
         </button>
       </div>
     </div>
