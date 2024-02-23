@@ -6,6 +6,7 @@ import share from '../../assets/share.svg';
 import file_bg from '../../assets/file_bg.jpg';
 import Modal from '../../components/Modal/Modal.jsx';
 import profile from '../../assets/cham.png';
+import AdobeIcon from '../../assets/AdobeIcon.svg';
 
 import {
   Button,
@@ -25,7 +26,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-const FileBox = ({ src }) => {
+const FileBox = ({ fileName, sharedBy, date, type, size, src }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedImg, setSelectedImg] = useState('');
@@ -44,32 +45,37 @@ const FileBox = ({ src }) => {
         );
       }}
     >
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        modalTitle={
-          <Flex align="center">
-            <Avatar size="md" src={profile} />
-            <Box ml="10px">
-              <Text fontSize="16px" fontWeight="600">
-                김뿌꾸님
-              </Text>
-              <Text fontSize="12px" fontWeight="400">
-                14일전 확인됨
-              </Text>
-            </Box>
-          </Flex>
-        }
-        children={<Image src={selectedImg} objectFit="cover" />}
-      />
-      <Center h="136px" backgroundColor="#D6D6D6" borderRadius="13px 13px 0 0">
-        <Image
-          src={src}
-          w="245px"
-          h="136px"
-          objectFit="cover"
-          borderRadius="13px 13px 0 0"
+      {src !== '' && (
+        <Modal
+          isOpen={isOpen}
+          onClose={onClose}
+          modalTitle={
+            <Flex align="center">
+              <Avatar size="md" src={profile} />
+              <Box ml="10px">
+                <Text fontSize="16px" fontWeight="600">
+                  {sharedBy}
+                </Text>
+                <Text fontSize="12px" fontWeight="400">
+                  14일전 확인됨
+                </Text>
+              </Box>
+            </Flex>
+          }
+          children={<Image src={selectedImg} objectFit="cover" />}
         />
+      )}
+      <Center h="136px" backgroundColor="#D6D6D6" borderRadius="13px 13px 0 0">
+        {src === '' && <Image src={AdobeIcon} />}
+        {src !== '' && (
+          <Image
+            src={src}
+            w="245px"
+            h="136px"
+            objectFit="cover"
+            borderRadius="13px 13px 0 0"
+          />
+        )}
       </Center>
       <Box
         h="49px"
@@ -79,10 +85,11 @@ const FileBox = ({ src }) => {
         position="relative"
       >
         <Text fontSize="12px" fontWeight="600">
-          240118_촬영본 업데이트
+          {/* 18자 넘으면 줄임표 */}
+          {fileName}
         </Text>
         <Text fontSize="10px" fontWeight="500" color="#898989">
-          박미송 1월 18일
+          {sharedBy} {date}
         </Text>
         <Flex>
           <IconButton

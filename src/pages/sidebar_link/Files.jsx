@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import SideBar from '@components/SideBar/SideBar';
 import search from '../../assets/search.svg';
-import AdobeIcon from '../../assets/AdobeIcon.svg';
 import ellipsis_vertical from '../../assets/ellipsis-vertical.svg';
 import illustratorIcon from '../../assets/illustratorIcon.svg';
 import nofile from '../../assets/nofile.png';
@@ -26,11 +25,12 @@ import {
   Center,
   Input,
   useDisclosure,
+  Checkbox,
 } from '@chakra-ui/react';
 
 import GridSwitch from './GridSwitch.jsx';
-import Modal from '../../components/Modal/Modal.jsx';
 import FileBox from './FileBox.jsx';
+import FileList from './FileList.jsx';
 
 const Files = () => {
   const [switchstate, setSwitchstate] = useState(false);
@@ -40,9 +40,37 @@ const Files = () => {
 
   const [fileType, setFileType] = useState('all');
   const [sortBy, setSortBy] = useState('date');
+  const [isOpen, setIsOpen] = useState(false);
+
+  const data = [
+    {
+      fileName: '1번파일',
+      sharedBy: '박미송',
+      date: '2024-01-18',
+      type: 'adobe',
+      size: '220KB',
+      src: file_bg,
+    },
+    {
+      fileName: '2번파일',
+      sharedBy: '박미송',
+      date: '2024-01-18',
+      type: 'adobe',
+      size: '221KB',
+      src: file_bg2,
+    },
+    {
+      fileName: '3번파일',
+      sharedBy: '박미송',
+      date: '2024-01-18',
+      type: 'adobe',
+      size: '222KB',
+      src: '',
+    },
+  ];
 
   return (
-    <Flex h="100%">
+    <Flex w="100%">
       <Box w="100%" p="52px 63px">
         <Text fontSize="40px" fontWeight="600">
           파일
@@ -71,17 +99,82 @@ const Files = () => {
         </Box>
         <Flex position="relative" justify="space-between" m="32px 0">
           <Flex>
-            <Button
-              borderRadius="8px"
-              bgColor="#242424"
-              color="white"
-              fontSize="14px"
-              fontWeight="500"
-              p="12px 26px"
-              _hover={{ bgColor: 'gray' }}
-            >
-              From 박미송
-            </Button>
+            <Box position="relative">
+              <Button
+                borderRadius="8px"
+                bgColor="#242424"
+                color="white"
+                fontSize="14px"
+                fontWeight="500"
+                p="12px 26px"
+                _hover={{ bgColor: 'gray' }}
+                onClick={() => {
+                  setIsOpen(!isOpen);
+                }}
+              >
+                From 박미송
+              </Button>
+              {isOpen && (
+                <>
+                  <Box
+                    position="fixed"
+                    top="0"
+                    left="0"
+                    right="0"
+                    bottom="0"
+                    zIndex="99"
+                    onClick={() => {
+                      setIsOpen(false);
+                    }}
+                  />
+                  <Box w="100%" position="absolute" zIndex="100" mt="2px">
+                    <Flex
+                      flexDir="column"
+                      w="150%"
+                      zIndex="100"
+                      border="1px solid gray"
+                      borderRadius="md"
+                      backgroundColor="#f8f8f8"
+                    >
+                      <Center>
+                        <Input
+                          m="8px"
+                          backgroundColor="white"
+                          fontSize="14px"
+                          fontWeight="500"
+                          border="1px solid #767676"
+                          borderRadius="8px"
+                          placeholder="예: 고길동"
+                          _placeholder={{ color: 'black' }}
+                        />
+                      </Center>
+                      <Button
+                        fontSize="14px"
+                        fontWeight="500"
+                        color="#656565"
+                        w="100%"
+                        justifyContent="flex-start"
+                        backgroundColor="#f8f8f8"
+                      >
+                        <Checkbox backgroundColor="white" />
+                        김형섭
+                      </Button>
+                      <Button
+                        fontSize="14px"
+                        fontWeight="500"
+                        color="#656565"
+                        w="100%"
+                        justifyContent="flex-start"
+                        backgroundColor="#f8f8f8"
+                      >
+                        <Checkbox backgroundColor="white" />
+                        정현승
+                      </Button>
+                    </Flex>
+                  </Box>
+                </>
+              )}
+            </Box>
 
             <Divider
               orientation="vertical"
@@ -251,613 +344,111 @@ const Files = () => {
           h="calc(100% - 184px)"
           overflowY="scroll"
         >
-          <Box m="64px 0">
-            <Text fontSize="22px" fontWeight="500" color="#656565" mb="27px">
-              1월18일
-            </Text>
-            <Wrap spacing="40px">
-              <FileBox src={file_bg} />
-              <FileBox src={file_bg2} />
-
-              <Box w="245px" h="185px">
-                <Center
-                  h="136px"
-                  backgroundColor="#D6D6D6"
-                  borderRadius="13px 13px 0 0"
+          {data.length > 0 && !switchstate && (
+            <>
+              <Box m="64px 0">
+                <Text
+                  fontSize="22px"
+                  fontWeight="500"
+                  color="#656565"
+                  mb="27px"
                 >
-                  <Image
-                    src={file_bg}
-                    w="245px"
-                    h="136px"
-                    objectFit="cover"
-                    borderRadius="13px 13px 0 0"
-                  />
-                </Center>
-                <Box
-                  h="49px"
-                  backgroundColor="#F1F1F1"
-                  borderRadius="0 0 13px 13px"
-                  p="8px 14px"
-                  position="relative"
-                >
-                  <Text fontSize="12px" fontWeight="600">
-                    240118_촬영본 업데이트
-                  </Text>
-                  <Text fontSize="10px" fontWeight="500" color="#898989">
-                    박미송 1월 18일
-                  </Text>
-                  <IconButton
-                    size="xs"
-                    bgColor="#f1f1f1"
-                    icon={<Image src={ellipsis_vertical} alt="" />}
-                    position="absolute"
-                    top="12px"
-                    right="12px"
-                  />
-                </Box>
+                  1월18일
+                </Text>
+                <Wrap spacing="40px">
+                  {data.map((x, index) => (
+                    <FileBox
+                      key={index}
+                      fileName={x.fileName}
+                      sharedBy={x.sharedBy}
+                      date={x.date}
+                      type={x.type}
+                      size={x.size}
+                      src={x.src}
+                    />
+                  ))}
+                </Wrap>
               </Box>
+            </>
+          )}
+          {data.length > 0 && switchstate && (
+            <>
+              <Box>
+                <Flex>
+                  <Text w="52%" align="center" fontSize="14px" fontWeight="600">
+                    파일명
+                  </Text>
+                  <Text
+                    w="12%"
+                    align="center"
+                    fontSize="14px"
+                    fontWeight="600"
+                    color="#000000B2"
+                  >
+                    공유한사람
+                  </Text>
+                  <Text
+                    w="12%"
+                    align="center"
+                    fontSize="14px"
+                    fontWeight="600"
+                    color="#000000B2"
+                  >
+                    날짜
+                  </Text>
+                  <Text
+                    w="12%"
+                    align="center"
+                    fontSize="14px"
+                    fontWeight="600"
+                    color="#000000B2"
+                  >
+                    유형
+                  </Text>
+                  <Text
+                    w="12%"
+                    align="center"
+                    fontSize="14px"
+                    fontWeight="600"
+                    color="#000000B2"
+                  >
+                    크기
+                  </Text>
+                </Flex>
+                <Divider color="#0000001A" m="15px 0" />
 
-              <Box w="245px" h="185px">
-                <Center
-                  h="136px"
-                  backgroundColor="#D6D6D6"
-                  borderRadius="13px 13px 0 0"
-                >
-                  <Image src={AdobeIcon} />
-                </Center>
-                <Box
-                  h="49px"
-                  backgroundColor="#F1F1F1"
-                  borderRadius="0 0 13px 13px"
-                  p="8px 14px"
-                  position="relative"
-                >
-                  <Text fontSize="12px" fontWeight="600">
-                    240118_촬영본 업데이트
-                  </Text>
-                  <Text fontSize="10px" fontWeight="500" color="#898989">
-                    박미송 1월 18일
-                  </Text>
-                  <IconButton
-                    size="xs"
-                    bgColor="#f1f1f1"
-                    icon={<Image src={ellipsis_vertical} alt="" />}
-                    position="absolute"
-                    top="12px"
-                    right="12px"
+                {data.map((x, index) => (
+                  <FileList
+                    key={index}
+                    fileName={x.fileName}
+                    sharedBy={x.sharedBy}
+                    date={x.date}
+                    type={x.type}
+                    size={x.size}
                   />
-                </Box>
+                ))}
               </Box>
-
-              <Box w="245px" h="185px">
-                <Center
-                  h="136px"
-                  backgroundColor="#D6D6D6"
-                  borderRadius="13px 13px 0 0"
-                >
-                  <Image src={AdobeIcon} />
-                </Center>
-                <Box
-                  h="49px"
-                  backgroundColor="#F1F1F1"
-                  borderRadius="0 0 13px 13px"
-                  p="8px 14px"
-                  position="relative"
-                >
-                  <Text fontSize="12px" fontWeight="600">
-                    240118_촬영본 업데이트
-                  </Text>
-                  <Text fontSize="10px" fontWeight="500" color="#898989">
-                    박미송 1월 18일
-                  </Text>
-                  <IconButton
-                    size="xs"
-                    bgColor="#f1f1f1"
-                    icon={<Image src={ellipsis_vertical} alt="" />}
-                    position="absolute"
-                    top="12px"
-                    right="12px"
-                  />
-                </Box>
-              </Box>
-
-              <Box w="245px" h="185px">
-                <Center
-                  h="136px"
-                  backgroundColor="#D6D6D6"
-                  borderRadius="13px 13px 0 0"
-                >
-                  <Image src={AdobeIcon} />
-                </Center>
-                <Box
-                  h="49px"
-                  backgroundColor="#F1F1F1"
-                  borderRadius="0 0 13px 13px"
-                  p="8px 14px"
-                  position="relative"
-                >
-                  <Text fontSize="12px" fontWeight="600">
-                    240118_촬영본 업데이트
-                  </Text>
-                  <Text fontSize="10px" fontWeight="500" color="#898989">
-                    박미송 1월 18일
-                  </Text>
-                  <IconButton
-                    size="xs"
-                    bgColor="#f1f1f1"
-                    icon={<Image src={ellipsis_vertical} alt="" />}
-                    position="absolute"
-                    top="12px"
-                    right="12px"
-                  />
-                </Box>
-              </Box>
-            </Wrap>
-          </Box>
-          <Box m="64px 0">
-            <Text fontSize="22px" fontWeight="500" color="#656565" mb="27px">
-              1월17일
-            </Text>
-            <Wrap spacing="40px">
-              <Box w="245px" h="185px">
-                <Image
-                  src={file_bg}
-                  w="245px"
-                  h="136px"
-                  objectFit="cover"
-                  borderRadius="13px 13px 0 0"
-                />
-                <Box
-                  h="49px"
-                  backgroundColor="#F1F1F1"
-                  borderRadius="0 0 13px 13px"
-                  p="8px 14px"
-                  position="relative"
-                >
-                  <Text fontSize="12px" fontWeight="600">
-                    240118_촬영본 업데이트
-                  </Text>
-                  <Text fontSize="10px" fontWeight="500" color="#898989">
-                    박미송 1월 18일
-                  </Text>
-                  <IconButton
-                    size="xs"
-                    bgColor="#f1f1f1"
-                    icon={<Image src={ellipsis_vertical} alt="" />}
-                    position="absolute"
-                    top="12px"
-                    right="12px"
-                  />
-                </Box>
-              </Box>
-
-              <Box w="245px" h="185px">
-                <Center
-                  h="136px"
-                  backgroundColor="#D6D6D6"
-                  borderRadius="13px 13px 0 0"
-                >
-                  <Image
-                    src={file_bg}
-                    w="245px"
-                    h="136px"
-                    objectFit="cover"
-                    borderRadius="13px 13px 0 0"
-                  />
-                </Center>
-                <Box
-                  h="49px"
-                  backgroundColor="#F1F1F1"
-                  borderRadius="0 0 13px 13px"
-                  p="8px 14px"
-                  position="relative"
-                >
-                  <Text fontSize="12px" fontWeight="600">
-                    240118_촬영본 업데이트
-                  </Text>
-                  <Text fontSize="10px" fontWeight="500" color="#898989">
-                    박미송 1월 18일
-                  </Text>
-                  <IconButton
-                    size="xs"
-                    bgColor="#f1f1f1"
-                    icon={<Image src={ellipsis_vertical} alt="" />}
-                    position="absolute"
-                    top="12px"
-                    right="12px"
-                  />
-                </Box>
-              </Box>
-
-              <Box w="245px" h="185px">
-                <Center
-                  h="136px"
-                  backgroundColor="#D6D6D6"
-                  borderRadius="13px 13px 0 0"
-                >
-                  <Image src={AdobeIcon} />
-                </Center>
-                <Box
-                  h="49px"
-                  backgroundColor="#F1F1F1"
-                  borderRadius="0 0 13px 13px"
-                  p="8px 14px"
-                  position="relative"
-                >
-                  <Text fontSize="12px" fontWeight="600">
-                    240118_촬영본 업데이트
-                  </Text>
-                  <Text fontSize="10px" fontWeight="500" color="#898989">
-                    박미송 1월 18일
-                  </Text>
-                  <IconButton
-                    size="xs"
-                    bgColor="#f1f1f1"
-                    icon={<Image src={ellipsis_vertical} alt="" />}
-                    position="absolute"
-                    top="12px"
-                    right="12px"
-                  />
-                </Box>
-              </Box>
-
-              <Box w="245px" h="185px">
-                <Center
-                  h="136px"
-                  backgroundColor="#D6D6D6"
-                  borderRadius="13px 13px 0 0"
-                >
-                  <Image src={AdobeIcon} />
-                </Center>
-                <Box
-                  h="49px"
-                  backgroundColor="#F1F1F1"
-                  borderRadius="0 0 13px 13px"
-                  p="8px 14px"
-                  position="relative"
-                >
-                  <Text fontSize="12px" fontWeight="600">
-                    240118_촬영본 업데이트
-                  </Text>
-                  <Text fontSize="10px" fontWeight="500" color="#898989">
-                    박미송 1월 18일
-                  </Text>
-                  <IconButton
-                    size="xs"
-                    bgColor="#f1f1f1"
-                    icon={<Image src={ellipsis_vertical} alt="" />}
-                    position="absolute"
-                    top="12px"
-                    right="12px"
-                  />
-                </Box>
-              </Box>
-
-              <Box w="245px" h="185px">
-                <Center
-                  h="136px"
-                  backgroundColor="#D6D6D6"
-                  borderRadius="13px 13px 0 0"
-                >
-                  <Image src={AdobeIcon} />
-                </Center>
-                <Box
-                  h="49px"
-                  backgroundColor="#F1F1F1"
-                  borderRadius="0 0 13px 13px"
-                  p="8px 14px"
-                  position="relative"
-                >
-                  <Text fontSize="12px" fontWeight="600">
-                    240118_촬영본 업데이트
-                  </Text>
-                  <Text fontSize="10px" fontWeight="500" color="#898989">
-                    박미송 1월 18일
-                  </Text>
-                  <IconButton
-                    size="xs"
-                    bgColor="#f1f1f1"
-                    icon={<Image src={ellipsis_vertical} alt="" />}
-                    position="absolute"
-                    top="12px"
-                    right="12px"
-                  />
-                </Box>
-              </Box>
-
-              <Box w="245px" h="185px">
-                <Center
-                  h="136px"
-                  backgroundColor="#D6D6D6"
-                  borderRadius="13px 13px 0 0"
-                >
-                  <Image src={AdobeIcon} />
-                </Center>
-                <Box
-                  h="49px"
-                  backgroundColor="#F1F1F1"
-                  borderRadius="0 0 13px 13px"
-                  p="8px 14px"
-                  position="relative"
-                >
-                  <Text fontSize="12px" fontWeight="600">
-                    240118_촬영본 업데이트
-                  </Text>
-                  <Text fontSize="10px" fontWeight="500" color="#898989">
-                    박미송 1월 18일
-                  </Text>
-                  <IconButton
-                    size="xs"
-                    bgColor="#f1f1f1"
-                    icon={<Image src={ellipsis_vertical} alt="" />}
-                    position="absolute"
-                    top="12px"
-                    right="12px"
-                  />
-                </Box>
-              </Box>
-
-              <Box w="245px" h="185px">
-                <Center
-                  h="136px"
-                  backgroundColor="#D6D6D6"
-                  borderRadius="13px 13px 0 0"
-                >
-                  <Image src={AdobeIcon} />
-                </Center>
-                <Box
-                  h="49px"
-                  backgroundColor="#F1F1F1"
-                  borderRadius="0 0 13px 13px"
-                  p="8px 14px"
-                  position="relative"
-                >
-                  <Text fontSize="12px" fontWeight="600">
-                    240118_촬영본 업데이트
-                  </Text>
-                  <Text fontSize="10px" fontWeight="500" color="#898989">
-                    박미송 1월 18일
-                  </Text>
-                  <IconButton
-                    size="xs"
-                    bgColor="#f1f1f1"
-                    icon={<Image src={ellipsis_vertical} alt="" />}
-                    position="absolute"
-                    top="12px"
-                    right="12px"
-                  />
-                </Box>
-              </Box>
-
-              <Box w="245px" h="185px">
-                <Center
-                  h="136px"
-                  backgroundColor="#D6D6D6"
-                  borderRadius="13px 13px 0 0"
-                >
-                  <Image src={AdobeIcon} />
-                </Center>
-                <Box
-                  h="49px"
-                  backgroundColor="#F1F1F1"
-                  borderRadius="0 0 13px 13px"
-                  p="8px 14px"
-                  position="relative"
-                >
-                  <Text fontSize="12px" fontWeight="600">
-                    240118_촬영본 업데이트
-                  </Text>
-                  <Text fontSize="10px" fontWeight="500" color="#898989">
-                    박미송 1월 18일
-                  </Text>
-                  <IconButton
-                    size="xs"
-                    bgColor="#f1f1f1"
-                    icon={<Image src={ellipsis_vertical} alt="" />}
-                    position="absolute"
-                    top="12px"
-                    right="12px"
-                  />
-                </Box>
-              </Box>
-            </Wrap>
-          </Box>
-          <Box>
-            <Flex>
-              <Text w="52%" align="center" fontSize="14px" fontWeight="600">
-                파일명
+            </>
+          )}
+          {data.length === 0 && (
+            <Center
+              w="100%"
+              h="100%"
+              flexDir="column"
+              fontSize="20px"
+              fontWeight="600"
+            >
+              <Image src={nofile} />
+              <Text>파일을 찾을 수가 없습니다.</Text>
+              <Text display="flex">
+                팀원과
+                <Text color="#575DFB" m="0 5px">
+                  파일 공유
+                </Text>
+                를 해보세요.
               </Text>
-              <Text
-                w="12%"
-                align="center"
-                fontSize="14px"
-                fontWeight="600"
-                color="#000000B2"
-              >
-                공유한사람
-              </Text>
-              <Text
-                w="12%"
-                align="center"
-                fontSize="14px"
-                fontWeight="600"
-                color="#000000B2"
-              >
-                날짜
-              </Text>
-              <Text
-                w="12%"
-                align="center"
-                fontSize="14px"
-                fontWeight="600"
-                color="#000000B2"
-              >
-                유형
-              </Text>
-              <Text
-                w="12%"
-                align="center"
-                fontSize="14px"
-                fontWeight="600"
-                color="#000000B2"
-              >
-                크기
-              </Text>
-            </Flex>
-            <Divider color="#0000001A" m="15px 0" />
-            <Flex m="15px 0">
-              <Flex
-                w="52%"
-                align="center"
-                fontSize="18px"
-                fontWeight="600"
-                cursor="pointer"
-              >
-                <Image src={illustratorIcon} m="0 15px" />
-                KakaoTalk_13211_312313
-              </Flex>
-              <Text
-                w="12%"
-                align="center"
-                fontSize="18px"
-                fontWeight="600"
-                color="#2B2B2B"
-              >
-                박미송
-              </Text>
-              <Text
-                w="12%"
-                align="center"
-                fontSize="18px"
-                fontWeight="600"
-                color="#2B2B2B"
-              >
-                2024-01-18
-              </Text>
-              <Text
-                w="12%"
-                align="center"
-                fontSize="18px"
-                fontWeight="600"
-                color="#2B2B2B"
-              >
-                adobe illustardsf
-              </Text>
-              <Text
-                w="12%"
-                align="center"
-                fontSize="18px"
-                fontWeight="600"
-                color="#2B2B2B"
-              >
-                222KB
-              </Text>
-            </Flex>
-
-            <Flex m="15px 0">
-              <Flex w="52%" align="center" fontSize="18px" fontWeight="600">
-                <Image src={illustratorIcon} m="0 15px" />
-                KakaoTalk_13211_312313
-              </Flex>
-              <Text
-                w="12%"
-                align="center"
-                fontSize="18px"
-                fontWeight="600"
-                color="#2B2B2B"
-              >
-                박미송
-              </Text>
-              <Text
-                w="12%"
-                align="center"
-                fontSize="18px"
-                fontWeight="600"
-                color="#2B2B2B"
-              >
-                2024-01-18
-              </Text>
-              <Text
-                w="12%"
-                align="center"
-                fontSize="18px"
-                fontWeight="600"
-                color="#2B2B2B"
-              >
-                adobe illustardsf
-              </Text>
-              <Text
-                w="12%"
-                align="center"
-                fontSize="18px"
-                fontWeight="600"
-                color="#2B2B2B"
-              >
-                222KB
-              </Text>
-            </Flex>
-
-            <Flex m="15px 0">
-              <Flex w="52%" align="center" fontSize="18px" fontWeight="600">
-                <Image src={illustratorIcon} m="0 15px" />
-                KakaoTalk_13211_312313
-              </Flex>
-              <Text
-                w="12%"
-                align="center"
-                fontSize="18px"
-                fontWeight="600"
-                color="#2B2B2B"
-              >
-                박미송
-              </Text>
-              <Text
-                w="12%"
-                align="center"
-                fontSize="18px"
-                fontWeight="600"
-                color="#2B2B2B"
-              >
-                2024-01-18
-              </Text>
-              <Text
-                w="12%"
-                align="center"
-                fontSize="18px"
-                fontWeight="600"
-                color="#2B2B2B"
-              >
-                adobe illustardsf
-              </Text>
-              <Text
-                w="12%"
-                align="center"
-                fontSize="18px"
-                fontWeight="600"
-                color="#2B2B2B"
-              >
-                222KB
-              </Text>
-            </Flex>
-          </Box>
-
-          <Center
-            w="100%"
-            h="100%"
-            flexDir="column"
-            fontSize="20px"
-            fontWeight="600"
-          >
-            <Image src={nofile} />
-            <Text>파일을 찾을 수가 없습니다.</Text>
-            <Text display="flex">
-              팀원과
-              <Text color="#575DFB" m="0 5px">
-                파일 공유
-              </Text>
-              를 해보세요.
-            </Text>
-          </Center>
+            </Center>
+          )}
         </Box>
       </Box>
     </Flex>
