@@ -9,14 +9,14 @@ const MainHeader = () => {
       <MainSection>
 
         <StTextBox>
-          <Flex flexDirection="column" gap="60px" marginTop={'40px'}>
-            <Text width="100%" fontSize="45px" fontWeight="700" >
+          <Flex flexDirection="column" gap="32px">
+            <Text width="100%" fontSize="42px" fontWeight="700" >
               생산성 향상을 위한 
               <br/>
               간편한 협업툴
             </Text>
 
-            <Text width="100%" fontSize="18px" fontWeight="400">
+            <Text width="100%" fontSize="18px" fontWeight="500" color="#24242490">
               필요없는 기능으로 복잡해진 협업툴은 그만!
               <br />
               간편하게 다이렉트 메세지와 채팅, 파일공유
@@ -50,35 +50,25 @@ export default MainHeader;
 
 const StContainer = styled.div`
     width: 100%;
-    height: 100%;
-    padding: 80px 200px;
+    padding: 80px 12px;
     background-color: #ebecee;
-    justify-content: center;
-    align-items: center;
-    
 `;
 
 const MainSection = styled.div`
-    width: 100%;
-    height: 100%;
+    max-width: 1440px;
     display: flex;
-    justify-content: center;
-    gap: 79px;
-    
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 0 8px;
 `;
 
 const StTextBox = styled.div`
-    width: 40%;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 120px;
+    flex-flow: column;
+    justify-content: space-between;
+    padding: 32px 0;
 `;
 
 const StImageBox = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
+
 `;

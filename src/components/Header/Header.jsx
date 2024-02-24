@@ -27,6 +27,9 @@ const Header = () => {
         </StText>
       </HeaderTop>
 
+
+
+    <HeaderWarp>
       <HeaderCenter>
         <Link to="/">
           <Logo width={'122px'} height={'32px'} />
@@ -37,7 +40,7 @@ const Header = () => {
         <CategoryBox>
           {categories.map((category) => (
             <Link to={category.link} key={category.name}>
-              <Flex gap={'8px'}>
+              <Flex gap={'4px'}>
                 <Text fontSize={'16px'} fontWeight={'500'}>
                   {category.name}
                 </Text>
@@ -86,6 +89,8 @@ const Header = () => {
           </Link>
         </ButtonBox>
       </HeaderBottom>
+    </HeaderWarp>
+
     </>
   );
 };
@@ -101,19 +106,26 @@ const HeaderTop = styled.div`
   padding: 10px 0px;
 `;
 
+const HeaderWarp = styled.div`
+  display: block;
+  border-bottom: 1px solid #00000010;
+`
+
 const HeaderCenter = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 14px 150px;
+  border-bottom: 1px solid #00000010;
 `;
 
 const HeaderBottom = styled.div`
   display: flex;
-  padding: 12px 150px;
+  padding: 12px;
+  margin: 0 auto;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid #ccc;
+  max-width: 1440px;
 `;
 
 const ButtonBox = styled.div`

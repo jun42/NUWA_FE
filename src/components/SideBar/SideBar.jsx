@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import workspace from '../../assets/WorkSpace.png';
 import add from '../../assets/add.svg';
 import profile from '../../assets/cham.png';
@@ -24,13 +25,16 @@ import {
   Avatar,
   Image,
   Divider,
+  useOutsideClick,
+  useDisclosure,
 } from '@chakra-ui/react';
 import UserInfo from './UserInfo';
 import CreateChannel from '../Channel/CreateChannelModal';
 import Channel from './Channel';
+import WorkSpaceModalEdit from '@components/Modal/WorkspaceEdit';
+import useModal from '@hooks/useModal';
 
 const SideBar = () => {
-
   const chData = [
     {
       chName: 'FE-정보공유',
@@ -76,6 +80,13 @@ const SideBar = () => {
     },
   ];
 
+  const [isOpen, setIsOpen] = useState(false);
+  const {
+    isOpen: isEditModalOpen,
+    onOpen: onEditModalOpen,
+    onClose: onEditModalClose,
+  } = useModal();
+
   return (
     <Flex>
       <Box w="80px" backgroundColor="#5158ff" p="0 16px">
@@ -90,7 +101,7 @@ const SideBar = () => {
         w="327px"
         backgroundColor="#f1f1f1"
         p="0 18px"
-        overflowY="scroll"
+        overflowY={isOpen ? 'hidden' : 'scroll'}
         css={{
           '&::-webkit-scrollbar': {
             display: 'none',
@@ -102,9 +113,15 @@ const SideBar = () => {
           fontWeight="bold"
           textAlign="center"
           m="50px 20px 0"
+          cursor={'pointer'}
+          onClick={onEditModalOpen}
         >
           NUWA_PROJECT
         </Text>
+        <WorkSpaceModalEdit
+          isOpen={isEditModalOpen}
+          onClose={onEditModalClose}
+        />
         <UserInfo />
         <Box>
           <Box mb="10px">
@@ -152,25 +169,104 @@ const SideBar = () => {
               <Image src={file} alt="" w="20px" h="21px" mr="20px" />
               파일
             </Button>
-            <Button
-              fontSize="14px"
-              fontWeight="500"
-              color="#656565"
-              width="100%"
-              justifyContent="flex-start"
-              backgroundColor="#f1f1f1"
-            >
-              <Image src={exclude} alt="" w="20px" h="21px" mr="20px" />
-              더보기
-            </Button>
+            <Box position="relative">
+              <Button
+                fontSize="14px"
+                fontWeight="500"
+                color="#656565"
+                width="100%"
+                justifyContent="flex-start"
+                backgroundColor="#f1f1f1"
+                onClick={() => {
+                  setIsOpen(!isOpen);
+                }}
+              >
+                <Image src={exclude} alt="" w="20px" h="21px" mr="20px" />
+                더보기
+              </Button>
+              {isOpen && (
+                <>
+                  <Box
+                    position="fixed"
+                    top="0"
+                    left="0"
+                    right="0"
+                    bottom="0"
+                    zIndex="99"
+                    onClick={() => {
+                      setIsOpen(false);
+                    }}
+                  />
+                  <Box w="100%" position="absolute" zIndex="100">
+                    <Flex
+                      flexDir="column"
+                      w="100%"
+                      zIndex="100"
+                      backgroundColor="#D9D9D9"
+                      borderRadius="md"
+                    >
+                      <Button
+                        fontSize="14px"
+                        fontWeight="500"
+                        color="#656565"
+                        w="100%"
+                        justifyContent="flex-start"
+                        backgroundColor="#D9D9D9"
+                      >
+                        <Image
+                          src={exclude}
+                          alt=""
+                          w="20px"
+                          h="21px"
+                          mr="20px"
+                        />
+                        스레드
+                      </Button>
+                      <Button
+                        fontSize="14px"
+                        fontWeight="500"
+                        color="#656565"
+                        w="100%"
+                        justifyContent="flex-start"
+                        backgroundColor="#D9D9D9"
+                      >
+                        <Image
+                          src={exclude}
+                          alt=""
+                          w="20px"
+                          h="21px"
+                          mr="20px"
+                        />
+                        사용자 그룹 관리
+                      </Button>
+                      <Button
+                        fontSize="14px"
+                        fontWeight="500"
+                        color="#656565"
+                        w="100%"
+                        justifyContent="flex-start"
+                        backgroundColor="#D9D9D9"
+                      >
+                        <Image
+                          src={exclude}
+                          alt=""
+                          w="20px"
+                          h="21px"
+                          mr="20px"
+                        />
+                        환경설정
+                      </Button>
+                    </Flex>
+                  </Box>
+                </>
+              )}
+            </Box>
           </Box>
 
           <Divider color="white" />
 
-          <Channel type={'chat'} data={chData}/>
-          <Channel type={'voice'} data={chData2}/>
-
-          
+          <Channel type={'chat'} data={chData} />
+          <Channel type={'voice'} data={chData2} />
         </Box>
       </Box>
     </Flex>
