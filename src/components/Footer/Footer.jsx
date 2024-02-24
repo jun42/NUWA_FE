@@ -9,9 +9,10 @@ const Footer = () => {
         <Grid
           templateColumns={'repeat(6, 1fr)'}
           gap={'70px'}
-          fontSize={'16px'}
-          fontWeight={'700'}
-          marginBottom={'160px'}
+          fontSize={'14px'}
+          fontWeight={'500'}
+          marginBottom={'40px'}
+          color={'#666'}
         >
           <Logo width={'140px'} height={'40px'} />
           {footer_categories.map((footer_category, index) => (
@@ -36,9 +37,10 @@ const Footer = () => {
           padding={'40px 0px'}
           display={'flex'}
           gap={'20px'}
-          fontSize={'14px'}
+          fontSize={'12px'}
           fontWeight={'700'}
-          borderTop={'1px solid #DCDCDC'}
+          borderTop={'1px solid #00000010'}
+          color={'#666'}
         >
           <Text>상태</Text>
           <Text>개인 정보 보호</Text>
@@ -61,4 +63,5 @@ const StContainer = styled.div`
   justify-content: center;
   align-items: start;
   padding: 62px 0px;
+  border-top: 1px solid #00000010;
 `;

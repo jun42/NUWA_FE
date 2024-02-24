@@ -10,13 +10,13 @@ const FeatCenter = () => {
       <FeatSection>
         <StTextBox>
           <Flex flexDirection="column" gap="15px">
-            <Text width="100%" fontSize="54px" fontWeight="700">
+            <Text width="100%" fontSize="42px" fontWeight="700">
               NUWA 협업툴의 주요기능은
               <br />
               무엇인가요?
             </Text>
 
-            <Text width="100%" fontSize="24px" fontWeight="700" color="#AFAFAF">
+            <Text width="100%" fontSize="20px" fontWeight="700" color="#AFAFAF">
               NUWA의 모든 사람과 모든 것을 위한 회사의 구심점이자 회사가 더 많은
               것들을 이룰 수 있는 생산성 플랫폼입니다.
             </Text>
@@ -54,14 +54,16 @@ const FeatCenter = () => {
 export default FeatCenter;
 
 const StContainer = styled.div`
+  display: flex;
   width: 100%;
   height: 100%;
-  padding: 256px 154px;
+  padding: 80px 12px;
   align-items: center;
-`;
+  justify-content: center;
+  `;
 
 const FeatSection = styled.div`
-  width: 100%;
+max-width: 1280px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -73,5 +75,7 @@ const StTextBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 80px;
+  gap: 72px;
+  position: sticky;
+  top: 10vh;
 `;

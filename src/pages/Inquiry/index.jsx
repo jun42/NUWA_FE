@@ -13,11 +13,12 @@ const index = () => {
 export default index;
 
 const StContainer = styled.div`
-  width: 100%;
+  max-width: 1280px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 200px 300px;
+  padding: 64px 12px;
   gap: 50px;
+  margin: 0 auto;
 `;
