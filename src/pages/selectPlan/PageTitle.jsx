@@ -19,4 +19,5 @@ const StTitle = styled.div`
   display: flex;
   align-items: center;
   gap: 0.2rem;
+  margin: 0 auto;
 `;

@@ -8,10 +8,10 @@ const Percent = () => {
     <StContainer>
       <PercentContainer>
         <Flex flexDirection={'column'} gap={'24px'}>
-          <StText $size={50} $weight={700} $color={'white'}>
+          <StText $size={36} $weight={700} $color={'white'}>
             크고 작은 팀들 모두 NUWA를 사용합니다
           </StText>
-          <StText $size={20} $weight={500} $color={'white'}>
+          <StText $size={18} $weight={500} $color={'white'}>
             NUWA는 세계 최대 규모의 기업들이 안전하게 협업할 수 있도록 지원을
             확대하고 있습니다
           </StText>
@@ -41,7 +41,7 @@ const Percent = () => {
           ))}
         </Flex>
 
-        <Flex justify={'flex-end'} gap={'12px'} border={'1px solid red'}>
+        <Flex justify={'flex-end'} gap={'12px'}>
           <Button
             borderRadius={'50px'}
             bg={'#D6D6D6'}
@@ -81,14 +81,14 @@ export default Percent;
 const StContainer = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
   background: url('src/assets/blacklinear.png');
 `;
 
 const PercentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 70px;
-  width: 100%;
-  padding: 80px 150px;
+  padding: 80px 12px;
+  width: 1440px;
+  margin: 0 auto;
+  row-gap: 64px;
 `;

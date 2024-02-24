@@ -30,8 +30,8 @@ const FAQBox = () => {
             {activeIndex === index && (
               <DetailContainer>
                 <Flex gap={'15px'}>
-                  <ButtonBox color={'red'}>답변</ButtonBox>
-                  <Text fontSize={'14px'} fontWeight={'black'}>
+                  <ButtonBox color={'#575dfb99'}>답변</ButtonBox>
+                  <Text fontSize={'14px'} fontWeight={'500'}>
                     {FAQ.AnswerText}
                   </Text>
                 </Flex>
@@ -60,6 +60,7 @@ const TextBoxContainer = styled.div`
   padding: 10px 20px;
   display: flex;
   border: 1px solid #ccc;
+  border-radius: 12px;
   gap: 15px;
   justify-content: space-between;
 `;
@@ -86,4 +87,5 @@ const DetailContainer = styled.div`
   border: 1px solid #ccc;
   gap: 15px;
   justify-content: space-between;
+  border-radius: 12px;
 `;
