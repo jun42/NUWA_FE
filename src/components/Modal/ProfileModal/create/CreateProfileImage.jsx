@@ -2,9 +2,15 @@ import Modal from '../../Modal';
 import ConfirmFooter from './ConfirmFooter';
 import ModalContent from './ModalBody';
 
-
-
-const CreateProfileImage = ({ isOpen, onClose, userInfo, email, setUserInfo }) => {
+const CreateProfileImage = ({
+  isOpen,
+  onClose,
+  userInfo,
+  email,
+  setUserInfo,
+  setWorkspace,
+  workspace
+}) => {
   const { workSpaceMemberName, workSpaceMemberJob } = userInfo;
   const isEmptyProfile = !workSpaceMemberName && !workSpaceMemberJob;
   if (isEmptyProfile)
@@ -20,9 +26,14 @@ const CreateProfileImage = ({ isOpen, onClose, userInfo, email, setUserInfo }) =
     );
   return (
     <Modal isOpen={isOpen} onClose={onClose} modalTitle="프로필 설정">
-
-      <ModalContent userInfo={userInfo} email={email} onClose={onClose} setUserInfo={setUserInfo}/>
-      
+      <ModalContent
+        userInfo={userInfo}
+        email={email}
+        onClose={onClose}
+        setUserInfo={setUserInfo}
+        setWorkspace={setWorkspace}
+        workspace={workspace}
+      />
     </Modal>
   );
 };

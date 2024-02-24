@@ -20,7 +20,7 @@ import { dataURItoBlob } from '@utils/dataURItoBlob';
 const ASPECT_RATIO = 1;
 const MIN_DIMENSION = 500;
 
-const ModalContent = ({ userInfo, email, onClose, setUserInfo}) => {
+const ModalContent = ({ userInfo,email, onClose, setUserInfo }) => {
   const { workSpaceMemberName, workSpaceMemberJob } = userInfo;
   const { crop, setCrop, imageSrc, setImageSrc } = useImageCrop();
   const { mutation} = useImage();
@@ -31,7 +31,6 @@ const ModalContent = ({ userInfo, email, onClose, setUserInfo}) => {
     const blob = dataURItoBlob(imageSrc);
     const data = await mutation.mutateAsync(blob);
     setUserInfo({...userInfo, workSpaceMemberImage: data.location})
-  
     onClose()
   };
   const handleFileChange = (event) => {

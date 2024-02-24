@@ -1,6 +1,10 @@
-import { request } from '../axios/axios'
+import { request } from '../axios/axios';
 
-export const createWorkspace = async(createWorkspaceData) => {
- const response = await request.post('/workspace', createWorkspaceData);
- return response.data
-}
+export const createWorkspace = async (createWorkspaceData) => {
+  try {
+    const response = await request.post('/workspace', createWorkspaceData);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};

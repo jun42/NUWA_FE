@@ -42,6 +42,8 @@ const Form = ({
             {...props}
             formMessage={formMessage}
             onClick={onClick}
+            onChange={onChange}
+            value={value}
           />
         );
       default:

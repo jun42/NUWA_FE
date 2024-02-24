@@ -12,26 +12,34 @@ const CreateWorkSapceName = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [workspaceName, setWorkspaceName] = useState('');
+  const [, setWorkspaceImage] = useState('');
   const { workspace, setWorkspace } = useBoundStore();
-  const {workSpaceName} = state || {}
+  const { workSpaceName, workSpaceImage } = state || {};
+  
   const handleInputChange = (event) => {
     const { value } = event.target;
-
+    const fristWord = value.charAt(0).toUpperCase();
     setWorkspaceName(value);
-    setWorkspace({ ...workspace, workSpaceName: value });
+    setWorkspaceImage(fristWord);
+    setWorkspace({
+      ...workspace,
+      workSpaceName: value,
+      workSpaceImage: fristWord,
+    });
   };
 
   const handleButtonClick = () => {
     if (workspaceName) {
-      navigate('/create-workspace/user-info',{state:{...state}});
+      navigate('/create-workspace/user-info', { state: { ...state } });
     }
   };
 
-  useEffect(()=>{
-    if(workSpaceName){
+  useEffect(() => {
+    if (workSpaceName) {
       setWorkspaceName(workSpaceName);
-    } 
-  },[workSpaceName])
+      setWorkspaceImage(workSpaceImage);
+    }
+  }, [workSpaceName, workSpaceImage]);
 
   return (
     <>

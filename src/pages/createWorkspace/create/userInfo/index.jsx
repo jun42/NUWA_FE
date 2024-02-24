@@ -33,7 +33,7 @@ const UserInfo = () => {
     workSpaceMemberJob: '',
     workSpaceMemberImage: '',
   });
-  console.log(userInfo)
+console.log(userInfo)
 
   const handleFormChange = (event) => {
     const { name, value } = event.target;
@@ -46,6 +46,7 @@ const UserInfo = () => {
 
   const handleButttonClick = () => {
     navigate('/create-workspace/work', { state: { ...state } });
+    setWorkspace({...workspace, ...userInfo})
   };
 
   useEffect(() => {
@@ -64,6 +65,7 @@ const UserInfo = () => {
         onClose={onClose}
         userInfo={userInfo}
         setUserInfo={setUserInfo}
+        setWorkspace={setWorkspace}
         email={email}
       />
       <Flex
