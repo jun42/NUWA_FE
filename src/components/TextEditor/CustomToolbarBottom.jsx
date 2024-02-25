@@ -7,7 +7,7 @@ import SendIcon from '@assets/textEditor/send-fill.svg';
 const CustomToolbarBottom = () => {
   return (
     <div className="toolbar-bottom">
-      <div id="toolbar">
+      <div className="toolbar">
         {/*TODO  + 버튼 */}
         {/* hide formatting show formatting button */}
         <button className="toolbar-bottom__icon">

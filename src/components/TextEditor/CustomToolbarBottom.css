@@ -18,3 +18,17 @@
 
   border-radius: 50px;
 }
+
+.toolbar-bottom__icon {
+  border-radius: 4px;
+  padding: 4px;
+  display: flex;
+  justify-content: center;
+}
+
+.toolbar-bottom__icon:hover {
+  background-color: #434343;
+}
+.toolbar-bottom__icon:active {
+  background-color: #656565;
+}
