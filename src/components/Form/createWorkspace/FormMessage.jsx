@@ -1,15 +1,16 @@
 import { Box, FormErrorMessage, FormHelperText } from '@chakra-ui/react';
 
 const FormMessage = ({ value, formMessage }) => {
+
   const { error, confirm } = formMessage;
-  console.log(value)
+  
 
   return (
     <Box pl="16px">
-      {value !== ''? (
-        <FormHelperText>{confirm}</FormHelperText>
-      ) : (
+      {value === ''? (
         <FormErrorMessage>{error}</FormErrorMessage>
+        ) : (
+        <FormHelperText>{confirm}</FormHelperText>
       )}
     </Box>
   );
