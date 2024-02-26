@@ -16,8 +16,20 @@ import StText from '@components/Text/StText';
 import Logo from '@components/Image/Logo';
 import { Flex, Text, Button } from '@chakra-ui/react';
 import { categories } from '@constants/selectPlan/SELECT_ALL_INFO';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import useBoundStore from '../../store/store';
+import { logoutRequest } from '../../apis/axios/auth';
+import { removeToken } from '../../utils/auth';
 const Header = () => {
+  const { isLoggedIn, setIsLoggedIn } = useBoundStore();
+  const navigate = useNavigate();
+
+  const handleLogoutButton = () => {
+    logoutRequest();
+    removeToken();
+    setIsLoggedIn(false);
+    navigate('/login');
+  };
   return (
     <>
       <HeaderTop>
@@ -27,70 +39,84 @@ const Header = () => {
         </StText>
       </HeaderTop>
 
+      <HeaderWarp>
+        <HeaderCenter>
+          <Link to="/">
+            <Logo width={'122px'} height={'32px'} />
+          </Link>
+        </HeaderCenter>
 
+        <HeaderBottom>
+          <CategoryBox>
+            {categories.map((category) => (
+              <Link to={category.link} key={category.name}>
+                <Flex gap={'4px'}>
+                  <Text fontSize={'16px'} fontWeight={'500'}>
+                    {category.name}
+                  </Text>
+                  <img
+                    width={'14px'}
+                    height={'9px'}
+                    src={category.icon}
+                    alt="아이콘"
+                  />
+                </Flex>
+              </Link>
+            ))}
+          </CategoryBox>
 
-    <HeaderWarp>
-      <HeaderCenter>
-        <Link to="/">
-          <Logo width={'122px'} height={'32px'} />
-        </Link>
-      </HeaderCenter>
-
-      <HeaderBottom>
-        <CategoryBox>
-          {categories.map((category) => (
-            <Link to={category.link} key={category.name}>
-              <Flex gap={'4px'}>
-                <Text fontSize={'16px'} fontWeight={'500'}>
-                  {category.name}
-                </Text>
-                <img
-                  width={'14px'}
-                  height={'9px'}
-                  src={category.icon}
-                  alt="아이콘"
-                />
-              </Flex>
+          <ButtonBox>
+            <Link to="/login">
+              <Button
+                borderRadius={'4px'}
+                bg={'#575DFB'}
+                _hover={{ bg: '#5055f3' }}
+                _active={{ bg: '#5359f6' }}
+                bgColor={'primary400'}
+                padding={'9px 22px'}
+                color={'white'}
+                fontSize={'16px'}
+                fontWeight={'700'}
+              >
+                로그인
+              </Button>
             </Link>
-          ))}
-        </CategoryBox>
 
-        <ButtonBox>
-          <Link to="/login">
-            <Button
-              borderRadius={'4px'}
-              bg={'#575DFB'}
-              _hover={{ bg: '#5055f3' }}
-              _active={{ bg: '#5359f6' }}
-              bgColor={'primary400'}
-              padding={'9px 22px'}
-              color={'white'}
-              fontSize={'16px'}
-              fontWeight={'700'}
-            >
-              로그인
-            </Button>
-          </Link>
-
-          <Link to="/signup">
-            <Button
-              borderRadius={'4px'}
-              bg={'#313131'}
-              _hover={{ bg: '#212121' }}
-              _active={{ bg: '#101010' }}
-              bgColor={'primary400'}
-              padding={'9px 22px'}
-              color={'white'}
-              fontSize={'16px'}
-              fontWeight={'700'}
-            >
-              무료 회원가입
-            </Button>
-          </Link>
-        </ButtonBox>
-      </HeaderBottom>
-    </HeaderWarp>
-
+            {isLoggedIn ? (
+              <Button
+                borderRadius={'4px'}
+                bg={'#313131'}
+                _hover={{ bg: '#212121' }}
+                _active={{ bg: '#101010' }}
+                bgColor={'primary400'}
+                padding={'9px 22px'}
+                color={'white'}
+                fontSize={'16px'}
+                fontWeight={'700'}
+                onClick={handleLogoutButton}
+              >
+                로그아웃
+              </Button>
+            ) : (
+              <Link to="/signup">
+                <Button
+                  borderRadius={'4px'}
+                  bg={'#313131'}
+                  _hover={{ bg: '#212121' }}
+                  _active={{ bg: '#101010' }}
+                  bgColor={'primary400'}
+                  padding={'9px 22px'}
+                  color={'white'}
+                  fontSize={'16px'}
+                  fontWeight={'700'}
+                >
+                  무료 회원가입
+                </Button>
+              </Link>
+            )}
+          </ButtonBox>
+        </HeaderBottom>
+      </HeaderWarp>
     </>
   );
 };
@@ -109,7 +135,7 @@ const HeaderTop = styled.div`
 const HeaderWarp = styled.div`
   display: block;
   border-bottom: 1px solid #00000010;
-`
+`;
 
 const HeaderCenter = styled.div`
   display: flex;

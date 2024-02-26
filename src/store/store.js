@@ -1,9 +1,11 @@
 import { create } from 'zustand';
-import { createBearSlice, createFishSlice } from './testSlice';
+import { createBearSlice } from './testSlice';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { createSocialSignupSlice } from './socialSignupSlice';
 import { createWorkspaceNameSlice } from './createWorkspaceNameSlice';
+import { createUserAuthSlice } from './userAuthSlice';
+
 const persistKeys = ['email', 'provider', 'workspace'];
 
 const persistOption = {
@@ -22,9 +24,9 @@ const useBoundStore = create(
       persist(
         (...a) => ({
           ...createBearSlice(...a),
-          ...createFishSlice(...a),
           ...createSocialSignupSlice(...a),
           ...createWorkspaceNameSlice(...a),
+          ...createUserAuthSlice(...a),
         }),
         persistOption
       )

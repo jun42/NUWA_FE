@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import SubmitButton from '@components/Button/SubmitButton';
 import useBoundStore from '@store/store';
 import { createSocialAccount } from '@apis/axios/auth';
+import { setTokenInStorage } from '../../utils/auth';
 //social
 const SignUpForm = () => {
   const email = useBoundStore((state) => state.email);
@@ -42,7 +43,7 @@ const SignUpForm = () => {
         console.log(response);
         if (response.data.status === 'success') {
           resetSocialSignupInfo();
-          localStorage.setItem('accessToken', response.data.data.accessToken);
+          setTokenInStorage(response.data.data.accessToken);
           // todo : to main page
 
           navigate('/');

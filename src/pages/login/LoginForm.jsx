@@ -5,8 +5,10 @@ import { login } from '@apis/axios/auth';
 import EmailInput from '@components/Form/EmailInput';
 import PasswordInput from '@components/Form/PasswordInput';
 import { useNavigate } from 'react-router-dom';
+import useBoundStore from '../../store/store';
 
 const LoginForm = () => {
+  const { setIsLoggedIn } = useBoundStore();
   const navigate = useNavigate();
   const toast = useToast();
   const {
@@ -40,6 +42,7 @@ const LoginForm = () => {
         isClosable: true,
         position: 'top',
       });
+      setIsLoggedIn(true);
       navigate('/');
     }
   };
