@@ -5,7 +5,7 @@ import { Flex, Text, Button } from '@chakra-ui/react';
 import { categories } from '@constants/selectPlan/SELECT_ALL_INFO';
 import { Link, useNavigate } from 'react-router-dom';
 import useBoundStore from '@store/store';
-import { logoutRequest } from '@apis/axios/auth';
+import { logoutRequest } from '@apis/auth/auth';
 import { removeToken } from '@utils/auth';
 const Header = () => {
   const { isLoggedIn, setIsLoggedIn } = useBoundStore();

@@ -6,7 +6,7 @@ import PhoneNumberInput from '@components/Form/PhoneNumberInput';
 import { useNavigate } from 'react-router-dom';
 import SubmitButton from '@components/Button/SubmitButton';
 import useBoundStore from '@store/store';
-import { createSocialAccount } from '@apis/axios/auth';
+import { createSocialAccount } from '@apis/auth/auth';
 import { setTokenInStorage } from '@utils/auth';
 //social
 const SignUpForm = () => {

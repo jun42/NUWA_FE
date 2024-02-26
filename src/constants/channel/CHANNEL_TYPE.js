@@ -13,7 +13,7 @@ export const CHANNEL_TYPE = [
   },
   {
     id: 2,
-    value: 'audio',
+    value: 'voice',
     label: '음성채널',
     description: '음성, 영상, 화상으로 팀원과 소통하세요.',
     icon: soundIcon,

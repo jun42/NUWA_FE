@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import useBoundStore from '@store/store';
 import { Spinner } from '@chakra-ui/react';
-import { chekcDuplicateEmail } from '@apis/axios/auth';
+import { chekcDuplicateEmail } from '@apis/auth/auth';
 import styled from 'styled-components';
 
 const SocialSignupRedirect = () => {

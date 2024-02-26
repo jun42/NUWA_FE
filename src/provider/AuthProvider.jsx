@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { logoutRequest, reissueToken, login } from '@apis/axios/auth';
+import { logoutRequest, reissueToken, login } from '@apis/auth/auth';
 import useInterval from '@hooks/useInterval';
 import { getToken, removeToken } from '../utils/auth';
 import useBoundStore from '@store/store';
