@@ -7,10 +7,11 @@ import NumberListImage from '@assets/textEditor/number-list.svg';
 import BulletListImage from '@assets/textEditor/bullet-list.svg';
 // import CodeImage from '../../assets/textEditor/code.svg';
 import CodeBlockImage from '@assets/textEditor/code-block.svg';
+import './CustomToolbar.css';
 const CustomToolBar = () => {
   return (
     <div className="toolbar-top__container">
-      <div className="toolbar-top" id="toolbar">
+      <div className="toolbar-top toolbar">
         {/* <button className="ql-bold" /> */}
 
         <ToolBarIcon className="ql-bold" src={BoldImage} />
@@ -23,13 +24,17 @@ const CustomToolBar = () => {
 
         <ToolBarDevider />
 
-        <ToolBarIcon className="ql-list" src={NumberListImage} />
-        <ToolBarIcon src={BulletListImage} />
+        <ToolBarIcon
+          className="ql-list"
+          value="ordered"
+          src={NumberListImage}
+        />
+        <ToolBarIcon className="ql-list" value="bullet" src={BulletListImage} />
 
         <ToolBarDevider />
 
         {/* <ToolBarIcon src={CodeImage} /> */}
-        <ToolBarIcon className="ql-codeblock" src={CodeBlockImage} />
+        <ToolBarIcon className="ql-code-block" src={CodeBlockImage} />
       </div>
     </div>
   );
@@ -37,9 +42,9 @@ const CustomToolBar = () => {
 
 export default CustomToolBar;
 
-const ToolBarIcon = ({ src, className }) => {
+const ToolBarIcon = ({ src, className, ...props }) => {
   return (
-    <button className={`toolbar-top__icon ${className}`}>
+    <button className={`toolbar-top__icon ${className}`} {...props}>
       <img src={src} />
     </button>
   );

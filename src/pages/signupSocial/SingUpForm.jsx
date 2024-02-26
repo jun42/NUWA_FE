@@ -44,7 +44,6 @@ const SignUpForm = () => {
           resetSocialSignupInfo();
           localStorage.setItem('accessToken', response.data.data.accessToken);
           // todo : to main page
-          console.log('redirect to login');
 
           navigate('/');
         }
