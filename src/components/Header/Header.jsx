@@ -1,25 +1,12 @@
-// import useBoundStore from '../../store/store';
-// import { Button as ChButton } from '@chakra-ui/react';
-
-// const Header = () => {
-//   const bearPopulation = useBoundStore((state) => state.bears);
-
-//   return (
-//     <>
-//       <div>bear population:{bearPopulation}</div>
-//     </>
-//   );
-// };
-// export default Header;
 import styled from 'styled-components';
 import StText from '@components/Text/StText';
 import Logo from '@components/Image/Logo';
 import { Flex, Text, Button } from '@chakra-ui/react';
 import { categories } from '@constants/selectPlan/SELECT_ALL_INFO';
 import { Link, useNavigate } from 'react-router-dom';
-import useBoundStore from '../../store/store';
-import { logoutRequest } from '../../apis/axios/auth';
-import { removeToken } from '../../utils/auth';
+import useBoundStore from '@store/store';
+import { logoutRequest } from '@apis/axios/auth';
+import { removeToken } from '@utils/auth';
 const Header = () => {
   const { isLoggedIn, setIsLoggedIn } = useBoundStore();
   const navigate = useNavigate();
@@ -66,21 +53,39 @@ const Header = () => {
           </CategoryBox>
 
           <ButtonBox>
-            <Link to="/login">
-              <Button
-                borderRadius={'4px'}
-                bg={'#575DFB'}
-                _hover={{ bg: '#5055f3' }}
-                _active={{ bg: '#5359f6' }}
-                bgColor={'primary400'}
-                padding={'9px 22px'}
-                color={'white'}
-                fontSize={'16px'}
-                fontWeight={'700'}
-              >
-                로그인
-              </Button>
-            </Link>
+            {isLoggedIn ? (
+              <Link to="/workAccess">
+                <Button
+                  borderRadius={'4px'}
+                  bg={'#575DFB'}
+                  _hover={{ bg: '#5055f3' }}
+                  _active={{ bg: '#5359f6' }}
+                  bgColor={'primary400'}
+                  padding={'9px 22px'}
+                  color={'white'}
+                  fontSize={'16px'}
+                  fontWeight={'700'}
+                >
+                  워크스페이스로 이동
+                </Button>
+              </Link>
+            ) : (
+              <Link to="/login">
+                <Button
+                  borderRadius={'4px'}
+                  bg={'#575DFB'}
+                  _hover={{ bg: '#5055f3' }}
+                  _active={{ bg: '#5359f6' }}
+                  bgColor={'primary400'}
+                  padding={'9px 22px'}
+                  color={'white'}
+                  fontSize={'16px'}
+                  fontWeight={'700'}
+                >
+                  로그인
+                </Button>
+              </Link>
+            )}
 
             {isLoggedIn ? (
               <Button

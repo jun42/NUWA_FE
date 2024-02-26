@@ -1,6 +1,6 @@
 import { setTokenInStorage } from '@utils/auth';
 import { request } from './axios';
-import { removeToken } from '../../utils/auth';
+import { removeToken } from '@utils/auth';
 
 export const createAccount = async ({
   nickname,

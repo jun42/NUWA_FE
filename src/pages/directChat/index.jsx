@@ -7,7 +7,7 @@ import TextEditor from '@components/TextEditorFunctionalComponent/TextEditor';
 import { useEffect } from 'react';
 import sockjs from 'sockjs-client/dist/sockjs';
 import { Stomp } from '@stomp/stompjs';
-import { request } from '../../apis/axios/axios';
+import { request } from '@apis/axios/axios';
 
 const DirectChatPage = () => {
   useEffect(() => {
