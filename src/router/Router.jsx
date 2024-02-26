@@ -27,6 +27,7 @@ import ChatPage from '@pages/chatBoard';
 import DirectChatPage from '@pages/directChat';
 import DashBoard from '@pages/dashboard';
 import Canvas from '@pages/canvas';
+import JoinMemberPage from '../pages/devJoinMember';
 
 export const Router = createBrowserRouter([
   {
@@ -83,6 +84,10 @@ export const Router = createBrowserRouter([
             element: <WorkAccess />,
           },
           { path: '/helpdesk', element: <HelpDesk /> },
+          {
+            path: '/join',
+            element: <JoinMemberPage />,
+          },
         ],
       },
       {
@@ -116,7 +121,7 @@ export const Router = createBrowserRouter([
         ],
       },
       {
-        path: '/workspace',
+        path: '/workspace/:workspaceId',
         element: <WorkspaceLayout />,
         children: [
           {
@@ -124,18 +129,18 @@ export const Router = createBrowserRouter([
             index: true,
           },
           {
-            path: '/workspace/chatboard',
+            path: '/workspace/:workspaceId/chatboard',
             element: <ChatPage />,
           },
           {
-            path: '/workspace/direct-chat',
+            path: '/workspace/:workspaceId/direct-chat/:roomId',
             element: <DirectChatPage />,
           },
           {
-            path: '/workspace/canvas',
+            path: '/workspace/:workspaceId/canvas',
             element: <Canvas />,
           },
-          { path: '/workspace/files', element: <Files /> },
+          { path: '/workspace/:workspaceId/files', element: <Files /> },
         ],
       },
     ],

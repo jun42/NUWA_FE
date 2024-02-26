@@ -3,16 +3,20 @@ import { logoutRequest, reissueToken, login } from '@apis/axios/auth';
 import useInterval from '@hooks/useInterval';
 import { getToken, removeToken } from '../utils/auth';
 import useBoundStore from '@store/store';
+import { useNavigate } from 'react-router-dom';
+
 const AuthProvider = ({ children }) => {
   const { setIsLoggedIn } = useBoundStore();
+  const navigate = useNavigate();
 
   //todo : 소셜로그인에서 다른 앱으로 진입할 때 날아가는 버그.
   // 기능상 에러는 아니지만 의도하지는 않은거라서.. 어떻게 핸들링할지 고민중
   useEffect(() => {
     const handleLogout = () => {
-      removeToken();
+      // removeToken();
       logoutRequest();
       setIsLoggedIn(false);
+      console.log('beforeunload event');
     };
     window.addEventListener('beforeunload', handleLogout);
     return () => {
@@ -22,7 +26,12 @@ const AuthProvider = ({ children }) => {
   // 5분간격 토큰 재발행
   useInterval(() => {
     if (getToken()) {
-      reissueToken();
+      try {
+        reissueToken();
+      } catch {
+        removeToken();
+        navigate('/login');
+      }
     }
   }, 5 * 60 * 1000);
 

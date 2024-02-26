@@ -1,33 +1,62 @@
-import { Box, Stack } from '@chakra-ui/layout';
+import { Stack } from '@chakra-ui/layout';
 import ChatPageHeader from './ChatPageHeader';
-import { Avatar, AvatarBadge } from '@chakra-ui/avatar';
 import styled from 'styled-components';
+import ChatPreviewBox from './ChatPreviewBox';
+import { useEffect, useState } from 'react';
 
+const MockData = [
+  {
+    roomId: '1',
+    name: 'channelName',
+    workSpaceId: 1,
+    createMemberId: 1,
+    joinMemberId: 2,
+    createMemberName: 'createMemberName',
+    joinMemberName: 'joinMemberName',
+    unReadCount: 10,
+    lastMessage: 'lastMessage',
+    messageCreatedAt: '2024-02-22 00:43:44.417',
+  },
+  {
+    roomId: '2',
+    name: 'channelName',
+    workSpaceId: 1,
+    createMemberId: 1,
+    joinMemberId: 2,
+    createMemberName: 'createMemberName',
+    joinMemberName: 'joinMemberName',
+    unReadCount: 120,
+    lastMessage: 'lastMessage',
+    messageCreatedAt: '2024-02-22 00:43:44.417',
+  },
+];
+//todo : 본인 프로필 이름 혹은 workspaceid로 본인인지 상대인지 확인
 const ChatPage = () => {
+  const [chatList, setChatList] = useState([]);
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      Promise.resolve(MockData).then((r) => setChatList(r));
+    }, 300);
+    return () => {
+      clearTimeout(id);
+    };
+  }, []);
   return (
     <StContainer>
       <ChatPageHeader />
       <Stack>
-        <Box
-          width={'100%'}
-          border={'1px'}
-          p={'12px'}
-          borderColor={'grey.300'}
-          rounded={'lg'}
-        >
-          <Box>
-            <Avatar size={'xl'}>
-              <AvatarBadge
-                boxSize={'1.25rem'}
-                bg={'#29cc39'}
-                top={'-0.2rem'}
-                right={'0.5rem'}
-                borderWidth={'2px'}
-              />
-            </Avatar>
-          </Box>
-          <Box></Box>
-        </Box>
+        {chatList.map((chat) => {
+          return (
+            <ChatPreviewBox
+              key={chat.roomId}
+              messageCreatedAt={chat.messageCreatedAt}
+              lastMessage={chat.lastMessage}
+              unReadCount={chat.unReadCount}
+              conversationPartner={chat.joinMemberName}
+            />
+          );
+        })}
       </Stack>
     </StContainer>
   );

@@ -11,11 +11,14 @@ import { request } from '@apis/axios/axios';
 
 const DirectChatPage = () => {
   useEffect(() => {
-    // const socket = new sockjs('/stomp/chat');
+    // const socket = new sockjs(import.meta.env.VITE_SERVER_SOCKET);
     // const stomp = Stomp.over(socket);
+    // return () => {
+    //   stomp.disconnect();
+    // };
   }, []);
   useEffect(() => {
-    request.get('/workspace/5/members');
+    request.get('/workspace/1/members');
   }, []);
   return (
     <Box width="100%" p={'0.5rem'}>
