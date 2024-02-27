@@ -4,7 +4,7 @@ import search from '../../assets/search.svg';
 
 const OutletSearchBar = () => {
   return (
-    <InputGroup m={'32px 0px'}>
+    <InputGroup m={'24px 0px'}>
       <InputLeftElement
         pointerEvents="none"
         children={<Image src={search} boxSize="1.3rem" />}
