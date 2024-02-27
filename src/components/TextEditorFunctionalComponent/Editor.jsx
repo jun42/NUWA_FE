@@ -2,11 +2,21 @@ import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import Quill from 'quill';
 import CustomToolBar from '../TextEditor/CustomToolbar';
 import CustomToolbarBottom from '../TextEditor/CustomToolbarBottom';
-import { clearContentHandler, newLineHandler } from './keyBinding';
 import options from './options';
+import EmojiPicker from 'emoji-picker-react';
 // Editor is an uncontrolled React component
 const Editor = forwardRef(
-  ({ readOnly, defaultValue, onTextChange, onSelectionChange }, ref) => {
+  (
+    {
+      readOnly,
+      defaultValue,
+      onTextChange,
+      onSelectionChange,
+      emojiPickerIsOpen,
+      setEmojiPickerIsOpen,
+    },
+    ref
+  ) => {
     const containerRef = useRef(null);
     const defaultValueRef = useRef(defaultValue);
     const onTextChangeRef = useRef(onTextChange);
@@ -66,7 +76,7 @@ const Editor = forwardRef(
     const clearText = () => {
       ref.current.deleteText(0, ref.current.getLength());
     };
-    const handleSendMessage = (e) => {
+    const handleSendMessage = () => {
       clearText();
     };
 
@@ -96,9 +106,15 @@ const Editor = forwardRef(
 
     return (
       <>
-        <CustomToolBar />
+        <CustomToolBar>
+          <EmojiPicker
+            open={emojiPickerIsOpen}
+            className="emoji-picker"
+            onEmojiClick={console.log}
+          />
+        </CustomToolBar>
         <div id="editor" ref={containerRef}></div>
-        <CustomToolbarBottom />
+        <CustomToolbarBottom setEmojiPickerIsOpen={setEmojiPickerIsOpen} />
       </>
     );
   }

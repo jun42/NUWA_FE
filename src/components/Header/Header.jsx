@@ -140,6 +140,9 @@ const HeaderTop = styled.div`
 const HeaderWarp = styled.div`
   display: block;
   border-bottom: 1px solid #00000010;
+  .test {
+    display: flex;
+  }
 `;
 
 const HeaderCenter = styled.div`
