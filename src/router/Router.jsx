@@ -23,8 +23,8 @@ import HelpDesk from '@pages/HelpDesk';
 import MainLayout from '@components/Layout/MainLayout';
 import WorkspaceLayout from '@components/Layout/WorkspaceLayout';
 import InviteMember from '@pages/createWorkspace/create/inviteMember';
-import ChatPage from '../pages/chatBoard';
-import DirectChatPage from '../pages/directChat';
+import ChatPage from '@pages/chatBoard';
+import DirectChatPage from '@pages/directChat';
 import DashBoard from '@pages/dashboard';
 import Canvas from '@pages/canvas';
 import Thread from '@pages/thread';
@@ -43,7 +43,7 @@ export const Router = createBrowserRouter([
           },
           { path: '*', element: <NotFoundPage /> },
           {
-            path: 'login',
+            path: '/login',
             element: <LoginPage />,
           },
           {

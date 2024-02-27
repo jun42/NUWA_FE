@@ -9,7 +9,7 @@ const FeatLink = () => {
   return (
     <StContainer $backgroundColor={'primary400'}>
       <IllustratorBox>
-        <StTextDiv $color={'white'} $size={50} $weight={700}>
+        <StTextDiv $color={'white'} $size={42} $weight={700}>
           새로운 업무 방식을
           <br /> 더 자세히 알아보세요
         </StTextDiv>
@@ -47,7 +47,8 @@ const StContainer = styled.div`
   width: 100%;
   background-color: ${({ theme, $backgroundColor = 'primary400' }) =>
     theme.color[$backgroundColor]};
-  padding: 50px 150px;
+  padding: 80px 12px;
+  justify-content: center;
 `;
 
 const IllustratorBox = styled.div`

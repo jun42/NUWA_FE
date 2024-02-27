@@ -35,5 +35,5 @@ width: 100%;
   background-color: #f8f9fb;
   justify-content: center;
   align-items: center;
-  padding: 0px 50px;
+  padding: 0px 12px;
 `;

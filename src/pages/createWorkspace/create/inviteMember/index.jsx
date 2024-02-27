@@ -4,14 +4,17 @@ import Paragraph from '@components/Paragraph/Paragraph';
 import CopyLink from '@components/CopyLink/CopyLink';
 import { Box, Button, ButtonGroup, Flex } from '@chakra-ui/react';
 import InviteImg from '@assets/invite.png';
+import useBoundStore from '@store/store';
 
 const InviteMember = () => {
+  const { workspace } = useBoundStore();
+  const { workSpaceName } = workspace;
   return (
     <Flex justifyContent="space-between" w="920px">
       <Flex flexDirection="column">
         <SingleColor
-          firstText="NUWA_Project"
-          subText="팀에"
+          firstText={workSpaceName}
+          subText=" 팀에"
           secondText="초대해보세요."
           hasColor="first"
           fontSize="3xl"

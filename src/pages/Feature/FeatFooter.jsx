@@ -9,7 +9,7 @@ import { Sub_Feat } from '@constants/selectPlan/SELECT_FEAT_INFO';
 const FeatFooter = () => {
   return (
     <StContainer>
-      <StText $color={'white'} $size={40} $weight={700}>
+      <StText $color={'white'} $size={42} $weight={700}>
         새롭게 추가된 기능
       </StText>
       <Flex gap={'24px'}>
@@ -38,7 +38,7 @@ const FeatFooter = () => {
               />
 
               <Text
-                fontSize={'30px'}
+                fontSize={'22px'}
                 fontWeight={700}
                 textAlign={'center'}
                 color={'white'}
@@ -63,7 +63,7 @@ const StContainer = styled.div`
   background-color: black;
   width: 100%;
   height: 100%;
-  padding: 100px 139px;
+  padding: 80px 12px;
   gap: 100px;
 `;
 
@@ -73,5 +73,5 @@ const NewFeatCard = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  gap: 80px;
+  gap: 42px;
 `;
