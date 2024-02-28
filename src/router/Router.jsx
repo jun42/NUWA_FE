@@ -27,6 +27,8 @@ import ChatPage from '../pages/chatBoard';
 import DirectChatPage from '../pages/directChat';
 import DashBoard from '@pages/dashboard';
 import Canvas from '@pages/canvas';
+import FindChannel from '@pages/FindChannel';
+import AddUser from '@pages/adduser';
 
 export const Router = createBrowserRouter([
   {
@@ -136,6 +138,14 @@ export const Router = createBrowserRouter([
             element: <Canvas />,
           },
           { path: '/workspace/files', element: <Files /> },
+          {
+            path: '/workspace/findchannel',
+            element: <FindChannel />,
+          },
+          {
+            path: '/workspace/adduser',
+            element: <AddUser />,
+          },
         ],
       },
     ],
