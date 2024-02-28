@@ -121,7 +121,7 @@ export const Router = createBrowserRouter([
         ],
       },
       {
-        path: '/workspace/:workspaceId',
+        path: '/workspace/:workSpaceId',
         element: <WorkspaceLayout />,
         children: [
           {
@@ -129,18 +129,18 @@ export const Router = createBrowserRouter([
             index: true,
           },
           {
-            path: '/workspace/:workspaceId/chatboard',
+            path: '/workspace/:workSpaceId/chatboard',
             element: <ChatPage />,
           },
           {
-            path: '/workspace/:workspaceId/direct-chat/:roomId',
+            path: '/workspace/:workSpaceId/direct-chat/:roomId',
             element: <DirectChatPage />,
           },
           {
-            path: '/workspace/:workspaceId/canvas',
+            path: '/workspace/:workSpaceId/canvas',
             element: <Canvas />,
           },
-          { path: '/workspace/:workspaceId/files', element: <Files /> },
+          { path: '/workspace/:workSpaceId/files', element: <Files /> },
         ],
       },
     ],

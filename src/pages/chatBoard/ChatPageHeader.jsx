@@ -13,16 +13,17 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { createDirectChatRoom } from '../../apis/chat/chat';
 
 const ChatPageHeader = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { workspaceId } = useParams();
-  console.log(workspaceId);
+  const { workSpaceId } = useParams();
   const [memberList, setMemberList] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     request
-      .get(`workspace/${workspaceId}/members`)
+      .get(`workspace/${workSpaceId}/members`)
       .then((r) => setMemberList(r.data.data));
   }, []);
   console.log(memberList);
@@ -49,7 +50,29 @@ const ChatPageHeader = () => {
             <Stack>
               {memberList.length > 0 &&
                 memberList.map((member) => {
-                  return <Button key={member.email}>{member.email}</Button>;
+                  return (
+                    <Button
+                      key={member.email}
+                      onClick={(e) => {
+                        try {
+                          createDirectChatRoom({
+                            workSpaceId,
+                            joinMemberId: member.id,
+                          }).then((r) => {
+                            const roomId = r.data.data.directChannelRoomId;
+                            navigate(
+                              `/workspace/${workSpaceId}/direct-chat/${roomId}`
+                            );
+                            onClose();
+                          });
+                        } catch (err) {
+                          console.error(err);
+                        }
+                      }}
+                    >
+                      {member.email}
+                    </Button>
+                  );
                 })}
             </Stack>
           </ModalBody>

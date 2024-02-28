@@ -23,7 +23,7 @@ import { createChatChannel, createVoiceChannel } from '@apis/channel/channel';
 import { useParams } from 'react-router';
 
 const CreateChannelModal = () => {
-  const { workspaceId: workSpaceId } = useParams();
+  const { workSpaceId } = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [channelType, setChannelType] = useState('');
   const [channelOpenType, setChannelOpenType] = useState('');
