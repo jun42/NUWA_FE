@@ -1,7 +1,11 @@
-
 export const createWorkspaceNameSlice = (set) => ({
-    workspace:{workspaceName: '', userInfo: {name:'', jobName:'',profile:''}},
-    setWorkspace: (newWorkspace) => set(() => ({ workspace:newWorkspace })),
-
-  });
-  
+  workspace: {
+    workSpaceName: '',
+    workSpaceImage: '',
+    workSpaceIntroduce: '',
+    workSpaceMemberName: '',
+    workSpaceMemberJob: '',
+    workSpaceMemberImage: '',
+  },
+  setWorkspace: (newWorkspace) => set(() => ({ workspace: newWorkspace })),
+});

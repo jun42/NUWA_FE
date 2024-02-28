@@ -38,15 +38,17 @@ export default SelectPlan;
 
 // 1920 * 1080 기준
 const StContainer = styled.div`
-  padding-left: 9rem;
-  padding-right: 9rem;
   display: flex;
   flex-direction: column;
-  gap: 7rem;
+  gap: 6rem;
   justify-content: center;
   align-items: start;
+  padding: 64px 0;
+    max-width: 1440px;
+    margin: 0 auto;
 `;
 const StCardContainer = styled.div`
   display: flex;
   gap: 2rem;
+  width: 100%;
 `;
