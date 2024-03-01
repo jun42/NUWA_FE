@@ -27,6 +27,7 @@ import ChatPage from '@pages/chatBoard';
 import DirectChatPage from '@pages/directChat';
 import DashBoard from '@pages/dashboard';
 import Canvas from '@pages/canvas';
+import CalenderPage from '../pages/calender';
 
 export const Router = createBrowserRouter([
   {
@@ -136,6 +137,7 @@ export const Router = createBrowserRouter([
             element: <Canvas />,
           },
           { path: '/workspace/:workspaceId/files', element: <Files /> },
+          { path: '/workspace/:workspaceId/calender', element: <CalenderPage />}
         ],
       },
     ],
