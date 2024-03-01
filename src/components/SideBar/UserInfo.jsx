@@ -3,13 +3,7 @@ import React from 'react';
 import profile from '../../assets/cham.png';
 import active from '../../assets/active.svg';
 
-import {
-    Flex,
-    Box,
-    Text,
-    Avatar,
-    Image,
-  } from '@chakra-ui/react';
+import { Flex, Box, Text, Avatar, Image } from '@chakra-ui/react';
 
 const UserInfo = () => {
   return (
@@ -42,6 +36,7 @@ const UserInfo = () => {
         w="150px"
         h="150px"
         border="2px solid #3361ff"
+        borderRight="2px solid #DADEE6"
         borderRadius="70%"
         m="28px"
       >
