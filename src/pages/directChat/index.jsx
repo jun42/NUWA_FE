@@ -1,8 +1,9 @@
 import { Box } from '@chakra-ui/react';
 import DirectChatHeader from './DirectChatHeader';
-import TextEditor from '@components/TextEditor/TextEditor';
+// import TextEditor from '@components/TextEditor/TextEditor';
 import MyText from './MyText';
 import YourText from './YourText';
+import TextEditor from '../../components/TextEditorFunctionalComponent/TextEditor';
 
 const DirectChatPage = () => {
   return (

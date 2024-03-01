@@ -20,10 +20,25 @@ const TextEditor = ({ width = '100%' }) => {
     console.log(value);
   };
 
+  const handleKeydown = (e) => {
+    if (e.key === 'Enter') {
+      console.log(this);
+    }
+  };
+
+  // const clearText = () => {
+  //   this.quill.deleteText(0, this.quill.getLength());
+  // };
+
   return (
     <Box height={'15vh'} width={width}>
       <CustomToolBar />
-      <ReactQuill onChange={handleChange} modules={modules} formats={formats} />
+      <ReactQuill
+        onChange={handleChange}
+        modules={modules}
+        formats={formats}
+        onKeyDown={handleKeydown}
+      />
       <CustomToolbarBottom />
     </Box>
   );

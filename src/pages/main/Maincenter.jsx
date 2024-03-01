@@ -7,8 +7,11 @@ const MainCenter = () => {
   return (
     <StContainer>
       {mainCards.map((card, index) => (
-        <MainSection key={index} style={{flexDirection:index === 1? 'row-reverse' : 'row'}}>
-            <Image src={card.src} alt={card.alt} width="50%" />
+        <MainSection
+          key={index}
+          style={{ flexDirection: index === 1 ? 'row-reverse' : 'row' }}
+        >
+          <Image src={card.src} alt={card.alt} width="50%" />
           <StTextBox>
             <Flex flexDirection="column" gap="18px">
               <Text width="100%" fontSize="36px" fontWeight="700">
@@ -19,7 +22,12 @@ const MainCenter = () => {
                   </React.Fragment>
                 ))}
               </Text>
-              <Text width="100%" fontSize="18px" fontWeight="500" color="#24242490">
+              <Text
+                width="100%"
+                fontSize="18px"
+                fontWeight="500"
+                color="#24242490"
+              >
                 {card.description.split('\n').map((line, index, array) => (
                   <React.Fragment key={index}>
                     {line}
@@ -48,25 +56,25 @@ const MainCenter = () => {
 export default MainCenter;
 
 const StContainer = styled.div`
-    width: 100%;
-    padding: 80px 12px;
-    background-color: #F8F9FB;
+  width: 100%;
+  padding: 80px 12px;
+  background-color: #f8f9fb;
 `;
 
 const MainSection = styled.div`
-    max-width: 1280px;
-    display: flex;
-    justify-content: space-between;
-    padding-top: 120px;
-    padding-bottom: 60px;
-    margin: 0 auto;
+  max-width: 1280px;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 120px;
+  padding-bottom: 60px;
+  margin: 0 auto;
 `;
 
 const StTextBox = styled.div`
-    width: auto;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
 `;
