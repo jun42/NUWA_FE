@@ -25,7 +25,12 @@ const Todo = () => {
         </Text>
         <Flex gap="20px">
           <Box w="50%">
-            <Box backgroundColor="#F1F1F1" h="114px" p="20px">
+            <Box
+              backgroundColor="#F1F1F1"
+              h="114px"
+              p="20px"
+              borderRadius="8px"
+            >
               <Flex justify="space-between">
                 <Flex align="center" gap="10px">
                   <Text fontSize="28px" fontWeight="600">
