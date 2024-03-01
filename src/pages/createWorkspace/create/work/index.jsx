@@ -13,16 +13,16 @@ const Work = () => {
   const navigate = useNavigate();
   const { workspace, setWorkspace } = useBoundStore();
   const { mutation } = useCreateWorkspace();
-  const [workspaceUrl, setWorkspaceUrl] = useState('');
+  // const [workspaceUrl, setWorkspaceUrl] = useState('');
   const [workSpaceIntroduce, setWorkSpaceIntroduce] = useState('');
 
   const handleButtonClick = async (event) => {
     const { name } = event.target;
     if (name === 'next') {
       const urlData = await mutation.mutateAsync(workspace);
-      setWorkspaceUrl(urlData);
+      
       navigate('/create-workspace/invite-member', {
-        state: { workspaceUrl: workspaceUrl },
+        state: { workspaceUrl:urlData.data.workSpaceId  },
       });
     } else return navigate(-1);
   };
