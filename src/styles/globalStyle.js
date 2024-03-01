@@ -24,5 +24,21 @@ ${reset}
   --grey-500: #656565;
   --grey-600: #434343;
   --grey-700: #242424;
+
+strong {
+  font-weight: bold;
+}
+
+i {
+  font-style: italic;
+}
+
+em {
+  font-style: italic;
+}
+
+s {
+  text-decoration: line-through;
+}
 }
 `;

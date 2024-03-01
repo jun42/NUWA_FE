@@ -3,17 +3,17 @@ import SearchBar from '@components/SearchBar/SearchBar.jsx';
 import styled from 'styled-components';
 import { FaBell } from 'react-icons/fa6';
 import { IconButton } from '@chakra-ui/react';
+import Alarm from '@components/Alarm/Alarm.jsx';
 const WorkspaceHeader = () => {
+  const handleClick = (newSize) => {
+    setSize(newSize);
+    onOpen();
+  };
   return (
     <StContainer>
       <WhiteLogo width={'87px'} height={'22px'} />
       <SearchBar>검색창</SearchBar>
-      <IconButton
-        icon={<FaBell size={'20px'} color="#007bff" />}
-        bgColor={'grey.700'}
-        _hover={'grey.700'}
-        _active={'grey.700'}
-      />
+      <Alarm />
     </StContainer>
   );
 };

@@ -31,6 +31,8 @@ import {
 import UserInfo from './UserInfo';
 import CreateChannel from '../Channel/CreateChannelModal';
 import Channel from './Channel';
+import WorkSpaceModalEdit from '@components/Modal/WorkspaceEdit';
+import useModal from '@hooks/useModal';
 
 const SideBar = () => {
   const chData = [
@@ -79,6 +81,11 @@ const SideBar = () => {
   ];
 
   const [isOpen, setIsOpen] = useState(false);
+  const {
+    isOpen: isEditModalOpen,
+    onOpen: onEditModalOpen,
+    onClose: onEditModalClose,
+  } = useModal();
 
   return (
     <Flex>
@@ -106,9 +113,15 @@ const SideBar = () => {
           fontWeight="bold"
           textAlign="center"
           m="50px 20px 0"
+          cursor={'pointer'}
+          onClick={onEditModalOpen}
         >
           NUWA_PROJECT
         </Text>
+        <WorkSpaceModalEdit
+          isOpen={isEditModalOpen}
+          onClose={onEditModalClose}
+        />
         <UserInfo />
         <Box>
           <Box mb="10px">

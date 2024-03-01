@@ -14,14 +14,15 @@ import {
 import {useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Span from '@components/Span/Span';
-import SingleColor from '../../../components/Paragraph/BreakParagraph/SingleColor';
-import DefaultBreak from '../../../components/Paragraph/BreakParagraph/DefaultBreak';
-import LinkButton from '../../../components/Button/LinkButton';
+import SingleColor from '@components/Paragraph/BreakParagraph/SingleColor';
+import DefaultBreak from '@components/Paragraph/BreakParagraph/DefaultBreak';
+import LinkButton from '@components/Button/LinkButton';
+
 
 const Agreement = () => {
   const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false);
-
+  
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   };

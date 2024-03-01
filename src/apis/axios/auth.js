@@ -127,9 +127,15 @@ export const login = async ({ email, password }) => {
 };
 
 export const logout = async () =>
-  await request.post('/logout').then(() => {
-    localStorage.removeItem('accessToken');
-  });
+  await request
+    .post('/logout')
+    .then(() => {
+      localStorage.removeItem('accessToken');
+    })
+    .catch((err) => {
+      console.log(err);
+      localStorage.removeItem('accessToken');
+    });
 
 export const reissueToken = async () => {
   return await request

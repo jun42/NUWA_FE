@@ -7,6 +7,26 @@ import mainCard1 from '@assets/mainCard1.png';
 import mainCard2 from '@assets/mainCard2.png';
 import mainCard3 from '@assets/mainCard3.png';
 
+export const alarm_data =[
+    {name: "새로운 캔버스가 작성되었습니다.", date: "오늘 마지막으로 확인됨"},
+    {name: "NUWA 사이트를 제작중입니다. 잠시만 기다려주세요", date: "어제 마지막으로 확인됨"}, 
+    {name: "새로운 캔버스가 작성되었습니다.", date: "오늘 마지막으로 확인됨"},
+    {name: "NUWA 사이트를 제작중입니다. 잠시만 기다려주세요", date: "어제 마지막으로 확인됨"}, 
+    {name: "새로운 캔버스가 작성되었습니다.", date: "오늘 마지막으로 확인됨"},
+    {name: "NUWA 사이트를 제작중입니다. 잠시만 기다려주세요", date: "어제 마지막으로 확인됨"}, 
+    {name: "새로운 캔버스가 작성되었습니다.", date: "오늘 마지막으로 확인됨"},
+    {name: "NUWA 사이트를 제작중입니다. 잠시만 기다려주세요", date: "어제 마지막으로 확인됨"}, 
+    {name: "새로운 캔버스가 작성되었습니다.", date: "오늘 마지막으로 확인됨"},
+    {name: "NUWA 사이트를 제작중입니다. 잠시만 기다려주세요", date: "어제 마지막으로 확인됨"}, 
+    {name: "새로운 캔버스가 작성되었습니다.", date: "오늘 마지막으로 확인됨"},
+    {name: "NUWA 사이트를 제작중입니다. 잠시만 기다려주세요", date: "어제 마지막으로 확인됨"} 
+]
+
+export const canvas_data =[
+    {name: "Copy of 캔버스가 무엇인가요?", date: "오늘 마지막으로 확인됨"},
+    {name: "NUWA 사이트를 제작중입니다. 잠시만 기다려주세요", date: "어제 마지막으로 확인됨"} 
+]
+
 export const categories = [
     {name: "기능", link: '/feat-description' ,icon: Polygon},
     {name: "자주하는 질문", link: "/faq", icon: Polygon}, 
