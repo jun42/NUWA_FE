@@ -5,7 +5,8 @@ import './quill.custom.snow.css';
 
 const Delta = Quill.import('delta');
 
-const TextEditor = () => {
+const TextEditor = ({ publish }) => {
+  // console.log('TEXTEDITOR');
   const [emojiPickerIsOpen, setEmojiPickerIsOpen] = useState(false);
 
   const [range, setRange] = useState();
@@ -15,6 +16,7 @@ const TextEditor = () => {
   const quillRef = useRef();
   return (
     <Editor
+      publish={publish}
       ref={quillRef}
       readOnly={readOnly}
       onSelectionChange={setRange}

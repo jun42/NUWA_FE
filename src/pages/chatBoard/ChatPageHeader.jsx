@@ -54,20 +54,28 @@ const ChatPageHeader = () => {
                     <Button
                       key={member.email}
                       onClick={(e) => {
-                        try {
-                          createDirectChatRoom({
-                            workSpaceId,
-                            joinMemberId: member.id,
-                          }).then((r) => {
+                        createDirectChatRoom({
+                          workSpaceId,
+                          joinMemberId: member.id,
+                        })
+                          .then((r) => {
                             const roomId = r.data.data.directChannelRoomId;
                             navigate(
                               `/workspace/${workSpaceId}/direct-chat/${roomId}`
                             );
+                          })
+                          .catch((err) => {
+                            console.log(err.response);
+                            if (err.response.status === 400) {
+                              const roomId = err.response.data.message;
+                              navigate(
+                                `/workspace/${workSpaceId}/direct-chat/${roomId}`
+                              );
+                            }
+                          })
+                          .finally(() => {
                             onClose();
                           });
-                        } catch (err) {
-                          console.error(err);
-                        }
                       }}
                     >
                       {member.email}

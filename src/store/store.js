@@ -5,6 +5,7 @@ import { immer } from 'zustand/middleware/immer';
 import { createSocialSignupSlice } from './socialSignupSlice';
 import { createWorkspaceNameSlice } from './createWorkspaceNameSlice';
 import { createUserAuthSlice } from './userAuthSlice';
+import { createDirectMessageSlice } from './socketPubSlice';
 
 const persistKeys = ['email', 'provider', 'workspace'];
 
@@ -27,6 +28,7 @@ const useBoundStore = create(
           ...createSocialSignupSlice(...a),
           ...createWorkspaceNameSlice(...a),
           ...createUserAuthSlice(...a),
+          ...createDirectMessageSlice(...a),
         }),
         persistOption
       )

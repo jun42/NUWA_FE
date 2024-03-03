@@ -3,6 +3,8 @@ import ChatPageHeader from './ChatPageHeader';
 import styled from 'styled-components';
 import ChatPreviewBox from './ChatPreviewBox';
 import { useEffect, useState } from 'react';
+import { getDirectChatRoomList } from '../../apis/chat/chat';
+import { useParams } from 'react-router';
 
 const MockData = [
   {
@@ -33,11 +35,12 @@ const MockData = [
 //todo : 본인 프로필 이름 혹은 workspaceid로 본인인지 상대인지 확인
 const ChatPage = () => {
   const [chatList, setChatList] = useState([]);
-
+  const { workSpaceId } = useParams();
   useEffect(() => {
     const id = setTimeout(() => {
       Promise.resolve(MockData).then((r) => setChatList(r));
     }, 300);
+    getDirectChatRoomList({ workSpaceId }).then(console.log);
     return () => {
       clearTimeout(id);
     };
