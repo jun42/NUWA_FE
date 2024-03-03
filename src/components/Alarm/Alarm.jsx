@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   IconButton,
   Drawer,
@@ -18,7 +18,8 @@ import { alarm_data } from '@constants/selectPlan/SELECT_ALL_INFO';
 import AlarmData from '@components/DataBox/AlarmData';
 
 const Alarm = () => {
-  const [size, setSize] = React.useState('');
+  const [size, setSize] = useState('');
+  const [alarmData, setlArmData] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleClick = (newSize) => {
