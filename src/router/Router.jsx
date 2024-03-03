@@ -28,6 +28,7 @@ import DirectChatPage from '@pages/directChat';
 import DashBoard from '@pages/dashboard';
 import Canvas from '@pages/canvas';
 import JoinMemberPage from '../pages/devJoinMember';
+import Todo from './../pages/dashboard/Todo';
 
 export const Router = createBrowserRouter([
   {
@@ -130,6 +131,10 @@ export const Router = createBrowserRouter([
           },
           {
             path: '/workspace/:workSpaceId/chatboard',
+            element: <Todo />,
+          },
+          {
+            path: '/workspace/:workSpaceId/todo',
             element: <ChatPage />,
           },
           {
