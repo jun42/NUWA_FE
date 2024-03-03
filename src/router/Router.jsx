@@ -27,7 +27,7 @@ import ChatPage from '@pages/chatBoard';
 import DirectChatPage from '@pages/directChat';
 import DashBoard from '@pages/dashboard';
 import Canvas from '@pages/canvas';
-import Thread from '@pages/thread';
+import Todo from './../pages/dashboard/Todo';
 
 export const Router = createBrowserRouter([
   {
@@ -123,6 +123,10 @@ export const Router = createBrowserRouter([
           {
             element: <DashBoard />,
             index: true,
+          },
+          {
+            path: '/workspace/todo',
+            element: <Todo />,
           },
           {
             path: '/workspace/chatboard',
