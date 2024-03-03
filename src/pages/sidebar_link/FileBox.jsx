@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ellipsis_vertical from '../../assets/ellipsis-vertical.svg';
 import download from '../../assets/download.svg';
 import share from '../../assets/share.svg';
+import share2 from '../../assets/share2.svg';
 
 import file_bg from '../../assets/file_bg.jpg';
 import Modal from '../../components/Modal/Modal.jsx';
@@ -107,7 +108,7 @@ const FileBox = ({ fileName, sharedBy, date, type, size, src }) => {
           <IconButton
             size="xs"
             bgColor="#f1f1f1"
-            icon={<Image src={share} alt="" />}
+            icon={<Image src={share2} boxSize="18px" alt="" />}
             position="absolute"
             top="12px"
             right="36px"
