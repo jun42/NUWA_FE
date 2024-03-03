@@ -19,11 +19,15 @@ import {
   CHANNEL_TYPE,
 } from '@constants/channel/CHANNEL_TYPE';
 import add_sm from '@assets/add_sm.svg';
+import { createChatChannel, createVoiceChannel } from '@apis/channel/channel';
+import { useParams } from 'react-router';
 
 const CreateChannelModal = () => {
+  const { workSpaceId } = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [channelType, setChannelType] = useState('');
   const [channelOpenType, setChannelOpenType] = useState('');
+  const [channelName, setChannelName] = useState('');
   return (
     <>
       <IconButton
@@ -46,7 +50,10 @@ const CreateChannelModal = () => {
           <CreateChannelHeader />
           <ModalBody display={'flex'} flexDirection={'column'} gap={'2rem'}>
             <CreateChannelGuide />
-            <CreateChannelNameInput />
+            <CreateChannelNameInput
+              channelName={channelName}
+              setChannelName={setChannelName}
+            />
             <ChannelRadio
               name={'채널 종류'}
               value={channelType}
@@ -60,9 +67,22 @@ const CreateChannelModal = () => {
               RadioConstants={CHANNEL_OPEN_TYPE}
             />
           </ModalBody>
-
           <ModalFooter>
-            <Button colorScheme="secondary" width={'100%'} fontWeight={500}>
+            <Button
+              colorScheme="secondary"
+              width={'100%'}
+              fontWeight={500}
+              onClick={() => {
+                if (channelType === 'chat') {
+                  createChatChannel({ workSpaceId, channelName });
+                  onClose();
+                } else if (channelType === 'voice') {
+                  createVoiceChannel({ workSpaceId, channelName });
+                  onClose();
+                }
+              }}
+              isDisabled={channelName === ''}
+            >
               생성하기
             </Button>
           </ModalFooter>

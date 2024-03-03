@@ -5,7 +5,7 @@ import EmailInput from '@components/Form/EmailInput';
 import PasswordInput from '@components/Form/PasswordInput';
 import PasswordConfirmInput from '@components/Form/PasswordConfirmInput';
 import PhoneNumberInput from '@components/Form/PhoneNumberInput';
-import { createAccount } from '@apis/axios/auth';
+import { createAccount } from '@apis/auth/auth';
 import { useNavigate } from 'react-router-dom';
 import SubmitButton from '@components/Button/SubmitButton';
 
