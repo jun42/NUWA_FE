@@ -15,7 +15,7 @@ import { WORKERSPACE_FORM_MESSAGE } from '@constants/workspace/WORKSPACE_FORM_ME
 import { useEffect, useState } from 'react';
 import useBoundStore from '@store/store';
 import { getToken } from '@utils/auth';
-import { jwtDecode } fromnpm install jwt-decode 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 
 const UserInfo = () => {
