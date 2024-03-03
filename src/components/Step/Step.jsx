@@ -2,7 +2,7 @@ import {  Flex, Text } from '@chakra-ui/react';
 import {ChevronRightIcon} from '@chakra-ui/icons'
 
 const Step = ({ isStep, step }) => {
-  console.log(isStep);
+
   const unshownSteps =
     isStep === '/create-workspace/agreement' || isStep === '/create-workspace';
   if (unshownSteps) return;

@@ -68,6 +68,30 @@ const Files = () => {
       src: '',
     },
   ];
+  const [searchData, setSearchData] = useState([
+    { name: '김수한', checked: false },
+    { name: '김점례', checked: false },
+    { name: '김뿌꾸', checked: false },
+    { name: '박새로이', checked: false },
+    { name: '이상혁', checked: false },
+  ]);
+  // const searchData = [
+  //   { name: '김수한', checked: false },
+  //   { name: '김점례', checked: false },
+  //   { name: '박새로이', checked: false },
+  //   { name: '이상혁', checked: false },
+  // ];
+  const [searchTerm, setSearchTerm] = useState('');
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+  const filteredData = searchData.filter((item) =>
+    item.name.includes(searchTerm)
+  );
+  const checkedData = searchData.filter((item) => item.checked === true);
+
+  const userData = searchData.filter((item) => item.name === '김뿌꾸');
+  const userChecked = userData[0].checked;
 
   return (
     <Flex w="100%">
@@ -112,7 +136,13 @@ const Files = () => {
                   setIsOpen(!isOpen);
                 }}
               >
-                From 박미송
+                {checkedData.length === 0 && <Text>From</Text>}
+                {checkedData.length === 1 && (
+                  <Text>From {checkedData[0].name}</Text>
+                )}
+                {checkedData.length > 1 && (
+                  <Text>{checkedData.length}명의 팀원으로부터</Text>
+                )}
               </Button>
               {isOpen && (
                 <>
@@ -125,9 +155,10 @@ const Files = () => {
                     zIndex="99"
                     onClick={() => {
                       setIsOpen(false);
+                      setSearchTerm('');
                     }}
                   />
-                  <Box w="100%" position="absolute" zIndex="100" mt="2px">
+                  <Box w="180px" position="absolute" zIndex="100" mt="2px">
                     <Flex
                       flexDir="column"
                       w="150%"
@@ -135,6 +166,7 @@ const Files = () => {
                       border="1px solid gray"
                       borderRadius="md"
                       backgroundColor="#f8f8f8"
+                      p="5px 0"
                     >
                       <Center>
                         <Input
@@ -144,32 +176,110 @@ const Files = () => {
                           fontWeight="500"
                           border="1px solid #767676"
                           borderRadius="8px"
+                          value={searchTerm}
+                          onChange={handleSearchChange}
                           placeholder="예: 고길동"
                           _placeholder={{ color: 'black' }}
                         />
                       </Center>
-                      <Button
-                        fontSize="14px"
-                        fontWeight="500"
-                        color="#656565"
-                        w="100%"
-                        justifyContent="flex-start"
-                        backgroundColor="#f8f8f8"
-                      >
-                        <Checkbox backgroundColor="white" />
-                        김형섭
-                      </Button>
-                      <Button
-                        fontSize="14px"
-                        fontWeight="500"
-                        color="#656565"
-                        w="100%"
-                        justifyContent="flex-start"
-                        backgroundColor="#f8f8f8"
-                      >
-                        <Checkbox backgroundColor="white" />
-                        정현승
-                      </Button>
+                      {!searchTerm &&
+                        checkedData.map((item) => (
+                          <Checkbox
+                            fontSize="14px"
+                            fontWeight="500"
+                            color="#656565"
+                            borderColor="#656565"
+                            p="5px 10px"
+                            _hover={{
+                              backgroundColor: '#1264A3',
+                              color: 'white',
+                              borderColor: 'white',
+                            }}
+                            onChange={(e) => {
+                              const updatedData = [...searchData];
+                              const dataIndex = searchData.findIndex(
+                                (dataItem) => dataItem.name === item.name
+                              );
+                              if (dataIndex !== -1) {
+                                updatedData[dataIndex] = {
+                                  ...updatedData[dataIndex],
+                                  checked: e.target.checked,
+                                };
+                                setSearchData(updatedData);
+                              }
+                            }}
+                            isChecked={item.checked}
+                          >
+                            {item.name}
+                          </Checkbox>
+                        ))}
+                      {searchTerm &&
+                        filteredData.map((item) => (
+                          <Checkbox
+                            fontSize="14px"
+                            fontWeight="500"
+                            color="#656565"
+                            borderColor="#656565"
+                            p="5px 10px"
+                            _hover={{
+                              backgroundColor: '#1264A3',
+                              color: 'white',
+                              borderColor: 'white',
+                            }}
+                            onChange={(e) => {
+                              const updatedData = [...searchData];
+                              const dataIndex = searchData.findIndex(
+                                (dataItem) => dataItem.name === item.name
+                              );
+                              if (dataIndex !== -1) {
+                                updatedData[dataIndex] = {
+                                  ...updatedData[dataIndex],
+                                  checked: e.target.checked,
+                                };
+                                setSearchData(updatedData);
+                              }
+                            }}
+                            isChecked={item.checked}
+                          >
+                            {item.name}
+                          </Checkbox>
+                        ))}
+                      {!userChecked && (
+                        <Box>
+                          <Text p="0px 10px" fontSize="13px" color="#656565">
+                            제안
+                          </Text>
+                          <Checkbox
+                            fontSize="14px"
+                            fontWeight="500"
+                            color="#656565"
+                            borderColor="#656565"
+                            w="100%"
+                            p="5px 10px"
+                            _hover={{
+                              backgroundColor: '#1264A3',
+                              color: 'white',
+                              borderColor: 'white',
+                            }}
+                            onChange={(e) => {
+                              const updatedData = [...searchData];
+                              const dataIndex = searchData.findIndex(
+                                (dataItem) => dataItem.name === userData[0].name
+                              );
+                              if (dataIndex !== -1) {
+                                updatedData[dataIndex] = {
+                                  ...updatedData[dataIndex],
+                                  checked: e.target.checked,
+                                };
+                                setSearchData(updatedData);
+                              }
+                            }}
+                            isChecked={userData[0].checked}
+                          >
+                            {userData[0].name}
+                          </Checkbox>
+                        </Box>
+                      )}
                     </Flex>
                   </Box>
                 </>

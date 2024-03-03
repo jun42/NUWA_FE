@@ -48,25 +48,25 @@ const MainCenter = () => {
 export default MainCenter;
 
 const StContainer = styled.div`
-    width: 100%;
-    padding: 80px 12px;
-    background-color: #F8F9FB;
+  width: 100%;
+  padding: 80px 12px;
+  background-color: #f8f9fb;
 `;
 
 const MainSection = styled.div`
-    max-width: 1280px;
-    display: flex;
-    justify-content: space-between;
-    padding-top: 120px;
-    padding-bottom: 60px;
-    margin: 0 auto;
+  max-width: 1280px;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 120px;
+  padding-bottom: 60px;
+  margin: 0 auto;
 `;
 
 const StTextBox = styled.div`
-    width: auto;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
 `;
