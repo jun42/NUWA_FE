@@ -32,7 +32,6 @@ const StContainer = styled.div`
   align-items: start;
   justify-content: start;
   gap: 14px;
-
   width: 85%;
 `;
 const StItem = styled.div`

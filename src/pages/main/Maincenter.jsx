@@ -7,11 +7,11 @@ const MainCenter = () => {
   return (
     <StContainer>
       {mainCards.map((card, index) => (
-        <MainSection key={index} style={{flexDirection:index === 1? 'row-reverse' : 'row'}}>
+        <MainSection key={index} style={{flexDirection:index === 1? 'row-reverse' : 'row'}} className='R3ConWrap'>
             <Image src={card.src} alt={card.alt} width="50%" />
           <StTextBox>
             <Flex flexDirection="column" gap="18px">
-              <Text width="100%" fontSize="36px" fontWeight="700">
+              <Text width="100%" fontSize="36px" fontWeight="700" className='landingPTitle'>
                 {card.title.split('\n').map((line, index, array) => (
                   <React.Fragment key={index}>
                     {line}
@@ -19,7 +19,7 @@ const MainCenter = () => {
                   </React.Fragment>
                 ))}
               </Text>
-              <Text width="100%" fontSize="18px" fontWeight="500" color="#24242490">
+              <Text width="100%" fontSize="18px" fontWeight="500" color="#24242490" className='landingPSubTitle'>
                 {card.description.split('\n').map((line, index, array) => (
                   <React.Fragment key={index}>
                     {line}
