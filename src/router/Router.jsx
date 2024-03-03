@@ -130,11 +130,11 @@ export const Router = createBrowserRouter([
             index: true,
           },
           {
-            path: '/workspace/:workSpaceId/chatboard',
+            path: '/workspace/:workSpaceId/todo',
             element: <Todo />,
           },
           {
-            path: '/workspace/:workSpaceId/todo',
+            path: '/workspace/:workSpaceId/chatboard',
             element: <ChatPage />,
           },
           {
