@@ -13,7 +13,7 @@ const FAQBox = () => {
 
   return (
     <>
-      <BoxContainer>
+      <BoxContainer className='faqBoxWarp'>
         {FAQ_text.map((FAQ, index) => (
           <React.Fragment key={index}>
             <TextBoxContainer onClick={() => toggleDetail(index)}>
@@ -28,7 +28,7 @@ const FAQBox = () => {
             </TextBoxContainer>
 
             {activeIndex === index && (
-              <DetailContainer>
+              <DetailContainer className='faqDetailBox'>
                 <Flex gap={'15px'}>
                   <ButtonBox color={'#575dfb99'}>답변</ButtonBox>
                   <Text fontSize={'14px'} fontWeight={'500'}>

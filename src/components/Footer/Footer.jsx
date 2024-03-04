@@ -8,7 +8,6 @@ const Footer = () => {
       <Flex flexDirection={'column'} justify={'center'} align={'flex-start'}>
         <Grid
           templateColumns={'repeat(6, 1fr)'}
-          gap={'70px'}
           fontSize={'14px'}
           fontWeight={'500'}
           marginBottom={'40px'}

@@ -9,14 +9,14 @@ const CardMiddle = ({ middlePrimary, id }) => {
       {/* PRO용  */}
       <StTextContainer>
         {id === 'PRO' && (
-          <StText $size={40} $weight={700} $decoration={'line-through'}>
+          <StText $size={36} $weight={700} $decoration={'line-through'}>
             {'8.75 '}
           </StText>
         )}
-        <StText $size={40} $weight={700} $color={'primary400'}>
+        <StText $size={36} $weight={700} $color={'primary400'}>
           {middlePrimary}
         </StText>
-        <StText $size={40} $weight={700}>
+        <StText $size={36} $weight={700}>
           {'/월'}
         </StText>
       </StTextContainer>
