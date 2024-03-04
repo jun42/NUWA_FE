@@ -15,7 +15,7 @@ const HelpDeskTop = () => {
 
         <StContentTextDesc>
           건의사항이나 불편사항을{' '}
-          <StContentTextDescLink>NUWA에게 문의</StContentTextDescLink>해주세요.
+          <StContentTextDescLink>NUWA에게 문의해주세요.</StContentTextDescLink>
         </StContentTextDesc>
       </StContentText>
 

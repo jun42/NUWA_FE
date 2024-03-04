@@ -9,9 +9,8 @@ import Percent from './Percent';
 const main = () => {
   return (
 
-      <StContainer>
+      <StContainer id='main' >
         <MainHeader/>
-        
         <MainCompany />
         <MainCenter/>
         <Percent/>

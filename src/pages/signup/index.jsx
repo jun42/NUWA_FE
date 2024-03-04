@@ -4,7 +4,7 @@ import Main from './Main';
 
 const SignupPage = () => {
   return (
-    <StContainerWrap>\
+    <StContainerWrap>
       <StContainer>
         <WelcomeHeader />
         <Main />

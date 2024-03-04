@@ -28,7 +28,7 @@ const MainCompanyLogo = () => {
       <MainSection>
       <StTextBox>
           <Flex flexDirection="column" alignItems="center" justifyContent="center">
-            <Text fontSize="36px" fontWeight="700">
+            <Text fontSize="36px" fontWeight="700" className="landingPTitle">
               전 세계 기업들이 신뢰하는 NUWA
             </Text>
           </Flex>
