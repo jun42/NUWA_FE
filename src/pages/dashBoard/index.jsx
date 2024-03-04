@@ -78,7 +78,6 @@ const StContainer = styled.div`
   flex-flow: column;
   padding: 70px;
   gap: 20px;
-  border: 1px solid red;
   justify-content: center;
 
   @media (max-width: 480px) {

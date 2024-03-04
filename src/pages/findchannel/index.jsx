@@ -3,10 +3,12 @@ import styled from 'styled-components';
 import { Text, Flex, Box, Divider } from '@chakra-ui/react';
 import OutletSearchBar from '@components/SearchBar/OutletSearchBar';
 import GreySort from '@components/Button/GreySort';
+import online from '@assets/online.png';
+
 const FindChannel = () => {
   return (
     <StContainer>
-      <Text fontSize={'20px'} fontWeight={'700'}>
+      <Text fontSize={'28px'} fontWeight={'700'}>
         전체 채널 조회
       </Text>
 
@@ -25,7 +27,7 @@ const FindChannel = () => {
         <Box
           cursor={'pointer'}
           height={'auto'}
-          padding={'10px'}
+          padding={'18px'}
           borderBottom={'1px solid #D9D9D9'}
           display={'flex'}
           alignItems={'center'}
@@ -59,7 +61,7 @@ const StContainer = styled.div`
 
 const DataSection = styled.div`
   height: 100%;
-  margin-top: 20px;
+  margin-top: 28px;
   display: flex;
   flex-direction: column;
   gap: 20px;

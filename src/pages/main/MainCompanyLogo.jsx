@@ -1,44 +1,54 @@
-import styled, { keyframes } from "styled-components";
-import { Flex , Text } from "@chakra-ui/react";
+import styled, { keyframes } from 'styled-components';
+import { Flex, Text, Box, Image } from '@chakra-ui/react';
 import amazon from '@assets/amazon.png';
 import airbnb from '@assets/air.png';
-import drop from '@assets/drop.png';
-import google from '@assets/google.png'
-import micro from '@assets/micro.png'
-import pinterest from '@assets/pinterest.png'
+
+import google from '@assets/google.png';
+import micro from '@assets/micro.png';
+import pinterest from '@assets/pinterest.png';
 import samsung from '@assets/sams.png';
 import spotify from '@assets/spoti.png';
+//import adobe from '@assets/adobe.png';
+import youtube from '@assets/youtube.png';
+import dropbox from '@assets/dropbox.png';
 
-
+// 로고 배열 정의
 const logos = [
-  { src: amazon, alt: '아마존' },
-  { src: airbnb, alt : '에어비앤비'},
-  { src: drop, alt: '드롭박스' },
-  { src: google, alt: '구글' },
+  { src: samsung, alt: '삼성' },
+  { src: airbnb, alt: '에어비앤비' },
+  { src: dropbox, alt: '드롭박스' },
+
   { src: micro, alt: '마이크로' },
   { src: pinterest, alt: '핀터레스트' },
-  { src: spotify, alt: '스포티파이' }
-  
+
+  { src: spotify, alt: '스포티파이' },
+  { src: youtube, alt: '유튜브' },
+  { src: google, alt: '구글' },
 ];
-const extendedLogos = [...logos, ...logos, ...logos, ...logos];
+
+// 로고 배열 확장
+const extendedLogos = [...logos, ...logos, ...logos, ...logos]; // 배열을 더 많이 반복하여 확장
 
 const MainCompanyLogo = () => {
   return (
     <StContainer>
       <MainSection>
-      <StTextBox>
-          <Flex flexDirection="column" alignItems="center" justifyContent="center">
-            <Text fontSize="36px" fontWeight="700">
+        <StTextBox>
+          <Flex
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Text fontSize="38px" fontWeight="720">
               전 세계 기업들이 신뢰하는 NUWA
             </Text>
           </Flex>
-      </StTextBox>
-     </MainSection>
-     <StImageBox>
+        </StTextBox>
+      </MainSection>
+      <StImageBox>
         {extendedLogos.map((logo, index) => (
           <Logo key={index} src={logo.src} alt={logo.alt} />
         ))}
-  
       </StImageBox>
     </StContainer>
   );
@@ -48,15 +58,15 @@ export default MainCompanyLogo;
 
 const scroll = keyframes`
   0% { transform: translateX(0); }
-  100% { transform: translateX(calc(-100% / 4)); } 
+  100% { transform: translateX(-50%); } 
 `;
 
 const StContainer = styled.div`
   width: 100%;
-  overflow: hidden; 
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding : 80px 12px;
+  padding: 80px 12px;
   gap: 36px;
 `;
 
@@ -64,26 +74,24 @@ const MainSection = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
- 
 `;
 
 const StTextBox = styled.div`
- text-align: center;
- padding: 20px;
- margin-bottom: 40px;
- 
+  text-align: center;
+  padding: 20px;
+  margin-bottom: 40px;
 `;
 
 const StImageBox = styled.div`
   display: flex;
-  animation: ${scroll} 10s linear infinite; 
-  will-change: transform; 
+  animation: ${scroll} 20s linear infinite; // 애니메이션 속도 조정이 필요할 수 있음
+  will-change: transform;
   gap: 50px;
   align-items: center;
 `;
 
 const Logo = styled.img`
   width: 208px;
-  height: 100%; 
-  margin-right: 58x; 
+  height: 100%;
+  margin-right: 5px;
 `;

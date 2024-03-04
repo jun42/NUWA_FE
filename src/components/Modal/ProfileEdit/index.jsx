@@ -7,14 +7,14 @@ const ProfileModal = ({ isOpen, onClose, profile, onSave }) => {
   if (!isOpen) return null;
   return (
     <StModal
-      isOpen={isOpen}
+      isopen={isOpen}
       onClose={onClose}
       modalTitle="프로필"
-      width={'30%'}
-      height={'930px'}
+      width="520px"
+      height="auto"
     >
-      <Box mt={-10} mb={3}>
-        <Divider />
+      <Box mt={-3} mb={3}>
+        <Divider color="#898989" />
       </Box>
       <ModalBody profile={profile} onSave={onSave} />
     </StModal>

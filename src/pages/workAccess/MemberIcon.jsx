@@ -30,7 +30,7 @@ const MemberIcon = ({ image, number }) => {
         ))}
       </Flex>
 
-      <Text fontSize={'12px'}>{number}명의 멤버</Text>
+      <Text fontSize={'17px'}>{number}명의 멤버</Text>
     </Flex>
   );
 };

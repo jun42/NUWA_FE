@@ -105,7 +105,11 @@ const ComponentSentfile = () => {
                 </Tr>
               ))
             ) : (
-              <Text>파일이 없습니다.</Text>
+              <Tr>
+                <Td colSpan="4" textAlign="center">
+                  파일이 없습니다.
+                </Td>
+              </Tr>
             )}
           </Tbody>
         </Table>

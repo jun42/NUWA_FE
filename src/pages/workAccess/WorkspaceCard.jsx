@@ -1,5 +1,5 @@
 import { Flex, Box, Text } from '@chakra-ui/react';
-import styled from 'styled-components';  
+import styled from 'styled-components';
 import MemberIcon from './MemberIcon';
 
 const WorkspaceCard = ({ workspace_section }) => {
@@ -11,11 +11,11 @@ const WorkspaceCard = ({ workspace_section }) => {
             flexDirection={'column'}
             justify={'center'}
             align={'center'}
-            gap={'32px'}
+            gap={'63px'}
           >
             <Box
-              width={'126px'}
-              height={'126px'}
+              width={'120px'}
+              height={'128px'}
               border={'1px solid #ccc'}
               borderRadius={'full'}
               backgroundImage={`url(${item.image})`}
@@ -43,14 +43,14 @@ const WorkspaceCard = ({ workspace_section }) => {
 export default WorkspaceCard;
 
 const CardContainer = styled.div`
-  width: 20%;
-  padding: 40px 52px;
+  width: 30%;
+  padding: 48px 52px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: white;
   border: 1px solid #ccc;
-  box-shadow: 10px 12px 33px 0px rgba(102, 102, 102, 0.1);
+  box-shadow: 32px 12px 33px 0px rgba(102, 102, 102, 0.1);
   border-radius: 12px;
-  margin: 30px 28px;
+  margin: 0px 32px;
 `;

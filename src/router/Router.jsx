@@ -25,9 +25,9 @@ import WorkspaceLayout from '@components/Layout/WorkspaceLayout';
 import InviteMember from '@pages/createWorkspace/create/inviteMember';
 import ChatPage from '@pages/chatBoard';
 import DirectChatPage from '@pages/directChat';
-import DashBoard from '@pages/dashboard';
+import DashBoard from '@pages/dashBoard';
 import Canvas from '@pages/canvas';
-import FindChannel from '@pages/FindChannel';
+import FindChannel from '@pages/findChannel';
 import AddUser from '@pages/adduser';
 
 export const Router = createBrowserRouter([

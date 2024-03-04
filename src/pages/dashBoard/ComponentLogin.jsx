@@ -16,7 +16,7 @@ import useModal from '@hooks/useModal';
 const mockUserInfo = {
   imageUrl: 'https://via.placeholder.com/100',
   name: '김뿌꾸님',
-  position: '직무를 선택하세요',
+  position: '직무를 입력하세요',
   email: 'khs43833@gmail.com',
   phone: '010-3571-0000',
 };
@@ -39,12 +39,13 @@ const ComponentLogin = () => {
         // border={'1px solid red'}
         align={'center'}
         justify={'center'}
+        marginTop={'10px'}
       >
         <Box
           position="relative"
-          width="180px"
-          height="180px"
-          // border={'1px solid blue'}
+          width="150px"
+          height="140px"
+          //border={'1px solid green'}
         >
           <Image src={BorderCircle} alt="Background SVG" boxSize="100%" />
           <Image
@@ -76,14 +77,14 @@ const ComponentLogin = () => {
           flexFlow={'column'}
           width={'100%'}
           align={'center'}
-          gap={'10px'}
-          // border={'1px solid blue'}
+          gap={'8px'}
+          //border={'1px solid blue'}
         >
           <Box align={'center'}>
             <Text fontSize="20px" fontWeight={'700'}>
               {userInfo.name}
             </Text>
-            <Text fontSize="16px" fontWeight={'700'}>
+            <Text fontSize="15px" fontWeight={'700'}>
               {userInfo.position}
             </Text>
           </Box>
@@ -99,11 +100,11 @@ const ComponentLogin = () => {
             </Text>
           </Box>
           <Button
-            mt={'2px'}
+            mt={'5px'}
             onClick={onOpen}
             width={'80%'}
             height={'100%'}
-            p={'4px 0px'}
+            p={'8px 0px'}
             fontSize="14"
             color="white"
             borderRadius="full"

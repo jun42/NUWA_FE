@@ -9,21 +9,23 @@ import {
   Divider,
   Text,
   Flex,
-  RadioGroup,
-  Radio,
-  Stack,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
 } from '@chakra-ui/react';
+import Connecting from '@assets/connecting.png';
+import Ban from '@assets/ban.png';
+import Sleeping from '@assets/sleeping.png';
+import Offline from '@assets/offline.png';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 
 const EditableField = ({
   label,
   initialValue,
-  onSave,
+  onChange,
   fontSize = 'md',
+  color = '#434343',
   fontWeight = 'normal',
 }) => {
   const [value, setValue] = useState(initialValue);
@@ -39,13 +41,17 @@ const EditableField = ({
     }, 0);
   };
 
+  const handleCompleteClick = () => {
+    setIsEditing(false); // 편집 모드 종료
+    onChange(value);
+  };
+
   const handleChange = (e) => {
     setValue(e.target.value);
   };
 
   const handleBlur = () => {
     setIsEditing(false);
-    onSave(value);
   };
 
   return (
@@ -53,21 +59,44 @@ const EditableField = ({
       <FormLabel>{label}</FormLabel>
       <Flex justifyContent="space-between" alignItems="center">
         {isEditing ? (
-          <Input
-            ref={inputRef}
-            value={value}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            variant="unstyled"
-            flexGrow={1}
-          />
+          <>
+            <Input
+              ref={inputRef}
+              value={value}
+              onChange={handleChange}
+              variant="unstyled"
+              flexGrow={1}
+              fontSize={fontSize}
+              fontWeight={fontWeight}
+              border={'1px solid #F2F2F2'}
+            />
+
+            <Text
+              color="#5d5d60"
+              cursor="pointer"
+              marginLeft={'20px'}
+              onClick={handleCompleteClick}
+              sx={{ whiteSpace: 'nowrap' }}
+            >
+              완료
+            </Text>
+          </>
         ) : (
           <>
-            <Text flexGrow={1} fontSize={fontSize} fontWeight={fontWeight}>
+            <Text
+              flexGrow={1}
+              fontSize={fontSize}
+              fontWeight={fontWeight}
+              color={color}
+            >
               {value}
             </Text>
 
-            <Text color="blue.500" cursor="pointer" onClick={handleEditClick}>
+            <Text
+              color="#5d5d60"
+              cursor="pointer"
+              onClick={() => setIsEditing(true)}
+            >
               편집
             </Text>
           </>
@@ -76,34 +105,49 @@ const EditableField = ({
     </FormControl>
   );
 };
-
-const UserStatusSelector = ({ initialStatus, onSave }) => {
+const UserStatusSelector = ({ initialStatus = 'active', onSave }) => {
   const [status, setStatus] = useState(initialStatus);
-  // const [isEditing, setIsEditing] = useState(false);
 
   const handleStatusChange = (nextValue) => {
     setStatus(nextValue);
     onSave(nextValue);
-    // setIsEditing(false);
+  };
+
+  const statusImages = {
+    active: Connecting,
+    away: Ban,
+    sleeping: Sleeping,
+    offline: Offline,
+  };
+
+  const statusText = {
+    active: '활동 중',
+    away: '방해 금지',
+    sleeping: '자리 비움',
+    offline: '오프라인',
   };
 
   return (
     <Box>
       <FormControl mt={4}>
-        <FormLabel>현재 상태</FormLabel>
         <Flex justifyContent="space-between" alignItems="center">
-          <Text mb={4}>{status === 'active' ? '활동 중' : '자리 비움'}</Text>
+          <Flex alignItems="center">
+            <Image src={statusImages[status]} boxSize="15px" mr="12px" />
+            <Text>{statusText[status]}</Text>
+          </Flex>
           <Menu>
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />} size="sm">
-              상태변경
+              상태 변경
             </MenuButton>
             <MenuList>
-              <MenuItem onClick={() => handleStatusChange('active')}>
-                활동중
-              </MenuItem>
-              <MenuItem onClick={() => handleStatusChange('away')}>
-                자리 비움
-              </MenuItem>
+              {Object.entries(statusImages).map(([key, imgSrc]) => (
+                <MenuItem key={key} onClick={() => handleStatusChange(key)}>
+                  <Flex alignItems="center">
+                    <Image src={imgSrc} boxSize="15px" mr="12px" />
+                    <Text>{statusText[key]}</Text>
+                  </Flex>
+                </MenuItem>
+              ))}
             </MenuList>
           </Menu>
         </Flex>
@@ -114,7 +158,17 @@ const UserStatusSelector = ({ initialStatus, onSave }) => {
 
 const ModalBody = ({ profile, onSave }) => {
   const [editedProfile, setEditedProfile] = useState(profile);
+  const [userStatus, setUserStatus] = useState(profile.status);
+
+  const [imagePreview, setImagePreview] = useState(profile.image?.url || '');
   const fileInputRef = useRef(null);
+
+  const handleFieldChange = (field, value) => {
+    setEditedProfile((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -124,7 +178,7 @@ const ModalBody = ({ profile, onSave }) => {
         setImagePreview(reader.result);
         setEditedProfile((prev) => ({
           ...prev,
-          image: { ...prev.image, url: reader.result },
+          imageUrl: reader.result,
         }));
       };
       reader.readAsDataURL(file);
@@ -146,9 +200,9 @@ const ModalBody = ({ profile, onSave }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Box textAlign="center" py={8}>
+      <Box textAlign="center" py={5}>
         <Image
-          src={editedProfile.image?.url || 'https://via.placeholder.com/100'}
+          src={imagePreview || 'https://via.placeholder.com/100'}
           boxSize="100px"
           borderRadius="full"
           mx="auto"
@@ -162,28 +216,31 @@ const ModalBody = ({ profile, onSave }) => {
           hidden
         />
       </Box>
+
       <EditableField
         initialValue={profile.name}
-        onSave={(value) => handleFieldSave('name', value)}
+        onChange={(value) => handleFieldChange('name', value)}
         fontSize="24px"
         fontWeight="bold"
       />
+
       <EditableField
         initialValue={profile.position}
         onSave={(value) => handleFieldSave('position', value)}
         fontSize="md"
+        fontWeight="bold"
       />
-      <form>
+      <div>
         <UserStatusSelector
-          initialStatus={profile.status}
-          onSave={(newStatus) =>
-            onSave({ ...editedProfile, status: newStatus })
-          }
+          userStatus={userStatus}
+          setUserStatus={setUserStatus}
         />
-      </form>
-      <Divider my={4} />
+      </div>
+      <Divider color="#898989" my={5} />
       <Flex>
-        <Text>연락처 정보</Text>
+        <Text color="#434343" fontSize="19px" fontWeight="bold">
+          연락처 정보
+        </Text>
       </Flex>
       <EditableField
         initialValue={profile.email}
@@ -196,18 +253,23 @@ const ModalBody = ({ profile, onSave }) => {
         fontSize="md"
       />
 
-      <Divider my={4} />
+      <Divider color="#898989" my={5} />
       <Flex>
-        <Text> 비밀번호 변경</Text>
+        <Text color="#434343" fontSize="19px" fontWeight="bold">
+          {' '}
+          비밀번호 변경
+        </Text>
       </Flex>
 
       <FormControl mt={5}>
-        <FormLabel>Current Password</FormLabel>
+        <FormLabel sx={{ color: '#434343' }}>현재 비밀번호</FormLabel>
         <Input
           name="currentPassword"
           type="password"
           value={editedProfile.currentPassword || ''}
+          placeholder="현재 비밀번호 입력"
           borderRadius="full"
+          borderColor="#d6d6d6"
           onChange={(e) =>
             setEditedProfile({
               ...editedProfile,
@@ -216,25 +278,31 @@ const ModalBody = ({ profile, onSave }) => {
           }
         />
       </FormControl>
-      <FormControl mt={5}>
-        <FormLabel>New Password</FormLabel>
+      <FormControl mt={2}>
+        <FormLabel sx={{ color: '#434343' }}>새로운 비밀번호</FormLabel>
         <Input
           name="newPassword"
           type="password"
           value={editedProfile.newPassword || ''}
+          placeholder="새 비밀번호 입력"
           borderRadius="full"
+          borderColor="#d6d6d6"
           onChange={(e) =>
             setEditedProfile({ ...editedProfile, newPassword: e.target.value })
           }
         />
       </FormControl>
-      <FormControl mt={5}>
-        <FormLabel>Confirm New Password</FormLabel>
+      <FormControl mt={2}>
+        <FormLabel sx={{ color: '#434343', fontWeight: 'nomal' }}>
+          새로운 비밀번호 확인
+        </FormLabel>
         <Input
           name="confirmNewPassword"
           type="password"
           value={editedProfile.confirmNewPassword || ''}
+          placeholder="새 비밀번호 확인"
           borderRadius="full"
+          borderColor="#d6d6d6"
           onChange={(e) =>
             setEditedProfile({
               ...editedProfile,
@@ -245,13 +313,14 @@ const ModalBody = ({ profile, onSave }) => {
       </FormControl>
 
       <Button
-        mt={10}
-        colorScheme="blue"
+        mt={6}
+        bgColor="#575DF8"
+        color="white"
         borderRadius="full"
         width="full"
         type="submit"
       >
-        Save Changes
+        수정하기
       </Button>
     </form>
   );

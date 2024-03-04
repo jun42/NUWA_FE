@@ -14,7 +14,7 @@ const MainCenter = () => {
           <Image src={card.src} alt={card.alt} width="50%" />
           <StTextBox>
             <Flex flexDirection="column" gap="18px">
-              <Text width="100%" fontSize="36px" fontWeight="700">
+              <Text width="100%" fontSize="42px" fontWeight="790">
                 {card.title.split('\n').map((line, index, array) => (
                   <React.Fragment key={index}>
                     {line}
@@ -25,7 +25,7 @@ const MainCenter = () => {
               <Text
                 width="100%"
                 fontSize="18px"
-                fontWeight="500"
+                fontWeight="480"
                 color="#24242490"
               >
                 {card.description.split('\n').map((line, index, array) => (
@@ -40,7 +40,7 @@ const MainCenter = () => {
               <Text
                 width="100%"
                 fontSize="20px"
-                fontWeight="700"
+                fontWeight="650"
                 color="#575DFB"
               >
                 {card.detail}
