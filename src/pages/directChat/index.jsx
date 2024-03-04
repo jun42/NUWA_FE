@@ -10,6 +10,7 @@ import useSocketInit from './useSocketInit';
 import { useGetWorkspaceProfileQuery } from '../../queries/workspaceProfile';
 import { useEffect, useState } from 'react';
 import { getDirectChatMessageList } from '../../apis/chat/chat';
+import MarkdownEditor from '../../components/TextEditorMarkdown';
 
 const DirectChatPage = () => {
   const { roomId, workSpaceId } = useParams();
@@ -32,6 +33,7 @@ const DirectChatPage = () => {
             <MyText />
           </Box>
           <TextEditor publish={publish} />
+          {/* <MarkdownEditor /> */}
         </>
       )}
     </Box>
