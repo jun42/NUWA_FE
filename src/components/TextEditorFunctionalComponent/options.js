@@ -6,7 +6,7 @@ const options = {
         customEnter: {
           key: 'Enter',
           handler: function (range, context) {
-            console.log('enter');
+            console.log(this.quill.getContents());
             this.quill.deleteText(0, this.quill.getLength());
           },
         },

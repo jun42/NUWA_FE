@@ -1,5 +1,5 @@
-import { setTokenInStorage } from '@utils/auth';
-import { request } from './axios';
+import { removeToken, setTokenInStorage } from '@utils/auth';
+import { request } from '../axios/axios';
 
 export const createAccount = async ({
   nickname,
@@ -126,15 +126,15 @@ export const login = async ({ email, password }) => {
     });
 };
 
-export const logout = async () =>
+export const logoutRequest = async () =>
   await request
     .post('/logout')
     .then(() => {
-      localStorage.removeItem('accessToken');
+      removeToken();
     })
     .catch((err) => {
       console.log(err);
-      localStorage.removeItem('accessToken');
+      removeToken();
     });
 
 export const reissueToken = async () => {
@@ -148,7 +148,7 @@ export const reissueToken = async () => {
     .catch((err) => {
       if (err.response.data.status === 'fail') {
         console.log(err.response.data.message);
-        logout();
+        logoutRequest();
       } else {
         console.error('REISSUE_TOKEN_ERROR :', err);
       }

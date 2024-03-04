@@ -1,10 +1,18 @@
-export const setTokenInStorage = (accessToken) => {
-  localStorage.setItem('accessToken', accessToken);
+import Cookies from 'js-cookie';
 
-  console.log('set accessToken in localstorage');
+export const setTokenInStorage = (accessToken) => {
+  console.log('set Token in Storage');
+  Cookies.set('accessToken', accessToken);
 };
 
 export const getToken = () => {
-  const accessToken = localStorage.getItem('accessToken');
+  console.log('get Token from Storage');
+
+  const accessToken = Cookies.get('accessToken');
+  if (!accessToken) console.error('Token Empty');
   return accessToken;
+};
+
+export const removeToken = () => {
+  Cookies.remove('accessToken');
 };

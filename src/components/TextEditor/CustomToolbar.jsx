@@ -8,9 +8,10 @@ import BulletListImage from '@assets/textEditor/bullet-list.svg';
 // import CodeImage from '../../assets/textEditor/code.svg';
 import CodeBlockImage from '@assets/textEditor/code-block.svg';
 import './CustomToolbar.css';
-const CustomToolBar = () => {
+const CustomToolBar = ({ children }) => {
   return (
     <div className="toolbar-top__container">
+      {children}
       <div className="toolbar-top toolbar">
         {/* <button className="ql-bold" /> */}
 
