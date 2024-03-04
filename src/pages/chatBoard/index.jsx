@@ -5,6 +5,7 @@ import ChatPreviewBox from './ChatPreviewBox';
 import { useEffect, useState } from 'react';
 import { getDirectChatRoomList } from '../../apis/chat/chat';
 import { useParams } from 'react-router';
+import { request } from '../../apis/axios/axios';
 
 const MockData = [
   {
@@ -37,13 +38,7 @@ const ChatPage = () => {
   const [chatList, setChatList] = useState([]);
   const { workSpaceId } = useParams();
   useEffect(() => {
-    const id = setTimeout(() => {
-      Promise.resolve(MockData).then((r) => setChatList(r));
-    }, 300);
-    getDirectChatRoomList({ workSpaceId }).then(console.log);
-    return () => {
-      clearTimeout(id);
-    };
+    getDirectChatRoomList(workSpaceId).then(console.log);
   }, []);
   return (
     <StContainer>

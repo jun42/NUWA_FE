@@ -15,10 +15,13 @@ import {
 } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createDirectChatRoom } from '../../apis/chat/chat';
+import { useGetWorkspaceProfileQuery } from '../../queries/workspaceProfile';
 
 const ChatPageHeader = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { workSpaceId } = useParams();
+  const { data: currentUserWorkspaceProfile } =
+    useGetWorkspaceProfileQuery(workSpaceId);
   const [memberList, setMemberList] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
@@ -26,7 +29,7 @@ const ChatPageHeader = () => {
       .get(`workspace/${workSpaceId}/members`)
       .then((r) => setMemberList(r.data.data));
   }, []);
-  console.log(memberList);
+  console.log(currentUserWorkspaceProfile);
   return (
     <Stack width={'100%'} py={'1%'}>
       <Flex alignItems={'center'} justifyContent={'space-between'}>
@@ -49,39 +52,43 @@ const ChatPageHeader = () => {
           <ModalBody>
             <Stack>
               {memberList.length > 0 &&
-                memberList.map((member) => {
-                  return (
-                    <Button
-                      key={member.email}
-                      onClick={(e) => {
-                        createDirectChatRoom({
-                          workSpaceId,
-                          joinMemberId: member.id,
-                        })
-                          .then((r) => {
-                            const roomId = r.data.data.directChannelRoomId;
-                            navigate(
-                              `/workspace/${workSpaceId}/direct-chat/${roomId}`
-                            );
+                memberList
+                  .filter(
+                    (member) => member.id !== currentUserWorkspaceProfile.id
+                  )
+                  .map((member) => {
+                    return (
+                      <Button
+                        key={member.email}
+                        onClick={(e) => {
+                          createDirectChatRoom({
+                            workSpaceId,
+                            joinMemberId: member.id,
                           })
-                          .catch((err) => {
-                            console.log(err.response);
-                            if (err.response.status === 400) {
-                              const roomId = err.response.data.message;
+                            .then((r) => {
+                              const roomId = r.data.data.directChannelRoomId;
                               navigate(
                                 `/workspace/${workSpaceId}/direct-chat/${roomId}`
                               );
-                            }
-                          })
-                          .finally(() => {
-                            onClose();
-                          });
-                      }}
-                    >
-                      {member.email}
-                    </Button>
-                  );
-                })}
+                            })
+                            .catch((err) => {
+                              console.log(err.response);
+                              if (err.response.status === 400) {
+                                const roomId = err.response.data.message;
+                                navigate(
+                                  `/workspace/${workSpaceId}/direct-chat/${roomId}`
+                                );
+                              }
+                            })
+                            .finally(() => {
+                              onClose();
+                            });
+                        }}
+                      >
+                        {member.email}
+                      </Button>
+                    );
+                  })}
             </Stack>
           </ModalBody>
 

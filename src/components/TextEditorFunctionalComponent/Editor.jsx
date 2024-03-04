@@ -76,7 +76,7 @@ const Editor = forwardRef(
       };
     }, []);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
       const sendButton = document.querySelector('#send-button');
       sendButton.addEventListener('click', handleSendMessage);
 

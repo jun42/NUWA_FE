@@ -33,7 +33,7 @@ const AuthProvider = ({ children }) => {
         navigate('/login');
       }
     }
-  }, 20 * 60 * 1000);
+  }, 20 * 10 * 1000);
 
   //todo 뒤로가기  제어
 

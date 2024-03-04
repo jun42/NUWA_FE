@@ -27,11 +27,10 @@ const DirectChatPage = () => {
       {!isLoading && (
         <>
           <DirectChatHeader />
-          <Box height={'70vh'} border={'1px'} overflowY={'scroll'}>
+          <Box maxH={'70vh'} border={'1px'} overflowY={'scroll'}>
             <YourText />
             <MyText />
           </Box>
-          <Button />
           <TextEditor publish={publish} />
         </>
       )}

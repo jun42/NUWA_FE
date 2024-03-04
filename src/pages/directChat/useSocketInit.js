@@ -2,14 +2,13 @@ import { useEffect, useState } from 'react';
 // import { Client, Stomp } from '@stomp/stompjs';
 import { getToken } from '@utils/auth';
 import { Client } from '@stomp/stompjs';
-import useBoundStore from '../../store/store';
 // import sockjs from 'sockjs-client/dist/sockjs';
 // import * as SockJS from 'sockjs-client';
 
 const useSocketInit = (roomId, workSpaceUserId, workSpaceId) => {
   const [publish, setPublish] = useState(null);
 
-  const receiverId = 4;
+  const receiverId = 1;
   const authHeader = {
     Authorization: getToken(),
   };
@@ -18,6 +17,7 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId) => {
     channelType: 'direct',
     channelRoomId: roomId,
   };
+  console.log(headers);
   useEffect(() => {
     // const sockJs = new SockJS(`${import.meta.env.VITE_SERVER_SOCKJS_SOCKET}`);
     // const sockJs = new SockJS(`${import.meta.env.VITE_SERVER_SOCKET}`);
@@ -80,7 +80,7 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId) => {
       client.subscribe(
         `/sub/direct/${roomId}`,
         (message) => {
-          console.log('SUBSCRIBE MESSAGE : ', message);
+          console.log('SUBSCRIBE MESSAGE : ', message.body);
         },
         authHeader
       );
@@ -91,7 +91,7 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId) => {
         destination: '/pub/direct/send',
         headers: authHeader,
         body: {
-          workspaceId: workSpaceId,
+          workSpaceId: workSpaceId,
           roomId: roomId,
           receiverId: receiverId,
           content: '',
