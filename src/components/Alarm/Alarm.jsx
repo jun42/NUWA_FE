@@ -16,8 +16,9 @@ import {
 import { FaBell } from 'react-icons/fa6';
 import { alarm_data } from '@constants/selectPlan/SELECT_ALL_INFO';
 import AlarmData from '@components/DataBox/AlarmData';
-
+import { useParams } from 'react-router-dom';
 const Alarm = () => {
+  const { workSpaceId } = useParams();
   const [size, setSize] = useState('');
   const [alarmData, setlArmData] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
