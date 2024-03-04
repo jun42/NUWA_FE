@@ -38,7 +38,7 @@ const ChatPage = () => {
   const [chatList, setChatList] = useState([]);
   const { workSpaceId } = useParams();
   useEffect(() => {
-    getDirectChatRoomList(workSpaceId).then(console.log);
+    // getDirectChatRoomList(workSpaceId).then(console.log);
   }, []);
   return (
     <StContainer>

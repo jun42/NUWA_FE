@@ -8,7 +8,7 @@ import { Client } from '@stomp/stompjs';
 const useSocketInit = (roomId, workSpaceUserId, workSpaceId) => {
   const [publish, setPublish] = useState(null);
 
-  const receiverId = 1;
+  const receiverId = 2;
   const authHeader = {
     Authorization: getToken(),
   };
