@@ -7,7 +7,7 @@ const SelectPlan = () => {
   return (
     <StContainer>
       <PageTitle />
-      <StCardContainer>
+      <StCardContainer className='cardWarp'>
         {SELECT_PLAN_INFO.map((item) => {
           return item.id !== 'PRO' ? (
             <PlanCard
@@ -49,6 +49,8 @@ const StContainer = styled.div`
 `;
 const StCardContainer = styled.div`
   display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
   gap: 2rem;
   width: 100%;
 `;

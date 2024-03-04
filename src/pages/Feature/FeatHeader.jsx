@@ -27,7 +27,7 @@ const FeatHeader = () => {
                 />
 
                 <StTextDiv $size={42} $weight={700} $color={'white'}>
-                    에서는 미래의 업무가 <StText $color={'primary400'}>이루어지는 곳</StText>입니다
+                    <span className='disNone'>에서는</span> 미래의 업무가 <StText $color={'primary400'}>이루어지는 곳</StText>입니다
                 </StTextDiv>
             </StMainText>
 

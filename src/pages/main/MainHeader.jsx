@@ -10,21 +10,19 @@ const MainHeader = () => {
 
         <StTextBox>
           <Flex flexDirection="column" gap="32px">
-            <Text width="100%" fontSize="42px" fontWeight="700" >
+            <Text width="100%" fontSize="40px" fontWeight="700" className="landingPTitle">
               생산성 향상을 위한 
-              <br/>
               간편한 협업툴
             </Text>
 
-            <Text width="100%" fontSize="18px" fontWeight="500" color="#24242490">
+            <Text width="100%" fontSize="18px" fontWeight="500" color="#24242490" className="landingPSubTitle">
               필요없는 기능으로 복잡해진 협업툴은 그만!
-              <br />
               간편하게 다이렉트 메세지와 채팅, 파일공유
-              <br />
               메일을 사용해보세요.
             </Text>
           </Flex>
-          <Button width="45%" 
+          <Button width="45%"
+                  padding="12px"
                   fontSize="16px"
                   fontWeight="700"
                   color="white"
@@ -66,9 +64,9 @@ const StTextBox = styled.div`
     display: flex;
     flex-flow: column;
     justify-content: space-between;
+    width: 25%;
     padding: 32px 0;
 `;
 
 const StImageBox = styled.div`
-
 `;
