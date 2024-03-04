@@ -30,6 +30,7 @@ import Canvas from '@pages/canvas';
 import FindChannel from '@pages/findChannel';
 import AddUser from '@pages/adduser';
 
+
 export const Router = createBrowserRouter([
   {
     path: '/',
@@ -85,6 +86,10 @@ export const Router = createBrowserRouter([
             element: <WorkAccess />,
           },
           { path: '/helpdesk', element: <HelpDesk /> },
+          {
+            path: '/join',
+            element: <JoinMemberPage />,
+          },
         ],
       },
       {
@@ -118,7 +123,7 @@ export const Router = createBrowserRouter([
         ],
       },
       {
-        path: '/workspace',
+        path: '/workspace/:workSpaceId',
         element: <WorkspaceLayout />,
         children: [
           {
@@ -126,15 +131,19 @@ export const Router = createBrowserRouter([
             index: true,
           },
           {
-            path: '/workspace/chatboard',
+            path: '/workspace/:workSpaceId/todo',
+            element: <Todo />,
+          },
+          {
+            path: '/workspace/:workSpaceId/chatboard',
             element: <ChatPage />,
           },
           {
-            path: '/workspace/direct-chat',
+            path: '/workspace/:workSpaceId/direct-chat/:roomId',
             element: <DirectChatPage />,
           },
           {
-            path: '/workspace/canvas',
+            path: '/workspace/:workSpaceId/canvas',
             element: <Canvas />,
           },
           { path: '/workspace/files', element: <Files /> },

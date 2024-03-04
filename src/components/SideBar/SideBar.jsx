@@ -33,8 +33,10 @@ import CreateChannel from '../Channel/CreateChannelModal';
 import Channel from './Channel';
 import WorkSpaceModalEdit from '@components/Modal/WorkspaceEdit';
 import useModal from '@hooks/useModal';
+import { useNavigate } from 'react-router-dom';
 
 const SideBar = () => {
+  const navigate = useNavigate();
   const chData = [
     {
       chName: 'FE-정보공유',
@@ -143,6 +145,9 @@ const SideBar = () => {
               width="100%"
               justifyContent="flex-start"
               backgroundColor="#f1f1f1"
+              onClick={() => {
+                navigate('chatboard');
+              }}
             >
               <Image src={dm} alt="" w="20px" h="21px" mr="20px" />
               다이렉트 메세지
