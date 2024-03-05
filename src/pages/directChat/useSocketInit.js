@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 // import { Client, Stomp } from '@stomp/stompjs';
 import { getToken } from '@utils/auth';
 import { Client } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
 // import sockjs from 'sockjs-client/dist/sockjs';
 // import * as SockJS from 'sockjs-client';
 
 const useSocketInit = (roomId, workSpaceUserId, workSpaceId) => {
   const [publish, setPublish] = useState(null);
-
-  const receiverId = 2;
+  const [socketMessageList, setSocketMessageList] = useState([]);
+  const receiverId = 7;
   const authHeader = {
     Authorization: getToken(),
   };
@@ -60,7 +61,7 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId) => {
       // brokerURL: `${import.meta.env.VITE_SERVER_SOCKJS_SOCKET}`,
       connectHeaders: headers,
       debug: function (str) {
-        console.log(str);
+        console.log('[STOMP DEBUGGING]', str);
       },
       reconnectDelay: 15000,
       heartbeatIncoming: 4000,
@@ -76,11 +77,12 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId) => {
     // }
 
     client.onConnect = function (frame) {
-      console.log('[STOMP ON CONNECT]');
+      console.log('[STOMP ON CONNECT]', frame);
       client.subscribe(
         `/sub/direct/${roomId}`,
         (message) => {
           console.log('SUBSCRIBE MESSAGE : ', message.body);
+          setSocketMessageList((state) => [...state, JSON.parse(message.body)]);
         },
         authHeader
       );
@@ -126,7 +128,7 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId) => {
     };
   }, []);
 
-  return publish;
+  return { publish, socketMessageList };
 };
 
 export default useSocketInit;

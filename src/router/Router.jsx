@@ -25,10 +25,10 @@ import WorkspaceLayout from '@components/Layout/WorkspaceLayout';
 import InviteMember from '@pages/createWorkspace/create/inviteMember';
 import ChatPage from '@pages/chatBoard';
 import DirectChatPage from '@pages/directChat';
-import DashBoard from '@pages/dashboard';
+import DashBoard from '@pages/dashBoard';
 import Canvas from '@pages/canvas';
 import JoinMemberPage from '../pages/devJoinMember';
-import Todo from './../pages/dashboard/Todo';
+import Todo from './../pages/dashBoard/Todo';
 
 export const Router = createBrowserRouter([
   {

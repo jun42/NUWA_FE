@@ -1,6 +1,6 @@
 import { Box, Flex } from '@chakra-ui/react';
 
-const MyText = ({ text }) => {
+const MyText = ({ content }) => {
   return (
     <Flex width={'100%'} justifyContent={'flex-end'} py="0.5rem" px={'1rem'}>
       <Box
@@ -10,11 +10,7 @@ const MyText = ({ text }) => {
         py={'14px'}
         px={'30px'}
       >
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente ipsa
-        corrupti adipisci ea voluptatum inventore, iste et quisquam veritatis
-        officia nesciunt eveniet voluptatem maxime repellat doloremque illum
-        numquam sed fugiat asperiores nemo, unde velit modi fuga. Enim rem cum
-        nihil!
+        {content}
       </Box>
     </Flex>
   );

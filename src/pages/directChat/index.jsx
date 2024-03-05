@@ -16,8 +16,13 @@ const DirectChatPage = () => {
   const { roomId, workSpaceId } = useParams();
 
   const { data, isLoading } = useGetWorkspaceProfileQuery(workSpaceId);
-  const publish = useSocketInit(roomId, data?.id, workSpaceId);
-
+  const userId = data?.id;
+  const { publish, socketMessageList } = useSocketInit(
+    roomId,
+    userId,
+    workSpaceId
+  );
+  console.log('SOCKET MESSAGE LIST ', socketMessageList);
   const [chatList, setChatList] = useState([]);
   useEffect(() => {
     getDirectChatMessageList(roomId).then(console.log);
@@ -29,8 +34,22 @@ const DirectChatPage = () => {
         <>
           <DirectChatHeader />
           <Box maxH={'70vh'} border={'1px'} overflowY={'scroll'}>
-            <YourText />
-            <MyText />
+            {socketMessageList.map((body) => {
+              if (userId === body.senderId) {
+                return <MyText key={body.createdAt} content={body.content} />;
+              } else {
+                return (
+                  <YourText
+                    key={body.createdAt}
+                    content={body.content}
+                    senderName={body.senderName}
+                  />
+                );
+              }
+            })}
+
+            {/* <YourText />
+            <MyText /> */}
           </Box>
           <TextEditor publish={publish} />
           {/* <MarkdownEditor /> */}
