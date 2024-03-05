@@ -25,7 +25,7 @@ import WorkspaceLayout from '@components/Layout/WorkspaceLayout';
 import InviteMember from '@pages/createWorkspace/create/inviteMember';
 import ChatPage from '@pages/chatBoard';
 import DirectChatPage from '@pages/directChat';
-import DashBoard from '@pages/dashBoard';
+import DashBoard from '@pages/newDashboard';
 import Canvas from '@pages/canvas';
 import JoinMemberPage from '../pages/devJoinMember';
 import Todo from './../pages/dashBoard/Todo';
