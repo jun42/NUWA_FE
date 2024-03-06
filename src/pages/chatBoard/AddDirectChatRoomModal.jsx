@@ -10,10 +10,7 @@ import {
   useDisclosure,
   Stack,
 } from '@chakra-ui/react';
-import { useNavigate, useParams } from 'react-router-dom';
-
-import useBoundStore from '@store/store';
-import { createDirectChatRoom } from '@apis/chat/chat';
+import { useParams } from 'react-router-dom';
 
 import { useGetWorkspaceProfileQuery } from '@queries/workspaceProfile';
 import { useWorkSpaceMemberListQuery } from '@queries/workSpace/workSpaceMemberList';
@@ -21,8 +18,6 @@ import { useWorkSpaceMemberListQuery } from '@queries/workSpace/workSpaceMemberL
 import MemberListCard from './MemberListCard';
 
 const AddDirectChatRoomModal = () => {
-  const navigate = useNavigate();
-  const setReceiverId = useBoundStore((state) => state.setReceiverId);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { workSpaceId } = useParams();
 
@@ -38,7 +33,9 @@ const AddDirectChatRoomModal = () => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader fontSize={'20px'}>대화 상대 초대</ModalHeader>
+          <ModalHeader fontSize={'20px'} fontWeight={500}>
+            대화 상대 초대
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Stack>
@@ -52,34 +49,9 @@ const AddDirectChatRoomModal = () => {
                     return (
                       <MemberListCard
                         key={member.email}
-                        onClick={() => {
-                          //채팅에서 쓸 리시버아이디 설정
-                          setReceiverId(member.id);
-                          //채팅룸 생성 혹은 중복시 핸들링
-                          createDirectChatRoom({
-                            workSpaceId,
-                            joinMemberId: member.id,
-                          })
-                            .then((r) => {
-                              const roomId = r.data.data.directChannelRoomId;
-                              navigate(
-                                `/workspace/${workSpaceId}/direct-chat/${roomId}`
-                              );
-                            })
-                            .catch((err) => {
-                              console.log(err.response);
-                              if (err.response.status === 400) {
-                                const roomId = err.response.data.message;
-                                navigate(
-                                  `/workspace/${workSpaceId}/direct-chat/${roomId}`
-                                );
-                              }
-                            })
-                            .finally(() => {
-                              onClose();
-                            });
-                        }}
+                        id={member.id}
                         name={member.name}
+                        onClose={onClose}
                       />
                     );
                   })}
