@@ -25,6 +25,7 @@ const Editor = forwardRef(
     const clearText = () => {
       ref.current.deleteText(0, ref.current.getLength());
     };
+    //todo 빈값 안보내기
     const handleSendMessage = () => {
       // console.log('EDITOR publish', publish);
       // console.log('GET CONTENTS', ref.current.getContents());

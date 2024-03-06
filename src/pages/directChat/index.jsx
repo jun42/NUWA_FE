@@ -7,9 +7,8 @@ import TextEditor from '@components/TextEditorFunctionalComponent/TextEditor';
 // import sockjs from 'sockjs-client/dist/sockjs';
 import { useParams } from 'react-router-dom';
 import useSocketInit from './useSocketInit';
-import { useEffect, useState } from 'react';
-import { getDirectChatMessageList } from '../../apis/chat/chat';
 import { useWorkspaceUserProfileQuery } from '@queries/workspaceProfile';
+import { useDirectChatMessageListQuery } from '../../queries/workSpace/directChatMessageList';
 
 const DirectChatPage = () => {
   const { roomId, workSpaceId } = useParams();
@@ -21,16 +20,30 @@ const DirectChatPage = () => {
     userId,
     workSpaceId
   );
-  const [chatList, setChatList] = useState([]);
-  useEffect(() => {
-    getDirectChatMessageList(roomId).then(console.log);
-  });
+  console.log('asdfasdf', roomId);
+  const { directChatMessageList, isLoading: directChatMessageListIsLoading } =
+    useDirectChatMessageListQuery(roomId);
   return (
     <Box width="100%" p={'0.5rem'}>
       {!isLoading && (
         <>
           <DirectChatHeader />
-          <Box maxH={'70vh'} border={'1px'} overflowY={'scroll'}>
+          <Box minH={'50vh'} maxH={'70vh'} border={'1px'} overflowY={'scroll'}>
+            {!directChatMessageListIsLoading &&
+              directChatMessageList.map((body) => {
+                if (userId === body.senderId) {
+                  return <MyText key={body.createdAt} content={body.content} />;
+                } else {
+                  return (
+                    <YourText
+                      key={body.createdAt}
+                      content={body.content}
+                      senderName={body.senderName}
+                    />
+                  );
+                }
+              })}
+            {/* socket message view */}
             {socketMessageList.map((body) => {
               if (userId === body.senderId) {
                 return <MyText key={body.createdAt} content={body.content} />;

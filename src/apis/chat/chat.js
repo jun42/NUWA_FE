@@ -14,8 +14,16 @@ export const getDirectChatRoomList = (
   );
 };
 
-export const getDirectChatMessageList = (directChannelRoomId) =>
-  request.get(`/message/direct/${directChannelRoomId}`);
+export const getDirectChatMessageList = (
+  directChannelRoomId,
+  page = 0,
+  size = 15,
+  sortBy = 'createdAt',
+  sortOrder = 'asc'
+) =>
+  request.get(
+    `/message/direct/${directChannelRoomId}?page=${page}&size=${size}&sortBy=${sortBy}&sortOrder=${sortOrder}`
+  );
 
 export const disconnectDirectChatSocket = (roomId) => {
   return request.post(`/channel/direct/${roomId}`);
