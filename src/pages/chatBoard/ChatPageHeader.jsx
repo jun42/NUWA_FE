@@ -16,8 +16,11 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import { createDirectChatRoom } from '../../apis/chat/chat';
 import { useGetWorkspaceProfileQuery } from '../../queries/workspaceProfile';
+import useBoundStore from '../../store/store';
 
 const ChatPageHeader = () => {
+  const setReceiverId = useBoundStore((state) => state.setReceiverId);
+  console.log(setReceiverId);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { workSpaceId } = useParams();
   const { data: currentUserWorkspaceProfile } =
@@ -61,6 +64,8 @@ const ChatPageHeader = () => {
                       <Button
                         key={member.email}
                         onClick={(e) => {
+                          console.log(member.id);
+                          setReceiverId(member.id);
                           createDirectChatRoom({
                             workSpaceId,
                             joinMemberId: member.id,

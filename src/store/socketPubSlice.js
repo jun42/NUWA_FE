@@ -1,9 +1,9 @@
 export const createDirectMessageSlice = (set) => ({
   receiverId: null,
-  setRecieverId: (receiverId) =>
-    set(() => {
-      receiverId;
-    }),
+  setReceiverId: (receiverId) =>
+    set((state) => ({
+      receiverId: receiverId,
+    })),
   publish: null,
   setPublish: (publish) =>
     set(() => {
