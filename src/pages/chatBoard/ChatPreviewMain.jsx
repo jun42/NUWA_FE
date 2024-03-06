@@ -1,4 +1,4 @@
-import { Flex, HStack, Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import ChatPreviewAvatar from './ChatPreviewAvatar';
 
 const ChatPreviewMain = ({ lastMessage, conversationPartner }) => {

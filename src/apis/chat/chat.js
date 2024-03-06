@@ -16,3 +16,7 @@ export const getDirectChatRoomList = (
 
 export const getDirectChatMessageList = (directChannelRoomId) =>
   request.get(`/message/direct/${directChannelRoomId}`);
+
+export const disconnectDirectChatSocket = (roomId) => {
+  return request.post(`/channel/direct/${roomId}`);
+};

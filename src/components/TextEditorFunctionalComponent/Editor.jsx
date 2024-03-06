@@ -1,10 +1,8 @@
 import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import Quill from 'quill';
-import CustomToolBar from '../TextEditor/CustomToolbar';
 import CustomToolbarBottom from '../TextEditor/CustomToolbarBottom';
 import options from './options';
 import EmojiPicker from 'emoji-picker-react';
-import useBoundStore from '../../store/store';
 // Editor is an uncontrolled React component
 const Editor = forwardRef(
   (
@@ -19,8 +17,6 @@ const Editor = forwardRef(
     },
     ref
   ) => {
-    // console.log('EDITOR', publish);
-
     const containerRef = useRef(null);
     const defaultValueRef = useRef(defaultValue);
     const onTextChangeRef = useRef(onTextChange);
@@ -33,8 +29,8 @@ const Editor = forwardRef(
       // console.log('EDITOR publish', publish);
       // console.log('GET CONTENTS', ref.current.getContents());
       console.log(ref.current.getText());
-      // publish(ref.current.getContents().ops);
-      publish(ref.current.getText());
+      publish(JSON.stringify(ref.current.getContents().ops));
+      // publish(ref.current.getText());
 
       console.log(ref.current.getContents().ops);
       clearText();
@@ -102,13 +98,13 @@ const Editor = forwardRef(
 
     return (
       <>
-        <CustomToolBar>
-          <EmojiPicker
-            open={emojiPickerIsOpen}
-            className="emoji-picker"
-            onEmojiClick={console.log}
-          />
-        </CustomToolBar>
+        {/* <CustomToolBar> */}
+        <EmojiPicker
+          open={emojiPickerIsOpen}
+          className="emoji-picker"
+          onEmojiClick={console.log}
+        />
+        {/* </CustomToolBar> */}
         <div id="editor" ref={containerRef}></div>
         <CustomToolbarBottom setEmojiPickerIsOpen={setEmojiPickerIsOpen} />
       </>

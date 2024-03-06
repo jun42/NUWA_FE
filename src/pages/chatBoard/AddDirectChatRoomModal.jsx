@@ -12,8 +12,8 @@ import {
 } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 
-import { useGetWorkspaceProfileQuery } from '@queries/workspaceProfile';
 import { useWorkSpaceMemberListQuery } from '@queries/workSpace/workSpaceMemberList';
+import { useWorkspaceUserProfileQuery } from '@queries/workspaceProfile';
 
 import MemberListCard from './MemberListCard';
 
@@ -22,7 +22,7 @@ const AddDirectChatRoomModal = () => {
   const { workSpaceId } = useParams();
 
   const { data: currentUserWorkspaceProfile } =
-    useGetWorkspaceProfileQuery(workSpaceId);
+    useWorkspaceUserProfileQuery(workSpaceId);
   const { memberList, isLoading } = useWorkSpaceMemberListQuery(workSpaceId);
 
   return (

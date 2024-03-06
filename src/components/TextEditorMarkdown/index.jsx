@@ -1,11 +1,14 @@
 import { Textarea } from '@chakra-ui/textarea';
-import React from 'react';
-import Markdown from 'react-markdown';
+import CustomToolBar from '../TextEditor/CustomToolbar';
+import CustomToolBarBottom from '../TextEditor/CustomToolbarBottom';
+import { Box } from '@chakra-ui/react';
 const MarkdownEditor = () => {
   return (
-    <Markdown>
+    <Box>
+      <CustomToolBar />
       <Textarea />
-    </Markdown>
+      <CustomToolBarBottom />
+    </Box>
   );
 };
 

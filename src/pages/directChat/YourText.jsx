@@ -1,4 +1,5 @@
 import { Avatar, Box, Flex, Text } from '@chakra-ui/react';
+import ChatboxContentView from '@components/TextEditorFunctionalComponent/ChatboxContentView';
 
 const YourText = ({ senderName, sendedTime, content }) => {
   return (
@@ -20,7 +21,7 @@ const YourText = ({ senderName, sendedTime, content }) => {
           </Text>
         </Flex>
         <Box borderRadius={'10px'} bg={'#f5f7ff'} py={'14px'} px={'30px'}>
-          {content}
+          <ChatboxContentView content={content} />
         </Box>
       </Box>
     </Flex>

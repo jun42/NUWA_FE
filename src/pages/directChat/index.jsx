@@ -7,27 +7,24 @@ import TextEditor from '@components/TextEditorFunctionalComponent/TextEditor';
 // import sockjs from 'sockjs-client/dist/sockjs';
 import { useParams } from 'react-router-dom';
 import useSocketInit from './useSocketInit';
-import { useGetWorkspaceProfileQuery } from '../../queries/workspaceProfile';
 import { useEffect, useState } from 'react';
 import { getDirectChatMessageList } from '../../apis/chat/chat';
-import MarkdownEditor from '../../components/TextEditorMarkdown';
+import { useWorkspaceUserProfileQuery } from '@queries/workspaceProfile';
 
 const DirectChatPage = () => {
   const { roomId, workSpaceId } = useParams();
 
-  const { data, isLoading } = useGetWorkspaceProfileQuery(workSpaceId);
+  const { data, isLoading } = useWorkspaceUserProfileQuery(workSpaceId);
   const userId = data?.id;
   const { publish, socketMessageList } = useSocketInit(
     roomId,
     userId,
     workSpaceId
   );
-  console.log('SOCKET MESSAGE LIST ', socketMessageList);
   const [chatList, setChatList] = useState([]);
   useEffect(() => {
     getDirectChatMessageList(roomId).then(console.log);
   });
-  console.log('INDEX publish', publish);
   return (
     <Box width="100%" p={'0.5rem'}>
       {!isLoading && (
@@ -47,12 +44,8 @@ const DirectChatPage = () => {
                 );
               }
             })}
-
-            {/* <YourText />
-            <MyText /> */}
           </Box>
           <TextEditor publish={publish} />
-          {/* <MarkdownEditor /> */}
         </>
       )}
     </Box>

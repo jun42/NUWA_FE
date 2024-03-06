@@ -4,6 +4,7 @@ import { getToken } from '@utils/auth';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import useBoundStore from '../../store/store';
+import { disconnectDirectChatSocket } from '@apis/chat/chat';
 // import sockjs from 'sockjs-client/dist/sockjs';
 // import * as SockJS from 'sockjs-client';
 
@@ -12,7 +13,6 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId) => {
   const [socketMessageList, setSocketMessageList] = useState([]);
 
   const receiverId = useBoundStore((state) => state.receiverId);
-  console.log('RECEIVER ID', receiverId);
   const authHeader = {
     Authorization: getToken(),
   };
@@ -21,7 +21,6 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId) => {
     channelType: 'direct',
     channelRoomId: roomId,
   };
-  console.log(headers);
   useEffect(() => {
     // const sockJs = new SockJS(`${import.meta.env.VITE_SERVER_SOCKJS_SOCKET}`);
     // const sockJs = new SockJS(`${import.meta.env.VITE_SERVER_SOCKET}`);
@@ -127,6 +126,13 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId) => {
     client.activate();
 
     return () => {
+      disconnectDirectChatSocket(roomId)
+        .then((r) => {
+          console.log('[DISCONNECT SOCKET SUCCESS]');
+        })
+        .catch((err) => {
+          console.error('[DISCONNECT SOCKET FAIL]');
+        });
       client.deactivate();
     };
   }, []);
