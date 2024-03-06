@@ -16,7 +16,6 @@ export const useDirectChatMessageListQuery = (roomId) => {
       return data.reverse();
     },
   });
-  console.log(directChatMessageList);
   return {
     directChatMessageList,
     isLoading,
