@@ -2,14 +2,17 @@ import { useEffect, useState } from 'react';
 // import { Client, Stomp } from '@stomp/stompjs';
 import { getToken } from '@utils/auth';
 import { Client } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
 import useBoundStore from '../../store/store';
+import { disconnectDirectChatSocket } from '@apis/chat/chat';
 // import sockjs from 'sockjs-client/dist/sockjs';
 // import * as SockJS from 'sockjs-client';
 
 const useSocketInit = (roomId, workSpaceUserId, workSpaceId) => {
   const [publish, setPublish] = useState(null);
+  const [socketMessageList, setSocketMessageList] = useState([]);
 
-  const receiverId = 4;
+  const receiverId = useBoundStore((state) => state.receiverId);
   const authHeader = {
     Authorization: getToken(),
   };
@@ -60,7 +63,7 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId) => {
       // brokerURL: `${import.meta.env.VITE_SERVER_SOCKJS_SOCKET}`,
       connectHeaders: headers,
       debug: function (str) {
-        console.log(str);
+        console.log('[STOMP DEBUGGING]', str);
       },
       reconnectDelay: 15000,
       heartbeatIncoming: 4000,
@@ -76,11 +79,12 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId) => {
     // }
 
     client.onConnect = function (frame) {
-      console.log('[STOMP ON CONNECT]');
+      console.log('[STOMP ON CONNECT]', frame);
       client.subscribe(
         `/sub/direct/${roomId}`,
         (message) => {
-          console.log('SUBSCRIBE MESSAGE : ', message);
+          console.log('SUBSCRIBE MESSAGE : ', message.body);
+          setSocketMessageList((state) => [...state, JSON.parse(message.body)]);
         },
         authHeader
       );
@@ -91,7 +95,7 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId) => {
         destination: '/pub/direct/send',
         headers: authHeader,
         body: {
-          workspaceId: workSpaceId,
+          workSpaceId: workSpaceId,
           roomId: roomId,
           receiverId: receiverId,
           content: '',
@@ -122,11 +126,18 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId) => {
     client.activate();
 
     return () => {
+      disconnectDirectChatSocket(roomId)
+        .then((r) => {
+          console.log('[DISCONNECT SOCKET SUCCESS]');
+        })
+        .catch((err) => {
+          console.error('[DISCONNECT SOCKET FAIL]');
+        });
       client.deactivate();
     };
   }, []);
 
-  return publish;
+  return { publish, socketMessageList };
 };
 
 export default useSocketInit;

@@ -7,31 +7,57 @@ import TextEditor from '@components/TextEditorFunctionalComponent/TextEditor';
 // import sockjs from 'sockjs-client/dist/sockjs';
 import { useParams } from 'react-router-dom';
 import useSocketInit from './useSocketInit';
-import { useGetWorkspaceProfileQuery } from '../../queries/workspaceProfile';
-import { useEffect, useState } from 'react';
-import { getDirectChatMessageList } from '../../apis/chat/chat';
+import { useWorkspaceUserProfileQuery } from '@queries/workspaceProfile';
+import { useDirectChatMessageListQuery } from '../../queries/workSpace/directChatMessageList';
 
 const DirectChatPage = () => {
   const { roomId, workSpaceId } = useParams();
 
-  const { data, isLoading } = useGetWorkspaceProfileQuery(workSpaceId);
-  const publish = useSocketInit(roomId, data?.id, workSpaceId);
-
-  const [chatList, setChatList] = useState([]);
-  useEffect(() => {
-    getDirectChatMessageList(roomId).then(console.log);
-  });
-  console.log('INDEX publish', publish);
+  const { data, isLoading } = useWorkspaceUserProfileQuery(workSpaceId);
+  const userId = data?.id;
+  const { publish, socketMessageList } = useSocketInit(
+    roomId,
+    userId,
+    workSpaceId
+  );
+  console.log('asdfasdf', roomId);
+  const { directChatMessageList, isLoading: directChatMessageListIsLoading } =
+    useDirectChatMessageListQuery(roomId);
   return (
     <Box width="100%" p={'0.5rem'}>
       {!isLoading && (
         <>
           <DirectChatHeader />
-          <Box height={'70vh'} border={'1px'} overflowY={'scroll'}>
-            <YourText />
-            <MyText />
+          <Box minH={'50vh'} maxH={'70vh'} border={'1px'} overflowY={'scroll'}>
+            {!directChatMessageListIsLoading &&
+              directChatMessageList.map((body) => {
+                if (userId === body.senderId) {
+                  return <MyText key={body.createdAt} content={body.content} />;
+                } else {
+                  return (
+                    <YourText
+                      key={body.createdAt}
+                      content={body.content}
+                      senderName={body.senderName}
+                    />
+                  );
+                }
+              })}
+            {/* socket message view */}
+            {socketMessageList.map((body) => {
+              if (userId === body.senderId) {
+                return <MyText key={body.createdAt} content={body.content} />;
+              } else {
+                return (
+                  <YourText
+                    key={body.createdAt}
+                    content={body.content}
+                    senderName={body.senderName}
+                  />
+                );
+              }
+            })}
           </Box>
-          <Button />
           <TextEditor publish={publish} />
         </>
       )}
