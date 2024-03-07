@@ -1,11 +1,11 @@
 import { Flex, Box, Text } from '@chakra-ui/react';
-import styled from 'styled-components';  
+import styled from 'styled-components';
 import MemberIcon from './MemberIcon';
 
 const WorkspaceCard = ({ workspace_section }) => {
   return (
     <Flex>
-      {workspace_section.map((item, index) => (
+      {workspace_section?.map((item, index) => (
         <CardContainer key={index}>
           <Flex
             flexDirection={'column'}
