@@ -17,7 +17,7 @@ const workAccess = () => {
         </Flex>
         <WorkspaceCard workspace_section={workspace_section} />
         <Flex flexDirection={'column'}>
-          <Text width="100%" fontSize="20px" fontWeignt="200">
+          <Text width="100%" fontSize="20px" fontWeight="200">
             {' '}
             다른 이메일로 로그인{' '}
           </Text>

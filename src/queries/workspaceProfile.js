@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { getWorkspaceUserProfile } from '../apis/workspace/workspaceProfile';
+import { getWorkspaceUserProfile } from '@apis/workspace/workspaceProfile';
 
-export const useGetWorkspaceProfileQuery = (workSpaceId) => {
+export const useWorkspaceUserProfileQuery = (workSpaceId) => {
   const { data, isLoading } = useQuery({
     queryKey: ['workspaceUserProfile'],
     queryFn: () => getWorkspaceUserProfile(workSpaceId),

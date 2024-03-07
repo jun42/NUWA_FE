@@ -5,15 +5,14 @@ import ComponentCalendar from './ComponentCalendar';
 const BottomSection = () => {
   return (
     <Flex gap={6} height="100%">
-      <Box flex="2.5" Height="100%">
-        <ComponentFavorite/>
+      <Box flex="2.5" height="100%">
+        <ComponentFavorite />
       </Box>
-      <Box flex="2" Height="100%">
-        <ComponentCalendar/>
+      <Box flex="2" height="100%">
+        <ComponentCalendar />
       </Box>
-    
     </Flex>
   );
 };
 
-export default BottomSection
+export default BottomSection;

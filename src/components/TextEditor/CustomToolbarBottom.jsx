@@ -1,4 +1,5 @@
 import './CustomToolbarBottom.css';
+import './CustomToolbar.css';
 import EmojiIcon from '@assets/textEditor/emoji-1.svg';
 import FormattingIcon from '@assets/textEditor/formatting.svg';
 import MentionIcon from '@assets/textEditor/mention.svg';

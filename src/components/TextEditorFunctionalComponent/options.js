@@ -1,6 +1,8 @@
 const options = {
+  theme: 'snow',
   modules: {
-    toolbar: '.toolbar',
+    // toolbar: '.toolbar',
+
     keyboard: {
       bindings: {
         customEnter: {
