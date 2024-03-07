@@ -1,34 +1,50 @@
-import { Box, Button } from '@chakra-ui/react';
+import { useRef } from 'react';
+import { Box } from '@chakra-ui/react';
+import { useParams } from 'react-router-dom';
+
 import DirectChatHeader from './DirectChatHeader';
-// import TextEditor from '@components/TextEditor/TextEditor';
 import MyText from './MyText';
 import YourText from './YourText';
-import TextEditor from '@components/TextEditorFunctionalComponent/TextEditor';
-// import sockjs from 'sockjs-client/dist/sockjs';
-import { useParams } from 'react-router-dom';
 import useSocketInit from './useSocketInit';
+
+import TextEditor from '@components/TextEditorFunctionalComponent/TextEditor';
+
 import { useWorkspaceUserProfileQuery } from '@queries/workspaceProfile';
-import { useDirectChatMessageListQuery } from '../../queries/workSpace/directChatMessageList';
+import { useDirectChatMessageListQuery } from '@queries/workSpace/directChatMessageList';
+
+import useChatBoxScroll from '@hooks/directChat/useChatBoxScroll';
+import useChatBoxScrollToBottom from '@hooks/directChat/useChatBoxScrollToBottom';
 
 const DirectChatPage = () => {
   const { roomId, workSpaceId } = useParams();
 
   const { data, isLoading } = useWorkspaceUserProfileQuery(workSpaceId);
   const userId = data?.id;
+
+  const chatBoxRef = useRef(null);
+  const { directChatMessageList, isLoading: directChatMessageListIsLoading } =
+    useDirectChatMessageListQuery(roomId);
+  useChatBoxScrollToBottom(chatBoxRef, directChatMessageList);
+
   const { publish, socketMessageList } = useSocketInit(
     roomId,
     userId,
     workSpaceId
   );
-  console.log('asdfasdf', roomId);
-  const { directChatMessageList, isLoading: directChatMessageListIsLoading } =
-    useDirectChatMessageListQuery(roomId);
+  useChatBoxScroll(chatBoxRef, socketMessageList);
+
   return (
     <Box width="100%" p={'0.5rem'}>
       {!isLoading && (
         <>
           <DirectChatHeader />
-          <Box minH={'50vh'} maxH={'70vh'} border={'1px'} overflowY={'scroll'}>
+          <Box
+            minH={'50vh'}
+            maxH={'70vh'}
+            border={'1px'}
+            overflowY={'scroll'}
+            ref={chatBoxRef}
+          >
             {!directChatMessageListIsLoading &&
               directChatMessageList.map((body) => {
                 if (userId === body.senderId) {
