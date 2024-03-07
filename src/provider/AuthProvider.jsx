@@ -14,8 +14,8 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const handleLogout = () => {
       // removeToken();
-      logoutRequest();
-      setIsLoggedIn(false);
+      // logoutRequest();
+      // setIsLoggedIn(false);
       console.log('beforeunload event');
     };
     window.addEventListener('beforeunload', handleLogout);

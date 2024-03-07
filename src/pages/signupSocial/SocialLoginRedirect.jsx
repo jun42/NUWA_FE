@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Spinner } from '@chakra-ui/react';
+import { Box, Spinner } from '@chakra-ui/react';
 import { setTokenInStorage } from '@utils/auth';
 
 const SocialLoginRedirect = () => {
@@ -14,7 +14,7 @@ const SocialLoginRedirect = () => {
     setTimeout(navigate('/'), 1000);
   }, []);
   return (
-    <div>
+    <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
       <Spinner
         thickness="10px"
         speed="0.5s"
@@ -23,7 +23,7 @@ const SocialLoginRedirect = () => {
         width={'200px'}
         height={'200px'}
       />
-    </div>
+    </Box>
   );
 };
 

@@ -1,10 +1,8 @@
 import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import Quill from 'quill';
-import CustomToolBar from '../TextEditor/CustomToolbar';
 import CustomToolbarBottom from '../TextEditor/CustomToolbarBottom';
 import options from './options';
 import EmojiPicker from 'emoji-picker-react';
-import useBoundStore from '../../store/store';
 // Editor is an uncontrolled React component
 const Editor = forwardRef(
   (
@@ -19,24 +17,30 @@ const Editor = forwardRef(
     },
     ref
   ) => {
-    // console.log('EDITOR', publish);
-
     const containerRef = useRef(null);
     const defaultValueRef = useRef(defaultValue);
     const onTextChangeRef = useRef(onTextChange);
     const onSelectionChangeRef = useRef(onSelectionChange);
 
-    const clearText = () => {
-      ref.current.deleteText(0, ref.current.getLength());
-    };
-    const handleSendMessage = () => {
-      // console.log('EDITOR publish', publish);
-      // console.log('GET CONTENTS', ref.current.getContents());
-      console.log(ref.current.getText());
-      // publish(ref.current.getContents().ops);
-      publish(ref.current.getText());
+    useEffect(() => {
+      console.log('EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEeee');
+      options.modules.keyboard.bindings.customEnter = {
+        key: 'Enter',
+        handler: function (range, context) {
+          publish(JSON.stringify(this.quill.getContents().ops));
+          this.quill.deleteText(0, this.quill.getLength());
+        },
+      };
+    }, [publish]);
 
-      console.log(ref.current.getContents().ops);
+    const clearText = () => {
+      if (ref.current) {
+        ref.current.deleteText(0, ref.current.getLength());
+      }
+    };
+    //todo 빈값 안보내기
+    const handleSendMessage = () => {
+      publish(JSON.stringify(ref.current.getContents().ops));
       clearText();
     };
 
@@ -55,7 +59,6 @@ const Editor = forwardRef(
         container.ownerDocument.createElement('div')
       );
       const quill = new Quill(editorContainer, options);
-
       ref.current = quill;
 
       if (defaultValueRef.current) {
@@ -74,9 +77,9 @@ const Editor = forwardRef(
         ref.current = null;
         container.innerHTML = '';
       };
-    }, []);
+    }, [publish]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
       const sendButton = document.querySelector('#send-button');
       sendButton.addEventListener('click', handleSendMessage);
 
@@ -85,30 +88,15 @@ const Editor = forwardRef(
       };
     }, [publish]);
 
-    // useEffect(() => {
-    //   const handleEditorKey = (e) => {
-    //     console.log(e.key);
-    //     if (e.key === 'Enter') {
-    //       clearText();
-    //     }
-    //   };
-    //   const editorEl = document.querySelector('#editor');
-    //   console.log(editorEl);
-    //   editorEl.addEventListener('keydown', handleEditorKey);
-    //   return () => {
-    //     editorEl.removeEventListener('keydown', handleEditorKey);
-    //   };
-    // }, []);
-
     return (
       <>
-        <CustomToolBar>
-          <EmojiPicker
-            open={emojiPickerIsOpen}
-            className="emoji-picker"
-            onEmojiClick={console.log}
-          />
-        </CustomToolBar>
+        {/* <CustomToolBar> */}
+        <EmojiPicker
+          open={emojiPickerIsOpen}
+          className="emoji-picker"
+          onEmojiClick={console.log}
+        />
+        {/* </CustomToolBar> */}
         <div id="editor" ref={containerRef}></div>
         <CustomToolbarBottom setEmojiPickerIsOpen={setEmojiPickerIsOpen} />
       </>
