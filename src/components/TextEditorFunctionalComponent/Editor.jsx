@@ -22,18 +22,23 @@ const Editor = forwardRef(
     const onTextChangeRef = useRef(onTextChange);
     const onSelectionChangeRef = useRef(onSelectionChange);
 
+    useEffect(() => {
+      options.modules.keyboard.bindings.customEnter = {
+        key: 'Enter',
+        handler: function (range, context) {
+          console.log(this.quill.getContents());
+          publish(JSON.stringify(this.quill.getContents().ops));
+          this.quill.deleteText(0, this.quill.getLength());
+        },
+      };
+    }, [publish]);
+
     const clearText = () => {
       ref.current.deleteText(0, ref.current.getLength());
     };
     //todo 빈값 안보내기
     const handleSendMessage = () => {
-      // console.log('EDITOR publish', publish);
-      // console.log('GET CONTENTS', ref.current.getContents());
-      console.log(ref.current.getText());
       publish(JSON.stringify(ref.current.getContents().ops));
-      // publish(ref.current.getText());
-
-      console.log(ref.current.getContents().ops);
       clearText();
     };
 
@@ -52,7 +57,6 @@ const Editor = forwardRef(
         container.ownerDocument.createElement('div')
       );
       const quill = new Quill(editorContainer, options);
-
       ref.current = quill;
 
       if (defaultValueRef.current) {
@@ -81,21 +85,6 @@ const Editor = forwardRef(
         sendButton.removeEventListener('click', handleSendMessage);
       };
     }, [publish]);
-
-    // useEffect(() => {
-    //   const handleEditorKey = (e) => {
-    //     console.log(e.key);
-    //     if (e.key === 'Enter') {
-    //       clearText();
-    //     }
-    //   };
-    //   const editorEl = document.querySelector('#editor');
-    //   console.log(editorEl);
-    //   editorEl.addEventListener('keydown', handleEditorKey);
-    //   return () => {
-    //     editorEl.removeEventListener('keydown', handleEditorKey);
-    //   };
-    // }, []);
 
     return (
       <>
