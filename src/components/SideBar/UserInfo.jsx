@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import profile from '../../assets/cham.png';
 import active from '../../assets/active.svg';
@@ -8,6 +8,16 @@ import StateModal from '@components/Modal/StateModal';
 import useModal from '@hooks/useModal';
 const UserInfo = () => {
   const { isOpen, onOpen, onClose } = useModal();
+  const [userInfo, setUserInfo] = useState('현재 활동 중');
+  const [selectedState, setSelectedState] = useState({
+    icon: active,
+    title: '현재 활동 중',
+  });
+
+  const handleStateChange = (newState) => {
+    setSelectedState(newState);
+    setUserInfo(newState.title);
+  };
   return (
     <>
       <Flex
@@ -47,7 +57,7 @@ const UserInfo = () => {
         </Flex>
         <Box m="13px 0">
           <Text fontSize="16px" fontWeight="900" color="#656565">
-            김뿌꾸님
+            김뿌꾸 님
           </Text>
           <Text fontSize="14px" fontWeight="500" color="#656565">
             khs43833@gmail.com
@@ -59,12 +69,18 @@ const UserInfo = () => {
           color="#898989"
           cursor={'pointer'}
           onClick={onOpen}
+          align={'center'}
+          justify="center"
         >
-          <Image src={active} alt="" m="0 3px" />
-          현재 활동 중
+          <Image src={selectedState.icon} alt="" m="0 3px" boxSize={'14px'} />
+          {userInfo}
         </Flex>
       </Flex>
-      <StateModal isOpen={isOpen} onClose={onClose} />
+      <StateModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onStateChange={handleStateChange} // 상태 변경 콜백 함수를 props로 전달
+      />
     </>
   );
 };

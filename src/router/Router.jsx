@@ -145,7 +145,10 @@ export const Router = createBrowserRouter([
             path: '/workspace/:workSpaceId/canvas',
             element: <Canvas />,
           },
-          { path: '/workspace/:workSpaceId/files', element: <Files /> },
+          {
+            path: '/workspace/:workSpaceId/files',
+            element: <Files />,
+          },
         ],
       },
     ],

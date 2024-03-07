@@ -11,8 +11,28 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { state_seticon } from '@constants/selectPlan/SELECT_STATE_INFO';
-const ModalBody = () => {
+import { request } from '@apis/axios/axios';
+import { useParams } from 'react-router-dom';
+
+const ModalBody = ({ onStateChange }) => {
   const [selectedBox, setSelectedBox] = useState(null);
+  const { workSpaceId } = useParams();
+
+  const handleSave = async () => {
+    const newState = state_seticon[selectedBox];
+    try {
+      await request.patch(`/workspace/${workSpaceId}/member/status`, null, {
+        params: {
+          workSpaceMemberStatus: newState.title,
+        },
+      });
+      console.log('상태 업데이트 성공:', newState);
+      onStateChange(newState);
+    } catch (error) {
+      console.error('상태 업데이트 실패:', error);
+    }
+  };
+
   return (
     <>
       <VStack spacing={4}>
@@ -55,6 +75,7 @@ const ModalBody = () => {
             bg={'#575DFB'}
             color={'white'}
             fontSize={'14px'}
+            onClick={handleSave}
           >
             저장
           </Button>

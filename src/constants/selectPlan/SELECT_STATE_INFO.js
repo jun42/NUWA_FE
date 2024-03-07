@@ -8,7 +8,7 @@ import Notifications from '@assets/notifications.png';
 import Away from '@assets/away.png';
 
 export const state_seticon = [
-    {title: "접속중", icon: Online},
+    {title: "현재 활동 중", icon: Online},
     {title: "출퇴근 중", icon: Commuting},
     {title: "미팅 중", icon: Meeting},
     {title: "병가 중", icon: Sick},
