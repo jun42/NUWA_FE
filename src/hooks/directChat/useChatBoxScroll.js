@@ -8,7 +8,7 @@ const useChatBoxScroll = (ref, deps) => {
         ref.current?.scrollTo(0, scrollHeight);
       }
     }
-  }, [...deps, ref]);
+  }, [deps, ref]);
 };
 
 export default useChatBoxScroll;
