@@ -23,6 +23,7 @@ const Editor = forwardRef(
     const onSelectionChangeRef = useRef(onSelectionChange);
 
     useEffect(() => {
+      console.log('EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEeee');
       options.modules.keyboard.bindings.customEnter = {
         key: 'Enter',
         handler: function (range, context) {
@@ -76,7 +77,7 @@ const Editor = forwardRef(
         ref.current = null;
         container.innerHTML = '';
       };
-    }, []);
+    }, [publish]);
 
     useLayoutEffect(() => {
       const sendButton = document.querySelector('#send-button');

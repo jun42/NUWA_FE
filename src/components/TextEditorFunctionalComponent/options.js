@@ -14,7 +14,7 @@ const options = {
         // },
         newLineEnter: {
           key: 'Enter',
-          shiftKey: true,
+          shortKey: true,
           handler: function (range, context) {
             this.quill.insertText(range, '\n');
           },
