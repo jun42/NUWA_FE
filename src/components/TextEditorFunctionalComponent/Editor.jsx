@@ -26,7 +26,6 @@ const Editor = forwardRef(
       options.modules.keyboard.bindings.customEnter = {
         key: 'Enter',
         handler: function (range, context) {
-          console.log(this.quill.getContents());
           publish(JSON.stringify(this.quill.getContents().ops));
           this.quill.deleteText(0, this.quill.getLength());
         },
@@ -34,7 +33,9 @@ const Editor = forwardRef(
     }, [publish]);
 
     const clearText = () => {
-      ref.current.deleteText(0, ref.current.getLength());
+      if (ref.current) {
+        ref.current.deleteText(0, ref.current.getLength());
+      }
     };
     //todo 빈값 안보내기
     const handleSendMessage = () => {

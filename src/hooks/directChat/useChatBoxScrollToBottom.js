@@ -10,4 +10,3 @@ const useChatBoxScrollToBottom = (ref, deps) => {
 };
 
 export default useChatBoxScrollToBottom;
-window.scrollTo();
