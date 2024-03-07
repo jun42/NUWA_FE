@@ -9,8 +9,12 @@ import { useParams } from 'react-router-dom';
 import useSocketInit from './useSocketInit';
 import { useWorkspaceUserProfileQuery } from '@queries/workspaceProfile';
 import { useDirectChatMessageListQuery } from '../../queries/workSpace/directChatMessageList';
+import { useEffect, useRef } from 'react';
+import useChatBoxScroll from '../../hooks/directChat/useChatBoxScroll';
 
 const DirectChatPage = () => {
+  const chatBoxRef = useRef(null);
+
   const { roomId, workSpaceId } = useParams();
 
   const { data, isLoading } = useWorkspaceUserProfileQuery(workSpaceId);
@@ -23,12 +27,21 @@ const DirectChatPage = () => {
   console.log('asdfasdf', roomId);
   const { directChatMessageList, isLoading: directChatMessageListIsLoading } =
     useDirectChatMessageListQuery(roomId);
+
+  useChatBoxScroll(chatBoxRef, [socketMessageList]);
+
   return (
     <Box width="100%" p={'0.5rem'}>
       {!isLoading && (
         <>
           <DirectChatHeader />
-          <Box minH={'50vh'} maxH={'70vh'} border={'1px'} overflowY={'scroll'}>
+          <Box
+            minH={'50vh'}
+            maxH={'70vh'}
+            border={'1px'}
+            overflowY={'scroll'}
+            ref={chatBoxRef}
+          >
             {!directChatMessageListIsLoading &&
               directChatMessageList.map((body) => {
                 if (userId === body.senderId) {
