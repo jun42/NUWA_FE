@@ -84,6 +84,7 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId) => {
         `/sub/direct/${roomId}`,
         (message) => {
           console.log('SUBSCRIBE MESSAGE : ', message.body);
+
           setSocketMessageList((state) => [...state, JSON.parse(message.body)]);
         },
         authHeader

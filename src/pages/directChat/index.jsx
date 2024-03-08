@@ -14,7 +14,7 @@ import { useDirectChatMessageListQuery } from '@queries/workSpace/directChatMess
 
 import useChatBoxScroll from '@hooks/directChat/useChatBoxScroll';
 import useChatBoxScrollToBottom from '@hooks/directChat/useChatBoxScrollToBottom';
-
+//todo api 에러 핸들링시 페이지 안깨지도록
 const DirectChatPage = () => {
   const { roomId, workSpaceId } = useParams();
 
