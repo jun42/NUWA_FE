@@ -33,6 +33,7 @@ const ChatPage = () => {
                 roomId={chat.roomId}
                 createMemberId={chat.createMemberId}
                 joinMemberId={chat.joinMemberId}
+                onClick={() => {}}
               />
             );
           })
