@@ -20,7 +20,7 @@ const ChatPage = () => {
     <StContainer>
       <ChatPageHeader />
       <Stack>
-        {!isLoading && !isError && chatList.length === 0 ? (
+        {!isLoading && !isError && chatList.length !== 0 ? (
           chatList.map((chat) => {
             return (
               <ChatPreviewBox
