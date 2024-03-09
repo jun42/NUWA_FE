@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getDirectChatRoomInfo } from '../../apis/chat/chat';
+import { getDirectChatRoomInfo } from '@apis/chat/chat';
 
 export const useDirectChatRoomInfoQuery = (
   workSpaceId,
