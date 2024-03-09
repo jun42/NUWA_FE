@@ -3,12 +3,13 @@ import { Text } from '@chakra-ui/react';
 import ChatPageHeader from './ChatPageHeader';
 import styled from 'styled-components';
 import ChatPreviewBox from './ChatPreviewBox';
-import { useParams } from 'react-router';
-import { useDirectChatRoomListQuery } from '../../queries/chat/useDirectChatRoomList';
+import { useParams, useNavigate } from 'react-router';
+import { useDirectChatRoomListQuery } from '@queries/chat/useDirectChatRoomList';
 
 //todo : 본인 프로필 이름 혹은 workspaceid로 본인인지 상대인지 확인
 const ChatPage = () => {
   const { workSpaceId } = useParams();
+  const navigate = useNavigate();
 
   const {
     data: chatList,
@@ -33,7 +34,11 @@ const ChatPage = () => {
                 roomId={chat.roomId}
                 createMemberId={chat.createMemberId}
                 joinMemberId={chat.joinMemberId}
-                onClick={() => {}}
+                onClick={() => {
+                  navigate(
+                    `/workspace/${workSpaceId}/direct-chat/${chat.roomId}`
+                  );
+                }}
               />
             );
           })

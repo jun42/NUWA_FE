@@ -13,6 +13,7 @@ const ChatPreviewBox = ({
   joinMemberId,
   createMemberName,
   createMemberId,
+  onClick,
 }) => {
   const { workSpaceId } = useParams();
   const setReceiverId = useBoundStore((state) => state.setReceiverId);
@@ -28,7 +29,7 @@ const ChatPreviewBox = ({
     <>
       {!isLoading && (
         <Box
-          width={'100%'}
+          maxW={'100vw'}
           border={'1px'}
           p={'12px'}
           borderColor={'grey.300'}
@@ -36,6 +37,8 @@ const ChatPreviewBox = ({
           display={'flex'}
           gap={'1rem'}
           justifyContent={'space-between'}
+          cursor={'pointer'}
+          onClick={onClick}
         >
           <ChatPreviewMain
             lastMessage={lastMessage}
