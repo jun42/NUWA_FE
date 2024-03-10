@@ -3,13 +3,11 @@ import { useEffect, useState } from 'react';
 import { getToken } from '@utils/auth';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import useBoundStore from '../../store/store';
 import { disconnectDirectChatSocket } from '@apis/chat/chat';
 // import sockjs from 'sockjs-client/dist/sockjs';
 // import * as SockJS from 'sockjs-client';
 
 const useSocketInit = (roomId, workSpaceUserId, workSpaceId, receiverId) => {
-  console.log('ddddddddddddddddddddddddd', receiverId);
   const [publish, setPublish] = useState(null);
   const [socketMessageList, setSocketMessageList] = useState([]);
 
