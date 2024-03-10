@@ -2,21 +2,23 @@ import { Box, Circle, Text } from '@chakra-ui/react';
 import ChatPreviewMain from './ChatPreviewMain';
 import { useWorkspaceUserProfileQuery } from '@queries/workspaceProfile';
 import { useParams } from 'react-router-dom';
-import useBoundStore from '@store/store';
+import {
+  getDiffFromCurrent,
+  go,
+  utcToKoreanTime,
+  writeTimeStringFromDiff,
+} from '../../utils/date';
 
 const ChatPreviewBox = ({
   messageCreatedAt,
   lastMessage,
   unReadCount,
-  roomId,
   joinMemberName,
   joinMemberId,
   createMemberName,
-  createMemberId,
   onClick,
 }) => {
   const { workSpaceId } = useParams();
-  const setReceiverId = useBoundStore((state) => state.setReceiverId);
 
   const { data: currentUserWorkspaceProfile, isLoading } =
     useWorkspaceUserProfileQuery(workSpaceId);
@@ -25,6 +27,17 @@ const ChatPreviewBox = ({
     currentUserWorkspaceProfile.id === joinMemberId
       ? createMemberName
       : joinMemberName;
+  let time;
+  if (messageCreatedAt) {
+    time = go(
+      messageCreatedAt,
+      utcToKoreanTime,
+      getDiffFromCurrent,
+      writeTimeStringFromDiff
+    );
+  } else {
+    time = '';
+  }
   return (
     <>
       {!isLoading && (
@@ -51,7 +64,7 @@ const ChatPreviewBox = ({
             justifyContent={'space-between'}
           >
             <Text color={'#ADB8CC'} fontSize={'14px'} fontWeight={700}>
-              {messageCreatedAt}
+              {time}
             </Text>
             {unReadCount > 0 && (
               <Circle

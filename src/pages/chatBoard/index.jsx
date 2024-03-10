@@ -1,4 +1,4 @@
-import { Stack, Box, Flex } from '@chakra-ui/layout';
+import { Stack, Flex } from '@chakra-ui/layout';
 import { Text } from '@chakra-ui/react';
 import ChatPageHeader from './ChatPageHeader';
 import styled from 'styled-components';
