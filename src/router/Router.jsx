@@ -28,7 +28,7 @@ import DirectChatPage from '@pages/directChat';
 import DashBoard from '@pages/dashboard';
 import Canvas from '@pages/canvas';
 import JoinMemberPage from '../pages/devJoinMember';
-import Todo from './../pages/dashboard/Todo';
+import Todo from './../pages/todo/Todo';
 
 export const Router = createBrowserRouter([
   {
