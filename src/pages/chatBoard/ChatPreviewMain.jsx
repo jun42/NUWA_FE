@@ -10,7 +10,7 @@ const ChatPreviewMain = ({ lastMessage, conversationPartner }) => {
           {conversationPartner}
         </Text>
         {/* TODO delta에서 text만 가져오고 앞부분만 슬라이스 해야. */}
-        <Text color={'#ADB8CC'}>{lastMessage}</Text>
+        <Text color={'#ADB8CC'}>lastMessage</Text>
       </Flex>
     </Flex>
   );
