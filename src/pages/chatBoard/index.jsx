@@ -1,5 +1,5 @@
-import { Stack, Flex } from '@chakra-ui/layout';
-import { Text } from '@chakra-ui/react';
+import { Stack, Flex, Box } from '@chakra-ui/layout';
+import { Spinner, Text } from '@chakra-ui/react';
 import ChatPageHeader from './ChatPageHeader';
 import styled from 'styled-components';
 import ChatPreviewBox from './ChatPreviewBox';
@@ -15,13 +15,26 @@ const ChatPage = () => {
     data: chatList,
     isLoading,
     isError,
+    isFetching,
+    isSuccess,
   } = useDirectChatRoomListQuery(workSpaceId);
   console.log(chatList);
   return (
     <StContainer>
       <ChatPageHeader />
       <Stack>
-        {!isLoading && !isError && chatList.length !== 0 ? (
+        {isFetching ? (
+          <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+            <Spinner
+              thickness="10px"
+              speed="0.5s"
+              emptyColor="gray.200"
+              color="secondary.500"
+              width={'200px'}
+              height={'200px'}
+            />
+          </Box>
+        ) : isSuccess && chatList.length !== 0 ? (
           chatList.map((chat) => {
             return (
               <ChatPreviewBox

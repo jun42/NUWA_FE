@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getDirectChatRoomList } from '../../apis/chat/chat';
 
 export const useDirectChatRoomListQuery = (workSpaceId) => {
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, isFetching, isSuccess } = useQuery({
     queryKey: ['directChatRoomList'],
     queryFn: async () => {
       const data = await getDirectChatRoomList(workSpaceId).then(
@@ -11,5 +11,5 @@ export const useDirectChatRoomListQuery = (workSpaceId) => {
       return data;
     },
   });
-  return { data, isLoading, isError };
+  return { data, isLoading, isError, isFetching, isSuccess };
 };
