@@ -1,9 +1,15 @@
 import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import Quill from 'quill';
 import CustomToolbarBottom from '../TextEditor/CustomToolbarBottom';
-import options from './options';
+import { myOptions as options } from './quill/customOptions';
 import EmojiPicker from 'emoji-picker-react';
+import { useParams } from 'react-router-dom';
+import { sendQuillDataHandler } from './quill/utils';
 // Editor is an uncontrolled React component
+
+const mockImage =
+  'https://naverpa-phinf.pstatic.net/MjAyNDAxMzBfMjk1/MDAxNzA2NTg2OTA3Mzcx.Ja4USdi1fiCnmiSGrU_AIu5tEvL6hkcYCub6gF3wihIg.2qUBRJH4l6Od3IXOYlpvqC00BtBsrZy-yRY5tydtCP0g.PNG/240130_%EC%A0%9D%EC%8B%9C%EB%AF%B9%EC%8A%A4_%EC%8A%88%EC%A6%88_GFA_PC_1_17065869073464493578094502823399.png';
+
 const Editor = forwardRef(
   (
     {
@@ -14,34 +20,20 @@ const Editor = forwardRef(
       emojiPickerIsOpen,
       setEmojiPickerIsOpen,
       publish,
+      channelId,
     },
     ref
   ) => {
+    const { workSpaceId } = useParams();
+
     const containerRef = useRef(null);
     const defaultValueRef = useRef(defaultValue);
     const onTextChangeRef = useRef(onTextChange);
     const onSelectionChangeRef = useRef(onSelectionChange);
 
-    useEffect(() => {
-      console.log('EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEeee');
-      options.modules.keyboard.bindings.customEnter = {
-        key: 'Enter',
-        handler: function (range, context) {
-          publish(JSON.stringify(this.quill.getContents().ops));
-          this.quill.deleteText(0, this.quill.getLength());
-        },
-      };
-    }, [publish]);
-
-    const clearText = () => {
-      if (ref.current) {
-        ref.current.deleteText(0, ref.current.getLength());
-      }
-    };
     //todo 빈값 안보내기
     const handleSendMessage = () => {
-      publish(JSON.stringify(ref.current.getContents().ops));
-      clearText();
+      sendQuillDataHandler(ref.current, publish);
     };
 
     useLayoutEffect(() => {
@@ -58,6 +50,12 @@ const Editor = forwardRef(
       const editorContainer = container.appendChild(
         container.ownerDocument.createElement('div')
       );
+
+      options.externalLayer = {
+        workSpaceId,
+        channelId,
+        publish,
+      };
       const quill = new Quill(editorContainer, options);
       ref.current = quill;
 
@@ -90,13 +88,11 @@ const Editor = forwardRef(
 
     return (
       <>
-        {/* <CustomToolBar> */}
         <EmojiPicker
           open={emojiPickerIsOpen}
           className="emoji-picker"
           onEmojiClick={console.log}
         />
-        {/* </CustomToolBar> */}
         <div id="editor" ref={containerRef}></div>
         <CustomToolbarBottom setEmojiPickerIsOpen={setEmojiPickerIsOpen} />
       </>
