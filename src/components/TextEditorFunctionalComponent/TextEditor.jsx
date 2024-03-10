@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import Editor from './Editor';
 import './quill.custom.snow.css';
 
-const TextEditor = ({ publish }) => {
+const TextEditor = ({ publish, channelId }) => {
   // console.log('TEXTEDITOR');
   const [emojiPickerIsOpen, setEmojiPickerIsOpen] = useState(false);
 
@@ -13,6 +13,7 @@ const TextEditor = ({ publish }) => {
   return (
     <Editor
       publish={publish}
+      channelId={channelId}
       ref={quillRef}
       readOnly={false}
       onSelectionChange={setRange}

@@ -9,9 +9,7 @@ import useSocketInit from './useSocketInit';
 
 import TextEditor from '@components/TextEditorFunctionalComponent/TextEditor';
 
-import { useWorkspaceUserProfileQuery } from '@queries/workspaceProfile';
 import { useDirectChatMessageListQuery } from '@queries/workSpace/directChatMessageList';
-import { useDirectChatRoomInfoQuery } from '@queries/chat/useDirectChatRoomInfo';
 
 import useChatBoxScroll from '@hooks/directChat/useChatBoxScroll';
 import useChatBoxScrollToBottom from '@hooks/directChat/useChatBoxScrollToBottom';
@@ -20,6 +18,7 @@ const DirectChatPage = () => {
   const { chatRoomInfo, userProfile } = useLoaderData();
   const { roomId, workSpaceId } = useParams();
 
+  // define receiver
   let userId = userProfile.id;
   let receiverId;
   let receiverName;
@@ -43,7 +42,6 @@ const DirectChatPage = () => {
     receiverId
   );
   useChatBoxScroll(chatBoxRef, socketMessageList);
-
   return (
     <Box width="100%" p={'0.5rem'}>
       {
@@ -55,6 +53,9 @@ const DirectChatPage = () => {
             border={'1px'}
             overflowY={'scroll'}
             ref={chatBoxRef}
+            // onScroll={(e) => {
+            //   console.log(e.target.scrollHeight);
+            // }}
           >
             {!directChatMessageListIsLoading &&
               directChatMessageList.map((body) => {
@@ -85,7 +86,7 @@ const DirectChatPage = () => {
               }
             })}
           </Box>
-          <TextEditor publish={publish} />
+          <TextEditor publish={publish} channelId={chatRoomInfo.channelId} />
         </>
       }
     </Box>
