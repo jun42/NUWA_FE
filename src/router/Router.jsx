@@ -25,9 +25,15 @@ import WorkspaceLayout from '@components/Layout/WorkspaceLayout';
 import InviteMember from '@pages/createWorkspace/create/inviteMember';
 import ChatPage from '@pages/chatBoard';
 import DirectChatPage from '@pages/directChat';
-import DashBoard from '@pages/dashboard';
+import DashBoard from '@pages/newDashboard';
 import Canvas from '@pages/canvas';
-import Todo from './../pages/dashboard/Todo';
+import JoinMemberPage from '@pages/devJoinMember';
+import Todo from '@pages/dashBoard/Todo';
+import FindChannel from '@pages/findChannel/FindChannel';
+import AddUser from '@pages/addUser/AddUser';
+
+import { getDirectChatRoomInfo } from '@apis/chat/chat';
+import { getWorkspaceUserProfile } from '../apis/workspace/workspaceProfile';
 
 export const Router = createBrowserRouter([
   {
@@ -84,6 +90,10 @@ export const Router = createBrowserRouter([
             element: <WorkAccess />,
           },
           { path: '/helpdesk', element: <HelpDesk /> },
+          {
+            path: '/join',
+            element: <JoinMemberPage />,
+          },
         ],
       },
       {
@@ -117,30 +127,51 @@ export const Router = createBrowserRouter([
         ],
       },
       {
-        path: '/workspace',
+        path: '/workspace/:workSpaceId',
         element: <WorkspaceLayout />,
         children: [
           {
             element: <DashBoard />,
             index: true,
           },
+          { path: '*', element: <NotFoundPage /> },
+
           {
-            path: '/workspace/todo',
+            path: '/workspace/:workSpaceId/todo',
             element: <Todo />,
           },
           {
-            path: '/workspace/chatboard',
+            path: '/workspace/:workSpaceId/chatboard',
             element: <ChatPage />,
           },
           {
-            path: '/workspace/direct-chat',
+            path: '/workspace/:workSpaceId/direct-chat/:roomId',
             element: <DirectChatPage />,
+            loader: async ({ params }) => {
+              const chatRoomInfo = await getDirectChatRoomInfo(
+                params.workSpaceId,
+                params.roomId
+              ).then((r) => r.data.data);
+
+              const userProfile = await getWorkspaceUserProfile(
+                params.workSpaceId
+              ).then((r) => r.data.data);
+              return { chatRoomInfo, userProfile };
+            },
           },
           {
-            path: '/workspace/canvas',
+            path: '/workspace/:workSpaceId/canvas',
             element: <Canvas />,
           },
-          { path: '/workspace/files', element: <Files /> },
+          {
+            path: '/workspace/:workSpaceId/findchannel',
+            element: <FindChannel />,
+          },
+          {
+            path: '/workspace/:workSpaceId/adduser',
+            element: <AddUser />,
+          },
+          { path: '/workspace/:workSpaceId/files', element: <Files /> },
         ],
       },
     ],

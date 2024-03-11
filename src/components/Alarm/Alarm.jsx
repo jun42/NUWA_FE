@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   IconButton,
   Drawer,
@@ -16,17 +16,32 @@ import {
 import { FaBell } from 'react-icons/fa6';
 import { alarm_data } from '@constants/selectPlan/SELECT_ALL_INFO';
 import AlarmData from '@components/DataBox/AlarmData';
-
+import { useParams } from 'react-router-dom';
+import { getAlarms } from '@apis/alarm/getAlarm';
 const Alarm = () => {
-  const [size, setSize] = React.useState('');
+  const { workSpaceId } = useParams();
+  const [size, setSize] = useState('');
+  const [alarmData, setAlarmData] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleClick = (newSize) => {
     setSize(newSize);
     onOpen();
   };
-
   const sizes = ['sm'];
+
+  useEffect(() => {
+    const alarmsApi = async () => {
+      try {
+        const response = await getAlarms(workSpaceId);
+        setAlarmData(response.data.content);
+        console.log('데이터가 성공적으로 들어왔습니다.', response.data.content);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    alarmsApi();
+  }, [workSpaceId]);
 
   return (
     <>
@@ -51,8 +66,12 @@ const Alarm = () => {
           </Flex>
           <Divider orientation="horizontal" mb={'10px'} />
           <DrawerBody display={'flex'} flexFlow={'column'} gap={'10px'}>
-            {alarm_data.map((data, index) => (
-              <AlarmData key={index} name={data.name} date={data.date} />
+            {alarmData.map((data, index) => (
+              <AlarmData
+                key={index}
+                name={data.notificationContent}
+                date={data.createdAt}
+              />
             ))}
           </DrawerBody>
         </DrawerContent>

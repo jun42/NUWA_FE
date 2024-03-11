@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { FaBell } from 'react-icons/fa6';
 import { IconButton } from '@chakra-ui/react';
 import Alarm from '@components/Alarm/Alarm.jsx';
+import { Link } from 'react-router-dom';
 const WorkspaceHeader = () => {
   const handleClick = (newSize) => {
     setSize(newSize);
@@ -11,7 +12,9 @@ const WorkspaceHeader = () => {
   };
   return (
     <StContainer>
-      <WhiteLogo width={'87px'} height={'22px'} />
+      <Link to="/">
+        <WhiteLogo width={'87px'} height={'22px'} />
+      </Link>
       <SearchBar>검색창</SearchBar>
       <Alarm />
     </StContainer>

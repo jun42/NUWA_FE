@@ -13,7 +13,7 @@ import WorkSpaceModalEdit from '@components/Modal/WorkspaceEdit';
 const Canvas = () => {
   const { isOpen, onOpen, onClose } = useModal();
   return (
-    <Stcontainer>
+    <StContainer>
       <Flex justify={'space-between'} align={'center'} width={'100%'}>
         <Text fontSize={'40px'} fontWeight={'700'}>
           캔버스
@@ -49,26 +49,29 @@ const Canvas = () => {
           </NotDataSection>
         )}
       </DataContainer>
-    </Stcontainer>
+    </StContainer>
   );
 };
 
 export default Canvas;
 
-const Stcontainer = styled.div`
+const StContainer = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   flex-flow: column;
   padding: 50px;
+  border: 1px solid red;
 `;
 
 const DataContainer = styled.div`
   height: 100%;
-  margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 20px;
   cursor: pointer;
+  border: 1px solid blue;
+  overflow-y: auto;
 `;
 
 const NotDataSection = styled.div`
