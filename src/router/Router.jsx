@@ -32,6 +32,9 @@ import Todo from '@pages/dashBoard/Todo';
 import FindChannel from '@pages/findChannel/FindChannel';
 import AddUser from '@pages/addUser/AddUser';
 
+import { getDirectChatRoomInfo } from '@apis/chat/chat';
+import { getWorkspaceUserProfile } from '../apis/workspace/workspaceProfile';
+
 export const Router = createBrowserRouter([
   {
     path: '/',
@@ -131,6 +134,8 @@ export const Router = createBrowserRouter([
             element: <DashBoard />,
             index: true,
           },
+          { path: '*', element: <NotFoundPage /> },
+
           {
             path: '/workspace/:workSpaceId/todo',
             element: <Todo />,
@@ -142,6 +147,17 @@ export const Router = createBrowserRouter([
           {
             path: '/workspace/:workSpaceId/direct-chat/:roomId',
             element: <DirectChatPage />,
+            loader: async ({ params }) => {
+              const chatRoomInfo = await getDirectChatRoomInfo(
+                params.workSpaceId,
+                params.roomId
+              ).then((r) => r.data.data);
+
+              const userProfile = await getWorkspaceUserProfile(
+                params.workSpaceId
+              ).then((r) => r.data.data);
+              return { chatRoomInfo, userProfile };
+            },
           },
           {
             path: '/workspace/:workSpaceId/canvas',

@@ -9,6 +9,8 @@ import {
   ModalCloseButton,
   useDisclosure,
   Stack,
+  Flex,
+  Text,
 } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 
@@ -21,9 +23,12 @@ const AddDirectChatRoomModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { workSpaceId } = useParams();
 
-  const { data: currentUserWorkspaceProfile } =
-    useWorkspaceUserProfileQuery(workSpaceId);
-  const { memberList, isLoading } = useWorkSpaceMemberListQuery(workSpaceId);
+  const {
+    data: currentUserWorkspaceProfile,
+    isLoading: currentUserProfileIsLoading,
+  } = useWorkspaceUserProfileQuery(workSpaceId);
+  const { memberList, isLoading: memberListIsLoading } =
+    useWorkSpaceMemberListQuery(workSpaceId);
 
   return (
     <>
@@ -38,13 +43,14 @@ const AddDirectChatRoomModal = () => {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Stack>
-              {!isLoading &&
-                memberList.length > 0 &&
+            <Stack height={'50vh'} overflowY={'scroll'}>
+              {!memberListIsLoading &&
+              !currentUserProfileIsLoading &&
+              memberList.length !== 1 ? (
                 memberList
-                  .filter(
-                    (member) => member.id !== currentUserWorkspaceProfile.id
-                  )
+                  .filter((member) => {
+                    return member.id !== currentUserWorkspaceProfile.id;
+                  })
                   .map((member) => {
                     return (
                       <MemberListCard
@@ -54,7 +60,23 @@ const AddDirectChatRoomModal = () => {
                         onClose={onClose}
                       />
                     );
-                  })}
+                  })
+              ) : (
+                <Flex
+                  justifyContent={'center'}
+                  alignItems={'center'}
+                  height={'50vh'}
+                >
+                  <Text
+                    fontSize={'16px'}
+                    color={'grey.400'}
+                    textAlign={'center'}
+                  >
+                    멤버가 없습니다. <br />
+                    새로운 멤버를 초대해보세요!
+                  </Text>
+                </Flex>
+              )}
             </Stack>
           </ModalBody>
           <ModalFooter></ModalFooter>

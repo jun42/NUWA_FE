@@ -3,7 +3,7 @@ import { getDirectChatMessageList } from '../../apis/chat/chat';
 
 export const useDirectChatMessageListQuery = (roomId) => {
   const { data: directChatMessageList, isLoading } = useQuery({
-    queryKey: ['directChatMessageList'],
+    queryKey: ['directChatMessageList', roomId],
     queryFn: async () => {
       const response = await getDirectChatMessageList(
         roomId,
