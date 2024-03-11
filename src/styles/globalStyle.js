@@ -51,6 +51,13 @@ s {
 img.FooterLogo {
     height: fit-content;
 }
+.textArea {  
+  height: 106px;
+  min-height: 130px;
+  max-height: 130px;
+  border-radius:0;
+}
+
 
 
 /* ------------------------------------------------------240226 media width 1280---------------------------------------------------- */
