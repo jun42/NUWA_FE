@@ -48,6 +48,10 @@ s {
 }
 
 .headerToggle {display:block;}
+img.FooterLogo {
+    height: fit-content;
+}
+
 
 /* ------------------------------------------------------240226 media width 1280---------------------------------------------------- */
 /* main */
@@ -91,13 +95,13 @@ s {
   }
   #main .R3ConWrap>* {width: 52vw;}
   #main .landingPTitle {font-size: 32px;}
-  #main .landingPSubTitle {font-size: 16px;}
+  #main .landingPSubTitle {font-size: 16px; margin-bottom:16px;}
 
   /* featurePage */
   #featurePage>div:first-child {
     padding-bottom: 0;
   }
-  #featurePage>div:first-child>img {height: 80vh;}
+  #featurePage>div:first-child>img {height: 80vh; object-fit: cover;}
   #featurePage>div:first-child>div:last-child {position: relative;}
   #featurePage>div:first-child>div:last-child img:nth-child(1) {bottom: 60px !important;}
   #featurePage>div:first-child>div:last-child img:nth-child(2) {bottom: 60px !important;}
@@ -119,6 +123,10 @@ s {
   #featurePage>div:nth-child(4)>div:first-child {gap: 0;}
   #featurePage>div:nth-child(4)>div:last-child {margin: 36px auto 0;}
   #featurePage>div:nth-child(4)>div:last-child>div {width:100%; height: auto;}
+
+
+  .FooterWrap {width:100%;}
+  .FooterCols {flex-flow: column; row-gap:36px; align-items: center;}
 }
 
 /* ------------------------------------------------------240226 media width 768---------------------------------------------------- */
@@ -133,6 +141,16 @@ s {
   #main .percentText>div span>span {font-size: 48px;}
   #main .percentText>div span:nth-child(2) {font-size: 16px;}
   #main .percentBtns {justify-content: center;}
+  /* Feature page */
+  #featurePage>div:nth-child(2)>div>div:first-child {
+    width: 80%;
+  }
+  #featurePage>div:nth-child(2)>div>div:last-child {
+    width: 80%;
+  }
+  #featurePage>div:nth-child(4)>div:last-child {
+    grid-template-columns: repeat(1, 1fr);
+  }
   /* select-plan page */
   .cardWarp {
     display: grid;
@@ -150,6 +168,10 @@ s {
   /* FAQ page */
   .faqBoxWarp {width: 95%;}
   .faqDetailBox {height: auto;}
+
+  /* Feature page */
+  .FreeTrialText {flex-flow: column;}
+
 }
 
 

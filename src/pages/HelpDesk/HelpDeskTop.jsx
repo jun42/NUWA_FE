@@ -7,7 +7,6 @@ const HelpDeskTop = () => {
     <StContentTop>
       <StContentText>
         <StContentTextTitle>
-          <Logo width={'120px'} height={'30px'} />
           <StTextDiv $size={32} $weight={700} $color="primary400">
             서비스문의
           </StTextDiv>

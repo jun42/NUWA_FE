@@ -1,23 +1,18 @@
-// import useBoundStore from '../../store/store';
-// import { Button as ChButton } from '@chakra-ui/react';
-
-// const Header = () => {
-//   const bearPopulation = useBoundStore((state) => state.bears);
-
-//   return (
-//     <>
-//       <div>bear population:{bearPopulation}</div>
-//     </>
-//   );
-// };
-// export default Header;
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import StText from '@components/Text/StText';
 import Logo from '@components/Image/Logo';
 import { Flex, Text, Button } from '@chakra-ui/react';
 import { categories } from '@constants/selectPlan/SELECT_ALL_INFO';
 import { Link } from 'react-router-dom';
+
 const Header = () => {
+  const [isMenuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!isMenuOpen);
+  };
+
   return (
     <>
       <HeaderTop>
@@ -27,75 +22,93 @@ const Header = () => {
         </StText>
       </HeaderTop>
 
+      <HeaderWarp>
+        <HeaderCenter>
+          <Link to="/">
+            <Logo width={'122px'} height={'32px'} />
+          </Link>
+        </HeaderCenter>
 
+        <HeaderBottom>
+        <MobileHeaderIcon
+            className='mobileHeaderIcon'
+            onClick={toggleMenu}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 18V16H21V18H3ZM3 13V11H21V13H3ZM3 8V6H21V8H3Z" fill="black"/>
+            </svg>
+          </MobileHeaderIcon>
+          <CategoryBox className='moblieHeaderMenu' open={isMenuOpen}>
+            {categories.map((category) => (
+              <Link to={category.link} key={category.name}>
+                <Flex gap={'4px'}>
+                  <Text fontSize={'16px'} fontWeight={'500'}>
+                    {category.name}
+                  </Text>
+                  <img
+                    width={'14px'}
+                    height={'9px'}
+                    src={category.icon}
+                    alt="아이콘"
+                  />
+                </Flex>
+              </Link>
+            ))}
+          </CategoryBox>
+          <DTHeader className='headerMenu' open={isMenuOpen}>
+            {categories.map((category) => (
+              <Link to={category.link} key={category.name}>
+                <Flex gap={'4px'}>
+                  <Text fontSize={'16px'} fontWeight={'500'}>
+                    {category.name}
+                  </Text>
+                  <img
+                    width={'14px'}
+                    height={'9px'}
+                    src={category.icon}
+                    alt="아이콘"
+                  />
+                </Flex>
+              </Link>
+            ))}
+          </DTHeader>
+          
 
-    <HeaderWarp>
-      <HeaderCenter>
-        <Link to="/">
-          <Logo width={'122px'} height={'32px'} />
-        </Link>
-      </HeaderCenter>
-
-      <HeaderBottom>
-        <CategoryBox className='headerMenu'>
-          {categories.map((category) => (
-            <Link to={category.link} key={category.name}>
-              <Flex gap={'4px'}>
-                <Text fontSize={'16px'} fontWeight={'500'}>
-                  {category.name}
-                </Text>
-                <img
-                  width={'14px'}
-                  height={'9px'}
-                  src={category.icon}
-                  alt="아이콘"
-                />
-              </Flex>
+          <ButtonBox>
+            <Link to="/login">
+              <Button
+                borderRadius={'4px'}
+                bg={'#575DFB'}
+                _hover={{ bg: '#5055f3' }}
+                _active={{ bg: '#5359f6' }}
+                bgColor={'primary400'}
+                padding={'9px 22px'}
+                color={'white'}
+                fontSize={'16px'}
+                fontWeight={'700'}
+              >
+                로그인
+              </Button>
             </Link>
-          ))}
-        </CategoryBox>
-        <MobileHeaderIcon className='mobileHeaderIcon'>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 18V16H21V18H3ZM3 13V11H21V13H3ZM3 8V6H21V8H3Z" fill="black"/>
-          </svg>
-        </MobileHeaderIcon>
 
-        <ButtonBox>
-          <Link to="/login">
-            <Button
-              borderRadius={'4px'}
-              bg={'#575DFB'}
-              _hover={{ bg: '#5055f3' }}
-              _active={{ bg: '#5359f6' }}
-              bgColor={'primary400'}
-              padding={'9px 22px'}
-              color={'white'}
-              fontSize={'16px'}
-              fontWeight={'700'}
-            >
-              로그인
-            </Button>
-          </Link>
-
-          <Link to="/signup">
-            <Button
-              borderRadius={'4px'}
-              bg={'#313131'}
-              _hover={{ bg: '#212121' }}
-              _active={{ bg: '#101010' }}
-              bgColor={'primary400'}
-              padding={'9px 22px'}
-              color={'white'}
-              fontSize={'16px'}
-              fontWeight={'700'}
-            >
-              무료 회원가입
-            </Button>
-          </Link>
-        </ButtonBox>
-      </HeaderBottom>
-    </HeaderWarp>
-
+            <Link to="/signup">
+              <Button
+                borderRadius={'4px'}
+                bg={'#313131'}
+                _hover={{ bg: '#212121' }}
+                _active={{ bg: '#101010' }}
+                bgColor={'primary400'}
+                padding={'9px 22px'}
+                color={'white'}
+                fontSize={'16px'}
+                fontWeight={'700'}
+              >
+                무료 회원가입
+              </Button>
+            </Link>
+          </ButtonBox>
+        </HeaderBottom>
+      </HeaderWarp>
     </>
   );
 };
@@ -131,18 +144,43 @@ const HeaderBottom = styled.div`
   justify-content: space-between;
   align-items: center;
   max-width: 1440px;
+  position: relative;
 `;
 
+const DTHeader = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 16px;
+  @media (max-width: 768px) {
+    display: none;
+  }
+`
 const ButtonBox = styled.div`
   display: flex;
   gap: 16px;
 `;
 
 const CategoryBox = styled.div`
-  display: flex;
+  display: ${(props) => (props.open ? 'flex' : 'none')};
+  flex-flow: column;
   gap: 16px;
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #00000010;
+  padding: 16px;
+  border-radius: 8px;
+  top: 56px;
+  box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.25);
+  z-index: 10;
+  @media (min-width: 769px) {
+    display: ${(props) => (props.open ? 'flex' : 'none')};
+  }
 `;
 
 const MobileHeaderIcon = styled.div`
-display: none;
-`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+`;
