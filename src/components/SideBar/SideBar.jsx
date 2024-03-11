@@ -33,10 +33,11 @@ import CreateChannel from '../Channel/CreateChannelModal';
 import Channel from './Channel';
 import WorkSpaceModalEdit from '@components/Modal/WorkspaceEdit';
 import useModal from '@hooks/useModal';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const SideBar = () => {
   const navigate = useNavigate();
+  const { workSpaceId } = useParams();
   const chData = [
     {
       chName: 'FE-정보공유',
@@ -134,10 +135,14 @@ const SideBar = () => {
               width="100%"
               justifyContent="flex-start"
               backgroundColor="#f1f1f1"
+              onClick={() => {
+                navigate(`/workspace/${workSpaceId}`);
+              }}
             >
               <Image src={dashboard} alt="" w="20px" h="21px" mr="20px" />
               대쉬보드
             </Button>
+
             <Button
               fontSize="14px"
               fontWeight="500"
@@ -152,6 +157,7 @@ const SideBar = () => {
               <Image src={dm} alt="" w="20px" h="21px" mr="20px" />
               다이렉트 메세지
             </Button>
+
             <Button
               fontSize="14px"
               fontWeight="500"
@@ -159,10 +165,14 @@ const SideBar = () => {
               width="100%"
               justifyContent="flex-start"
               backgroundColor="#f1f1f1"
+              onClick={() => {
+                navigate('canvas');
+              }}
             >
               <Image src={canvas} alt="" w="20px" h="21px" mr="20px" />
               캔버스
             </Button>
+
             <Button
               fontSize="14px"
               fontWeight="500"
@@ -170,6 +180,9 @@ const SideBar = () => {
               width="100%"
               justifyContent="flex-start"
               backgroundColor="#f1f1f1"
+              onClick={() => {
+                navigate('files');
+              }}
             >
               <Image src={file} alt="" w="20px" h="21px" mr="20px" />
               파일
@@ -217,6 +230,9 @@ const SideBar = () => {
                         w="100%"
                         justifyContent="flex-start"
                         backgroundColor="#D9D9D9"
+                        onClick={() => {
+                          navigate('findchannel');
+                        }}
                       >
                         <Image
                           src={exclude}
@@ -225,8 +241,9 @@ const SideBar = () => {
                           h="21px"
                           mr="20px"
                         />
-                        스레드
+                        전체 채널 조회
                       </Button>
+
                       <Button
                         fontSize="14px"
                         fontWeight="500"
@@ -234,6 +251,9 @@ const SideBar = () => {
                         w="100%"
                         justifyContent="flex-start"
                         backgroundColor="#D9D9D9"
+                        onClick={() => {
+                          navigate('adduser');
+                        }}
                       >
                         <Image
                           src={exclude}
@@ -244,6 +264,7 @@ const SideBar = () => {
                         />
                         사용자 그룹 관리
                       </Button>
+
                       <Button
                         fontSize="14px"
                         fontWeight="500"
