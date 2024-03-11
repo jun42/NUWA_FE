@@ -5,7 +5,6 @@ import Logo from '@components/Image/Logo';
 const TitleText = () => {
   return (
     <StTitle>
-      <Logo width={'140px'} height={'36px'} />
       <StTextDiv $size={42} $weight={700} $color="primary400">
         자주하는 질문
       </StTextDiv>

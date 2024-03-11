@@ -28,7 +28,7 @@ import DirectChatPage from '@pages/directChat';
 import DashBoard from '@pages/newDashboard';
 import Canvas from '@pages/canvas';
 import JoinMemberPage from '@pages/devJoinMember';
-import Todo from '@pages/dashBoard/Todo';
+import Todo from '@pages/dashboard/Todo';
 import FindChannel from '@pages/findChannel/FindChannel';
 import AddUser from '@pages/addUser/AddUser';
 

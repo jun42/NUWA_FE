@@ -18,7 +18,7 @@ const main = () => {
       </StContainer>
   );
 }
- 
+
 export default main;
 
 const StContainer = styled.div`

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import CustomInput from '@components/Input/CustomInput';
-import { Flex, Button, Checkbox, Text, Center } from '@chakra-ui/react';
+import { Flex, Button, Checkbox, Text, Center, Textarea } from '@chakra-ui/react';
 
 const InputSection = () => {
   return (
@@ -26,7 +26,7 @@ const InputSection = () => {
       </Flex>
 
       <Flex gap={'24px'} margin>
-        <CustomInput width="100%" placeholder="문의내용" />
+        <Textarea width="100%" placeholder="문의내용" className='textArea'/>
       </Flex>
 
       <Flex justify={'center'}>
