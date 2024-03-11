@@ -5,7 +5,7 @@ import { BsArrowsAngleExpand } from 'react-icons/bs';
 
 import { RxDotsVertical } from 'react-icons/rx';
 
-const DirectChatHeader = () => {
+const DirectChatHeader = ({ receiverName }) => {
   return (
     <Flex
       justifyContent={'space-between'}
@@ -25,7 +25,7 @@ const DirectChatHeader = () => {
       <Flex gap={'0.5rem'} alignItems={'center'}>
         <Circle size={'10px'} bgColor={'green'} />
         <Text fontSize={'14px'} fontWeight={700}>
-          Ina Roverson
+          {receiverName}
         </Text>
       </Flex>
       <Flex gap={'1rem'}>
