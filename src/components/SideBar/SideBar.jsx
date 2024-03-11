@@ -145,6 +145,7 @@ const SideBar = () => {
               <Image src={dashboard} alt="" w="20px" h="21px" mr="20px" />
               대쉬보드
             </Button>
+
             <Button
               fontSize="14px"
               fontWeight="500"
@@ -159,6 +160,7 @@ const SideBar = () => {
               <Image src={dm} alt="" w="20px" h="21px" mr="20px" />
               다이렉트 메세지
             </Button>
+
             <Button
               fontSize="14px"
               fontWeight="500"
@@ -173,6 +175,7 @@ const SideBar = () => {
               <Image src={canvas} alt="" w="20px" h="21px" mr="20px" />
               캔버스
             </Button>
+
             <Button
               fontSize="14px"
               fontWeight="500"
@@ -242,7 +245,7 @@ const SideBar = () => {
                           h="21px"
                           mr="20px"
                         />
-                        전체 채널 조회 변경
+                        전체 채널 조회
                       </Button>
                       <Button
                         fontSize="14px"
@@ -259,6 +262,7 @@ const SideBar = () => {
                         <Image src={todo} alt="" w="20px" h="21px" mr="20px" />
                         TODO 리스트
                       </Button>
+
                       <Button
                         fontSize="14px"
                         fontWeight="500"
@@ -266,6 +270,9 @@ const SideBar = () => {
                         w="100%"
                         justifyContent="flex-start"
                         backgroundColor="#D9D9D9"
+                        onClick={() => {
+                          // navigate('adduser');
+                        }}
                       >
                         <Image
                           src={exclude}
@@ -291,6 +298,7 @@ const SideBar = () => {
                         <Image src={group} alt="" w="20px" h="21px" mr="20px" />
                         사용자 그룹 관리
                       </Button>
+
                       <Button
                         fontSize="14px"
                         fontWeight="500"
