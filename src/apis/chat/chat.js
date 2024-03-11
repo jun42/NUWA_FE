@@ -28,3 +28,9 @@ export const getDirectChatMessageList = (
 export const disconnectDirectChatSocket = (roomId) => {
   return request.post(`/channel/direct/${roomId}`);
 };
+
+export const getDirectChatRoomInfo = (workSpaceId, directChannelRoomId) => {
+  return request.get(
+    `/channel/direct/info/${workSpaceId}?directChannelRoomId=${directChannelRoomId}`
+  );
+};
