@@ -1,7 +1,14 @@
 import styled from 'styled-components';
 import TitleText from './TitleText';
 import InputSection from './InputSection';
+import { request } from '@apis/axios/axios';
 const index = () => {
+  // const sendInquiryEmail = async (inquiryData) => {
+  //   try{
+  //     await request.post('/mail', inquiryData)
+  //   }
+  //   console.log(Response.)
+  // }
   return (
     <StContainer>
       <TitleText />

@@ -27,10 +27,10 @@ import ChatPage from '@pages/chatBoard';
 import DirectChatPage from '@pages/directChat';
 import DashBoard from '@pages/newDashboard';
 import Canvas from '@pages/canvas';
-import JoinMemberPage from '../pages/devJoinMember';
-import Todo from './../pages/dashBoard/Todo';
-import FindChannel from '../pages/findChannel/FindChannel';
-import AddUser from '../pages/addUser/AddUser';
+import JoinMemberPage from '@pages/devJoinMember';
+import Todo from '@pages/dashBoard/Todo';
+import FindChannel from '@pages/findChannel/FindChannel';
+import AddUser from '@pages/addUser/AddUser';
 
 import { getDirectChatRoomInfo } from '@apis/chat/chat';
 import { getWorkspaceUserProfile } from '../apis/workspace/workspaceProfile';
