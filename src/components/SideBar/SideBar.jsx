@@ -36,10 +36,11 @@ import CreateChannel from '../Channel/CreateChannelModal';
 import Channel from './Channel';
 import WorkSpaceModalEdit from '@components/Modal/WorkspaceEdit';
 import useModal from '@hooks/useModal';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const SideBar = () => {
   const navigate = useNavigate();
+  const { workSpaceId } = useParams();
   const chData = [
     {
       chName: 'FE-정보공유',
@@ -137,6 +138,9 @@ const SideBar = () => {
               width="100%"
               justifyContent="flex-start"
               backgroundColor="#f1f1f1"
+              onClick={() => {
+                navigate(`/workspace/${workSpaceId}`);
+              }}
             >
               <Image src={dashboard} alt="" w="20px" h="21px" mr="20px" />
               대쉬보드
@@ -162,6 +166,9 @@ const SideBar = () => {
               width="100%"
               justifyContent="flex-start"
               backgroundColor="#f1f1f1"
+              onClick={() => {
+                navigate('canvas');
+              }}
             >
               <Image src={canvas} alt="" w="20px" h="21px" mr="20px" />
               캔버스
@@ -223,6 +230,10 @@ const SideBar = () => {
                         w="100%"
                         justifyContent="flex-start"
                         backgroundColor="#D9D9D9"
+                        onClick={() => {
+                          navigate('findchannel');
+                          setIsOpen(false);
+                        }}
                       >
                         <Image
                           src={exclude}
@@ -272,6 +283,10 @@ const SideBar = () => {
                         w="100%"
                         justifyContent="flex-start"
                         backgroundColor="#D9D9D9"
+                        onClick={() => {
+                          navigate('adduser');
+                          setIsOpen(false);
+                        }}
                       >
                         <Image src={group} alt="" w="20px" h="21px" mr="20px" />
                         사용자 그룹 관리

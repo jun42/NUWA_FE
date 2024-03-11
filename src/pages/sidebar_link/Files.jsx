@@ -33,12 +33,28 @@ import FileBox from './FileBox.jsx';
 import FileList from './FileList.jsx';
 import { getAllFiles } from './../../apis/files/files';
 import { useParams } from 'react-router-dom';
+import { getWorkSpaceMemberList } from './../../apis/workspace/workSpaceMember';
+import {
+  useMyInfoQuery,
+  useWorkSpaceMemberListQuery,
+} from './../../queries/workSpace/workSpaceMemberList';
 
 const Files = () => {
+  const { workSpaceId } = useParams();
   const [switchstate, setSwitchstate] = useState(false);
   const handleChange = () => {
     setSwitchstate((prev) => !prev);
   };
+
+  const members = useWorkSpaceMemberListQuery(workSpaceId);
+  console.log('members', members);
+  const myInfo = useMyInfoQuery(workSpaceId);
+  console.log('myInfo', myInfo);
+
+  const addCheckedList = members.memberList?.map((item) => ({
+    ...item,
+    checked: false,
+  }));
 
   const [fileType, setFileType] = useState('all');
   const [sortBy, setSortBy] = useState('date');
@@ -226,7 +242,6 @@ const Files = () => {
   // }, []);
 
   const [fileList, setFileList] = useState([]);
-  const { workSpaceId } = useParams();
   useEffect(() => {
     const id = setTimeout(() => {
       Promise.resolve(mockData).then((r) => setFileList(r));
@@ -382,13 +397,24 @@ const Files = () => {
     }
   };
 
-  const [searchData, setSearchData] = useState([
-    { name: '김수한', checked: false },
-    { name: '김점례', checked: false },
-    { name: '김뿌꾸', checked: false },
-    { name: '박새로이', checked: false },
-    { name: '이상혁', checked: false },
-  ]);
+  // const [searchData, setSearchData] = useState([
+  //   { name: '김수한', checked: false },
+  //   { name: '김점례', checked: false },
+  //   { name: '김뿌꾸', checked: false },
+  //   { name: '박새로이', checked: false },
+  //   { name: '이상혁', checked: false },
+  // ]);
+  const [searchData, setSearchData] = useState([]);
+  useEffect(() => {
+    if (
+      members.memberList &&
+      members.memberList.length > 0 &&
+      searchData.length === 0
+    ) {
+      setSearchData(addCheckedList);
+    }
+  }, [members.memberList, searchData, addCheckedList]);
+
   // const searchData = [
   //   { name: '김수한', checked: false },
   //   { name: '김점례', checked: false },
@@ -400,12 +426,18 @@ const Files = () => {
     setSearchTerm(e.target.value);
   };
   const filteredData = searchData.filter((item) =>
-    item.name.includes(searchTerm)
+    item.nickname.includes(searchTerm)
   );
   const checkedData = searchData.filter((item) => item.checked === true);
 
-  const userData = searchData.filter((item) => item.name === '김뿌꾸');
-  const userChecked = userData[0].checked;
+  console.log('searchData', searchData);
+
+  const findMyInfo = searchData.find((item) => {
+    return item.email === myInfo?.myInfo?.email;
+  });
+  console.log('findMyInfo', findMyInfo);
+
+  const userChecked = findMyInfo?.checked;
 
   return (
     <Flex w="100%">
@@ -452,7 +484,7 @@ const Files = () => {
               >
                 {checkedData.length === 0 && <Text>From</Text>}
                 {checkedData.length === 1 && (
-                  <Text>From {checkedData[0].name}</Text>
+                  <Text>From {checkedData[0].nickname}</Text>
                 )}
                 {checkedData.length > 1 && (
                   <Text>{checkedData.length}명의 팀원으로부터</Text>
@@ -513,7 +545,7 @@ const Files = () => {
                             onChange={(e) => {
                               const updatedData = [...searchData];
                               const dataIndex = searchData.findIndex(
-                                (dataItem) => dataItem.name === item.name
+                                (dataItem) => dataItem.email === item.email
                               );
                               if (dataIndex !== -1) {
                                 updatedData[dataIndex] = {
@@ -525,7 +557,7 @@ const Files = () => {
                             }}
                             isChecked={item.checked}
                           >
-                            {item.name}
+                            {item.nickname}
                           </Checkbox>
                         ))}
                       {searchTerm &&
@@ -545,7 +577,7 @@ const Files = () => {
                             onChange={(e) => {
                               const updatedData = [...searchData];
                               const dataIndex = searchData.findIndex(
-                                (dataItem) => dataItem.name === item.name
+                                (dataItem) => dataItem.email === item.email
                               );
                               if (dataIndex !== -1) {
                                 updatedData[dataIndex] = {
@@ -557,7 +589,7 @@ const Files = () => {
                             }}
                             isChecked={item.checked}
                           >
-                            {item.name}
+                            {item.nickname}
                           </Checkbox>
                         ))}
                       {!userChecked && (
@@ -580,7 +612,8 @@ const Files = () => {
                             onChange={(e) => {
                               const updatedData = [...searchData];
                               const dataIndex = searchData.findIndex(
-                                (dataItem) => dataItem.name === userData[0].name
+                                (dataItem) =>
+                                  dataItem.email === findMyInfo?.email
                               );
                               if (dataIndex !== -1) {
                                 updatedData[dataIndex] = {
@@ -590,9 +623,9 @@ const Files = () => {
                                 setSearchData(updatedData);
                               }
                             }}
-                            isChecked={userData[0].checked}
+                            isChecked={findMyInfo?.checked}
                           >
-                            {userData[0].name}
+                            {findMyInfo.nickname}
                           </Checkbox>
                         </Box>
                       )}

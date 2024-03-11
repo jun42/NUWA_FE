@@ -53,7 +53,7 @@ const FileBox = ({
         );
       }}
     >
-      {fileExtension === ('jpg' || 'png') && (
+      {fileExtension === ('jpg' || 'png' || 'jpeg') && (
         <Modal
           isOpen={isOpen}
           onClose={onClose}
@@ -75,7 +75,7 @@ const FileBox = ({
       )}
       <Center h="136px" backgroundColor="#D6D6D6" borderRadius="13px 13px 0 0">
         {fileExtension === 'pdf' && <Image src={AdobeIcon} />}
-        {fileExtension === ('jpg' || 'png') && (
+        {fileExtension === ('jpg' || 'png' || 'jpeg') && (
           <Image
             src={fileUrl}
             w="245px"
