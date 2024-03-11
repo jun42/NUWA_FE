@@ -35,3 +35,4 @@ const createInstance = (contentType) => {
 };
 
 export const request = createInstance('application/json');
+export const imgRequest = createInstance('multipart/form-data');
