@@ -9,7 +9,6 @@ import {
   Flex,
   useDisclosure,
 } from '@chakra-ui/react';
-//import ProfileEdit from '../profileEdit/ProfileEdit';
 import ProfileModal from '@components/Modal/ProfileEdit/index.jsx';
 import useModal from '@hooks/useModal';
 

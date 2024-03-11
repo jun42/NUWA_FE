@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { fetchWorkspace } from '../../apis/workspace/workAccess';
 import styled from 'styled-components';
 import { Flex, Text, Button } from '@chakra-ui/react';
 import WorkspaceCard from './WorkspaceCard';
-import useBoundStore from '../../store/store';
 import { jwtDecode } from 'jwt-decode';
 import { getToken } from '@utils/auth';
-import { workspace_section } from '@constants/selectPlan/SELECT_ALL_INFO';
+//import { workspace_section } from '@constants/selectPlan/SELECT_ALL_INFO';
 
 const workAccess = () => {
   const [workspaces, setWorkspaces] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { email } = useBoundStore((state) => ({ email: state.email }));
 
   const token = getToken();
   const decoded = jwtDecode(token);
@@ -46,23 +45,18 @@ const workAccess = () => {
           <Text width="100%" fontSize="48px" fontWeight="600" color="#575DF8">
             환영합니다!
           </Text>
-          <Text width="100%" fontSize="22px" fontWeight="250">
-            {email ? `${emailSlice}의 워크스페이스` : '워크스페이스'}
+          <Text width="100%" fontSize="22px" fontWeight="200">
+            {`${emailSlice}님의 워크스페이스`}
           </Text>
         </Flex>
         <WorkspaceCard workspace_section={workspaces} />
-        {workspaces.length > 0 ? (
-          workspaces.map((workspace) => (
-            <WorkspaceCard key={workspace.workspaceId} workspace={workspace} />
-          ))
-        ) : (
-          <Text>가입된 워크스페이스가 없습니다.</Text>
-        )}
 
-        <Flex flexDirection={'column'}>
+        <Flex flexDirection={'column'} marginTop={'120px'}>
           <Text width="100%" fontSize="20px" fontWeight="200">
-            {' '}
-            다른 이메일로 로그인{' '}
+            다른 이메일로{' '}
+            <Link to="/login" style={{ color: '#575DF8' }}>
+              로그인
+            </Link>
           </Text>
         </Flex>
       </WorkspaceContainer>

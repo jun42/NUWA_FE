@@ -1,10 +1,6 @@
 import axios from 'axios';
 import { request } from '../axios/axios';
 
-const apiInstance = axios.create({
-  baseURL: 'https://nuwa.o-r.kr/',
-});
-
 export const fetchWorkspace = async () => {
   try {
     const response = await request.get('/workspaces');

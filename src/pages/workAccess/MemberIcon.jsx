@@ -14,7 +14,7 @@ const MemberIcon = ({ image, number }) => {
           backgroundRepeat="no-repeat"
           backgroundSize="cover"
         />
-        {[...Array(6)].map((_, index) => (
+        {[...Array(2)].map((_, index) => (
           <Box
             key={index}
             width="17px"
