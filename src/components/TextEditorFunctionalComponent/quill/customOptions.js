@@ -8,19 +8,19 @@ const Delta = Quill.import('delta');
 export const myOptions = {
   theme: 'snow',
   modules: {
+    clipboard: {
+      matchers: [],
+    },
     toolbar: {
       container: [
         ['bold', 'italic', 'underline', 'strike'],
         ['blockquote', 'code-block'],
         ['link', 'image'],
         [{ list: 'ordered' }, { list: 'bullet' }],
-        ['send'],
+        // ['send'],
       ],
       handlers: {
         image: imageHandler,
-        send: function () {
-          console.log(1111111);
-        },
       },
     },
     keyboard: {
@@ -28,6 +28,11 @@ export const myOptions = {
     },
   },
 };
+
+function imageMatcher(node, delta) {
+  alert('ㅇㅇㅇㅇ');
+  return;
+}
 
 function imageHandler() {
   const { workSpaceId, channelId } = this.quill.options.externalLayer;
@@ -47,6 +52,7 @@ function imageHandler() {
     fileInput.classList.add('ql-image');
     fileInput.addEventListener('change', async (e) => {
       if (fileInput.files != null && fileInput.files[0] != null) {
+        console.log(fileInput.files[0]);
         const formData = new FormData();
         formData.append(
           'fileRequestDto',
@@ -84,4 +90,23 @@ function imageHandler() {
     this.container.appendChild(fileInput);
   }
   fileInput.click();
+}
+
+export function dataURItoBlob(dataURI) {
+  // convert base64/URLEncoded data component to raw binary data held in a string
+  var byteString;
+  if (dataURI.split(',')[0].indexOf('base64') >= 0)
+    byteString = atob(dataURI.split(',')[1]);
+  else byteString = unescape(dataURI.split(',')[1]);
+
+  // separate out the mime component
+  var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+  // write the bytes of the string to a typed array
+  var ia = new Uint8Array(byteString.length);
+  for (var i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+
+  return new Blob([ia], { type: mimeString });
 }

@@ -37,12 +37,13 @@ export const utcToKoreanTime = (utcTimeString) => {
   const utcDate = new Date(utcTimeString);
 
   const koreaTime = new Date(utcDate.getTime() + 9 * 60 * 60 * 1000);
-
+  const options = { timeZone: 'Asia/Seoul' };
   const koreaTimeString = koreaTime
     .toISOString()
     .replace(/T/, ' ')
     .replace(/\..+/, '');
-
+  console.log(utcTimeString);
+  console.log(koreaTimeString);
   return koreaTimeString;
 };
 

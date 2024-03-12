@@ -2,11 +2,10 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getWorkspaceUserProfile } from '../../apis/workspace/workspaceProfile';
 
-const useWorkspaceMemberGuard = ({ isAuthChecked }) => {
+const useWorkspaceMemberGuard = (isAuthChecked) => {
   const [isMemberChecked, setIsMemberChecked] = useState(false);
   const navigate = useNavigate();
   const { workSpaceId } = useParams();
-
   useEffect(() => {
     if (isAuthChecked) {
       getWorkspaceUserProfile(workSpaceId)
