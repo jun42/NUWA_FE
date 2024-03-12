@@ -1,11 +1,13 @@
 import { Flex, Box, Text } from '@chakra-ui/react';
-import styled from 'styled-components';  
+import styled from 'styled-components';
 import MemberIcon from './MemberIcon';
+import { Link } from 'react-router-dom';
+import imageMain from '@assets/nuwaWorkSpace.png';
 
 const WorkspaceCard = ({ workspace_section }) => {
   return (
     <Flex>
-      {workspace_section.map((item, index) => (
+      {workspace_section?.map((item, index) => (
         <CardContainer key={index}>
           <Flex
             flexDirection={'column'}
@@ -13,25 +15,27 @@ const WorkspaceCard = ({ workspace_section }) => {
             align={'center'}
             gap={'32px'}
           >
-            <Box
-              width={'126px'}
-              height={'126px'}
-              border={'1px solid #ccc'}
-              borderRadius={'full'}
-              backgroundImage={`url(${item.image})`}
-              backgroundPosition="center"
-              backgroundRepeat="no-repeat"
-              backgroundSize="cover"
-            />
+            <Link to={`/workspace/${item.workspaceId}`}>
+              <Box
+                width={'98px'}
+                height={'98px'}
+                border={'1px solid #ccc'}
+                borderRadius={'full'}
+                backgroundImage={`url(${item.workSpaceImage || imageMain})`}
+                backgroundPosition="center"
+                backgroundRepeat="no-repeat"
+                backgroundSize="cover"
+              />
+            </Link>
 
             <Flex flexDirection={'column'} justify={'center'} align={'center'}>
-              <Text fontSize={'24px'} fontWeight={'700'}>
+              <Text fontSize="24px" fontWeight="700">
                 {item.title}
-              </Text>
-
-              {index !== workspace_section.length - 1 && (
-                <MemberIcon image={item.image} number={item.number} />
-              )}
+              </Text>{' '}
+              <MemberIcon
+                image={item.workSpaceImage || imageMain}
+                number={item.workSpaceMemberCount}
+              />
             </Flex>
           </Flex>
         </CardContainer>

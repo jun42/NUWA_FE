@@ -13,12 +13,9 @@ const ChatPage = () => {
 
   const {
     data: chatList,
-    isLoading,
-    isError,
     isFetching,
     isSuccess,
   } = useDirectChatRoomListQuery(workSpaceId);
-  console.log(chatList);
   return (
     <StContainer>
       <ChatPageHeader />

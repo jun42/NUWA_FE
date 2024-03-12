@@ -28,12 +28,13 @@ import DirectChatPage from '@pages/directChat';
 import DashBoard from '@pages/newDashboard';
 import Canvas from '@pages/canvas';
 import JoinMemberPage from '@pages/devJoinMember';
-import Todo from '@pages/dashBoard/Todo';
+import Todo from '@pages/todo/Todo';
 import FindChannel from '@pages/findChannel/FindChannel';
 import AddUser from '@pages/addUser/AddUser';
 
 import { getDirectChatRoomInfo } from '@apis/chat/chat';
 import { getWorkspaceUserProfile } from '../apis/workspace/workspaceProfile';
+import ErrorBoundary from '../components/Error/ErrorBoundary';
 
 export const Router = createBrowserRouter([
   {
@@ -129,6 +130,7 @@ export const Router = createBrowserRouter([
       {
         path: '/workspace/:workSpaceId',
         element: <WorkspaceLayout />,
+        // errorElement: <ErrorBoundary />,
         children: [
           {
             element: <DashBoard />,

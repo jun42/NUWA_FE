@@ -3,8 +3,8 @@ import ChatboxContentView from '@components/TextEditorFunctionalComponent/Chatbo
 
 const MyText = ({ content }) => {
   return (
-    <Flex width={'100%'} justifyContent={'flex-end'} py="0.5rem" px={'1rem'}>
-      <Box borderRadius={'10px'} width={'45%'} bg={'primary.100'} py={'14px'}>
+    <Flex width={'100%'} justifyContent={'flex-end'} py="0.25rem" px={'1rem'}>
+      <Box borderRadius={'10px'} width={'45%'} bg={'primary.100'} py={'1px'}>
         <ChatboxContentView content={content} />
       </Box>
     </Flex>
