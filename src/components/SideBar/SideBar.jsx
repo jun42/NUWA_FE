@@ -9,6 +9,9 @@ import dm from '../../assets/dm.svg';
 import canvas from '../../assets/canvas.svg';
 import file from '../../assets/file.svg';
 import exclude from '../../assets/exclude.svg';
+import todo from '../../assets/todo.svg';
+import setting from '../../assets/setting.svg';
+import group from '../../assets/user_group.svg';
 
 import arrowdown from '../../assets/arrowdown.svg';
 import add_sm from '../../assets/add_sm.svg';
@@ -232,6 +235,7 @@ const SideBar = () => {
                         backgroundColor="#D9D9D9"
                         onClick={() => {
                           navigate('findchannel');
+                          setIsOpen(false);
                         }}
                       >
                         <Image
@@ -243,6 +247,21 @@ const SideBar = () => {
                         />
                         전체 채널 조회
                       </Button>
+                      <Button
+                        fontSize="14px"
+                        fontWeight="500"
+                        color="#656565"
+                        w="100%"
+                        justifyContent="flex-start"
+                        backgroundColor="#D9D9D9"
+                        onClick={() => {
+                          navigate('todo');
+                          setIsOpen(false);
+                        }}
+                      >
+                        <Image src={todo} alt="" w="20px" h="21px" mr="20px" />
+                        TODO 리스트
+                      </Button>
 
                       <Button
                         fontSize="14px"
@@ -252,7 +271,7 @@ const SideBar = () => {
                         justifyContent="flex-start"
                         backgroundColor="#D9D9D9"
                         onClick={() => {
-                          navigate('adduser');
+                          // navigate('adduser');
                         }}
                       >
                         <Image
@@ -262,6 +281,21 @@ const SideBar = () => {
                           h="21px"
                           mr="20px"
                         />
+                        칸반보드
+                      </Button>
+                      <Button
+                        fontSize="14px"
+                        fontWeight="500"
+                        color="#656565"
+                        w="100%"
+                        justifyContent="flex-start"
+                        backgroundColor="#D9D9D9"
+                        onClick={() => {
+                          navigate('adduser');
+                          setIsOpen(false);
+                        }}
+                      >
+                        <Image src={group} alt="" w="20px" h="21px" mr="20px" />
                         사용자 그룹 관리
                       </Button>
 
@@ -274,7 +308,7 @@ const SideBar = () => {
                         backgroundColor="#D9D9D9"
                       >
                         <Image
-                          src={exclude}
+                          src={setting}
                           alt=""
                           w="20px"
                           h="21px"

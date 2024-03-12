@@ -19,7 +19,17 @@ import Example from './example';
 const Todo = () => {
   return (
     <Flex w="100%">
-      <Box w="100%" p="52px 63px">
+      <Box
+        w="100%"
+        p="52px 63px"
+        css={{
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+        }}
+        h="100%"
+        overflowY="scroll"
+      >
         <Text fontSize="40px" fontWeight="600">
           TO DO LIST
         </Text>

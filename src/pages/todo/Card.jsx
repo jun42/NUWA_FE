@@ -3,6 +3,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes.jsx';
 import { Flex, Box, Text, Image, Center, IconButton } from '@chakra-ui/react';
 import bluedot from '../../assets/blue-dot.svg';
+import emptydot from '../../assets/empty-dot.svg';
 import notifications_off from '../../assets/notifications_off.svg';
 import alarm_s_colored from '../../assets/alarm_s_colored.svg';
 const style = {
@@ -11,7 +12,7 @@ const style = {
   backgroundColor: 'white',
   cursor: 'move',
 };
-export const Card = ({ id, text, index, moveCard }) => {
+export const Card = ({ id, text, index, moveCard, checked, toggleChecked }) => {
   const ref = useRef(null);
   const [{ handlerId }, drop] = useDrop({
     accept: ItemTypes.CARD,
@@ -87,7 +88,8 @@ export const Card = ({ id, text, index, moveCard }) => {
             size="sm"
             bgColor="white"
             _hover={{ backgroundColor: 'white' }}
-            icon={<Image src={bluedot} />}
+            icon={checked ? <Image src={bluedot} /> : <Image src={emptydot} />}
+            onClick={() => toggleChecked(id)}
           />
 
           <Text fontSize="20px" fontWeight="500">

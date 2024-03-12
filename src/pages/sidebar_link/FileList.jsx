@@ -15,7 +15,9 @@ const FileList = ({ fileName, sharedBy, date, type, size }) => {
         cursor="pointer"
       >
         <Image src={illustratorIcon} m="0 15px" />
-        {fileName}
+        <Text overflow="hidden" whiteSpace="nowrap" textOverflow="ellipsis">
+          {fileName}
+        </Text>
       </Flex>
       <Text
         w="12%"
@@ -33,7 +35,7 @@ const FileList = ({ fileName, sharedBy, date, type, size }) => {
         fontWeight="600"
         color="#2B2B2B"
       >
-        {date}
+        {date.substring(0, 10)}
       </Text>
       <Text
         w="12%"
