@@ -1,18 +1,25 @@
 import styled from 'styled-components';
 import TitleText from './TitleText';
 import InputSection from './InputSection';
-import { request } from '@apis/axios/axios';
+import { sendInquiryMail } from '@apis/inquiry/inquiry.js';
+import { useMutation } from '@tanstack/react-query';
+
 const index = () => {
-  // const sendInquiryEmail = async (inquiryData) => {
-  //   try{
-  //     await request.post('/mail', inquiryData)
-  //   }
-  //   console.log(Response.)
-  // }
+  const mutation = useMutation({
+    mutationFn: sendInquiryMail,
+    onSuccess: () => {
+      alert('도입문의 메일이 성공적으로 발송되었습니다.');
+    },
+    onError: (error) => {
+      alert('메일 발송에 실패했습니다. 다시 시도해 주세요.');
+      console.error('메일 발송 실패:', error);
+    },
+  });
+
   return (
     <StContainer>
       <TitleText />
-      <InputSection />
+      <InputSection onSendInquiry={(formData) => mutation.mutate(formData)} />
     </StContainer>
   );
 };
