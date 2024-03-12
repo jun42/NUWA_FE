@@ -7,7 +7,8 @@ import { Fragment } from 'react';
 import useWorkspaceMemberGuard from '../../hooks/auth/useWorkspaceMemberGuard';
 const WorkspaceLayout = () => {
   const { isAuthChecked } = useAuthGuard();
-  const { isMemberChecked } = useWorkspaceMemberGuard();
+
+  const { isMemberChecked } = useWorkspaceMemberGuard(isAuthChecked);
 
   return (
     <Fragment>
