@@ -1,16 +1,40 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, Spinner } from '@chakra-ui/react';
 import { Outlet } from 'react-router-dom';
 import SideBar from '../SideBar/SideBar';
 import WorkspaceHeader from '@components/Header/WorkspaceHeader.jsx';
+import useAuthGuard from '@hooks/auth/useAuthGuard';
+import { Fragment } from 'react';
 const WorkspaceLayout = () => {
+  const { isAuthChecked } = useAuthGuard();
+
   return (
-    <Box h="100vh" overflowX="hidden">
-      <WorkspaceHeader />
-      <Flex h="calc(100% - 60px)">
-        <SideBar />
-        <Outlet />
-      </Flex>
-    </Box>
+    <Fragment>
+      {isAuthChecked ? (
+        <Box h="100vh" overflowX="hidden">
+          <WorkspaceHeader />
+          <Flex h="calc(100% - 60px)">
+            <SideBar />
+            <Outlet />
+          </Flex>
+        </Box>
+      ) : (
+        <Flex
+          h="100vh"
+          overflowX="hidden"
+          alignItems={'center'}
+          justifyContent={'center'}
+        >
+          <Spinner
+            thickness="10px"
+            speed="0.5s"
+            emptyColor="gray.200"
+            color="secondary.500"
+            width={'200px'}
+            height={'200px'}
+          />
+        </Flex>
+      )}
+    </Fragment>
   );
 };
 
