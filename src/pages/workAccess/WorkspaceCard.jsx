@@ -21,7 +21,7 @@ const WorkspaceCard = ({ workspace_section }) => {
                 height={'98px'}
                 border={'1px solid #ccc'}
                 borderRadius={'full'}
-                backgroundImage={`url(${item.workSpaceImage || imageMain})`} // item.image가 비어 있으면 defaultImageURL 사용
+                backgroundImage={`url(${item.workSpaceImage || imageMain})`}
                 backgroundPosition="center"
                 backgroundRepeat="no-repeat"
                 backgroundSize="cover"
@@ -32,10 +32,9 @@ const WorkspaceCard = ({ workspace_section }) => {
               <Text fontSize="24px" fontWeight="700">
                 {item.title}
               </Text>{' '}
-              {/* 타이틀 표시 */}
               <MemberIcon
-                image={item.workSpaceImage || imageMain} // 멤버 아이콘에 이미지 전달
-                number={item.workSpaceMemberCount} // 멤버 수 전달
+                image={item.workSpaceImage || imageMain}
+                number={item.workSpaceMemberCount}
               />
             </Flex>
           </Flex>

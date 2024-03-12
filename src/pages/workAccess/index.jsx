@@ -6,7 +6,7 @@ import { Flex, Text, Button } from '@chakra-ui/react';
 import WorkspaceCard from './WorkspaceCard';
 import { jwtDecode } from 'jwt-decode';
 import { getToken } from '@utils/auth';
-//import { workspace_section } from '@constants/selectPlan/SELECT_ALL_INFO';
+import { workspace_section } from '@constants/selectPlan/SELECT_ALL_INFO';
 
 const workAccess = () => {
   const [workspaces, setWorkspaces] = useState([]);
