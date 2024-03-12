@@ -15,6 +15,7 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId, receiverId) => {
   const authHeader = {
     Authorization: getToken(),
   };
+  console.log('AUTHHEADER', authHeader);
   const headers = {
     ...authHeader,
     channelType: 'direct',
@@ -48,17 +49,22 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId, receiverId) => {
           `/sub/direct/${roomId}`,
           (message) => {
             console.log('SUBSCRIBE MESSAGE : ', message.body);
-
-            setSocketMessageList((state) => [
-              ...state,
-              JSON.parse(message.body),
-            ]);
+            const bodyObject = JSON.parse(message.body);
+            if (bodyObject.messageType !== 'ENTER') {
+              setSocketMessageList((state) => [...state, bodyObject]);
+            }
           },
           authHeader
         );
         // Do something, all subscribes must be done is this callback
         // This is needed because this will be executed after a (re)connect
-
+        client.publish({
+          destination: `/pub/direct/enter/${roomId}`,
+          headers: authHeader,
+          body: JSON.stringify({
+            roomId,
+          }),
+        });
         const publishInfo = {
           destination: '/pub/direct/send',
           headers: authHeader,
