@@ -46,7 +46,11 @@ const workAccess = () => {
             환영합니다!
           </Text>
           <Text width="100%" fontSize="22px" fontWeight="200">
+<<<<<<< HEAD
             {`${emailSlice}님의 워크스페이스`}
+=======
+            test123456@gmail.com의 워크스페이스
+>>>>>>> 53e0b8cbb9af9234cf92962eecc99a81501682ab
           </Text>
         </Flex>
         <WorkspaceCard workspace_section={workspaces} />

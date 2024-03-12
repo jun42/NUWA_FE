@@ -16,8 +16,9 @@ const MainHeader = () => {
           <Flex flexDirection="column" gap="32px">
             <Text
               width="100%"
-              fontSize="40px"
+              fontSize="52px"
               fontWeight="700"
+              lineHeight="3.5rem"
               className="landingPTitle"
             >
               생산성 향상을 위한 간편한 협업툴
@@ -81,7 +82,7 @@ const StTextBox = styled.div`
   display: flex;
   flex-flow: column;
   justify-content: space-between;
-  width: 25%;
+  width: 30%;
   padding: 32px 0;
 `;
 
