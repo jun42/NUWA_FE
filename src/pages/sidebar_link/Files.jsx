@@ -75,7 +75,7 @@ const Files = () => {
       fileUploadType: 'IMAGE',
       fileType: 'CANVAS',
       fileMemberUploadId: 1,
-      fileMemberUploadName: '김뿌꾸',
+      fileMemberUploadName: '루루',
       createdAt: '2024-02-24 06:42:21.368',
     },
     {
@@ -87,7 +87,7 @@ const Files = () => {
       fileUploadType: 'IMAGE',
       fileType: 'CANVAS',
       fileMemberUploadId: 1,
-      fileMemberUploadName: '김뿌꾸',
+      fileMemberUploadName: '루루',
       createdAt: '2024-02-25 06:42:21.368',
     },
     {
@@ -100,7 +100,7 @@ const Files = () => {
       fileUploadType: 'IMAGE',
       fileType: 'CANVAS',
       fileMemberUploadId: 2,
-      fileMemberUploadName: '김점례',
+      fileMemberUploadName: '윤철일반',
       createdAt: '2024-02-24 07:42:21.368',
     },
     {
@@ -111,8 +111,8 @@ const Files = () => {
       fileExtension: 'jpg',
       fileUploadType: 'IMAGE',
       fileType: 'CANVAS',
-      fileMemberUploadId: 1,
-      fileMemberUploadName: '김뿌꾸',
+      fileMemberUploadId: 5,
+      fileMemberUploadName: 'zecaumr',
       createdAt: '2024-02-25 06:42:21.368',
     },
     {
@@ -124,7 +124,7 @@ const Files = () => {
       fileUploadType: 'IMAGE',
       fileType: 'CANVAS',
       fileMemberUploadId: 1,
-      fileMemberUploadName: '김뿌꾸',
+      fileMemberUploadName: '루루',
       createdAt: '2024-02-25 06:42:21.368',
     },
     {
@@ -136,7 +136,7 @@ const Files = () => {
       fileUploadType: 'IMAGE',
       fileType: 'CANVAS',
       fileMemberUploadId: 1,
-      fileMemberUploadName: '김뿌꾸',
+      fileMemberUploadName: '루루',
       createdAt: '2024-02-25 06:42:21.368',
     },
     {
@@ -148,7 +148,7 @@ const Files = () => {
       fileUploadType: 'IMAGE',
       fileType: 'CANVAS',
       fileMemberUploadId: 1,
-      fileMemberUploadName: '김뿌꾸',
+      fileMemberUploadName: '루루',
       createdAt: '2024-02-25 06:42:21.368',
     },
     {
@@ -160,7 +160,7 @@ const Files = () => {
       fileUploadType: 'IMAGE',
       fileType: 'CANVAS',
       fileMemberUploadId: 1,
-      fileMemberUploadName: '김뿌꾸',
+      fileMemberUploadName: '루루',
       createdAt: '2024-09-25 06:42:21.368',
     },
     {
@@ -172,7 +172,7 @@ const Files = () => {
       fileUploadType: 'IMAGE',
       fileType: 'CANVAS',
       fileMemberUploadId: 1,
-      fileMemberUploadName: '김뿌꾸',
+      fileMemberUploadName: '루루',
       createdAt: '2024-07-25 06:42:21.368',
     },
     {
@@ -184,7 +184,7 @@ const Files = () => {
       fileUploadType: 'IMAGE',
       fileType: 'CANVAS',
       fileMemberUploadId: 1,
-      fileMemberUploadName: '김뿌꾸',
+      fileMemberUploadName: '루루',
       createdAt: '2024-06-25 06:42:21.368',
     },
     {
@@ -196,7 +196,7 @@ const Files = () => {
       fileUploadType: 'IMAGE',
       fileType: 'CANVAS',
       fileMemberUploadId: 1,
-      fileMemberUploadName: '김뿌꾸',
+      fileMemberUploadName: '루루',
       createdAt: '2024-01-25 06:42:21.368',
     },
     {
@@ -208,7 +208,7 @@ const Files = () => {
       fileUploadType: 'IMAGE',
       fileType: 'CANVAS',
       fileMemberUploadId: 1,
-      fileMemberUploadName: '김뿌꾸',
+      fileMemberUploadName: '루루',
       createdAt: '2024-03-25 06:42:21.368',
     },
     {
@@ -220,7 +220,7 @@ const Files = () => {
       fileUploadType: 'IMAGE',
       fileType: 'CANVAS',
       fileMemberUploadId: 1,
-      fileMemberUploadName: '김뿌꾸',
+      fileMemberUploadName: '루루',
       createdAt: '2024-03-25 06:42:21.368',
     },
     {
@@ -232,7 +232,7 @@ const Files = () => {
       fileUploadType: 'IMAGE',
       fileType: 'CANVAS',
       fileMemberUploadId: 1,
-      fileMemberUploadName: '김뿌꾸',
+      fileMemberUploadName: '루루',
       createdAt: '2024-03-25 06:42:21.368',
     },
   ];
@@ -397,13 +397,6 @@ const Files = () => {
     }
   };
 
-  // const [searchData, setSearchData] = useState([
-  //   { name: '김수한', checked: false },
-  //   { name: '김점례', checked: false },
-  //   { name: '김뿌꾸', checked: false },
-  //   { name: '박새로이', checked: false },
-  //   { name: '이상혁', checked: false },
-  // ]);
   const [searchData, setSearchData] = useState([]);
   useEffect(() => {
     if (
@@ -415,12 +408,6 @@ const Files = () => {
     }
   }, [members.memberList, searchData, addCheckedList]);
 
-  // const searchData = [
-  //   { name: '김수한', checked: false },
-  //   { name: '김점례', checked: false },
-  //   { name: '박새로이', checked: false },
-  //   { name: '이상혁', checked: false },
-  // ];
   const [searchTerm, setSearchTerm] = useState('');
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -428,7 +415,8 @@ const Files = () => {
   const filteredData = searchData.filter((item) =>
     item.nickname.includes(searchTerm)
   );
-  const checkedData = searchData.filter((item) => item.checked === true);
+  const checkedUsers = searchData.filter((item) => item.checked === true);
+  console.log('cu', checkedUsers);
 
   console.log('searchData', searchData);
 
@@ -439,6 +427,90 @@ const Files = () => {
 
   const userChecked = findMyInfo?.checked;
 
+  const filterByUsers = (list) => {
+    const matchedFiles = []; // 일치하는 파일을 저장할 배열
+    for (let i = 0; i < list.length; i++) {
+      for (let j = 0; j < checkedUsers.length; j++) {
+        if (list[i].fileMemberUploadId === checkedUsers[j].id) {
+          matchedFiles.push(list[i]); // 일치하는 파일을 배열에 추가
+          break; // 일치하는 사용자를 찾으면 추가 확인이 필요하지 않으므로 루프 종료
+        }
+      }
+    }
+    return matchedFiles; // 일치하는 파일의 배열 반환
+  };
+  const filteredFilesOnList = (sortBy) =>
+    checkedUsers.length > 0
+      ? filterByUsers(sortFiles(sortBy))
+      : sortFiles(sortBy);
+
+  const renderFilesByCheckedUsers = (files) => {
+    return (
+      <Wrap spacing="40px">
+        {files.map((x, index) => (
+          <FileBox
+            key={index}
+            fileName={x.fileName}
+            fileMemberUploadName={x.fileMemberUploadName}
+            createdAt={x.createdAt}
+            fileExtension={x.fileExtension}
+            fileSize={x.fileSize}
+            fileUrl={x.fileUrl}
+          />
+        ))}
+      </Wrap>
+    );
+  };
+  const renderFilesBySortType = () => {
+    switch (sortBy) {
+      case 'date':
+        return dateList.map((item, index) => (
+          <Box m="64px 0" key={index}>
+            <Text fontSize="22px" fontWeight="500" color="#656565" mb="27px">
+              {removeLeadingZero(item.substring(5, 7))}월
+              {removeLeadingZero(item.substring(8))}일
+            </Text>
+            {checkedUsers.length > 0
+              ? renderFilesByCheckedUsers(filterByUsers(filterByDate(item)))
+              : renderFilesByCheckedUsers(filterByDate(item))}
+          </Box>
+        ));
+      case 'name':
+        return initialList.map((item, index) => (
+          <Box m="64px 0" key={index}>
+            <Text fontSize="22px" fontWeight="500" color="#656565" mb="27px">
+              {item}
+            </Text>
+            {checkedUsers.length > 0
+              ? renderFilesByCheckedUsers(filterByUsers(filterByInitial(item)))
+              : renderFilesByCheckedUsers(filterByInitial(item))}
+          </Box>
+        ));
+      case 'size':
+        return (
+          <Box m="64px 0">
+            {checkedUsers.length > 0
+              ? renderFilesByCheckedUsers(filterByUsers(sortedBySize))
+              : renderFilesByCheckedUsers(sortedBySize)}
+          </Box>
+        );
+      case 'type':
+        return extensionList.map((item, index) => (
+          <Box m="64px 0" key={index}>
+            <Text fontSize="22px" fontWeight="500" color="#656565" mb="27px">
+              {item}
+            </Text>
+            {checkedUsers.length > 0
+              ? renderFilesByCheckedUsers(
+                  filterByUsers(filterByExtension(item))
+                )
+              : renderFilesByCheckedUsers(filterByExtension(item))}
+          </Box>
+        ));
+      default:
+        return null;
+    }
+  };
   return (
     <Flex w="100%">
       <Box w="100%" p="52px 63px">
@@ -482,12 +554,12 @@ const Files = () => {
                   setIsOpen(!isOpen);
                 }}
               >
-                {checkedData.length === 0 && <Text>From</Text>}
-                {checkedData.length === 1 && (
-                  <Text>From {checkedData[0].nickname}</Text>
+                {checkedUsers.length === 0 && <Text>From</Text>}
+                {checkedUsers.length === 1 && (
+                  <Text>From {checkedUsers[0].nickname}</Text>
                 )}
-                {checkedData.length > 1 && (
-                  <Text>{checkedData.length}명의 팀원으로부터</Text>
+                {checkedUsers.length > 1 && (
+                  <Text>{checkedUsers.length}명의 팀원으로부터</Text>
                 )}
               </Button>
               {isOpen && (
@@ -529,7 +601,7 @@ const Files = () => {
                         />
                       </Center>
                       {!searchTerm &&
-                        checkedData.map((item, index) => (
+                        checkedUsers.map((item, index) => (
                           <Checkbox
                             key={index}
                             fontSize="14px"
@@ -805,132 +877,8 @@ const Files = () => {
           h="calc(100% - 184px)"
           overflowY="scroll"
         >
-          {sortBy === 'date' &&
-            !switchstate &&
-            dateList.map((item, index) => (
-              <Box m="64px 0" key={index}>
-                <Text
-                  fontSize="22px"
-                  fontWeight="500"
-                  color="#656565"
-                  mb="27px"
-                >
-                  {removeLeadingZero(item.substring(5, 7))}월
-                  {removeLeadingZero(item.substring(8))}일
-                </Text>
-                <Wrap spacing="40px">
-                  {filterByDate(item).map((x, index) => (
-                    <FileBox
-                      key={index}
-                      fileName={x.fileName}
-                      fileMemberUploadName={x.fileMemberUploadName}
-                      createdAt={x.createdAt}
-                      fileExtension={x.fileExtension}
-                      fileSize={x.fileSize}
-                      fileUrl={x.fileUrl}
-                    />
-                  ))}
-                </Wrap>
-              </Box>
-            ))}
-          {sortBy === 'name' &&
-            !switchstate &&
-            initialList.map((item, index) => (
-              <Box m="64px 0" key={index}>
-                <Text
-                  fontSize="22px"
-                  fontWeight="500"
-                  color="#656565"
-                  mb="27px"
-                >
-                  {item}
-                </Text>
-                <Wrap spacing="40px">
-                  {filterByInitial(item).map((x, index) => (
-                    <FileBox
-                      key={index}
-                      fileName={x.fileName}
-                      fileMemberUploadName={x.fileMemberUploadName}
-                      createdAt={x.createdAt}
-                      fileExtension={x.fileExtension}
-                      fileSize={x.fileSize}
-                      fileUrl={x.fileUrl}
-                    />
-                  ))}
-                </Wrap>
-              </Box>
-            ))}
-          {sortBy === 'size' && !switchstate && (
-            <Box m="64px 0">
-              <Wrap spacing="40px">
-                {sortedBySize.map((x, index) => (
-                  <FileBox
-                    key={index}
-                    fileName={x.fileName}
-                    fileMemberUploadName={x.fileMemberUploadName}
-                    createdAt={x.createdAt}
-                    fileExtension={x.fileExtension}
-                    fileSize={x.fileSize}
-                    fileUrl={x.fileUrl}
-                  />
-                ))}
-              </Wrap>
-            </Box>
-          )}
-          {sortBy === 'type' &&
-            !switchstate &&
-            extensionList.map((item, index) => (
-              <Box m="64px 0" key={index}>
-                <Text
-                  fontSize="22px"
-                  fontWeight="500"
-                  color="#656565"
-                  mb="27px"
-                >
-                  {item}
-                </Text>
-                <Wrap spacing="40px">
-                  {filterByExtension(item).map((x, index) => (
-                    <FileBox
-                      key={index}
-                      fileName={x.fileName}
-                      fileMemberUploadName={x.fileMemberUploadName}
-                      createdAt={x.createdAt}
-                      fileExtension={x.fileExtension}
-                      fileSize={x.fileSize}
-                      fileUrl={x.fileUrl}
-                    />
-                  ))}
-                </Wrap>
-              </Box>
-            ))}
-          {/* {fileList.length > 0 && !switchstate && (
-            <>
-              <Box m="64px 0">
-                <Text
-                  fontSize="22px"
-                  fontWeight="500"
-                  color="#656565"
-                  mb="27px"
-                >
-                  1월18일
-                </Text>
-                <Wrap spacing="40px">
-                  {fileList.map((x, index) => (
-                    <FileBox
-                      key={index}
-                      fileName={x.fileName}
-                      fileMemberUploadName={x.fileMemberUploadName}
-                      createdAt={x.createdAt}
-                      fileExtension={x.fileExtension}
-                      fileSize={x.fileSize}
-                      fileUrl={x.fileUrl}
-                    />
-                  ))}
-                </Wrap>
-              </Box>
-            </>
-          )} */}
+          {!switchstate && renderFilesBySortType()}
+
           {fileList.length > 0 && switchstate && (
             <>
               <Box>
@@ -978,7 +926,7 @@ const Files = () => {
                 <Divider color="#0000001A" m="15px 0" />
 
                 {sortBy === 'date' &&
-                  sortFiles('date').map((x, index) => (
+                  filteredFilesOnList('date').map((x, index) => (
                     <FileList
                       key={index}
                       fileName={x.fileName}
@@ -990,7 +938,7 @@ const Files = () => {
                     />
                   ))}
                 {sortBy === 'name' &&
-                  sortFiles('name').map((x, index) => (
+                  filteredFilesOnList('name').map((x, index) => (
                     <FileList
                       key={index}
                       fileName={x.fileName}
@@ -1002,7 +950,7 @@ const Files = () => {
                     />
                   ))}
                 {sortBy === 'size' &&
-                  sortFiles('size').map((x, index) => (
+                  filteredFilesOnList('size').map((x, index) => (
                     <FileList
                       key={index}
                       fileName={x.fileName}
@@ -1014,7 +962,7 @@ const Files = () => {
                     />
                   ))}
                 {sortBy === 'type' &&
-                  sortFiles('type').map((x, index) => (
+                  filteredFilesOnList('type').map((x, index) => (
                     <FileList
                       key={index}
                       fileName={x.fileName}
