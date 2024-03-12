@@ -38,51 +38,51 @@ export const categories = [
 export const footer_categories =[
     {
         text1: "NUWA",
-        text2: "NUWA vs 이메일",
+        text2: "NUWA의 장점",
         text3: "채널",
         text4: "참여",
         text5: "확장성",
-        text6: "** 영상 시청하기",
+        text6: "영상 시청하기",
 
     },
 
     {
         text1: "NUWA",
-        text2: "NUWA vs 이메일",
+        text2: "NUWA의 장점",
         text3: "채널",
         text4: "참여",
         text5: "확장성",
-        text6: "** 영상 시청하기",
+        text6: "영상 시청하기",
 
     },
 
     {
         text1: "NUWA",
-        text2: "NUWA vs 이메일",
+        text2: "NUWA의 장점",
         text3: "채널",
         text4: "참여",
         text5: "확장성",
-        text6: "** 영상 시청하기",
+        text6: "영상 시청하기",
 
     },
 
     {
         text1: "NUWA",
-        text2: "NUWA vs 이메일",
+        text2: "NUWA의 장점",
         text3: "채널",
         text4: "참여",
         text5: "확장성",
-        text6: "** 영상 시청하기",
+        text6: "영상 시청하기",
 
     },
 
     {
         text1: "NUWA",
-        text2: "NUWA vs 이메일",
+        text2: "NUWA의 장점",
         text3: "채널",
         text4: "참여",
         text5: "확장성",
-        text6: "** 영상 시청하기",
+        text6: "영상 시청하기",
 
     }
 ]
