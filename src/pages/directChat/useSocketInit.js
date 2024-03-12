@@ -1,20 +1,17 @@
 import { useEffect, useState } from 'react';
-// import { Client, Stomp } from '@stomp/stompjs';
 import { getToken } from '@utils/auth';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { disconnectDirectChatSocket } from '@apis/chat/chat';
-// import sockjs from 'sockjs-client/dist/sockjs';
-// import * as SockJS from 'sockjs-client';
 
 const useSocketInit = (roomId, workSpaceUserId, workSpaceId, receiverId) => {
   const [publish, setPublish] = useState(null);
   const [socketMessageList, setSocketMessageList] = useState([]);
 
-  // const receiverId = useBoundStore((state) => state.receiverId);
   const authHeader = {
     Authorization: getToken(),
   };
+  // console.log('AUTHHEADER', authHeader);
   const headers = {
     ...authHeader,
     channelType: 'direct',
@@ -34,7 +31,6 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId, receiverId) => {
     });
     //리시버 아이디를 받은 후에 연결 진행
     if (receiverId) {
-      // if (typeof WebSocket !== 'function') {
       // For SockJS you need to set a factory that creates a new SockJS instance
       // to be used for each (re)connect
       client.webSocketFactory = function () {
@@ -48,17 +44,22 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId, receiverId) => {
           `/sub/direct/${roomId}`,
           (message) => {
             console.log('SUBSCRIBE MESSAGE : ', message.body);
-
-            setSocketMessageList((state) => [
-              ...state,
-              JSON.parse(message.body),
-            ]);
+            const bodyObject = JSON.parse(message.body);
+            if (bodyObject.messageType !== 'ENTER') {
+              setSocketMessageList((state) => [...state, bodyObject]);
+            }
           },
           authHeader
         );
         // Do something, all subscribes must be done is this callback
         // This is needed because this will be executed after a (re)connect
-
+        client.publish({
+          destination: `/pub/direct/enter/${roomId}`,
+          headers: authHeader,
+          body: JSON.stringify({
+            roomId,
+          }),
+        });
         const publishInfo = {
           destination: '/pub/direct/send',
           headers: authHeader,
@@ -83,7 +84,6 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId, receiverId) => {
           };
         };
         console.log('SET PUBLISH');
-        // console.log(lazyPublish());
         setPublish((state) => lazyPublish());
       };
 

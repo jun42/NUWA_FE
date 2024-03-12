@@ -1,14 +1,14 @@
 import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import Quill from 'quill';
 import CustomToolbarBottom from '../TextEditor/CustomToolbarBottom';
-import { myOptions as options } from './quill/customOptions';
+import { dataURItoBlob, myOptions as options } from './quill/customOptions';
 import EmojiPicker from 'emoji-picker-react';
 import { useParams } from 'react-router-dom';
 import { sendQuillDataHandler } from './quill/utils';
+import { uploadFile } from '../../apis/file/file';
+import { imageMatcher } from './quill/clipboard';
 // Editor is an uncontrolled React component
-
-const mockImage =
-  'https://naverpa-phinf.pstatic.net/MjAyNDAxMzBfMjk1/MDAxNzA2NTg2OTA3Mzcx.Ja4USdi1fiCnmiSGrU_AIu5tEvL6hkcYCub6gF3wihIg.2qUBRJH4l6Od3IXOYlpvqC00BtBsrZy-yRY5tydtCP0g.PNG/240130_%EC%A0%9D%EC%8B%9C%EB%AF%B9%EC%8A%A4_%EC%8A%88%EC%A6%88_GFA_PC_1_17065869073464493578094502823399.png';
+const Delta = Quill.import('delta');
 
 const Editor = forwardRef(
   (
@@ -31,7 +31,6 @@ const Editor = forwardRef(
     const onTextChangeRef = useRef(onTextChange);
     const onSelectionChangeRef = useRef(onSelectionChange);
 
-    //todo 빈값 안보내기
     const handleSendMessage = () => {
       sendQuillDataHandler(ref.current, publish);
     };
@@ -57,6 +56,10 @@ const Editor = forwardRef(
         publish,
       };
       const quill = new Quill(editorContainer, options);
+
+      quill.clipboard.addMatcher('img', function (node) {
+        return imageMatcher(node, quill, workSpaceId, channelId);
+      });
       ref.current = quill;
 
       if (defaultValueRef.current) {
