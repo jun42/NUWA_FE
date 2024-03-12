@@ -22,7 +22,6 @@ export const clearQuillContent = (quill) => {
 export const sendQuillDataHandler = (quill, publish) => {
   if (isQuillEmpty(quill)) return;
   const content = quill.getContents();
-  console.log(content);
   const textContent = content.filter((value) => !value.insert.image);
   const imageContent = content.filter((value) => !!value.insert.image);
 

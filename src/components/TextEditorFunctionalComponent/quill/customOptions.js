@@ -29,11 +29,6 @@ export const myOptions = {
   },
 };
 
-function imageMatcher(node, delta) {
-  alert('ㅇㅇㅇㅇ');
-  return;
-}
-
 function imageHandler() {
   const { workSpaceId, channelId } = this.quill.options.externalLayer;
   const fileRequestDto = {
@@ -52,7 +47,6 @@ function imageHandler() {
     fileInput.classList.add('ql-image');
     fileInput.addEventListener('change', async (e) => {
       if (fileInput.files != null && fileInput.files[0] != null) {
-        console.log(fileInput.files[0]);
         const formData = new FormData();
         formData.append(
           'fileRequestDto',
