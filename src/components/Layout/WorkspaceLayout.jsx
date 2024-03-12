@@ -4,12 +4,14 @@ import SideBar from '../SideBar/SideBar';
 import WorkspaceHeader from '@components/Header/WorkspaceHeader.jsx';
 import useAuthGuard from '@hooks/auth/useAuthGuard';
 import { Fragment } from 'react';
+import useWorkspaceMemberGuard from '../../hooks/auth/useWorkspaceMemberGuard';
 const WorkspaceLayout = () => {
   const { isAuthChecked } = useAuthGuard();
+  const { isMemberChecked } = useWorkspaceMemberGuard();
 
   return (
     <Fragment>
-      {isAuthChecked ? (
+      {isAuthChecked && isMemberChecked ? (
         <Box h="100vh" overflowX="hidden">
           <WorkspaceHeader />
           <Flex h="calc(100% - 60px)">
