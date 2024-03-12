@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import SideBar from '@components/SideBar/SideBar';
-import search from '../../assets/search.svg';
-import ellipsis_vertical from '../../assets/ellipsis-vertical.svg';
-import illustratorIcon from '../../assets/illustratorIcon.svg';
-import nofile from '../../assets/nofile.png';
+import search from '@assets/search.svg';
+import ellipsis_vertical from '@assets/ellipsis-vertical.svg';
+import illustratorIcon from '@assets/illustratorIcon.svg';
+import nofile from '@assets/nofile.png';
 
-import file_bg from '../../assets/file_bg.jpg';
-import file_bg2 from '../../assets/file_bg2.jpeg';
-import profile from '../../assets/cham.png';
+import file_bg from '@assets/file_bg.jpg';
+import file_bg2 from '@assets/file_bg2.jpeg';
+import profile from '@assets/cham.png';
 
 import {
   Button,
@@ -511,6 +511,9 @@ const Files = () => {
         return null;
     }
   };
+
+  console.log('111111', filterByUsers(sortFiles(sortBy)));
+
   return (
     <Flex w="100%">
       <Box w="100%" p="52px 63px">
@@ -877,54 +880,68 @@ const Files = () => {
           h="calc(100% - 184px)"
           overflowY="scroll"
         >
-          {!switchstate && renderFilesBySortType()}
+          {!switchstate &&
+            (checkedUsers.length === 0 ||
+              (checkedUsers.length > 0 &&
+                filterByUsers(sortFiles(sortBy)).length > 0)) &&
+            renderFilesBySortType()}
 
           {fileList.length > 0 && switchstate && (
             <>
+              {(checkedUsers.length === 0 ||
+                (checkedUsers.length > 0 &&
+                  filterByUsers(sortFiles(sortBy)).length > 0)) && (
+                <>
+                  <Flex>
+                    <Text
+                      w="52%"
+                      align="center"
+                      fontSize="14px"
+                      fontWeight="600"
+                    >
+                      파일명
+                    </Text>
+                    <Text
+                      w="12%"
+                      align="center"
+                      fontSize="14px"
+                      fontWeight="600"
+                      color="#000000B2"
+                    >
+                      공유한사람
+                    </Text>
+                    <Text
+                      w="12%"
+                      align="center"
+                      fontSize="14px"
+                      fontWeight="600"
+                      color="#000000B2"
+                    >
+                      날짜
+                    </Text>
+                    <Text
+                      w="12%"
+                      align="center"
+                      fontSize="14px"
+                      fontWeight="600"
+                      color="#000000B2"
+                    >
+                      유형
+                    </Text>
+                    <Text
+                      w="12%"
+                      align="center"
+                      fontSize="14px"
+                      fontWeight="600"
+                      color="#000000B2"
+                    >
+                      크기
+                    </Text>
+                  </Flex>
+                  <Divider color="#0000001A" m="15px 0" />
+                </>
+              )}
               <Box>
-                <Flex>
-                  <Text w="52%" align="center" fontSize="14px" fontWeight="600">
-                    파일명
-                  </Text>
-                  <Text
-                    w="12%"
-                    align="center"
-                    fontSize="14px"
-                    fontWeight="600"
-                    color="#000000B2"
-                  >
-                    공유한사람
-                  </Text>
-                  <Text
-                    w="12%"
-                    align="center"
-                    fontSize="14px"
-                    fontWeight="600"
-                    color="#000000B2"
-                  >
-                    날짜
-                  </Text>
-                  <Text
-                    w="12%"
-                    align="center"
-                    fontSize="14px"
-                    fontWeight="600"
-                    color="#000000B2"
-                  >
-                    유형
-                  </Text>
-                  <Text
-                    w="12%"
-                    align="center"
-                    fontSize="14px"
-                    fontWeight="600"
-                    color="#000000B2"
-                  >
-                    크기
-                  </Text>
-                </Flex>
-                <Divider color="#0000001A" m="15px 0" />
-
                 {sortBy === 'date' &&
                   filteredFilesOnList('date').map((x, index) => (
                     <FileList
@@ -976,7 +993,9 @@ const Files = () => {
               </Box>
             </>
           )}
-          {fileList.length === 0 && (
+          {(fileList.length === 0 ||
+            (checkedUsers.length > 0 &&
+              filterByUsers(sortFiles(sortBy)).length === 0)) && (
             <Center
               w="100%"
               h="100%"

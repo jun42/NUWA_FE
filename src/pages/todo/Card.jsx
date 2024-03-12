@@ -2,10 +2,10 @@ import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes.jsx';
 import { Flex, Box, Text, Image, Center, IconButton } from '@chakra-ui/react';
-import bluedot from '../../assets/blue-dot.svg';
-import emptydot from '../../assets/empty-dot.svg';
-import notifications_off from '../../assets/notifications_off.svg';
-import alarm_s_colored from '../../assets/alarm_s_colored.svg';
+import bluedot from '@assets/blue-dot.svg';
+import emptydot from '@assets/empty-dot.svg';
+import notifications_off from '@assets/notifications_off.svg';
+import alarm_s_colored from '@assets/alarm_s_colored.svg';
 const style = {
   padding: '0.5rem 1rem',
   marginBottom: '.5rem',
