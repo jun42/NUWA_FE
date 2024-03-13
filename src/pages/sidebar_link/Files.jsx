@@ -47,9 +47,7 @@ const Files = () => {
   };
 
   const members = useWorkSpaceMemberListQuery(workSpaceId);
-  console.log('members', members);
   const myInfo = useMyInfoQuery(workSpaceId);
-  console.log('myInfo', myInfo);
 
   const addCheckedList = members.memberList?.map((item) => ({
     ...item,
@@ -416,14 +414,11 @@ const Files = () => {
     item.nickname.includes(searchTerm)
   );
   const checkedUsers = searchData.filter((item) => item.checked === true);
-  console.log('cu', checkedUsers);
 
-  console.log('searchData', searchData);
 
   const findMyInfo = searchData.find((item) => {
     return item.email === myInfo?.myInfo?.email;
   });
-  console.log('findMyInfo', findMyInfo);
 
   const userChecked = findMyInfo?.checked;
 
@@ -511,8 +506,6 @@ const Files = () => {
         return null;
     }
   };
-
-  console.log('111111', filterByUsers(sortFiles(sortBy)));
 
   return (
     <Flex w="100%">

@@ -11,7 +11,7 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { state_seticon } from '@constants/selectPlan/SELECT_STATE_INFO';
-const ModalBody = ({ onSave }) => {
+const ModalBody = ({ onSave, onClose }) => {
   const [selectedBox, setSelectedBox] = useState(null);
   // const { workSpaceId } = useParams();
   // const handleSave = async () => {
@@ -34,6 +34,7 @@ const ModalBody = ({ onSave }) => {
   //     onSave(state_seticon[selectedBox].title);
   //   }
   // };
+  console.log('111', selectedBox);
   return (
     <>
       <VStack spacing={4}>
@@ -76,7 +77,10 @@ const ModalBody = ({ onSave }) => {
             bg={'#575DFB'}
             color={'white'}
             fontSize={'14px'}
-            onClick={() => onSave(state_seticon[selectedBox]?.title)}
+            onClick={() => {
+              if (selectedBox === null) onClose();
+              else onSave(state_seticon[selectedBox]?.title);
+            }}
           >
             저장
           </Button>
