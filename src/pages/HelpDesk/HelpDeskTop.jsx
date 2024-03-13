@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import Logo from '@components/Image/Logo';
 import StTextDiv from '@components/Text/StTextDiv';
-import { Flex } from '@chakra-ui/react';
 
 const HelpDeskTop = () => {
   return (
@@ -44,29 +43,11 @@ const StContentTextTitle = styled.div`
   gap: 0.2rem;
 `;
 
-const StContentTextDesc = styled.p`
+const StContentTextDesc = styled.div`
   font-weight: 500;
 `;
 
-const StContentTextDescLink = styled.p`
+const StContentTextDescLink = styled.div`
   color: #575dfb;
   text-decoration: underline;
-`;
-
-const StContentBtns = styled.div`
-  display: flex;
-  flex-flow: wrap;
-  max-width: 500px;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-`;
-
-const StContentBtn = styled.a`
-  display: inline-block;
-  padding: 6px 18px;
-  border: 1px solid #66666650;
-  border-radius: 50px;
-  background-color: #fff;
-  color: #666;
 `;

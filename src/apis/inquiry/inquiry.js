@@ -1,7 +1,6 @@
 import { request } from "@apis/axios/axios";
-
 /**
- @param {Object} inquiryData 
+ *@param {Object} inquiryData 
  */
 
 export const sendInquiryMail = async (inquiryData) => {
@@ -16,12 +15,3 @@ export const sendInquiryMail = async (inquiryData) => {
     }
 
 };
-
-export const sendHelpDeskMail = async(HelpDeskData) => {
-    try{
-        const response =await request.post('/mail/attached', HelpDeskData);
-        return response.data;
-    }catch(error){
-        console.error('Error sending HelpDesk Mail:', error);
-    }
-}
