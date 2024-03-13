@@ -4,9 +4,12 @@ import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { disconnectDirectChatSocket } from '@apis/chat/chat';
 
-const useSocketInit = (roomId, workSpaceUserId, workSpaceId, receiverId) => {
+const useSocketInit = (roomId, workSpaceId, receiverId) => {
   const [publish, setPublish] = useState(null);
+  const [deleteSocketMessage, setDeleteSocketMessage] = useState(null);
   const [socketMessageList, setSocketMessageList] = useState([]);
+  const [socketMessageDeleteList, setSocketMessageDeleteList] = useState([]);
+  const [socketMessagePatchList, setSocketMessagePatchList] = useState([]);
 
   const authHeader = {
     Authorization: getToken(),
@@ -45,7 +48,12 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId, receiverId) => {
           (message) => {
             console.log('SUBSCRIBE MESSAGE : ', message.body);
             const bodyObject = JSON.parse(message.body);
-            if (bodyObject.messageType !== 'ENTER') {
+            if (bodyObject.messageType === 'ENTER') {
+              console.log('Enter sub');
+            } else if (bodyObject.messageType === 'DELETE') {
+              console.log(bodyObject, socketMessageList);
+              setSocketMessageDeleteList((state) => [...state, bodyObject]);
+            } else {
               setSocketMessageList((state) => [...state, bodyObject]);
             }
           },
@@ -53,6 +61,8 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId, receiverId) => {
         );
         // Do something, all subscribes must be done is this callback
         // This is needed because this will be executed after a (re)connect
+
+        // Enter 메시지 전송
         client.publish({
           destination: `/pub/direct/enter/${roomId}`,
           headers: authHeader,
@@ -60,6 +70,7 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId, receiverId) => {
             roomId,
           }),
         });
+        // send 메시지 세팅
         const publishInfo = {
           destination: '/pub/direct/send',
           headers: authHeader,
@@ -79,12 +90,34 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId, receiverId) => {
               content: content,
               messageType: messageType,
             });
-            console.log('INFO', newInfo);
+            // console.log('INFO', newInfo);
             client.publish(newInfo);
           };
         };
         console.log('SET PUBLISH');
         setPublish((state) => lazyPublish());
+
+        const deleteInfo = {
+          destination: '/pub/direct/delete',
+          headers: authHeader,
+          body: {
+            id: null,
+            workSpaceId,
+            roomId,
+            messageType: 'DELETE',
+          },
+        };
+        const lazyDelete = () => {
+          return (id) => {
+            const newInfo = { ...deleteInfo };
+            newInfo.body = JSON.stringify({
+              ...newInfo.body,
+              id: id,
+            });
+            client.publish(newInfo);
+          };
+        };
+        setDeleteSocketMessage((state) => lazyDelete());
       };
 
       client.onStompError = function (frame) {
@@ -111,7 +144,14 @@ const useSocketInit = (roomId, workSpaceUserId, workSpaceId, receiverId) => {
     };
   }, []);
 
-  return { publish, socketMessageList };
+  return {
+    publish,
+    socketMessageList,
+    setSocketMessageList,
+    deleteSocketMessage,
+    socketMessageDeleteList,
+    setSocketMessageDeleteList,
+  };
 };
 
 export default useSocketInit;

@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Box } from '@chakra-ui/react';
 import { useLoaderData, useParams } from 'react-router-dom';
 
@@ -17,9 +17,10 @@ import useChatBoxScrollToBottom from '@hooks/directChat/useChatBoxScrollToBottom
 const DirectChatPage = () => {
   const { chatRoomInfo, userProfile } = useLoaderData();
   const { roomId, workSpaceId } = useParams();
+  let totalMessageList = [];
 
   // define receiver
-  let userId = userProfile.id;
+  let userId = userProfile?.id;
   let receiverId;
   let receiverName;
   if (chatRoomInfo.createMemberId === userId) {
@@ -35,13 +36,41 @@ const DirectChatPage = () => {
     useDirectChatMessageListQuery(roomId);
   useChatBoxScrollToBottom(chatBoxRef, directChatMessageList);
 
-  const { publish, socketMessageList } = useSocketInit(
-    roomId,
-    userId,
-    workSpaceId,
-    receiverId
-  );
+  const {
+    publish,
+    socketMessageList,
+    setSocketMessageList,
+    deleteSocketMessage,
+    socketMessageDeleteList,
+    setSocketMessageDeleteList,
+  } = useSocketInit(roomId, workSpaceId, receiverId);
   useChatBoxScroll(chatBoxRef, socketMessageList);
+
+  totalMessageList = [...directChatMessageList, ...socketMessageList];
+  // 서로 다른 뷰 까지 고려해야함
+  // list말고 해시맵 고려한다면..
+  useEffect(() => {
+    if (socketMessageDeleteList.length !== 0) {
+      setSocketMessageList((state) => {
+        const newState = [...state];
+        for (let deleteItem of socketMessageDeleteList) {
+          newState.forEach((item) => {
+            if (item.messageId === deleteItem.id) {
+              item.createdAt = item.createdAt + 'a';
+              item.isDeleted = true;
+              item.content = deleteItem.content;
+            }
+            return item;
+          });
+        }
+        console.log(newState);
+        return newState;
+      });
+
+      setSocketMessageDeleteList([]);
+    }
+  }, [socketMessageDeleteList, setSocketMessageDeleteList]);
+
   return (
     <Box width="100%" p={'0.5rem'}>
       {
@@ -53,14 +82,45 @@ const DirectChatPage = () => {
             border={'1px'}
             overflowY={'scroll'}
             ref={chatBoxRef}
-            // onScroll={(e) => {
-            //   console.log(e.target.scrollHeight);
-            // }}
           >
             {!directChatMessageListIsLoading &&
+              totalMessageList.map((body) => {
+                if (userId === body.senderId) {
+                  return (
+                    <MyText
+                      key={body.createdAt}
+                      content={body.content}
+                      deleteSocketMessage={deleteSocketMessage}
+                      messageId={body.messageId}
+                      isDeleted={body.isDeleted}
+                    />
+                  );
+                } else {
+                  return (
+                    <YourText
+                      key={body.createdAt}
+                      content={body.content}
+                      senderName={body.senderName}
+                      deleteSocketMessage={deleteSocketMessage}
+                      messageId={body.messageId}
+                      isDeleted={body.isDeleted}
+                    />
+                  );
+                }
+              })}
+
+            {/* {!directChatMessageListIsLoading &&
               directChatMessageList.map((body) => {
                 if (userId === body.senderId) {
-                  return <MyText key={body.createdAt} content={body.content} />;
+                  return (
+                    <MyText
+                      key={body.createdAt}
+                      content={body.content}
+                      deleteSocketMessage={deleteSocketMessage}
+                      messageId={body.messageId}
+                      isDeleted={body.isDeleted}
+                    />
+                  );
                 } else {
                   return (
                     <YourText
@@ -70,11 +130,18 @@ const DirectChatPage = () => {
                     />
                   );
                 }
-              })}
+              })} */}
             {/* socket message view */}
-            {socketMessageList.map((body) => {
+            {/* {socketMessageList.map((body) => {
               if (userId === body.senderId) {
-                return <MyText key={body.createdAt} content={body.content} />;
+                return (
+                  <MyText
+                    key={body.createdAt}
+                    content={body.content}
+                    deleteSocketMessage={deleteSocketMessage}
+                    messageId={body.messageId}
+                  />
+                );
               } else {
                 return (
                   <YourText
@@ -84,7 +151,7 @@ const DirectChatPage = () => {
                   />
                 );
               }
-            })}
+            })} */}
           </Box>
           <TextEditor publish={publish} channelId={chatRoomInfo.channelId} />
         </>

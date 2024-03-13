@@ -9,7 +9,7 @@ const WorkspaceLayout = () => {
   const { isAuthChecked } = useAuthGuard();
 
   const { isMemberChecked } = useWorkspaceMemberGuard(isAuthChecked);
-
+  //todo 401 handling
   return (
     <Fragment>
       {isAuthChecked && isMemberChecked ? (
