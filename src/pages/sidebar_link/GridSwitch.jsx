@@ -1,6 +1,6 @@
 import React from 'react';
-import switchIcon1 from '../../assets/switchIcon1.svg';
-import switchIcon2 from '../../assets/switchIcon2.svg';
+import switchIcon1 from '@assets/switchIcon1.svg';
+import switchIcon2 from '@assets/switchIcon2.svg';
 import styled from '@emotion/styled';
 import { Switch } from '@chakra-ui/react';
 

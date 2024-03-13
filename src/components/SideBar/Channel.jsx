@@ -76,7 +76,7 @@ const Channel = ({ type, data }) => {
                 <Image src={voice_ch} alt="" w="20px" h="21px" mr="20px" />
               )}
 
-              {x.chName}
+              {x.name}
             </Button>
           ))}
         </Box>
