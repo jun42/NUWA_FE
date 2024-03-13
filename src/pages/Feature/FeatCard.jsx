@@ -33,7 +33,7 @@ const FeatCard = ({
   return (
     <StCardContainer backgroundImage={backgroudImage}>
       <StTextBox>
-        <StTextDiv $size={40} $weight={700} $color={textColor}>
+        <StTextDiv $size={36} $weight={700} $color={textColor}>
           {styledText}
 
           <img
@@ -46,11 +46,11 @@ const FeatCard = ({
         </StTextDiv>
 
         <StTextSubBox>
-          <StTextDiv $size={14} $weight={700} $color={textColor}>
+          <StTextDiv $size={16} $weight={700} $color={textColor}>
             {subText}
           </StTextDiv>
 
-          <StTextDiv $size={12} $weight={700} $color={'primary400'}>
+          <StTextDiv $size={16} $weight={700} $color={'primary400'}>
             {detailText}
           </StTextDiv>
         </StTextSubBox>

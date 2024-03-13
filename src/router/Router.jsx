@@ -25,9 +25,16 @@ import WorkspaceLayout from '@components/Layout/WorkspaceLayout';
 import InviteMember from '@pages/createWorkspace/create/inviteMember';
 import ChatPage from '@pages/chatBoard';
 import DirectChatPage from '@pages/directChat';
-import DashBoard from '@pages/dashboard';
+import DashBoard from '@pages/newDashboard';
 import Canvas from '@pages/canvas';
-import CalenderPage from '../pages/calender';
+import JoinMemberPage from '@pages/devJoinMember';
+import Todo from '@pages/todo/Todo';
+import FindChannel from '@pages/findChannel/FindChannel';
+import AddUser from '@pages/addUser/AddUser';
+
+import { getDirectChatRoomInfo } from '@apis/chat/chat';
+import { getWorkspaceUserProfile } from '../apis/workspace/workspaceProfile';
+import ErrorBoundary from '../components/Error/ErrorBoundary';
 
 export const Router = createBrowserRouter([
   {
@@ -84,6 +91,10 @@ export const Router = createBrowserRouter([
             element: <WorkAccess />,
           },
           { path: '/helpdesk', element: <HelpDesk /> },
+          {
+            path: '/join',
+            element: <JoinMemberPage />,
+          },
         ],
       },
       {
@@ -117,27 +128,52 @@ export const Router = createBrowserRouter([
         ],
       },
       {
-        path: '/workspace/:workspaceId',
+        path: '/workspace/:workSpaceId',
         element: <WorkspaceLayout />,
+        // errorElement: <ErrorBoundary />,
         children: [
           {
             element: <DashBoard />,
             index: true,
           },
+          { path: '*', element: <NotFoundPage /> },
+
           {
-            path: '/workspace/:workspaceId/chatboard',
+            path: '/workspace/:workSpaceId/todo',
+            element: <Todo />,
+          },
+          {
+            path: '/workspace/:workSpaceId/chatboard',
             element: <ChatPage />,
           },
           {
-            path: '/workspace/:workspaceId/direct-chat',
+            path: '/workspace/:workSpaceId/direct-chat/:roomId',
             element: <DirectChatPage />,
+            loader: async ({ params }) => {
+              const chatRoomInfo = await getDirectChatRoomInfo(
+                params.workSpaceId,
+                params.roomId
+              ).then((r) => r.data.data);
+
+              const userProfile = await getWorkspaceUserProfile(
+                params.workSpaceId
+              ).then((r) => r.data.data);
+              return { chatRoomInfo, userProfile };
+            },
           },
           {
-            path: '/workspace/:workspaceId/canvas',
+            path: '/workspace/:workSpaceId/canvas',
             element: <Canvas />,
           },
-          { path: '/workspace/:workspaceId/files', element: <Files /> },
-          { path: '/workspace/:workspaceId/calender', element: <CalenderPage />}
+          {
+            path: '/workspace/:workSpaceId/findchannel',
+            element: <FindChannel />,
+          },
+          {
+            path: '/workspace/:workSpaceId/adduser',
+            element: <AddUser />,
+          },
+          { path: '/workspace/:workSpaceId/files', element: <Files /> },
         ],
       },
     ],

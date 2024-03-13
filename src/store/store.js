@@ -1,14 +1,17 @@
 import { create } from 'zustand';
-import { createBearSlice, createFishSlice } from './testSlice';
+import { createBearSlice } from './testSlice';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { createSocialSignupSlice } from './socialSignupSlice';
 import { createWorkspaceNameSlice } from './createWorkspaceNameSlice';
-const persistKeys = ['email', 'provider', 'workspace'];
+import { createUserAuthSlice } from './userAuthSlice';
+import { createDirectMessageSlice } from './socketPubSlice';
+
+const persistKeys = ['email', 'provider', 'workspace', 'isLoggedIn'];
 
 const persistOption = {
   name: 'NUWA-Storage', // name of the item in the storage (must be unique)
-  storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
+  storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
   partialize: (state) =>
     Object.fromEntries(
       Object.entries(state).filter(([key]) => persistKeys.includes(key))
@@ -22,9 +25,10 @@ const useBoundStore = create(
       persist(
         (...a) => ({
           ...createBearSlice(...a),
-          ...createFishSlice(...a),
           ...createSocialSignupSlice(...a),
           ...createWorkspaceNameSlice(...a),
+          ...createUserAuthSlice(...a),
+          ...createDirectMessageSlice(...a),
         }),
         persistOption
       )

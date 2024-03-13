@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ellipsis_vertical from '../../assets/ellipsis-vertical.svg';
 import download from '../../assets/download.svg';
 import share from '../../assets/share.svg';
+import share2 from '../../assets/share2.svg';
 
 import file_bg from '../../assets/file_bg.jpg';
 import Modal from '../../components/Modal/Modal.jsx';
@@ -26,7 +27,14 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-const FileBox = ({ fileName, sharedBy, date, type, size, src }) => {
+const FileBox = ({
+  fileName,
+  fileMemberUploadName,
+  createdAt,
+  fileExtension,
+  fileSize,
+  fileUrl,
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedImg, setSelectedImg] = useState('');
@@ -45,7 +53,7 @@ const FileBox = ({ fileName, sharedBy, date, type, size, src }) => {
         );
       }}
     >
-      {src !== '' && (
+      {fileExtension === ('jpg' || 'png' || 'jpeg') && (
         <Modal
           isOpen={isOpen}
           onClose={onClose}
@@ -54,7 +62,7 @@ const FileBox = ({ fileName, sharedBy, date, type, size, src }) => {
               <Avatar size="md" src={profile} />
               <Box ml="10px">
                 <Text fontSize="16px" fontWeight="600">
-                  {sharedBy}
+                  {fileMemberUploadName}
                 </Text>
                 <Text fontSize="12px" fontWeight="400">
                   14일전 확인됨
@@ -66,10 +74,10 @@ const FileBox = ({ fileName, sharedBy, date, type, size, src }) => {
         />
       )}
       <Center h="136px" backgroundColor="#D6D6D6" borderRadius="13px 13px 0 0">
-        {src === '' && <Image src={AdobeIcon} />}
-        {src !== '' && (
+        {fileExtension === 'pdf' && <Image src={AdobeIcon} />}
+        {fileExtension === ('jpg' || 'png' || 'jpeg') && (
           <Image
-            src={src}
+            src={fileUrl}
             w="245px"
             h="136px"
             objectFit="cover"
@@ -84,12 +92,18 @@ const FileBox = ({ fileName, sharedBy, date, type, size, src }) => {
         p="8px 14px"
         position="relative"
       >
-        <Text fontSize="12px" fontWeight="600">
-          {/* 18자 넘으면 줄임표 */}
+        <Text
+          fontSize="12px"
+          fontWeight="600"
+          maxW="195px"
+          overflow="hidden"
+          whiteSpace="nowrap"
+          textOverflow="ellipsis"
+        >
           {fileName}
         </Text>
         <Text fontSize="10px" fontWeight="500" color="#898989">
-          {sharedBy} {date}
+          {fileMemberUploadName} {createdAt.substring(0, 10)}
         </Text>
         <Flex>
           <IconButton
@@ -107,7 +121,7 @@ const FileBox = ({ fileName, sharedBy, date, type, size, src }) => {
           <IconButton
             size="xs"
             bgColor="#f1f1f1"
-            icon={<Image src={share} alt="" />}
+            icon={<Image src={share2} boxSize="18px" alt="" />}
             position="absolute"
             top="12px"
             right="36px"

@@ -9,9 +9,8 @@ import Percent from './Percent';
 const main = () => {
   return (
 
-      <StContainer>
+      <StContainer id='main' >
         <MainHeader/>
-        
         <MainCompany />
         <MainCenter/>
         <Percent/>
@@ -19,7 +18,7 @@ const main = () => {
       </StContainer>
   );
 }
- 
+
 export default main;
 
 const StContainer = styled.div`

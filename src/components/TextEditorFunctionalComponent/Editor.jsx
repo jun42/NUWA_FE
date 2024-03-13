@@ -1,16 +1,39 @@
 import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import Quill from 'quill';
-import CustomToolBar from '../TextEditor/CustomToolbar';
 import CustomToolbarBottom from '../TextEditor/CustomToolbarBottom';
-import { clearContentHandler, newLineHandler } from './keyBinding';
-import options from './options';
+import { dataURItoBlob, myOptions as options } from './quill/customOptions';
+import EmojiPicker from 'emoji-picker-react';
+import { useParams } from 'react-router-dom';
+import { sendQuillDataHandler } from './quill/utils';
+import { uploadFile } from '../../apis/file/file';
+import { imageMatcher } from './quill/clipboard';
 // Editor is an uncontrolled React component
+const Delta = Quill.import('delta');
+
 const Editor = forwardRef(
-  ({ readOnly, defaultValue, onTextChange, onSelectionChange }, ref) => {
+  (
+    {
+      readOnly,
+      defaultValue,
+      onTextChange,
+      onSelectionChange,
+      emojiPickerIsOpen,
+      setEmojiPickerIsOpen,
+      publish,
+      channelId,
+    },
+    ref
+  ) => {
+    const { workSpaceId } = useParams();
+
     const containerRef = useRef(null);
     const defaultValueRef = useRef(defaultValue);
     const onTextChangeRef = useRef(onTextChange);
     const onSelectionChangeRef = useRef(onSelectionChange);
+
+    const handleSendMessage = () => {
+      sendQuillDataHandler(ref.current, publish);
+    };
 
     useLayoutEffect(() => {
       onTextChangeRef.current = onTextChange;
@@ -26,8 +49,17 @@ const Editor = forwardRef(
       const editorContainer = container.appendChild(
         container.ownerDocument.createElement('div')
       );
+
+      options.externalLayer = {
+        workSpaceId,
+        channelId,
+        publish,
+      };
       const quill = new Quill(editorContainer, options);
 
+      quill.clipboard.addMatcher('img', function (node) {
+        return imageMatcher(node, quill, workSpaceId, channelId);
+      });
       ref.current = quill;
 
       if (defaultValueRef.current) {
@@ -41,64 +73,31 @@ const Editor = forwardRef(
       quill.on(Quill.events.SELECTION_CHANGE, (...args) => {
         onSelectionChangeRef.current?.(...args);
       });
-
-      // quill.keyboard.addBinding(
-      //   {
-      //     key: 'Enter',
-      //   },
-      //   () => {
-      //     clearText();
-      //   }
-      // );
-      // quill.keyboard.addBinding(
-      //   {
-      //     key: 'Enter',
-      //     shiftKey: true,
-      //   },
-      //   newLineHandler
-      // );
+      // quill.on();
       return () => {
         ref.current = null;
         container.innerHTML = '';
       };
-    }, []);
+    }, [publish]);
 
-    const clearText = () => {
-      ref.current.deleteText(0, ref.current.getLength());
-    };
-    const handleSendMessage = (e) => {
-      clearText();
-    };
-
-    useEffect(() => {
+    useLayoutEffect(() => {
       const sendButton = document.querySelector('#send-button');
       sendButton.addEventListener('click', handleSendMessage);
 
       return () => {
         sendButton.removeEventListener('click', handleSendMessage);
       };
-    }, []);
-
-    // useEffect(() => {
-    //   const handleEditorKey = (e) => {
-    //     console.log(e.key);
-    //     if (e.key === 'Enter') {
-    //       clearText();
-    //     }
-    //   };
-    //   const editorEl = document.querySelector('#editor');
-    //   console.log(editorEl);
-    //   editorEl.addEventListener('keydown', handleEditorKey);
-    //   return () => {
-    //     editorEl.removeEventListener('keydown', handleEditorKey);
-    //   };
-    // }, []);
+    }, [publish]);
 
     return (
       <>
-        <CustomToolBar />
+        <EmojiPicker
+          open={emojiPickerIsOpen}
+          className="emoji-picker"
+          onEmojiClick={console.log}
+        />
         <div id="editor" ref={containerRef}></div>
-        <CustomToolbarBottom />
+        <CustomToolbarBottom setEmojiPickerIsOpen={setEmojiPickerIsOpen} />
       </>
     );
   }

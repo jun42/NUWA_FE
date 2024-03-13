@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { chekcDuplicateNickname } from '@apis/axios/auth';
+import { chekcDuplicateNickname } from '@apis/auth/auth';
 import InputErrorBox from './InputErrorBox';
 import CustomInput from '../Input/CustomInput';
 

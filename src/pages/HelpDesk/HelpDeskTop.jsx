@@ -7,7 +7,6 @@ const HelpDeskTop = () => {
     <StContentTop>
       <StContentText>
         <StContentTextTitle>
-          <Logo width={'120px'} height={'30px'} />
           <StTextDiv $size={32} $weight={700} $color="primary400">
             서비스문의
           </StTextDiv>
@@ -15,7 +14,7 @@ const HelpDeskTop = () => {
 
         <StContentTextDesc>
           건의사항이나 불편사항을{' '}
-          <StContentTextDescLink>NUWA에게 문의</StContentTextDescLink>해주세요.
+          <StContentTextDescLink>NUWA에게 문의해주세요.</StContentTextDescLink>
         </StContentTextDesc>
       </StContentText>
 

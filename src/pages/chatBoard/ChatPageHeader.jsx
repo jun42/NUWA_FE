@@ -1,6 +1,6 @@
-import { Button } from '@chakra-ui/button';
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input';
 import { Flex, Stack, Text } from '@chakra-ui/layout';
+import AddDirectChatRoomModal from './AddDirectChatRoomModal';
 
 const ChatPageHeader = () => {
   return (
@@ -9,9 +9,7 @@ const ChatPageHeader = () => {
         <Text fontSize={'36px'} fontWeight={600}>
           채팅
         </Text>
-        <Button colorScheme="secondary" borderRadius={'lg'}>
-          채팅방 추가
-        </Button>
+        <AddDirectChatRoomModal />
       </Flex>
       <InputGroup>
         <InputLeftElement>{/* icon */}</InputLeftElement>

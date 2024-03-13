@@ -8,16 +8,16 @@ const Percent = () => {
     <StContainer>
       <PercentContainer>
         <Flex flexDirection={'column'} gap={'24px'}>
-          <StText $size={36} $weight={700} $color={'white'}>
+          <Text fontSize={'40px'} fontWeight={'700'} color={'white'} className='landingPTitle'>
             크고 작은 팀들 모두 NUWA를 사용합니다
-          </StText>
-          <StText $size={18} $weight={500} $color={'white'}>
+          </Text>
+          <Text fontSize={18} fontWeight={500} color={'white'} className='landingPSubTitle'>
             NUWA는 세계 최대 규모의 기업들이 안전하게 협업할 수 있도록 지원을
             확대하고 있습니다
-          </StText>
+          </Text>
         </Flex>
 
-        <Flex justifyContent={'space-between'}>
+        <Flex justifyContent={'space-between'} className='percentText'>
           {percent_section.map((item, index) => (
             <Flex
               flexDirection={'column'}
@@ -41,7 +41,7 @@ const Percent = () => {
           ))}
         </Flex>
 
-        <Flex justify={'flex-end'} gap={'12px'}>
+        <Flex justify={'flex-end'} gap={'12px'} className='percentBtns'>
           <Button
             borderRadius={'50px'}
             bg={'#D6D6D6'}
@@ -81,13 +81,13 @@ export default Percent;
 const StContainer = styled.div`
   display: flex;
   width: 100%;
+  padding: 80px 12px;
   background: url('src/assets/blacklinear.png');
 `;
 
 const PercentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 80px 12px;
   width: 1440px;
   margin: 0 auto;
   row-gap: 64px;

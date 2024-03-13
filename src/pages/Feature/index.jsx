@@ -6,7 +6,7 @@ import FeatLink from '../../components/FeatLink/FeatLink';
 import styled from 'styled-components';
 const index = () => {
   return (
-    <StContainer>
+    <StContainer id='featurePage'>
       <FeatHeader />
       <FeatCenter />
       <FeatFooter />
