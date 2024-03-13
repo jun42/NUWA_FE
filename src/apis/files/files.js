@@ -10,8 +10,8 @@ export const getExtensionFiles = ({ workSpaceId, fileExtension }) => {
   return request.get(`/file/${workSpaceId}?fileExtension=${fileExtension}`);
 };
 //FILE IMAGE
-export const getTypeFiles = ({ workSpaceId, fileType }) => {
-  return request.get(`/file/${workSpaceId}?fileType=${fileType}`);
+export const getTypeFiles = ({ workSpaceId, fileUploadType }) => {
+  return request.get(`/file/${workSpaceId}?fileUploadType=${fileUploadType}`);
 };
 //createdAt, fileName, fileExtension, fileSize
 export const getSortedFiles = ({ workSpaceId, sortBy, sortOrder }) => {

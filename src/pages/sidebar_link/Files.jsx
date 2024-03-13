@@ -5,9 +5,6 @@ import ellipsis_vertical from '@assets/ellipsis-vertical.svg';
 import illustratorIcon from '@assets/illustratorIcon.svg';
 import nofile from '@assets/nofile.png';
 
-import file_bg from '@assets/file_bg.jpg';
-import file_bg2 from '@assets/file_bg2.jpeg';
-import profile from '@assets/cham.png';
 
 import {
   Button,
@@ -31,13 +28,16 @@ import {
 import GridSwitch from './GridSwitch.jsx';
 import FileBox from './FileBox.jsx';
 import FileList from './FileList.jsx';
-import { getAllFiles } from './../../apis/files/files';
+import {
+  getAllFiles,
+  getExtensionFiles,
+  getTypeFiles,
+} from '@apis/files/files';
 import { useParams } from 'react-router-dom';
-import { getWorkSpaceMemberList } from './../../apis/workspace/workSpaceMember';
 import {
   useMyInfoQuery,
   useWorkSpaceMemberListQuery,
-} from './../../queries/workSpace/workSpaceMemberList';
+} from '@queries/workSpace/workSpaceMemberList';
 
 const Files = () => {
   const { workSpaceId } = useParams();
@@ -58,197 +58,74 @@ const Files = () => {
   const [sortBy, setSortBy] = useState('date');
   const [isOpen, setIsOpen] = useState(false);
 
-  // useEffect(() => {
-  //   uploadFiles(1, 1, [profile]);
-  // });
-
-  const mockData = [
-    {
-      fileId: 1,
-      fileUrl: file_bg,
-      fileName:
-        '파일1파일1파일1파일1파일1파일1파일1파일1파일1파일1파일1파일1파일1파일1파일1파일1파일1파일1파일1파일1파일1파일1파일1',
-      fileSize: 1722,
-      fileExtension: 'jpg',
-      fileUploadType: 'IMAGE',
-      fileType: 'CANVAS',
-      fileMemberUploadId: 1,
-      fileMemberUploadName: '루루',
-      createdAt: '2024-02-24 06:42:21.368',
-    },
-    {
-      fileId: 2,
-      fileUrl: file_bg2,
-      fileName: 'dpirng',
-      fileSize: 1721,
-      fileExtension: 'svg',
-      fileUploadType: 'IMAGE',
-      fileType: 'CANVAS',
-      fileMemberUploadId: 1,
-      fileMemberUploadName: '루루',
-      createdAt: '2024-02-25 06:42:21.368',
-    },
-    {
-      fileId: 3,
-      fileUrl:
-        'https://s3.ap-northeast-2.amazonaws.com/nuwabucket/file/direct/3.%20API%20%E1%84%80%E1%85%A2%E1%84%87%E1%85%A1%E1%86%AF%20%E1%84%80%E1%85%A9%E1%84%80%E1%85%B3%E1%86%B8%20-%20%E1%84%8C%E1%85%B5%E1%84%8B%E1%85%A7%E1%86%AB%20%E1%84%85%E1%85%A9%E1%84%83%E1%85%B5%E1%86%BC%E1%84%80%E1%85%AA%20%E1%84%8C%E1%85%A9%E1%84%92%E1%85%AC%20%E1%84%89%E1%85%A5%E1%86%BC%E1%84%82%E1%85%B3%E1%86%BC%20%E1%84%8E%E1%85%AC%E1%84%8C%E1%85%A5%E1%86%A8%E1%84%92%E1%85%AA_2024-02-24T06%3A42%3A21.140179.pdf',
-      fileName: 'spirngdatajpa-v20231224',
-      fileSize: 1729,
-      fileExtension: 'pdf',
-      fileUploadType: 'IMAGE',
-      fileType: 'CANVAS',
-      fileMemberUploadId: 2,
-      fileMemberUploadName: '윤철일반',
-      createdAt: '2024-02-24 07:42:21.368',
-    },
-    {
-      fileId: 4,
-      fileUrl: file_bg2,
-      fileName: 'ypirng',
-      fileSize: 172,
-      fileExtension: 'jpg',
-      fileUploadType: 'IMAGE',
-      fileType: 'CANVAS',
-      fileMemberUploadId: 5,
-      fileMemberUploadName: 'zecaumr',
-      createdAt: '2024-02-25 06:42:21.368',
-    },
-    {
-      fileId: 5,
-      fileUrl: file_bg2,
-      fileName: 'epirng',
-      fileSize: 1721,
-      fileExtension: 'jpg',
-      fileUploadType: 'IMAGE',
-      fileType: 'CANVAS',
-      fileMemberUploadId: 1,
-      fileMemberUploadName: '루루',
-      createdAt: '2024-02-25 06:42:21.368',
-    },
-    {
-      fileId: 6,
-      fileUrl: file_bg2,
-      fileName: 'apirng',
-      fileSize: 1723,
-      fileExtension: 'jpg',
-      fileUploadType: 'IMAGE',
-      fileType: 'CANVAS',
-      fileMemberUploadId: 1,
-      fileMemberUploadName: '루루',
-      createdAt: '2024-02-25 06:42:21.368',
-    },
-    {
-      fileId: 7,
-      fileUrl: file_bg2,
-      fileName: 'cpirng',
-      fileSize: 1721,
-      fileExtension: 'jpg',
-      fileUploadType: 'IMAGE',
-      fileType: 'CANVAS',
-      fileMemberUploadId: 1,
-      fileMemberUploadName: '루루',
-      createdAt: '2024-02-25 06:42:21.368',
-    },
-    {
-      fileId: 8,
-      fileUrl: file_bg2,
-      fileName: 'bpirng413',
-      fileSize: 1721,
-      fileExtension: 'jpeg',
-      fileUploadType: 'IMAGE',
-      fileType: 'CANVAS',
-      fileMemberUploadId: 1,
-      fileMemberUploadName: '루루',
-      createdAt: '2024-09-25 06:42:21.368',
-    },
-    {
-      fileId: 9,
-      fileUrl: file_bg2,
-      fileName: '1Spirng6754',
-      fileSize: 1721,
-      fileExtension: 'jpg',
-      fileUploadType: 'IMAGE',
-      fileType: 'CANVAS',
-      fileMemberUploadId: 1,
-      fileMemberUploadName: '루루',
-      createdAt: '2024-07-25 06:42:21.368',
-    },
-    {
-      fileId: 10,
-      fileUrl: file_bg2,
-      fileName: 'Spirng2',
-      fileSize: 1721,
-      fileExtension: 'jpg',
-      fileUploadType: 'IMAGE',
-      fileType: 'CANVAS',
-      fileMemberUploadId: 1,
-      fileMemberUploadName: '루루',
-      createdAt: '2024-06-25 06:42:21.368',
-    },
-    {
-      fileId: 10,
-      fileUrl: file_bg2,
-      fileName: 'Spirng8',
-      fileSize: 6,
-      fileExtension: 'jpg',
-      fileUploadType: 'IMAGE',
-      fileType: 'CANVAS',
-      fileMemberUploadId: 1,
-      fileMemberUploadName: '루루',
-      createdAt: '2024-01-25 06:42:21.368',
-    },
-    {
-      fileId: 10,
-      fileUrl: file_bg2,
-      fileName: 'Spirng10',
-      fileSize: 9,
-      fileExtension: 'jpg',
-      fileUploadType: 'IMAGE',
-      fileType: 'CANVAS',
-      fileMemberUploadId: 1,
-      fileMemberUploadName: '루루',
-      createdAt: '2024-03-25 06:42:21.368',
-    },
-    {
-      fileId: 10,
-      fileUrl: file_bg2,
-      fileName: 'Spirng10',
-      fileSize: 9,
-      fileExtension: 'jpg',
-      fileUploadType: 'IMAGE',
-      fileType: 'CANVAS',
-      fileMemberUploadId: 1,
-      fileMemberUploadName: '루루',
-      createdAt: '2024-03-25 06:42:21.368',
-    },
-    {
-      fileId: 10,
-      fileUrl: file_bg2,
-      fileName: 'Spirng10',
-      fileSize: 9,
-      fileExtension: 'jpg',
-      fileUploadType: 'IMAGE',
-      fileType: 'CANVAS',
-      fileMemberUploadId: 1,
-      fileMemberUploadName: '루루',
-      createdAt: '2024-03-25 06:42:21.368',
-    },
-  ];
-
-  // useEffect(() => {
-  //   uploadFiles({ workSpaceId, channelId: 1, profile });
-  // }, []);
-
   const [fileList, setFileList] = useState([]);
+
   useEffect(() => {
-    const id = setTimeout(() => {
-      Promise.resolve(mockData).then((r) => setFileList(r));
-    }, 300);
-    // getAllFiles({ workSpaceId }).then(console.log);
-    return () => {
-      clearTimeout(id);
+    const fetchFiles = async () => {
+      try {
+        // getAllFiles 함수를 사용하여 파일을 가져옵니다.
+        const files = await getAllFiles({ workSpaceId });
+        // 가져온 파일 목록을 fileList로 설정합니다.
+        setFileList(files.data.data.content);
+      } catch (error) {
+        console.error('Error fetching files:', error);
+      }
     };
+    fetchFiles();
   }, []);
+
+  const getFiles = async (type) => {
+    switch (type) {
+      case 'all':
+        const allFiles = await Promise.resolve(getAllFiles({ workSpaceId }));
+        return allFiles.data.data.content;
+      case 'zip':
+        const zipFiles = await Promise.resolve(
+          getExtensionFiles({ workSpaceId, fileExtension: 'zip' })
+        );
+        return zipFiles.data.data.content;
+      case 'pdf':
+        const pdfFiles = await Promise.resolve(
+          getExtensionFiles({ workSpaceId, fileExtension: 'pdf' })
+        );
+        return pdfFiles.data.data.content;
+      case 'file':
+        const fileTypeFiles = await Promise.resolve(
+          getTypeFiles({ workSpaceId, fileUploadType: 'FILE' })
+        );
+        return fileTypeFiles.data.data.content;
+      case 'pic':
+        const jpegFiles = getExtensionFiles({
+          workSpaceId,
+          fileExtension: 'jpeg',
+        });
+        const jpgFiles = getExtensionFiles({
+          workSpaceId,
+          fileExtension: 'jpg',
+        });
+        const pngFiles = getExtensionFiles({
+          workSpaceId,
+          fileExtension: 'png',
+        });
+        const [jpegFilesResponse, jpgFilesResponse, pngFilesResponse] =
+          await Promise.all([jpegFiles, jpgFiles, pngFiles]);
+        console.log(jpegFilesResponse.data.data.content);
+        const imageFiles = [
+          ...jpegFilesResponse.data.data.content,
+          ...jpgFilesResponse.data.data.content,
+          ...pngFilesResponse.data.data.content,
+        ];
+
+        return imageFiles;
+      default:
+        return Promise.reject(new Error('Invalid file type'));
+    }
+  };
+  const getFilesByType = (type) => {
+    getFiles(type).then((response) => {
+      setFileList(response);
+    });
+  };
 
   //날짜 순 정렬
   const dateList = [];
@@ -415,7 +292,6 @@ const Files = () => {
   );
   const checkedUsers = searchData.filter((item) => item.checked === true);
 
-
   const findMyInfo = searchData.find((item) => {
     return item.email === myInfo?.myInfo?.email;
   });
@@ -482,13 +358,13 @@ const Files = () => {
           </Box>
         ));
       case 'size':
-        return (
+        return fileList.length > 0 ? (
           <Box m="64px 0">
             {checkedUsers.length > 0
               ? renderFilesByCheckedUsers(filterByUsers(sortedBySize))
               : renderFilesByCheckedUsers(sortedBySize)}
           </Box>
-        );
+        ) : null;
       case 'type':
         return extensionList.map((item, index) => (
           <Box m="64px 0" key={index}>
@@ -721,7 +597,10 @@ const Files = () => {
                 border={
                   fileType === 'all' ? '1px solid #575DFB' : '1px solid #898989'
                 }
-                onClick={() => setFileType('all')}
+                onClick={() => {
+                  setFileType('all');
+                  getFilesByType('all');
+                }}
               >
                 모든 파일
               </Button>
@@ -738,6 +617,7 @@ const Files = () => {
                 }
                 onClick={() => {
                   setFileType('pic');
+                  getFilesByType('pic');
                 }}
               >
                 사진
@@ -757,7 +637,10 @@ const Files = () => {
                     ? '1px solid #575DFB'
                     : '1px solid #898989'
                 }
-                onClick={() => setFileType('file')}
+                onClick={() => {
+                  setFileType('file');
+                  getFilesByType('file');
+                }}
               >
                 파일
               </Button>
@@ -772,7 +655,10 @@ const Files = () => {
                 border={
                   fileType === 'zip' ? '1px solid #575DFB' : '1px solid #898989'
                 }
-                onClick={() => setFileType('zip')}
+                onClick={() => {
+                  setFileType('zip');
+                  getFilesByType('zip');
+                }}
               >
                 ZIP
               </Button>
@@ -787,7 +673,10 @@ const Files = () => {
                 border={
                   fileType === 'pdf' ? '1px solid #575DFB' : '1px solid #898989'
                 }
-                onClick={() => setFileType('pdf')}
+                onClick={() => {
+                  setFileType('pdf');
+                  getFilesByType('pdf');
+                }}
               >
                 PDF
               </Button>
