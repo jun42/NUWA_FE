@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import ellipsis_vertical from '../../assets/ellipsis-vertical.svg';
-import download from '../../assets/download.svg';
-import share from '../../assets/share.svg';
-import share2 from '../../assets/share2.svg';
+import ellipsis_vertical from '@assets/ellipsis-vertical.svg';
+import download from '@assets/download.svg';
+import share from '@assets/share.svg';
+import share2 from '@assets/share2.svg';
 
-import file_bg from '../../assets/file_bg.jpg';
-import Modal from '../../components/Modal/Modal.jsx';
-import profile from '../../assets/cham.png';
-import AdobeIcon from '../../assets/AdobeIcon.svg';
+import file_bg from '@assets/file_bg.jpg';
+import Modal from '@components/Modal/Modal.jsx';
+import profile from '@assets/cham.png';
+import AdobeIcon from '@assets/AdobeIcon.svg';
 
 import {
   Button,

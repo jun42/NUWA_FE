@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import SideBar from '@components/SideBar/SideBar';
-import search from '../../assets/search.svg';
-import ellipsis_vertical from '../../assets/ellipsis-vertical.svg';
-import illustratorIcon from '../../assets/illustratorIcon.svg';
-import nofile from '../../assets/nofile.png';
+import search from '@assets/search.svg';
+import ellipsis_vertical from '@assets/ellipsis-vertical.svg';
+import illustratorIcon from '@assets/illustratorIcon.svg';
+import nofile from '@assets/nofile.png';
 
-import file_bg from '../../assets/file_bg.jpg';
-import file_bg2 from '../../assets/file_bg2.jpeg';
-import profile from '../../assets/cham.png';
+import file_bg from '@assets/file_bg.jpg';
+import file_bg2 from '@assets/file_bg2.jpeg';
+import profile from '@assets/cham.png';
 
 import {
   Button,
@@ -47,9 +47,7 @@ const Files = () => {
   };
 
   const members = useWorkSpaceMemberListQuery(workSpaceId);
-  console.log('members', members);
   const myInfo = useMyInfoQuery(workSpaceId);
-  console.log('myInfo', myInfo);
 
   const addCheckedList = members.memberList?.map((item) => ({
     ...item,
@@ -416,14 +414,11 @@ const Files = () => {
     item.nickname.includes(searchTerm)
   );
   const checkedUsers = searchData.filter((item) => item.checked === true);
-  console.log('cu', checkedUsers);
 
-  console.log('searchData', searchData);
 
   const findMyInfo = searchData.find((item) => {
     return item.email === myInfo?.myInfo?.email;
   });
-  console.log('findMyInfo', findMyInfo);
 
   const userChecked = findMyInfo?.checked;
 
@@ -511,6 +506,7 @@ const Files = () => {
         return null;
     }
   };
+
   return (
     <Flex w="100%">
       <Box w="100%" p="52px 63px">
@@ -877,54 +873,68 @@ const Files = () => {
           h="calc(100% - 184px)"
           overflowY="scroll"
         >
-          {!switchstate && renderFilesBySortType()}
+          {!switchstate &&
+            (checkedUsers.length === 0 ||
+              (checkedUsers.length > 0 &&
+                filterByUsers(sortFiles(sortBy)).length > 0)) &&
+            renderFilesBySortType()}
 
           {fileList.length > 0 && switchstate && (
             <>
+              {(checkedUsers.length === 0 ||
+                (checkedUsers.length > 0 &&
+                  filterByUsers(sortFiles(sortBy)).length > 0)) && (
+                <>
+                  <Flex>
+                    <Text
+                      w="52%"
+                      align="center"
+                      fontSize="14px"
+                      fontWeight="600"
+                    >
+                      파일명
+                    </Text>
+                    <Text
+                      w="12%"
+                      align="center"
+                      fontSize="14px"
+                      fontWeight="600"
+                      color="#000000B2"
+                    >
+                      공유한사람
+                    </Text>
+                    <Text
+                      w="12%"
+                      align="center"
+                      fontSize="14px"
+                      fontWeight="600"
+                      color="#000000B2"
+                    >
+                      날짜
+                    </Text>
+                    <Text
+                      w="12%"
+                      align="center"
+                      fontSize="14px"
+                      fontWeight="600"
+                      color="#000000B2"
+                    >
+                      유형
+                    </Text>
+                    <Text
+                      w="12%"
+                      align="center"
+                      fontSize="14px"
+                      fontWeight="600"
+                      color="#000000B2"
+                    >
+                      크기
+                    </Text>
+                  </Flex>
+                  <Divider color="#0000001A" m="15px 0" />
+                </>
+              )}
               <Box>
-                <Flex>
-                  <Text w="52%" align="center" fontSize="14px" fontWeight="600">
-                    파일명
-                  </Text>
-                  <Text
-                    w="12%"
-                    align="center"
-                    fontSize="14px"
-                    fontWeight="600"
-                    color="#000000B2"
-                  >
-                    공유한사람
-                  </Text>
-                  <Text
-                    w="12%"
-                    align="center"
-                    fontSize="14px"
-                    fontWeight="600"
-                    color="#000000B2"
-                  >
-                    날짜
-                  </Text>
-                  <Text
-                    w="12%"
-                    align="center"
-                    fontSize="14px"
-                    fontWeight="600"
-                    color="#000000B2"
-                  >
-                    유형
-                  </Text>
-                  <Text
-                    w="12%"
-                    align="center"
-                    fontSize="14px"
-                    fontWeight="600"
-                    color="#000000B2"
-                  >
-                    크기
-                  </Text>
-                </Flex>
-                <Divider color="#0000001A" m="15px 0" />
-
                 {sortBy === 'date' &&
                   filteredFilesOnList('date').map((x, index) => (
                     <FileList
@@ -976,7 +986,9 @@ const Files = () => {
               </Box>
             </>
           )}
-          {fileList.length === 0 && (
+          {(fileList.length === 0 ||
+            (checkedUsers.length > 0 &&
+              filterByUsers(sortFiles(sortBy)).length === 0)) && (
             <Center
               w="100%"
               h="100%"
