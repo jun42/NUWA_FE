@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Flex, Text, Image } from '@chakra-ui/react';
 
-import illustratorIcon from '../../assets/illustratorIcon.svg';
+import illustratorIcon from '@assets/illustratorIcon.svg';
 
 const FileList = ({ fileName, sharedBy, date, type, size }) => {
   return (

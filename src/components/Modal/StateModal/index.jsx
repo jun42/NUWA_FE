@@ -27,6 +27,7 @@ const index = ({ isOpen, onClose, workSpaceId, refetchUserProfile }) => {
       >
         <ModalBody
           onSave={(newStatus) => mutation.mutate({ workSpaceId, newStatus })}
+          onClose={onClose}
         />
       </StModal>
     </div>

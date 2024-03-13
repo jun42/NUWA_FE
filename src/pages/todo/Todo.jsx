@@ -8,11 +8,11 @@ import {
   IconButton,
   Button,
 } from '@chakra-ui/react';
-import bluedot from '../../assets/blue-dot.svg';
-import emptydot from '../../assets/empty-dot.svg';
-import add_colored from '../../assets/add_colored.svg';
-import ellipsis_vertical2 from '../../assets/ellipsis-vertical2.svg';
-import share2 from '../../assets/share2.svg';
+import bluedot from '@assets/blue-dot.svg';
+import emptydot from '@assets/empty-dot.svg';
+import add_colored from '@assets/add_colored.svg';
+import ellipsis_vertical2 from '@assets/ellipsis-vertical2.svg';
+import share2 from '@assets/share2.svg';
 
 import Example from './example';
 
