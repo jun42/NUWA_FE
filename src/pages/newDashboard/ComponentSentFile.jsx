@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
   Text,
@@ -14,58 +14,29 @@ import {
   Td,
 } from '@chakra-ui/react';
 import FilesIconTitle from '@assets/files_icon.svg';
-const mockFiles = [
-  {
-    id: 1,
-    name: 'report.pdf',
-    date: '2023-02-01',
-    type: 'jpg파일',
-    size: '122KB',
-  },
-  {
-    id: 2,
-    name: 'invoice.pdf',
-    date: '2023-02-05',
-    type: 'jpg파일',
-    size: '122KB',
-  },
-  {
-    id: 3,
-    name: 'presentation.pptx',
-    date: '2023-02-10',
-    type: 'jpg파일',
-    size: '122KB',
-  },
-  {
-    id: 3,
-    name: 'presentation.pptx',
-    date: '2023-02-10',
-    type: 'jpg파일',
-    size: '122KB',
-  },
-  {
-    id: 3,
-    name: 'presentation.pptx',
-    date: '2023-02-10',
-    type: 'jpg파일',
-    size: '122KB',
-  },
-  {
-    id: 3,
-    name: 'presentation.pptx',
-    date: '2023-02-10',
-    type: 'jpg파일',
-    size: '122KB',
-  },
-];
+import { useParams } from 'react-router-dom';
+import { getTopFiles } from '../../apis/dashboard/getTopFiles';
 
 const ComponentSentfile = () => {
   const [files, setFiles] = useState([]);
+  const { workSpaceId } = useParams();
 
   useEffect(() => {
-    //api 호출시 대체 로직 구현예정
-    setFiles(mockFiles);
-  }, []);
+    const loadTopSevenFiles = async () => {
+      try {
+        const response = await getTopFiles(workSpaceId);
+        if (response.data.status === 'success') {
+          setFiles(response.data.data);
+        } else {
+          console.error('파일 정보를 불러오는 데 실패했습니다.');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadTopSevenFiles();
+  }, [workSpaceId]);
 
   return (
     <>
@@ -98,10 +69,10 @@ const ComponentSentfile = () => {
             {files.length > 0 ? (
               files.map((file, index) => (
                 <Tr key={index}>
-                  <Td>{file.name}</Td>
-                  <Td>{file.date}</Td>
-                  <Td>{file.type}</Td>
-                  <Td>{file.size}</Td>
+                  <Td>{file.fileName}</Td>
+                  <Td>{file.createdAt}</Td>
+                  <Td>{file.fileExtension}</Td>
+                  <Td>{file.fileSize}</Td>
                 </Tr>
               ))
             ) : (

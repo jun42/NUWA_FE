@@ -6,7 +6,6 @@ import ComponentDirect from './ComponentDirect';
 import ComponentFavorite from './ComponentFavorite';
 import ComponentCalendar from './ComponentCalendar';
 import { Flex, Box } from '@chakra-ui/react';
-import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
 const dashBoard = () => {
   return (

@@ -7,7 +7,7 @@ const ProfileModal = ({ isOpen, onClose, profile, onSave }) => {
   if (!isOpen) return null;
   return (
     <StModal
-      isopen={isOpen}
+      isOpen={isOpen}
       onClose={onClose}
       modalTitle="프로필"
       width="520px"

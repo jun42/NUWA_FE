@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { updateProfile } from '../../../apis/dashboard/updateProfile';
 import {
   Button,
   FormControl,
@@ -19,6 +20,7 @@ import Ban from '@assets/ban.png';
 import Sleeping from '@assets/sleeping.png';
 import Offline from '@assets/offline.png';
 import { ChevronDownIcon } from '@chakra-ui/icons';
+import { useParams } from 'react-router-dom';
 
 const EditableField = ({
   label,
@@ -28,7 +30,7 @@ const EditableField = ({
   color = '#434343',
   fontWeight = 'normal',
 }) => {
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = useState(initialValue || '');
   const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef(null);
 
@@ -159,7 +161,7 @@ const UserStatusSelector = ({ initialStatus = 'active', onSave }) => {
 const ModalBody = ({ profile, onSave }) => {
   const [editedProfile, setEditedProfile] = useState(profile);
   const [userStatus, setUserStatus] = useState(profile.status);
-
+  const { workSpaceId } = useParams();
   const [imagePreview, setImagePreview] = useState(profile.image?.url || '');
   const fileInputRef = useRef(null);
 
@@ -193,9 +195,23 @@ const ModalBody = ({ profile, onSave }) => {
     onSave({ ...profile, [field]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSave(editedProfile);
+
+    const profileData = {
+      workSpaceMemberName: editedProfile.name,
+      workSpaceMemberJob: editedProfile.position,
+      workSpaceMemberImage: editedProfile.imageUrl, // 이미지 처리 로직에 따라 조정될 수 있음
+    };
+
+    try {
+      await updateProfile(workSpaceId, profileData);
+      onSave(editedProfile); // 상위 컴포넌트에 변경 사항을 알림
+      alert('프로필이 성공적으로 업데이트 되었습니다.'); // 사용자에게 성공 메시지 표시
+    } catch (error) {
+      console.error(error);
+      alert('프로필 업데이트에 실패했습니다.'); // 사용자에게 실패 메시지 표시
+    }
   };
 
   return (
@@ -226,7 +242,7 @@ const ModalBody = ({ profile, onSave }) => {
 
       <EditableField
         initialValue={profile.position}
-        onSave={(value) => handleFieldSave('position', value)}
+        onChange={(value) => handleFieldChange('position', value)}
         fontSize="md"
         fontWeight="bold"
       />
@@ -244,12 +260,12 @@ const ModalBody = ({ profile, onSave }) => {
       </Flex>
       <EditableField
         initialValue={profile.email}
-        onSave={(value) => handleFieldSave('email', value)}
+        onChange={(value) => handleFieldChange('email', value)}
         fontSize="md"
       />
       <EditableField
         initialValue={profile.phone}
-        onSave={(value) => handleFieldSave('phone', value)}
+        onChange={(value) => handleFieldChange('phone', value)}
         fontSize="md"
       />
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import BorderCircle from '@assets/border_circle.svg';
 import {
   Box,
@@ -11,31 +11,55 @@ import {
 } from '@chakra-ui/react';
 import ProfileModal from '@components/Modal/ProfileEdit/index.jsx';
 import useModal from '@hooks/useModal';
-
-const mockUserInfo = {
-  imageUrl: 'https://via.placeholder.com/100',
-  name: '김뿌꾸님',
-  position: '직무를 입력하세요',
-  email: 'khs43833@gmail.com',
-  phone: '010-3571-0000',
-};
+import { useParams } from 'react-router-dom';
+import { request } from '../../apis/axios/axios';
 
 const ComponentLogin = () => {
-  const [userInfo, setUserInfo] = useState(mockUserInfo);
+  const { workSpaceId } = useParams();
+  const [userInfo, setUserInfo] = useState(null);
   const { isOpen, onOpen, onClose } = useModal();
 
-  //api 호출시 대체 로직 구현예정
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await request.get(`/workspace/${workSpaceId}/member`);
+        if (response.data.status === 'success') {
+          setUserInfo({
+            imageUrl:
+              response.data.data.image ||
+              'https://search.pstatic.net/sunny/?src=http%3A%2F%2Fthumbnail.10x10.co.kr%2Fwebimage%2Fimage%2Fadd2_600%2F141%2FA001410223_02.jpg%3Fcmd%3Dthumb%26w%3D500%26h%3D500%26fit%3Dtrue%26ws%3Dfalse&type=sc960_832', // 이미지가 없는 경우 대체 이미지 사용
+            name: response.data.data.name,
+            position: response.data.data.job,
+            email: response.data.data.email,
+            phone: response.data.data.phoneNumber,
+          });
+        } else {
+          throw new Error('프로필 정보를 불러올 수 없습니다.');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUserProfile();
+  }, [workSpaceId]);
+
   const handleProfileSave = (updatedProfile) => {
     setUserInfo(updatedProfile);
     onClose();
   };
+
+  // 프로필 정보가 로딩 중이거나 조회되지 않았을 경우의 처리
+  if (!userInfo) {
+    return <div>Loading</div>;
+  }
 
   return (
     <>
       <Flex
         flexFlow={'column'}
         height={'100%'}
-        // border={'1px solid red'}
+        border={'1px solid red'}
         align={'center'}
         justify={'center'}
         marginTop={'10px'}
@@ -44,7 +68,7 @@ const ComponentLogin = () => {
           position="relative"
           width="150px"
           height="140px"
-          //border={'1px solid green'}
+          border={'1px solid green'}
         >
           <Image src={BorderCircle} alt="Background SVG" boxSize="100%" />
           <Image
@@ -52,7 +76,7 @@ const ComponentLogin = () => {
             borderRadius="full"
             boxSize="110px"
             src={userInfo.imageUrl}
-            alt="프로필사진"
+            alt=""
             top="50%"
             left="50%"
             transform="translate(-50%, -50%)"
@@ -71,7 +95,7 @@ const ComponentLogin = () => {
             top={'60%'}
             left={'70%'}
           >
-            99
+            2
           </Box>
         </Box>
         <Flex
@@ -79,7 +103,7 @@ const ComponentLogin = () => {
           width={'100%'}
           align={'center'}
           gap={'8px'}
-          //border={'1px solid blue'}
+          border={'1px solid blue'}
         >
           <Box align={'center'}>
             <Text fontSize="20px" fontWeight={'700'}>
