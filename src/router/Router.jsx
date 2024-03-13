@@ -34,6 +34,7 @@ import AddUser from '@pages/addUser/AddUser';
 
 import { getDirectChatRoomInfo } from '@apis/chat/chat';
 import { getWorkspaceUserProfile } from '../apis/workspace/workspaceProfile';
+import ErrorBoundary from '../components/Error/ErrorBoundary';
 
 export const Router = createBrowserRouter([
   {
@@ -129,6 +130,7 @@ export const Router = createBrowserRouter([
       {
         path: '/workspace/:workSpaceId',
         element: <WorkspaceLayout />,
+        // errorElement: <ErrorBoundary />,
         children: [
           {
             element: <DashBoard />,

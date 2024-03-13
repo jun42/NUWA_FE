@@ -7,11 +7,11 @@ import { createWorkspaceNameSlice } from './createWorkspaceNameSlice';
 import { createUserAuthSlice } from './userAuthSlice';
 import { createDirectMessageSlice } from './socketPubSlice';
 
-const persistKeys = ['email', 'provider', 'workspace'];
+const persistKeys = ['email', 'provider', 'workspace', 'isLoggedIn'];
 
 const persistOption = {
   name: 'NUWA-Storage', // name of the item in the storage (must be unique)
-  storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
+  storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
   partialize: (state) =>
     Object.fromEntries(
       Object.entries(state).filter(([key]) => persistKeys.includes(key))
