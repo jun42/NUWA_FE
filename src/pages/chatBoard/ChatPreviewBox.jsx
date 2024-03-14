@@ -24,7 +24,7 @@ const ChatPreviewBox = ({
     useWorkspaceUserProfileQuery(workSpaceId);
 
   const conversationPartner =
-    currentUserWorkspaceProfile.id === joinMemberId
+    currentUserWorkspaceProfile?.id === joinMemberId
       ? createMemberName
       : joinMemberName;
   let time;

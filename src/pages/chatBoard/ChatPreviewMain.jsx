@@ -5,8 +5,12 @@ import ReactQuill from 'react-quill';
 
 const ChatPreviewMain = ({ lastMessage, conversationPartner }) => {
   const Delta = Quill.import('delta');
-  const lastMessageObject = JSON.parse(lastMessage);
-  console.log(lastMessageObject);
+  let lastMessageObject;
+  if (lastMessage === '삭제된 메세지입니다.') {
+    lastMessageObject = [{ insert: lastMessage }];
+  } else {
+    lastMessageObject = JSON.parse(lastMessage);
+  }
   let defaultValue;
   if (lastMessageObject === null) {
     defaultValue = new Delta().insert('대화가 없습니다.');

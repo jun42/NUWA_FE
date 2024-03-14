@@ -37,51 +37,37 @@ import Channel from './Channel';
 import WorkSpaceModalEdit from '@components/Modal/WorkspaceEdit';
 import useModal from '@hooks/useModal';
 import { useNavigate, useParams } from 'react-router-dom';
+import { fetchChatChannelList } from '@apis/channel/channel';
 
 const SideBar = () => {
   const navigate = useNavigate();
   const { workSpaceId } = useParams();
-  const chData = [
-    {
-      chName: 'FE-정보공유',
-      chType: 'chat',
-    },
-    {
-      chName: 'BE-정보공유',
-      chType: 'chat',
-    },
-    {
-      chName: 'UI-정보공유',
-      chType: 'chat',
-    },
-    {
-      chName: 'UI-정보공유',
-      chType: 'chat',
-    },
-    {
-      chName: 'UI-정보공유',
-      chType: 'chat',
-    },
-  ];
+
+  const [chatChList, setChatChList] = useState([]);
+  useEffect(() => {
+    fetchChatChannelList({ workSpaceId }).then((r) => setChatChList(r.content));
+  }, []);
+  console.log(chatChList)
+
   const chData2 = [
     {
-      chName: 'FE-회의실',
+      name: 'FE-회의실',
       chType: 'voice',
     },
     {
-      chName: 'BE-회의실',
+      name: 'BE-회의실',
       chType: 'voice',
     },
     {
-      chName: 'UI-회의실',
+      name: 'UI-회의실',
       chType: 'voice',
     },
     {
-      chName: 'UI-회의실',
+      name: 'UI-회의실',
       chType: 'voice',
     },
     {
-      chName: 'UI-회의실',
+      name: 'UI-회의실',
       chType: 'voice',
     },
   ];
@@ -325,7 +311,7 @@ const SideBar = () => {
 
           <Divider color="white" />
 
-          <Channel type={'chat'} data={chData} />
+          <Channel type={'chat'} data={chatChList} />
           <Channel type={'voice'} data={chData2} />
         </Box>
       </Box>
