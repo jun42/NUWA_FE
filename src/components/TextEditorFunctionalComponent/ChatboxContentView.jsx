@@ -3,10 +3,15 @@ import ReactQuill, { Quill } from 'react-quill';
 import ChatBoxQuill from './ChatBoxQuill';
 import { useRef, useState } from 'react';
 
-const ChatboxContentView = ({ content }) => {
+const ChatboxContentView = ({ content, isDeleted }) => {
   const Delta = Quill.import('delta');
-  const defaultValue = new Delta({ ops: JSON.parse(content) });
-
+  // console.log(content, isDeleted);
+  let defaultValue;
+  if (isDeleted) {
+    defaultValue = new Delta().insert('삭제된 메시지입니다.');
+  } else {
+    defaultValue = new Delta({ ops: JSON.parse(content) });
+  }
   const quillRef = useRef();
   const [range, setRange] = useState();
   const [lastChange, setLastChange] = useState();

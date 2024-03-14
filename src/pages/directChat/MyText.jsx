@@ -1,11 +1,35 @@
 import { Box, Flex } from '@chakra-ui/react';
 import ChatboxContentView from '@components/TextEditorFunctionalComponent/ChatboxContentView';
+import { useState } from 'react';
+import MyTextMenu from '@components/Menu/MyTextMenu';
 
-const MyText = ({ content }) => {
+const MyText = ({ content, deleteSocketMessage, messageId, isDeleted }) => {
+  const [isHover, setIsHover] = useState(false);
   return (
-    <Flex width={'100%'} justifyContent={'flex-end'} py="0.25rem" px={'1rem'}>
+    <Flex
+      width={'100%'}
+      justifyContent={'flex-end'}
+      gap={'0.25rem'}
+      py="0.25rem"
+      px={'1rem'}
+      _hover={{ backgroundColor: 'gray.50' }}
+      rounded={'lg'}
+      onMouseEnter={() => {
+        setIsHover(true);
+      }}
+      onMouseLeave={() => {
+        setIsHover(false);
+      }}
+    >
+      {isHover && (
+        <MyTextMenu
+          isDeleted={isDeleted}
+          deleteSocketMessage={deleteSocketMessage}
+          messageId={messageId}
+        />
+      )}
       <Box borderRadius={'10px'} width={'45%'} bg={'primary.100'} py={'1px'}>
-        <ChatboxContentView content={content} />
+        <ChatboxContentView content={content} isDeleted={isDeleted} />
       </Box>
     </Flex>
   );
