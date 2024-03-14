@@ -22,7 +22,7 @@ import { request } from '@apis/axios/axios';
 //     });
 //   };
 
-export const getAlarms = async (workSpaceId, page = 0, size = 10, sortBy = "createdAt", sortOrder = "asc") => {
+export const getAlarms = async (workSpaceId, page = 0, size = 100, sortBy = "createdAt", sortOrder = "asc") => {
     try {
       const response = await request.get(`/notification/${workSpaceId}`, {
         params: {

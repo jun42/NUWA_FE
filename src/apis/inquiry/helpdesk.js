@@ -14,7 +14,7 @@ export const sendHelpDeskMail = async (emailData, files) => {
     files.forEach(file => formData.append("fileList", file));
     try {
       const response = await imgRequest.post('/mail/attached', formData,{
-        timeout: 10000,
+        timeout: 5000,
     });
       return response.data;
     } catch (error) {
