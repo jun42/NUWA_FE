@@ -2,7 +2,7 @@ import { request } from '../axios/axios';
 import { axiosImgInstance } from '../axios/axiosImage';
 
 export const getAllFiles = ({ workSpaceId }) => {
-  return request.get(`/file/${workSpaceId}`);
+  return request.get(`/file/${workSpaceId}?size=100`);
 };
 
 //zip pdf png jpg jpeg svg gif

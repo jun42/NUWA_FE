@@ -5,7 +5,6 @@ import ellipsis_vertical from '@assets/ellipsis-vertical.svg';
 import illustratorIcon from '@assets/illustratorIcon.svg';
 import nofile from '@assets/nofile.png';
 
-
 import {
   Button,
   ButtonGroup,
@@ -140,13 +139,34 @@ const Files = () => {
   dateList.sort(compareDates);
 
   const filterByDate = (date) => {
-    return fileList.filter((file) => {
+    const fbd = fileList.filter((file) => {
       return file.createdAt.substring(0, 10) === date;
     });
+    return { date: date, content: fbd };
   };
+
   function removeLeadingZero(number) {
     return String(number).replace(/^0+/, '');
   }
+
+  const [currentPage, setCurrentPage] = useState([]);
+  const filesPerPage = 10;
+  // 파일 목록을 페이지별로 분할하는 함수
+  const paginateFiles = (files) => {
+    const filesStack = [];
+    for (let i = 0; i < files.length; i += filesPerPage) {
+      filesStack.push(files.slice(i, i + filesPerPage));
+    }
+    return filesStack;
+  };
+
+  // 더보기 버튼을 클릭할 때 호출되는 함수
+  const loadMoreFiles = (index) => {
+    setCurrentPage((prevPages) => {
+      // 인덱스 위치의 currentPage를 1 증가시킴
+      return prevPages.map((page, i) => (i === index ? page + 1 : page));
+    });
+  };
 
   //이름 순 정렬
   function getInitial(text) {
@@ -214,10 +234,12 @@ const Files = () => {
   // initialList.sort((a, b) => a.localeCompare(b));
   //숫자 알파벳 한글 순
   initialList.sort();
+
   const filterByInitial = (initial) => {
-    return fileList.filter((file) => {
+    const fbi = fileList.filter((file) => {
       return getInitial(file.fileName).toLowerCase() === initial;
     });
+    return { initial: initial, content: fbi };
   };
 
   //크기 순 정렬
@@ -231,10 +253,12 @@ const Files = () => {
     }
   }
   extensionList.sort();
+
   const filterByExtension = (extension) => {
-    return fileList.filter((file) => {
+    const fbe = fileList.filter((file) => {
       return file.fileExtension === extension;
     });
+    return { extension: extension, content: fbe };
   };
 
   const sortFiles = (sort) => {
@@ -315,10 +339,24 @@ const Files = () => {
       ? filterByUsers(sortFiles(sortBy))
       : sortFiles(sortBy);
 
-  const renderFilesByCheckedUsers = (files) => {
+  useEffect(() => {
+    setCurrentPage([]);
+  }, [sortBy]);
+
+  const renderFiles = (files, list, index) => {
+    if (!currentPage.length) {
+      if (list) setCurrentPage(Array(list.length).fill(0));
+      else setCurrentPage([0]);
+    }
+    const stack = paginateFiles(files);
+    let renderedFiles = [];
+    for (let i = 0; i <= currentPage[index]; i++) {
+      const pageFiles = stack[i] || [];
+      renderedFiles = [...renderedFiles, ...pageFiles];
+    }
     return (
       <Wrap spacing="40px">
-        {files.map((x, index) => (
+        {renderedFiles.map((x, index) => (
           <FileBox
             key={index}
             fileName={x.fileName}
@@ -329,12 +367,19 @@ const Files = () => {
             fileUrl={x.fileUrl}
           />
         ))}
+        {currentPage[index] < stack.length - 1 && (
+          <Button onClick={() => loadMoreFiles(index)}>더보기</Button>
+        )}
       </Wrap>
     );
   };
   const renderFilesBySortType = () => {
     switch (sortBy) {
       case 'date':
+        const fbdList = [];
+        dateList.map((item) => {
+          fbdList.push(filterByDate(item));
+        });
         return dateList.map((item, index) => (
           <Box m="64px 0" key={index}>
             <Text fontSize="22px" fontWeight="500" color="#656565" mb="27px">
@@ -342,46 +387,67 @@ const Files = () => {
               {removeLeadingZero(item.substring(8))}일
             </Text>
             {checkedUsers.length > 0
-              ? renderFilesByCheckedUsers(filterByUsers(filterByDate(item)))
-              : renderFilesByCheckedUsers(filterByDate(item))}
+              ? renderFiles(
+                  filterByUsers(fbdList[index].content),
+                  fbdList,
+                  index
+                )
+              : renderFiles(fbdList[index].content, fbdList, index)}
           </Box>
         ));
       case 'name':
+        const fbiList = [];
+        initialList.map((item) => {
+          fbiList.push(filterByInitial(item));
+        });
+        console.log('um', fbiList);
         return initialList.map((item, index) => (
           <Box m="64px 0" key={index}>
             <Text fontSize="22px" fontWeight="500" color="#656565" mb="27px">
               {item}
             </Text>
             {checkedUsers.length > 0
-              ? renderFilesByCheckedUsers(filterByUsers(filterByInitial(item)))
-              : renderFilesByCheckedUsers(filterByInitial(item))}
+              ? renderFiles(
+                  filterByUsers(fbiList[index].content),
+                  fbiList,
+                  index
+                )
+              : renderFiles(fbiList[index].content, fbiList, index)}
           </Box>
         ));
       case 'size':
         return fileList.length > 0 ? (
           <Box m="64px 0">
             {checkedUsers.length > 0
-              ? renderFilesByCheckedUsers(filterByUsers(sortedBySize))
-              : renderFilesByCheckedUsers(sortedBySize)}
+              ? renderFiles(filterByUsers(sortedBySize), null, 0)
+              : renderFiles(sortedBySize, null, 0)}
           </Box>
         ) : null;
       case 'type':
+        const fbeList = [];
+        extensionList.map((item) => {
+          fbeList.push(filterByExtension(item));
+        });
         return extensionList.map((item, index) => (
           <Box m="64px 0" key={index}>
             <Text fontSize="22px" fontWeight="500" color="#656565" mb="27px">
               {item}
             </Text>
             {checkedUsers.length > 0
-              ? renderFilesByCheckedUsers(
-                  filterByUsers(filterByExtension(item))
+              ? renderFiles(
+                  filterByUsers(fbeList[index].content),
+                  fbeList,
+                  index
                 )
-              : renderFilesByCheckedUsers(filterByExtension(item))}
+              : renderFiles(fbeList[index].content, fbeList, index)}
           </Box>
         ));
       default:
         return null;
     }
   };
+
+  console.log(fileList);
 
   return (
     <Flex w="100%">
