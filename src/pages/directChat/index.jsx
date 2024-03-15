@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Box } from '@chakra-ui/react';
 import { useLoaderData, useParams } from 'react-router-dom';
 
@@ -17,9 +17,10 @@ import useChatBoxScrollToBottom from '@hooks/directChat/useChatBoxScrollToBottom
 const DirectChatPage = () => {
   const { chatRoomInfo, userProfile } = useLoaderData();
   const { roomId, workSpaceId } = useParams();
+  let totalMessageList = [];
 
   // define receiver
-  let userId = userProfile.id;
+  let userId = userProfile?.id;
   let receiverId;
   let receiverName;
   if (chatRoomInfo.createMemberId === userId) {
@@ -35,56 +36,111 @@ const DirectChatPage = () => {
     useDirectChatMessageListQuery(roomId);
   useChatBoxScrollToBottom(chatBoxRef, directChatMessageList);
 
-  const { publish, socketMessageList } = useSocketInit(
-    roomId,
-    userId,
-    workSpaceId,
-    receiverId
-  );
+  const {
+    publish,
+    socketMessageList,
+    setSocketMessageList,
+    deleteSocketMessage,
+    socketMessageDeleteList,
+    setSocketMessageDeleteList,
+  } = useSocketInit(roomId, workSpaceId, receiverId);
   useChatBoxScroll(chatBoxRef, socketMessageList);
+
+  totalMessageList = [...directChatMessageList, ...socketMessageList];
+  // 서로 다른 뷰 까지 고려해야함
+  useEffect(() => {
+    if (socketMessageDeleteList.length !== 0) {
+      setSocketMessageList((state) => {
+        const newState = [...state];
+        for (let deleteItem of socketMessageDeleteList) {
+          newState.forEach((item) => {
+            if (item.messageId === deleteItem.id) {
+              item.createdAt = item.createdAt + 'delete';
+              item.isDeleted = true;
+              item.content = deleteItem.content;
+            }
+            return item;
+          });
+        }
+        return newState;
+      });
+      if (directChatMessageList.length > 0) {
+        for (let deleteItem of socketMessageDeleteList) {
+          directChatMessageList.forEach((item) => {
+            if (item.messageId === deleteItem.id) {
+              item.createdAt = item.createdAt + 'delete';
+              item.isDeleted = true;
+              item.content = deleteItem.content;
+            }
+            return item;
+          });
+        }
+      }
+
+      setSocketMessageDeleteList([]);
+    }
+  }, [socketMessageDeleteList, setSocketMessageDeleteList]);
+
   return (
-    <Box width="100%" p={'0.5rem'}>
+    <Box
+      width="100%"
+      px={'0.5rem'}
+      height={'100%'}
+      display={'flex'}
+      flexDirection={'column'}
+      flexGrow={0}
+      gap={'0.25rem'}
+    >
       {
         <>
           <DirectChatHeader receiverName={receiverName} />
           <Box
-            minH={'50vh'}
-            maxH={'70vh'}
-            border={'1px'}
+            display={'flex'}
+            flexDirection={'column'}
+            justifyContent={'flex-start'}
+            maxH={'100%'}
             overflowY={'scroll'}
             ref={chatBoxRef}
-            // onScroll={(e) => {
-            //   console.log(e.target.scrollHeight);
-            // }}
+            css={{
+              '&::-webkit-scrollbar': {
+                width: '10px',
+              },
+              '&::-webkit-scrollbar-track': {
+                width: '6px',
+                backgroundColor: '#FCFCFC',
+                borderRadius: '10px',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                borderRadius: '10px',
+                backgroundColor: '#d6d6d6',
+              },
+            }}
           >
             {!directChatMessageListIsLoading &&
-              directChatMessageList.map((body) => {
+              totalMessageList.map((body) => {
                 if (userId === body.senderId) {
-                  return <MyText key={body.createdAt} content={body.content} />;
+                  return (
+                    <MyText
+                      key={body.createdAt}
+                      content={body.content}
+                      deleteSocketMessage={deleteSocketMessage}
+                      messageId={body.messageId}
+                      isDeleted={body.isDeleted}
+                    />
+                  );
                 } else {
                   return (
                     <YourText
                       key={body.createdAt}
                       content={body.content}
                       senderName={body.senderName}
+                      deleteSocketMessage={deleteSocketMessage}
+                      messageId={body.messageId}
+                      isDeleted={body.isDeleted}
                     />
                   );
                 }
               })}
-            {/* socket message view */}
-            {socketMessageList.map((body) => {
-              if (userId === body.senderId) {
-                return <MyText key={body.createdAt} content={body.content} />;
-              } else {
-                return (
-                  <YourText
-                    key={body.createdAt}
-                    content={body.content}
-                    senderName={body.senderName}
-                  />
-                );
-              }
-            })}
           </Box>
           <TextEditor publish={publish} channelId={chatRoomInfo.channelId} />
         </>

@@ -34,8 +34,9 @@ import AddUser from '@pages/addUser/AddUser';
 import CalenderPage from '@pages/calender';
 
 import { getDirectChatRoomInfo } from '@apis/chat/chat';
-import { getWorkspaceUserProfile } from '../apis/workspace/workspaceProfile';
-import ErrorBoundary from '../components/Error/ErrorBoundary';
+import { getWorkspaceUserProfile } from '@apis/workspace/workspaceProfile';
+import ErrorBoundary from '@components/Error/ErrorBoundary';
+import GroupChatPage from '@pages/groupChat';
 
 export const Router = createBrowserRouter([
   {
@@ -179,6 +180,10 @@ export const Router = createBrowserRouter([
             element: <AddUser />,
           },
           { path: '/workspace/:workSpaceId/files', element: <Files /> },
+          {
+            path: '/workspace/:workSpaceId/groupChat/:roomId/:channelId',
+            element: <GroupChatPage />,
+          },
         ],
       },
     ],
