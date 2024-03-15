@@ -3,7 +3,7 @@ import { Outlet, useParams } from 'react-router-dom';
 import SideBar from '../SideBar/SideBar';
 import WorkspaceHeader from '@components/Header/WorkspaceHeader.jsx';
 import useAuthGuard from '@hooks/auth/useAuthGuard';
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import useWorkspaceMemberGuard from '@hooks/auth/useWorkspaceMemberGuard';
 import { jwtDecode } from 'jwt-decode';
 import { getToken } from '../../utils/auth';
@@ -14,8 +14,10 @@ const WorkspaceLayout = () => {
   //todo 401 handling
 
   const { workSpaceId } = useParams();
+  console.log(workSpaceId, '111111111111111111111111');
   const email = jwtDecode(getToken()).sub;
 
+  const [alarmList, setAlarmList] = useState([]);
   useEffect(() => {
     const address = `${import.meta.env.VITE_SERVER_ADDRESS}/notification`;
     const params = `?email=${email}&workSpaceId=${workSpaceId}`;
@@ -29,6 +31,7 @@ const WorkspaceLayout = () => {
     eventSource.onmessage = function (event) {
       // 서버로부터 메시지 수신 시 콘솔에 출력
       console.log('Received message: ', event.data);
+      setAlarmList((prev) => [...prev, event.data]);
     };
     eventSource.onerror = function (error) {
       console.error('EventSource failed:', error);
@@ -38,6 +41,7 @@ const WorkspaceLayout = () => {
       eventSource.close();
     };
   }, []);
+
   return (
     <Fragment>
       {isAuthChecked && isMemberChecked ? (
@@ -45,7 +49,7 @@ const WorkspaceLayout = () => {
           <WorkspaceHeader />
           <Flex h="calc(100% - 60px)">
             <SideBar />
-            <Outlet />
+            <Outlet context={{ alarmList }} />
           </Flex>
         </Box>
       ) : (

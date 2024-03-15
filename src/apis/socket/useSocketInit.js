@@ -3,8 +3,18 @@ import { getToken } from '@utils/auth';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { disconnectDirectChatSocket } from '@apis/chat/chat';
+import { makeLazyPublish } from './publish';
+import { subscribeHandler } from './subscribeHandler';
 
-const useSocketInit = (roomId, workSpaceId, receiverId) => {
+/**
+ *
+ * @param {*} roomId  uuid
+ * @param {*} workSpaceId number string
+ * @param {*} receiverId  number string
+ * @param {string} channelType  chat direct voice
+ * @returns
+ */
+const useSocketInit = (roomId, workSpaceId, receiverId, channelType) => {
   const [publish, setPublish] = useState(null);
   const [deleteSocketMessage, setDeleteSocketMessage] = useState(null);
   const [socketMessageList, setSocketMessageList] = useState([]);
@@ -17,8 +27,9 @@ const useSocketInit = (roomId, workSpaceId, receiverId) => {
   // console.log('AUTHHEADER', authHeader);
   const headers = {
     ...authHeader,
-    channelType: 'direct',
+    channelType: channelType,
     channelRoomId: roomId,
+    workSpaceId,
   };
 
   useEffect(() => {
@@ -40,23 +51,15 @@ const useSocketInit = (roomId, workSpaceId, receiverId) => {
         // Note that the URL is different from the WebSocket URL
         return new SockJS(`${import.meta.env.VITE_SERVER_SOCKJS_SOCKET}`);
       };
-      // }
       client.onConnect = function (frame) {
         console.log('[STOMP ON CONNECT]', frame);
         client.subscribe(
           `/sub/direct/${roomId}`,
-          (message) => {
-            console.log('SUBSCRIBE MESSAGE : ', message.body);
-            const bodyObject = JSON.parse(message.body);
-            if (bodyObject.messageType === 'ENTER') {
-              console.log('Enter sub');
-            } else if (bodyObject.messageType === 'DELETE') {
-              console.log(bodyObject, socketMessageList);
-              setSocketMessageDeleteList((state) => [...state, bodyObject]);
-            } else {
-              setSocketMessageList((state) => [...state, bodyObject]);
-            }
-          },
+          subscribeHandler(
+            socketMessageList,
+            setSocketMessageList,
+            setSocketMessageDeleteList
+          ),
           authHeader
         );
         // Do something, all subscribes must be done is this callback
@@ -71,33 +74,15 @@ const useSocketInit = (roomId, workSpaceId, receiverId) => {
           }),
         });
         // send 메시지 세팅
-        const publishInfo = {
-          destination: '/pub/direct/send',
-          headers: authHeader,
-          body: {
-            workSpaceId: workSpaceId,
-            roomId: roomId,
-            receiverId: receiverId,
-            content: '',
-            messageType: '',
-            rawString: '',
-          },
-        };
-        const lazyPublish = () => {
-          return (content, messageType = 'TEXT', rawString) => {
-            const newInfo = { ...publishInfo };
-            newInfo.body = JSON.stringify({
-              ...newInfo.body,
-              content: content,
-              messageType: messageType,
-              rawString: rawString,
-            });
-            // console.log('INFO', newInfo);
-            client.publish(newInfo);
-          };
-        };
-        console.log('SET PUBLISH');
-        setPublish((state) => lazyPublish());
+
+        makeLazyPublish(
+          authHeader,
+          workSpaceId,
+          roomId,
+          receiverId,
+          client,
+          setPublish
+        );
 
         // 이미지나 파일은 삭제만
         const deleteInfo = {
