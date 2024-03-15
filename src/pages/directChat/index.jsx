@@ -5,8 +5,8 @@ import { useLoaderData, useParams } from 'react-router-dom';
 import DirectChatHeader from './DirectChatHeader';
 import MyText from './MyText';
 import YourText from './YourText';
-import useSocketInit from './useSocketInit';
 
+import useSocketInit from '@apis/socket/useSocketInit';
 import TextEditor from '@components/TextEditorFunctionalComponent/TextEditor';
 
 import { useDirectChatMessageListQuery } from '@queries/workSpace/directChatMessageList';
@@ -43,7 +43,7 @@ const DirectChatPage = () => {
     deleteSocketMessage,
     socketMessageDeleteList,
     setSocketMessageDeleteList,
-  } = useSocketInit(roomId, workSpaceId, receiverId);
+  } = useSocketInit(roomId, workSpaceId, receiverId, 'direct');
   useChatBoxScroll(chatBoxRef, socketMessageList);
 
   totalMessageList = [...directChatMessageList, ...socketMessageList];

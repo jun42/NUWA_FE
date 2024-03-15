@@ -6,8 +6,12 @@ import ComponentDirect from './ComponentDirect';
 import ComponentFavorite from './ComponentFavorite';
 import ComponentCalendar from './ComponentCalendar';
 import { Flex, Box } from '@chakra-ui/react';
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import { useOutletContext } from 'react-router-dom';
 
 const dashBoard = () => {
+  const { alarmList } = useOutletContext();
+  console.log('Alarm', alarmList);
   return (
     <StContainer>
       <Box display={'flex'} width={'100%'} height={'40%'} gap={'20px'}>
