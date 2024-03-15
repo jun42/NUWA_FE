@@ -5,20 +5,41 @@ import styled from 'styled-components';
 import ChatPreviewBox from './ChatPreviewBox';
 import { useParams, useNavigate } from 'react-router';
 import { useDirectChatRoomListQuery } from '@queries/chat/useDirectChatRoomList';
+import { useState } from 'react';
+import useDebounce from '../../hooks/useDebounce';
+import { searchDirectChatRoomList } from '@apis/chat/chat';
 
 //todo : 본인 프로필 이름 혹은 workspaceid로 본인인지 상대인지 확인
 const ChatPage = () => {
   const { workSpaceId } = useParams();
   const navigate = useNavigate();
-
   const {
     data: chatList,
     isFetching,
     isSuccess,
   } = useDirectChatRoomListQuery(workSpaceId);
+
+  const [workSpaceMemberName, setWorkSpaceMemberName] = useState('');
+  const [searchedChatList, setSearchedChatList] = useState([]);
+  const debounceRequest = useDebounce(() => {
+    searchDirectChatRoomList(workSpaceId, workSpaceMemberName).then((r) =>
+      setSearchedChatList(r.data.data.content)
+    );
+  }, 400);
+
+  let totalList;
+  if (workSpaceMemberName.length === 0 && isSuccess) {
+    totalList = [...chatList];
+  } else {
+    totalList = [...searchedChatList];
+  }
   return (
     <StContainer>
-      <ChatPageHeader />
+      <ChatPageHeader
+        workSpaceMemberName={workSpaceMemberName}
+        setWorkSpaceMemberName={setWorkSpaceMemberName}
+        debounceRequest={debounceRequest}
+      />
       <Stack>
         {isFetching ? (
           <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
@@ -31,8 +52,8 @@ const ChatPage = () => {
               height={'200px'}
             />
           </Box>
-        ) : isSuccess && chatList.length !== 0 ? (
-          chatList.map((chat) => {
+        ) : isSuccess && totalList.length !== 0 ? (
+          totalList.map((chat) => {
             return (
               <ChatPreviewBox
                 key={chat.roomId}
@@ -59,6 +80,27 @@ const ChatPage = () => {
             </Text>
           </Flex>
         )}
+        {/* {workSpaceMemberName.length !== 0 &&
+          searchedChatList.map((chat) => {
+            return (
+              <ChatPreviewBox
+                key={chat.roomId}
+                messageCreatedAt={chat.messageCreatedAt}
+                lastMessage={chat.lastMessage}
+                unReadCount={chat.unReadCount}
+                joinMemberName={chat.joinMemberName}
+                createMemberName={chat.createMemberName}
+                roomId={chat.roomId}
+                createMemberId={chat.createMemberId}
+                joinMemberId={chat.joinMemberId}
+                onClick={() => {
+                  navigate(
+                    `/workspace/${workSpaceId}/direct-chat/${chat.roomId}`
+                  );
+                }}
+              />
+            );
+          })} */}
       </Stack>
     </StContainer>
   );
