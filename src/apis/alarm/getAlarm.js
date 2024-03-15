@@ -22,18 +22,21 @@ import { request } from '@apis/axios/axios';
 //     });
 //   };
 
-export const getAlarms = async (workSpaceId, page = 0, size = 100, sortBy = "createdAt", sortOrder = "asc") => {
-    try {
-      const response = await request.get(`/notification/${workSpaceId}`, {
-        params: {
-          page,
-          size,
-          sortBy,
-          sortOrder
-        }
-      });
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  };
+
+// 알림 조회 API 로직을 별도의 함수로 정의
+export const fetchAlarms = async (workSpaceId, { page = 0, size = 10, sortBy = 'createdAt', sortOrder = 'asc' }) => {
+  try {
+    const response = await request.get(`/notification/v2/${workSpaceId}`, {
+      params: {
+        page,
+        size,
+        sortBy,
+        sortOrder,
+      },
+    });
+    return response.data; // 응답 데이터 반환
+  } catch (error) {
+    console.error('Error fetching alarms:', error);
+    throw error; // 오류 발생 시 예외 처리
+  }
+};

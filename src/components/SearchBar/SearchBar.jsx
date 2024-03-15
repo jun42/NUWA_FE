@@ -64,7 +64,7 @@ const SearchIcon = styled.button`
   border: none;
   cursor: pointer;
   padding: 0 10px;
-  color: #007bff;
+  color: #ffffff;
   font-size: 20px;
   display: flex;
   align-items: center;
