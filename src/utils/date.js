@@ -42,8 +42,6 @@ export const utcToKoreanTime = (utcTimeString) => {
     .toISOString()
     .replace(/T/, ' ')
     .replace(/\..+/, '');
-  console.log(utcTimeString);
-  console.log(koreaTimeString);
   return koreaTimeString;
 };
 
