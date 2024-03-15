@@ -13,11 +13,14 @@ import ProfileModal from '@components/Modal/ProfileEdit/index.jsx';
 import useModal from '@hooks/useModal';
 import { useParams } from 'react-router-dom';
 import { request } from '../../apis/axios/axios';
+import useBoundStor from '../../store/store';
 
 const ComponentLogin = () => {
   const { workSpaceId } = useParams();
+  const { workspace } = useBoundStor();
   const [userInfo, setUserInfo] = useState(null);
   const { isOpen, onOpen, onClose } = useModal();
+  const { workSpaceMemberImage } = workspace;
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -26,10 +29,10 @@ const ComponentLogin = () => {
         if (response.data.status === 'success') {
           setUserInfo({
             imageUrl:
-              response.data.data.image ||
+              workSpaceMemberImage ||
               'https://search.pstatic.net/sunny/?src=http%3A%2F%2Fthumbnail.10x10.co.kr%2Fwebimage%2Fimage%2Fadd2_600%2F141%2FA001410223_02.jpg%3Fcmd%3Dthumb%26w%3D500%26h%3D500%26fit%3Dtrue%26ws%3Dfalse&type=sc960_832', // 이미지가 없는 경우 대체 이미지 사용
             name: response.data.data.name,
-            position: response.data.data.job,
+            job: response.data.data.job,
             email: response.data.data.email,
             phone: response.data.data.phoneNumber,
           });
@@ -49,7 +52,6 @@ const ComponentLogin = () => {
     onClose();
   };
 
-  // 프로필 정보가 로딩 중이거나 조회되지 않았을 경우의 처리
   if (!userInfo) {
     return <div>Loading</div>;
   }
@@ -110,7 +112,7 @@ const ComponentLogin = () => {
               {userInfo.name}
             </Text>
             <Text fontSize="15px" fontWeight={'700'}>
-              {userInfo.position}
+              {userInfo.job}
             </Text>
           </Box>
 

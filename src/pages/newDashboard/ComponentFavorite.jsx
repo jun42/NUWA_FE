@@ -23,11 +23,12 @@ const ComponentFavorite = () => {
   useEffect(() => {
     const loadFavoriteTeamMembers = async () => {
       try {
-        const data = await favoriteMembers(workSpaceId);
-        if (data.status === 'success') {
-          setTeamMembers(data.data);
+        const response = await favoriteMembers(workSpaceId);
+        if (response.data.status === 'success') {
+          setTeamMembers(response.data.data);
         } else {
           console.error('즐겨찾는 팀원 정보를 불러오는 데 실패했습니다.');
+          console.log(data);
         }
       } catch (error) {
         console.error(error);
@@ -60,7 +61,7 @@ const ComponentFavorite = () => {
               icon={<ArrowLeftIcon />}
               bg="#FFFFFF"
               color="#D6D6D6"
-              //_hover={{ color: '#FFFFFF' }}
+              hover={{ color: '#FFFFFF' }}
             />
           )}
           {teamMembers.slice(0, 4).map((member) => (
@@ -89,7 +90,9 @@ const ComponentFavorite = () => {
               </Flex>
               <Flex flexFlow={'column'} alignItems={'center'}>
                 <Text fontSize="sm">{member.email}</Text>
-                <Text fontSize="sm">{member.phoneNumber}</Text>
+                <Text fontSize="sm" paddingTop={''}>
+                  {member.phoneNumber}
+                </Text>
               </Flex>
               <Flex gap={'10px'}>
                 <Image src={FavoriteCallIcon} />

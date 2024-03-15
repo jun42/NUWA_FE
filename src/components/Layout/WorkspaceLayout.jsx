@@ -16,6 +16,8 @@ const WorkspaceLayout = () => {
   const { workSpaceId } = useParams();
   const email = jwtDecode(getToken()).sub;
 
+  console.log(workSpaceId, email);
+
   useEffect(() => {
     const address = `${import.meta.env.VITE_SERVER_ADDRESS}/notification`;
     const params = `?email=${email}&workSpaceId=${workSpaceId}`;
