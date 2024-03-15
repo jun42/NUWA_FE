@@ -13,9 +13,8 @@ const MyTextMenu = ({ isDeleted, deleteSocketMessage, messageId }) => {
       <MenuButton
         as={IconButton}
         aria-label="Options"
-        icon={<BsThreeDotsVertical />}
+        icon={<BsThreeDotsVertical size={'1rem'} />}
         variant="ghost"
-        px={'1px'}
       />
       <MenuList>
         {!isDeleted && (

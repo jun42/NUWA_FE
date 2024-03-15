@@ -46,7 +46,7 @@ const AddDirectChatRoomModal = () => {
             <Stack height={'50vh'} overflowY={'scroll'}>
               {!memberListIsLoading &&
               !currentUserProfileIsLoading &&
-              memberList.length !== 1 ? (
+              memberList.length > 1 ? (
                 memberList
                   .filter((member) => {
                     return member.id !== currentUserWorkspaceProfile.id;
