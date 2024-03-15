@@ -3,6 +3,7 @@ import Section from './Section';
 
 export const StSection = styled(Section)`
 display: flex;
+width: 100%;
 flex-direction: column;
 justify-content: center;
 align-items: center;

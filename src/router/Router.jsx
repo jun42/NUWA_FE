@@ -31,6 +31,7 @@ import JoinMemberPage from '@pages/devJoinMember';
 import Todo from '@pages/todo/Todo';
 import FindChannel from '@pages/findChannel/FindChannel';
 import AddUser from '@pages/addUser/AddUser';
+import CalenderPage from '@pages/calender';
 
 import { getDirectChatRoomInfo } from '@apis/chat/chat';
 import { getWorkspaceUserProfile } from '../apis/workspace/workspaceProfile';
@@ -141,6 +142,10 @@ export const Router = createBrowserRouter([
           {
             path: '/workspace/:workSpaceId/todo',
             element: <Todo />,
+          },
+          {
+            path: '/workspace/:workSpaceId/calender',
+            element: <CalenderPage />,
           },
           {
             path: '/workspace/:workSpaceId/chatboard',
