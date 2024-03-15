@@ -17,7 +17,7 @@ export const useDirectChatMessageListQuery = (roomId) => {
     },
   });
   return {
-    directChatMessageList,
+    directChatMessageList: directChatMessageList ? directChatMessageList : [],
     isLoading,
   };
 };
