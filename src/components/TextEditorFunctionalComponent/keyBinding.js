@@ -1,5 +1,4 @@
 export const clearContentHandler = (range, context) => {
-  console.log(this.quill.getContents());
   this.quill.deleteText(0, this.quill.getLength());
 };
 

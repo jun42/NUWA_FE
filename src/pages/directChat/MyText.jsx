@@ -21,6 +21,9 @@ const MyText = ({ content, deleteSocketMessage, messageId, isDeleted }) => {
         setIsHover(false);
       }}
     >
+      <Box borderRadius={'10px'} width={'45%'} bg={'primary.100'} py={'1px'}>
+        <ChatboxContentView content={content} isDeleted={isDeleted} />
+      </Box>
       {isHover && (
         <MyTextMenu
           isDeleted={isDeleted}
@@ -28,9 +31,6 @@ const MyText = ({ content, deleteSocketMessage, messageId, isDeleted }) => {
           messageId={messageId}
         />
       )}
-      <Box borderRadius={'10px'} width={'45%'} bg={'primary.100'} py={'1px'}>
-        <ChatboxContentView content={content} isDeleted={isDeleted} />
-      </Box>
     </Flex>
   );
 };

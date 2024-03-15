@@ -9,9 +9,10 @@ const DirectChatHeader = ({ receiverName }) => {
   return (
     <Flex
       justifyContent={'space-between'}
-      p={'1rem'}
+      alignItems={'center'}
       borderBottom={'1px'}
       borderColor={'grey.300'}
+      padding={'0.5rem'}
     >
       <Flex gap={'1rem'}>
         <DirectChatHeaderIcon

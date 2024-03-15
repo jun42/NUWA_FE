@@ -6,8 +6,11 @@ import CreateChannel from '../Channel/CreateChannelModal';
 import arrowdown from '../../assets/arrowdown.svg';
 import chat_ch from '../../assets/chat_ch.svg';
 import voice_ch from '../../assets/voice_ch.svg';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Channel = ({ type, data }) => {
+  const navigate = useNavigate();
+  const { workSpaceId } = useParams();
   const [channelHidden, setChannelHidden] = useState(false);
   const handleChange = () => {
     setChannelHidden((prev) => !prev);
@@ -68,6 +71,12 @@ const Channel = ({ type, data }) => {
               width="100%"
               justifyContent="flex-start"
               backgroundColor="#f1f1f1"
+              onClick={() => {
+                console.log(x);
+                navigate(
+                  `/workspace/${workSpaceId}/groupChat/${x.roomId}/${x.channelId}`
+                );
+              }}
             >
               {type === 'chat' && (
                 <Image src={chat_ch} alt="" w="20px" h="21px" mr="20px" />

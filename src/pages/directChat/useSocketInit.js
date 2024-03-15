@@ -80,15 +80,17 @@ const useSocketInit = (roomId, workSpaceId, receiverId) => {
             receiverId: receiverId,
             content: '',
             messageType: '',
+            rawString: '',
           },
         };
         const lazyPublish = () => {
-          return (content, messageType = 'TEXT') => {
+          return (content, messageType = 'TEXT', rawString) => {
             const newInfo = { ...publishInfo };
             newInfo.body = JSON.stringify({
               ...newInfo.body,
               content: content,
               messageType: messageType,
+              rawString: rawString,
             });
             // console.log('INFO', newInfo);
             client.publish(newInfo);
@@ -97,6 +99,7 @@ const useSocketInit = (roomId, workSpaceId, receiverId) => {
         console.log('SET PUBLISH');
         setPublish((state) => lazyPublish());
 
+        // 이미지나 파일은 삭제만
         const deleteInfo = {
           destination: '/pub/direct/delete',
           headers: authHeader,

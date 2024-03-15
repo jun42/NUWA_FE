@@ -1,3 +1,7 @@
+export const getFullText = (quill) => {
+  return quill.getText(0, quill.getLength());
+};
+
 export const isQuillTextEmpty = (quill) => {
   const text = quill.getText().trim();
   return text === '';
@@ -25,12 +29,13 @@ export const sendQuillDataHandler = (quill, publish) => {
   const textContent = content.filter((value) => !value.insert.image);
   const imageContent = content.filter((value) => !!value.insert.image);
 
+  const imageRawStringArray = imageContent.map((item) => item.insert.image);
   if (!isQuillImageEmpty(quill)) {
-    publish(JSON.stringify(imageContent), 'FILE');
+    publish(JSON.stringify(imageContent), 'IMAGE', imageRawStringArray);
   }
 
   if (!isQuillTextEmpty(quill)) {
-    publish(JSON.stringify(textContent), 'TEXT');
+    publish(JSON.stringify(textContent), 'TEXT', [getFullText(quill)]);
   }
   clearQuillContent(quill);
 };

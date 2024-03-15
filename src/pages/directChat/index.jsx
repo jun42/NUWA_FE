@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Box } from '@chakra-ui/react';
 import { useLoaderData, useParams } from 'react-router-dom';
 
@@ -48,7 +48,6 @@ const DirectChatPage = () => {
 
   totalMessageList = [...directChatMessageList, ...socketMessageList];
   // 서로 다른 뷰 까지 고려해야함
-  // list말고 해시맵 고려한다면..
   useEffect(() => {
     if (socketMessageDeleteList.length !== 0) {
       setSocketMessageList((state) => {
@@ -56,32 +55,66 @@ const DirectChatPage = () => {
         for (let deleteItem of socketMessageDeleteList) {
           newState.forEach((item) => {
             if (item.messageId === deleteItem.id) {
-              item.createdAt = item.createdAt + 'a';
+              item.createdAt = item.createdAt + 'delete';
               item.isDeleted = true;
               item.content = deleteItem.content;
             }
             return item;
           });
         }
-        console.log(newState);
         return newState;
       });
+      if (directChatMessageList.length > 0) {
+        for (let deleteItem of socketMessageDeleteList) {
+          directChatMessageList.forEach((item) => {
+            if (item.messageId === deleteItem.id) {
+              item.createdAt = item.createdAt + 'delete';
+              item.isDeleted = true;
+              item.content = deleteItem.content;
+            }
+            return item;
+          });
+        }
+      }
 
       setSocketMessageDeleteList([]);
     }
   }, [socketMessageDeleteList, setSocketMessageDeleteList]);
 
   return (
-    <Box width="100%" p={'0.5rem'}>
+    <Box
+      width="100%"
+      px={'0.5rem'}
+      height={'100%'}
+      display={'flex'}
+      flexDirection={'column'}
+      flexGrow={0}
+      gap={'0.25rem'}
+    >
       {
         <>
           <DirectChatHeader receiverName={receiverName} />
           <Box
-            minH={'50vh'}
-            maxH={'70vh'}
-            border={'1px'}
+            display={'flex'}
+            flexDirection={'column'}
+            justifyContent={'flex-start'}
+            maxH={'100%'}
             overflowY={'scroll'}
             ref={chatBoxRef}
+            css={{
+              '&::-webkit-scrollbar': {
+                width: '10px',
+              },
+              '&::-webkit-scrollbar-track': {
+                width: '6px',
+                backgroundColor: '#FCFCFC',
+                borderRadius: '10px',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                borderRadius: '10px',
+                backgroundColor: '#d6d6d6',
+              },
+            }}
           >
             {!directChatMessageListIsLoading &&
               totalMessageList.map((body) => {
@@ -108,50 +141,6 @@ const DirectChatPage = () => {
                   );
                 }
               })}
-
-            {/* {!directChatMessageListIsLoading &&
-              directChatMessageList.map((body) => {
-                if (userId === body.senderId) {
-                  return (
-                    <MyText
-                      key={body.createdAt}
-                      content={body.content}
-                      deleteSocketMessage={deleteSocketMessage}
-                      messageId={body.messageId}
-                      isDeleted={body.isDeleted}
-                    />
-                  );
-                } else {
-                  return (
-                    <YourText
-                      key={body.createdAt}
-                      content={body.content}
-                      senderName={body.senderName}
-                    />
-                  );
-                }
-              })} */}
-            {/* socket message view */}
-            {/* {socketMessageList.map((body) => {
-              if (userId === body.senderId) {
-                return (
-                  <MyText
-                    key={body.createdAt}
-                    content={body.content}
-                    deleteSocketMessage={deleteSocketMessage}
-                    messageId={body.messageId}
-                  />
-                );
-              } else {
-                return (
-                  <YourText
-                    key={body.createdAt}
-                    content={body.content}
-                    senderName={body.senderName}
-                  />
-                );
-              }
-            })} */}
           </Box>
           <TextEditor publish={publish} channelId={chatRoomInfo.channelId} />
         </>

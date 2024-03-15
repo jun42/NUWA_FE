@@ -1,14 +1,14 @@
 import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import Quill from 'quill';
 import CustomToolbarBottom from '../TextEditor/CustomToolbarBottom';
-import { dataURItoBlob, myOptions as options } from './quill/customOptions';
+import { myOptions as options } from './quill/customOptions';
 import EmojiPicker from 'emoji-picker-react';
 import { useParams } from 'react-router-dom';
 import { sendQuillDataHandler } from './quill/utils';
-import { uploadFile } from '../../apis/file/file';
 import { imageMatcher } from './quill/clipboard';
+import { Box } from '@chakra-ui/react';
 // Editor is an uncontrolled React component
-const Delta = Quill.import('delta');
+// const Delta = Quill.import('delta');
 
 const Editor = forwardRef(
   (
@@ -90,7 +90,7 @@ const Editor = forwardRef(
     }, [publish]);
 
     return (
-      <>
+      <Box maxH={'15vh'} flexGrow={1} width={'100%'} marginBottom={'auto'}>
         <EmojiPicker
           open={emojiPickerIsOpen}
           className="emoji-picker"
@@ -98,7 +98,7 @@ const Editor = forwardRef(
         />
         <div id="editor" ref={containerRef}></div>
         <CustomToolbarBottom setEmojiPickerIsOpen={setEmojiPickerIsOpen} />
-      </>
+      </Box>
     );
   }
 );
