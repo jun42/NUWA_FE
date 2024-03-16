@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { Box, Text, Flex, Image } from '@chakra-ui/react';
 import DirectMessage from '@assets/direct_message.svg';
 import Canvas from '@assets/canvas.svg';
@@ -13,6 +13,8 @@ const getIcon = (type) => {
       return Canvas;
     case 'TODO':
       return Todo;
+    default:
+      return null;
   }
 };
 
@@ -26,12 +28,18 @@ const getMessage = (type, partner, count) => {
   return messages[type] || '알 수 없는 타입이 생성되었습니다.';
 };
 
-const AlarmData = ({ boolean, url, type, partner, count }) => {
+const AlarmData = ({ boolean, url, type, partner, count, onRead }) => {
   const { workSpaceId } = useParams();
   const navigate = useNavigate();
   const Icon = getIcon(type);
   const message = getMessage(type, partner, count);
+  const [isRead, setIsRead] = useState(boolean);
   const confirmationMessage = boolean ? '확인' : '미확인';
+
+  const handleClick = () => {
+    navigate(`/workspace/${workSpaceId}${url}`);
+    onRead(type, setIsRead);
+  };
 
   return (
     <>
@@ -50,9 +58,7 @@ const AlarmData = ({ boolean, url, type, partner, count }) => {
         _active={{
           transform: 'scale(0.98)',
         }}
-        onClick={() => {
-          navigate(`/workspace/${workSpaceId}${url}`);
-        }}
+        onClick={handleClick}
       >
         <Flex gap={'10px'}>
           <Box

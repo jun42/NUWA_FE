@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   IconButton,
   Drawer,
-  DrawerOverlay,
   DrawerContent,
-  DrawerCloseButton,
-  DrawerHeader,
   DrawerBody,
   useDisclosure,
   Flex,
@@ -15,10 +12,9 @@ import {
   Box,
 } from '@chakra-ui/react';
 import { FaBell } from 'react-icons/fa6';
-import { alarm_data } from '@constants/selectPlan/SELECT_ALL_INFO';
 import AlarmData from '@components/DataBox/AlarmData';
 import { useParams } from 'react-router-dom';
-import { fetchAlarms } from '@apis/alarm/getAlarm';
+import { fetchAlarms, markNotificationsAsRead } from '@apis/alarm/getAlarm';
 
 const Alarm = () => {
   const { workSpaceId } = useParams();
@@ -26,21 +22,39 @@ const Alarm = () => {
   const [alarmData, setAlarmData] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  useEffect(() => {
-    // 알림 데이터를 가져오는 로직을 호출
-    const loadData = async () => {
-      const data = await fetchAlarms(workSpaceId, {});
-      setAlarmData(data.data.content); // API 응답 구조에 따라 조정
-      console.log(data.data.content);
-    };
-
-    loadData();
-  }, [workSpaceId]); // 워크스페이스 ID가 변경될 때마다 알림 데이터를 새로 가져옵니다.
-
-  const handleClick = (newSize) => {
+  const handleClick = async (newSize) => {
     setSize(newSize);
+    try {
+      const response = await fetchAlarms(workSpaceId, {});
+      // content에 접근
+      const content = response.data?.content || [];
+      const groupedData = content.reduce((acc, current) => {
+        const date = new Date(current.createdAt).toLocaleDateString();
+        if (!acc[date]) {
+          acc[date] = [];
+        }
+        acc[date].push(current);
+        return acc;
+      }, {});
+      setAlarmData(groupedData);
+    } catch (error) {
+      console.error('Error fetching alarms:', error);
+    }
     onOpen();
   };
+
+  const handleReadNotification = async (notificationId, type, setIsRead) => {
+    if (type !== 'DIRECT' && type !== 'CHAT') {
+      try {
+        await markNotificationsAsRead([notificationId]);
+        console.log('알림 읽음 처리됨', notificationId);
+        setIsRead(true);
+      } catch (error) {
+        console.error('알림 읽음 처리 오류', error);
+      }
+    }
+  };
+
   const sizes = ['sm'];
 
   return (
@@ -66,18 +80,29 @@ const Alarm = () => {
           </Flex>
           <Divider orientation="horizontal" mb={'10px'} />
           <DrawerBody display={'flex'} flexFlow={'column'} gap={'10px'}>
-            <Text fontSize={'lg'} fontWeight={'bold'} mb={'10px'}>
-              날짜
-            </Text>
-            {alarmData.map((data, index) => (
-              <AlarmData
-                key={index}
-                boolean={data.isRead}
-                url={data.notificationUrl}
-                type={data.notificationType}
-                count={data.contentCount}
-                partner={data.senderName}
-              />
+            {Object.entries(alarmData).map(([date, alarms]) => (
+              <Box key={date}>
+                <Text fontSize={'lg'} fontWeight={'bold'} mb={'10px'}>
+                  {date}
+                </Text>
+                {alarms.map((alarm, index) => (
+                  <AlarmData
+                    key={index}
+                    boolean={alarm.isRead}
+                    url={alarm.notificationUrl}
+                    type={alarm.notificationType}
+                    partner={alarm.senderName}
+                    count={alarm.contentCount}
+                    onRead={() =>
+                      handleReadNotification(
+                        alarm.notificationId,
+                        alarm.notificationType,
+                        setIsRead
+                      )
+                    }
+                  />
+                ))}
+              </Box>
             ))}
           </DrawerBody>
         </DrawerContent>
