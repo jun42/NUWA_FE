@@ -22,6 +22,7 @@ import {
   Input,
   useDisclosure,
   Checkbox,
+  FormControl,
 } from '@chakra-ui/react';
 
 import GridSwitch from './GridSwitch.jsx';
@@ -31,6 +32,7 @@ import {
   getAllFiles,
   getExtensionFiles,
   getTypeFiles,
+  getSearchedFiles,
 } from '@apis/files/files';
 import { useParams } from 'react-router-dom';
 import {
@@ -108,7 +110,6 @@ const Files = () => {
         });
         const [jpegFilesResponse, jpgFilesResponse, pngFilesResponse] =
           await Promise.all([jpegFiles, jpgFiles, pngFiles]);
-        console.log(jpegFilesResponse.data.data.content);
         const imageFiles = [
           ...jpegFilesResponse.data.data.content,
           ...jpgFilesResponse.data.data.content,
@@ -162,10 +163,13 @@ const Files = () => {
 
   // 더보기 버튼을 클릭할 때 호출되는 함수
   const loadMoreFiles = (index) => {
-    setCurrentPage((prevPages) => {
-      // 인덱스 위치의 currentPage를 1 증가시킴
-      return prevPages.map((page, i) => (i === index ? page + 1 : page));
-    });
+    if (switchstate) {
+      setCurrentPage((prev) => prev + 1);
+    } else
+      setCurrentPage((prevPages) => {
+        // 인덱스 위치의 currentPage를 1 증가시킴
+        return prevPages.map((page, i) => (i === index ? page + 1 : page));
+      });
   };
 
   //이름 순 정렬
@@ -243,7 +247,9 @@ const Files = () => {
   };
 
   //크기 순 정렬
-  const sortedBySize = fileList.sort((a, b) => a.fileSize - b.fileSize);
+  const sortedBySize = fileList.sort((a, b) => {
+    return b.fileSize - a.fileSize;
+  });
 
   //유형 순 정렬
   const extensionList = [];
@@ -259,41 +265,6 @@ const Files = () => {
       return file.fileExtension === extension;
     });
     return { extension: extension, content: fbe };
-  };
-
-  const sortFiles = (sort) => {
-    switch (sort) {
-      case 'date':
-        const sortedByDate = fileList.sort((a, b) => {
-          const dateA = new Date(a.createdAt);
-          const dateB = new Date(b.createdAt);
-          return dateA - dateB;
-        });
-        return sortedByDate;
-      case 'name':
-        const sortedByName = fileList.sort((a, b) => {
-          const nameA = a.fileName.toLowerCase();
-          const nameB = b.fileName.toLowerCase();
-          if (nameA < nameB) return -1;
-          if (nameA > nameB) return 1;
-          return 0;
-        });
-        return sortedByName;
-      case 'size':
-        const sortedBySize = fileList.sort((a, b) => {
-          a.fileSize - b.fileSize;
-        });
-        return sortedBySize;
-      case 'type':
-        const sortedByType = fileList.sort((a, b) => {
-          const nameA = a.fileExtension.toLowerCase();
-          const nameB = b.fileExtension.toLowerCase();
-          if (nameA < nameB) return -1;
-          if (nameA > nameB) return 1;
-          return 0;
-        });
-        return sortedByType;
-    }
   };
 
   const [searchData, setSearchData] = useState([]);
@@ -334,14 +305,11 @@ const Files = () => {
     }
     return matchedFiles; // 일치하는 파일의 배열 반환
   };
-  const filteredFilesOnList = (sortBy) =>
-    checkedUsers.length > 0
-      ? filterByUsers(sortFiles(sortBy))
-      : sortFiles(sortBy);
 
   useEffect(() => {
     setCurrentPage([]);
-  }, [sortBy]);
+    if (switchstate) setCurrentPage(0);
+  }, [sortBy, switchstate]);
 
   const renderFiles = (files, list, index) => {
     if (!currentPage.length) {
@@ -400,7 +368,6 @@ const Files = () => {
         initialList.map((item) => {
           fbiList.push(filterByInitial(item));
         });
-        console.log('um', fbiList);
         return initialList.map((item, index) => (
           <Box m="64px 0" key={index}>
             <Text fontSize="22px" fontWeight="500" color="#656565" mb="27px">
@@ -447,8 +414,121 @@ const Files = () => {
     }
   };
 
-  console.log(fileList);
+  const sortFiles = (sort) => {
+    switch (sort) {
+      case 'date':
+        const sortedByDate = fileList.sort((a, b) => {
+          const dateA = new Date(a.createdAt);
+          const dateB = new Date(b.createdAt);
+          return dateB - dateA;
+        });
+        return sortedByDate;
+      case 'name':
+        const sortedByName = fileList.sort((a, b) => {
+          const nameA = a.fileName.toLowerCase();
+          const nameB = b.fileName.toLowerCase();
+          if (nameA < nameB) return -1;
+          if (nameA > nameB) return 1;
+          return 0;
+        });
+        return sortedByName;
+      case 'size':
+        const sortedBySize = fileList.sort((a, b) => {
+          return b.fileSize - a.fileSize;
+        });
+        return sortedBySize;
+      case 'type':
+        const sortedByType = fileList.sort((a, b) => {
+          const nameA = a.fileExtension.toLowerCase();
+          const nameB = b.fileExtension.toLowerCase();
+          if (nameA < nameB) return -1;
+          if (nameA > nameB) return 1;
+          return 0;
+        });
+        return sortedByType;
+    }
+  };
 
+  const renderFilteredFilesList = (files) => {
+    return (
+      <Box mb="5rem">
+        {files.map((x, index) => (
+          <FileList
+            key={index}
+            fileName={x.fileName}
+            sharedBy={x.fileMemberUploadName}
+            date={x.createdAt}
+            type={x.fileExtension}
+            size={x.fileSize}
+            src={x.fileUrl}
+          />
+        ))}
+        {currentPage < Math.ceil(fileList.length / filesPerPage) - 1 && (
+          <Button onClick={() => loadMoreFiles(0)}>더보기</Button>
+        )}
+      </Box>
+    );
+  };
+
+  const filteredFilesOnList = (sortBy) => {
+    const filteredFiles =
+      checkedUsers.length > 0
+        ? filterByUsers(sortFiles(sortBy))
+        : sortFiles(sortBy);
+    const stack = paginateFiles(filteredFiles);
+    let renderedFiles = [];
+    for (let i = 0; i <= currentPage; i++) {
+      const pageFiles = stack[i] || [];
+      renderedFiles = [...renderedFiles, ...pageFiles];
+    }
+
+    return renderFilteredFilesList(renderedFiles);
+  };
+  const renderFilesBySortTypeList = () => {
+    switch (sortBy) {
+      case 'date':
+      case 'name':
+      case 'size':
+      case 'type':
+        return filteredFilesOnList(sortBy);
+      default:
+        return null;
+    }
+  };
+
+  const [fileSearchWord, setFileSearchWord] = useState('');
+  const handleSearchWordChange = (e) => {
+    setFileSearchWord(e.target.value);
+  };
+  const handleSearchKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      searchFiles();
+    }
+  };
+  const searchFiles = async () => {
+    const searchedFiles = await Promise.resolve(
+      getSearchedFiles({ workSpaceId, fileName: fileSearchWord })
+    );
+    if (searchedFiles.data.data.content.length > 0)
+      setFileList(searchedFiles.data.data.content);
+    else setFileList([]);
+    console.log('searchedFiles', searchedFiles);
+    console.log('검색어:', fileSearchWord);
+  };
+  useEffect(() => {
+    if (fileSearchWord === '') {
+      const fetchFiles = async () => {
+        try {
+          const files = await getAllFiles({ workSpaceId });
+          setFileList(files.data.data.content);
+        } catch (error) {
+          console.error('Error fetching files:', error);
+        }
+      };
+      fetchFiles();
+    }
+  }, [fileSearchWord]);
   return (
     <Flex w="100%">
       <Box w="100%" p="52px 63px">
@@ -475,6 +555,9 @@ const Files = () => {
             p="0 40px"
             placeholder="파일명으로 검색해주세요."
             _placeholder={{ color: 'black' }}
+            value={fileSearchWord}
+            onChange={handleSearchWordChange}
+            onKeyDown={handleSearchKeyDown}
           />
         </Box>
         <Flex position="relative" justify="space-between" m="32px 0">
@@ -889,56 +972,7 @@ const Files = () => {
                   <Divider color="#0000001A" m="15px 0" />
                 </>
               )}
-              <Box>
-                {sortBy === 'date' &&
-                  filteredFilesOnList('date').map((x, index) => (
-                    <FileList
-                      key={index}
-                      fileName={x.fileName}
-                      sharedBy={x.fileMemberUploadName}
-                      date={x.createdAt}
-                      type={x.fileExtension}
-                      size={x.fileSize}
-                      src={x.fileUrl}
-                    />
-                  ))}
-                {sortBy === 'name' &&
-                  filteredFilesOnList('name').map((x, index) => (
-                    <FileList
-                      key={index}
-                      fileName={x.fileName}
-                      sharedBy={x.fileMemberUploadName}
-                      date={x.createdAt}
-                      type={x.fileExtension}
-                      size={x.fileSize}
-                      src={x.fileUrl}
-                    />
-                  ))}
-                {sortBy === 'size' &&
-                  filteredFilesOnList('size').map((x, index) => (
-                    <FileList
-                      key={index}
-                      fileName={x.fileName}
-                      sharedBy={x.fileMemberUploadName}
-                      date={x.createdAt}
-                      type={x.fileExtension}
-                      size={x.fileSize}
-                      src={x.fileUrl}
-                    />
-                  ))}
-                {sortBy === 'type' &&
-                  filteredFilesOnList('type').map((x, index) => (
-                    <FileList
-                      key={index}
-                      fileName={x.fileName}
-                      sharedBy={x.fileMemberUploadName}
-                      date={x.createdAt}
-                      type={x.fileExtension}
-                      size={x.fileSize}
-                      src={x.fileUrl}
-                    />
-                  ))}
-              </Box>
+              <Box>{renderFilesBySortTypeList()}</Box>
             </>
           )}
           {(fileList.length === 0 ||

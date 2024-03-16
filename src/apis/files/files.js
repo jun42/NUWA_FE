@@ -20,6 +20,11 @@ export const getSortedFiles = ({ workSpaceId, sortBy, sortOrder }) => {
   }`;
   return request.get(`/file/${workSpaceId}${queryParams}`);
 };
+export const getSearchedFiles = ({ workSpaceId, fileName }) => {
+  console.log('fileName', fileName);
+  const queryParams = `?fileName=${fileName}`;
+  return request.get(`/file/search/${workSpaceId}${queryParams}`);
+};
 // export const uploadFiles = ({ workSpaceId, fileList }) =>
 //   request.post(`/file/upload`, {
 //     workSpaceId,
