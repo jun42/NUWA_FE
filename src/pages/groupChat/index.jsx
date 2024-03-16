@@ -1,10 +1,12 @@
-import { Box, Button } from '@chakra-ui/react';
+import { Avatar, Box, Button, Flex, Stack, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 import { uploadFile } from '../../apis/file/file';
 import { useParams } from 'react-router-dom';
 import useSocketInit from '../../apis/socket/useSocketInit';
 import useGroupSocketInit from '../../apis/socket/group/useGroupSocketInit';
 import TextEditor from '../../components/TextEditorFunctionalComponent/TextEditor';
+import GroupChatHeader from './GroupChatHeader';
+import GroupMessageBox from './GroupMessageBox';
 
 const GroupChatPage = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -23,8 +25,16 @@ const GroupChatPage = () => {
     socketMessageDeleteList,
     setSocketMessageDeleteList,
   } = useGroupSocketInit(roomId, workSpaceId, 'chat');
+
+  console.log(socketMessageList);
   return (
-    <Box>
+    <Box
+      width={'calc(100% - 400px)'}
+      display={'flex'}
+      flexDirection={'column'}
+      px={'1rem'}
+      gap={'0.75rem'}
+    >
       <div>
         <input
           type="file"
@@ -54,6 +64,26 @@ const GroupChatPage = () => {
           업로드
         </Button>
       </div>
+      <GroupChatHeader />
+      <Box
+        flexGrow={1}
+        display={'flex'}
+        flexDirection={'column'}
+        justifyContent={'flex-end'}
+        gap={'0.5rem'}
+        overflowY={'scroll'}
+      >
+        {socketMessageList.map((item) => {
+          return (
+            <GroupMessageBox
+              key={item.messageId}
+              messageId={item.messageId}
+              senderName={item.senderName}
+              content={item.content}
+            />
+          );
+        })}
+      </Box>
       <TextEditor channelId={channelId} publish={publish} />
     </Box>
   );
