@@ -49,7 +49,7 @@ const AddDirectChatRoomModal = () => {
               memberList.length > 1 ? (
                 memberList
                   .filter((member) => {
-                    return member.id !== currentUserWorkspaceProfile.id;
+                    return member?.id !== currentUserWorkspaceProfile?.id;
                   })
                   .map((member) => {
                     return (

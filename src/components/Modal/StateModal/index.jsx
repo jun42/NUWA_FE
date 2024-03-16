@@ -11,9 +11,6 @@ const index = ({ isOpen, onClose, workSpaceId, refetchUserProfile }) => {
       onClose();
     },
   });
-
-  if (!isOpen) return null;
-
   if (!isOpen) return null;
   return (
     <div>

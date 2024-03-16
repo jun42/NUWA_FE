@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
-import active from '../../assets/online.png';
-
 import { Flex, Box, Text, Avatar, Image } from '@chakra-ui/react';
 import StateModal from '@components/Modal/StateModal';
 import useModal from '@hooks/useModal';
@@ -42,12 +39,6 @@ const UserInfo = () => {
     }),
     enabled: !!workSpaceId,
   });
-
-  if (isLoading) return <div>Loading...</div>;
-
-  if (error) return <div>An error occurred: {error.message}</div>;
-
-  console.log('데이터가 성공적으로 들어왔습니다:', profileData);
 
   const userProfile = profileData ? profileData : { image: undefined };
 

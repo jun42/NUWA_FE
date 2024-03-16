@@ -1,4 +1,11 @@
-import { Box, Flex, Spinner } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Text,
+  Spinner,
+  useToast,
+  CloseButton,
+} from '@chakra-ui/react';
 import { Outlet, useParams } from 'react-router-dom';
 import SideBar from '../SideBar/SideBar';
 import WorkspaceHeader from '@components/Header/WorkspaceHeader.jsx';
@@ -7,31 +14,87 @@ import { Fragment, useEffect, useState } from 'react';
 import useWorkspaceMemberGuard from '@hooks/auth/useWorkspaceMemberGuard';
 import { jwtDecode } from 'jwt-decode';
 import { getToken } from '../../utils/auth';
+
 const WorkspaceLayout = () => {
   const { isAuthChecked } = useAuthGuard();
-
   const { isMemberChecked } = useWorkspaceMemberGuard(isAuthChecked);
-  //todo 401 handling
-
   const { workSpaceId } = useParams();
-  console.log(workSpaceId, '111111111111111111111111');
   const email = jwtDecode(getToken()).sub;
-
-  console.log(workSpaceId, email);
-
   const [alarmList, setAlarmList] = useState([]);
+  const toast = useToast();
+
   useEffect(() => {
     const address = `${import.meta.env.VITE_SERVER_ADDRESS}/notification`;
     const params = `?email=${email}&workSpaceId=${workSpaceId}`;
     const eventSource = new EventSource(address + params);
 
+    // JSON 형식인지 검사하는 함수
+    function isValidJSON(text) {
+      try {
+        JSON.parse(text);
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
     const testHandler = (e) => {
-      console.log(e.data);
+      console.log('데이터확인: ', e.data);
+      if (isValidJSON(e.data)) {
+        const data = JSON.parse(e.data);
+
+        let title = '타입이 지정되지 않은 알림';
+        let description = '지정되지 않은 타입 에러';
+
+        switch (data.notificationType) {
+          case 'DIRECT':
+            title = `${data.notificationSenderName}님의 다이렉트 메세지`;
+            description = `${data.notificationContent}`;
+            break;
+          case 'CHAT':
+            title = '그룹 채팅 메세지 알림';
+            break;
+        }
+
+        const toastId = `alarm-toast-${data.notificationId}`;
+        toast.closeAll(); // 새 토스트를 표시하기 전에 모든 현재 토스트를 닫음
+        if (!toast.isActive(toastId)) {
+          toast({
+            id: toastId,
+            isClosable: true,
+            position: 'top-right',
+            render: ({ onClose }) => (
+              <Box
+                p={3}
+                bg="#575DFB"
+                borderRadius="lg"
+                color="white"
+                boxShadow="md"
+              >
+                <CloseButton
+                  position="absolute"
+                  right="8px"
+                  top="8px"
+                  onClick={onClose}
+                />
+                <Text fontWeight="bold" fontSize={'16px'} mb={'10px'}>
+                  {title}
+                </Text>
+                <Text mt={2} fontSize={'14px'}>
+                  {description}
+                </Text>
+              </Box>
+            ),
+          });
+        }
+      } else {
+        console.log('초기알림:', e.data);
+      }
     };
+
     eventSource.addEventListener('sse', testHandler);
 
     eventSource.onmessage = function (event) {
-      // 서버로부터 메시지 수신 시 콘솔에 출력
       console.log('Received message: ', event.data);
       setAlarmList((prev) => [...prev, event.data]);
     };
@@ -42,7 +105,7 @@ const WorkspaceLayout = () => {
     return () => {
       eventSource.close();
     };
-  }, []);
+  }, [toast]);
 
   return (
     <Fragment>
