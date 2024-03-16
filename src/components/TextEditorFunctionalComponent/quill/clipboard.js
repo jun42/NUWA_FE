@@ -1,6 +1,7 @@
 import { dataURItoBlob } from './customOptions';
 import { uploadFile } from '@apis/file/file';
 import Quill from 'quill';
+import { validateFiles } from '../../../utils/validateFile';
 const Delta = Quill.import('delta');
 
 /**
@@ -14,7 +15,7 @@ const Delta = Quill.import('delta');
  * image match
  */
 export const imageMatcher = (node, quill, workSpaceId, channelId) => {
-  const blob = dataURItoBlob(node.getAttribute('src'));
+  const [blob, type] = dataURItoBlob(node.getAttribute('src'));
   const formData = new FormData();
   const fileRequestDto = {
     workSpaceId,
@@ -25,7 +26,8 @@ export const imageMatcher = (node, quill, workSpaceId, channelId) => {
       type: 'application/json',
     })
   );
-  formData.append('fileList', new File([blob], 'test.png'));
+  const [file] = validateFiles([new File([blob], `image.${type}`)]);
+  formData.append('fileList', file);
   uploadFile('DIRECT', channelId, formData).then((r) => {
     const data = r.data.data;
     console.log(data);
@@ -34,7 +36,13 @@ export const imageMatcher = (node, quill, workSpaceId, channelId) => {
         image: data[0].fileUrl,
       })
     );
+    const index = quill.getSelection().index;
+    const length = quill.getLength();
+    if (index < length - 1) {
+      quill.setSelection(index + 1);
+    }
   });
+
   const delta = new Delta();
   return delta;
 };
