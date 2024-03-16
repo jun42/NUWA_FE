@@ -16,7 +16,7 @@ const ProfileModal = ({ isOpen, onClose, profile, onSave }) => {
       <Box mt={-3} mb={3}>
         <Divider color="#898989" />
       </Box>
-      <ModalBody profile={profile} onSave={onSave} />
+      <ModalBody profile={profile} onSave={onSave} onClose={onClose} />
     </StModal>
   );
 };

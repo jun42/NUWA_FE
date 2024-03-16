@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { updateProfile } from '../../../apis/dashboard/updateProfile';
+import { changePassword } from '../../../apis/dashboard/changePassword';
 import {
   Button,
   FormControl,
@@ -15,10 +16,6 @@ import {
   MenuList,
   MenuItem,
 } from '@chakra-ui/react';
-import Connecting from '@assets/connecting.png';
-import Ban from '@assets/ban.png';
-import Sleeping from '@assets/sleeping.png';
-import Offline from '@assets/offline.png';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { useParams } from 'react-router-dom';
 
@@ -52,10 +49,6 @@ const EditableField = ({
     setValue(e.target.value);
   };
 
-  const handleBlur = () => {
-    setIsEditing(false);
-  };
-
   return (
     <FormControl mt={4}>
       <FormLabel>{label}</FormLabel>
@@ -72,7 +65,6 @@ const EditableField = ({
               fontWeight={fontWeight}
               border={'1px solid #F2F2F2'}
             />
-
             <Text
               color="#5d5d60"
               cursor="pointer"
@@ -93,7 +85,6 @@ const EditableField = ({
             >
               {value}
             </Text>
-
             <Text
               color="#5d5d60"
               cursor="pointer"
@@ -107,58 +98,16 @@ const EditableField = ({
     </FormControl>
   );
 };
-const UserStatusSelector = ({ initialStatus = 'active', onSave }) => {
-  const [status, setStatus] = useState(initialStatus);
 
-  const handleStatusChange = (nextValue) => {
-    setStatus(nextValue);
-    onSave(nextValue);
-  };
-
-  const statusImages = {
-    active: Connecting,
-    away: Ban,
-    sleeping: Sleeping,
-    offline: Offline,
-  };
-
-  const statusText = {
-    active: '활동 중',
-    away: '방해 금지',
-    sleeping: '자리 비움',
-    offline: '오프라인',
-  };
-
+const UserStatusDisplay = ({ status }) => {
   return (
     <Box>
-      <FormControl mt={4}>
-        <Flex justifyContent="space-between" alignItems="center">
-          <Flex alignItems="center">
-            <Image src={statusImages[status]} boxSize="15px" mr="12px" />
-            <Text>{statusText[status]}</Text>
-          </Flex>
-          <Menu>
-            <MenuButton as={Button} rightIcon={<ChevronDownIcon />} size="sm">
-              상태 변경
-            </MenuButton>
-            <MenuList>
-              {Object.entries(statusImages).map(([key, imgSrc]) => (
-                <MenuItem key={key} onClick={() => handleStatusChange(key)}>
-                  <Flex alignItems="center">
-                    <Image src={imgSrc} boxSize="15px" mr="12px" />
-                    <Text>{statusText[key]}</Text>
-                  </Flex>
-                </MenuItem>
-              ))}
-            </MenuList>
-          </Menu>
-        </Flex>
-      </FormControl>
+      <Text fontSize="md">{status}</Text>
     </Box>
   );
 };
 
-const ModalBody = ({ profile, onSave }) => {
+const ModalBody = ({ profile, onSave, onClose }) => {
   const [editedProfile, setEditedProfile] = useState(profile);
   const [userStatus, setUserStatus] = useState(profile.status);
   const { workSpaceId } = useParams();
@@ -195,22 +144,50 @@ const ModalBody = ({ profile, onSave }) => {
     onSave({ ...profile, [field]: value });
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedProfile((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const profileData = {
-      workSpaceMemberName: editedProfile.name,
-      workSpaceMemberJob: editedProfile.position,
-      workSpaceMemberImage: editedProfile.imageUrl, // 이미지 처리 로직에 따라 조정될 수 있음
-    };
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+    if (
+      editedProfile.newPassword &&
+      !passwordRegex.test(editedProfile.newPassword)
+    ) {
+      alert(
+        '비밀번호는 8자리 이상이어야 하며, 최소 하나의 문자와 하나의 숫자를 포함해야 합니다.'
+      );
+      return;
+    }
+
+    if (editedProfile.newPassword !== editedProfile.confirmNewPassword) {
+      alert('새 비밀번호와 새 비밀번호 확인이 일치하지 않습니다.');
+      return;
+    }
 
     try {
-      await updateProfile(workSpaceId, profileData);
-      onSave(editedProfile); // 상위 컴포넌트에 변경 사항을 알림
-      alert('프로필이 성공적으로 업데이트 되었습니다.'); // 사용자에게 성공 메시지 표시
+      await updateProfile(workSpaceId, {
+        workSpaceMemberName: editedProfile.name,
+        workSpaceMemberJob: editedProfile.job,
+      });
+
+      if (editedProfile.newPassword) {
+        await changePassword(editedProfile.newPassword);
+        alert('비밀번호가 성공적으로 변경되었습니다.');
+      }
+
+      alert('프로필이 성공적으로 업데이트되었습니다.');
+      onClose(); // 모달 닫기
     } catch (error) {
-      console.error(error);
-      alert('프로필 업데이트에 실패했습니다.'); // 사용자에게 실패 메시지 표시
+      console.error('업데이트 실패:', error);
+      alert('업데이트에 실패했습니다. 다시 시도해주세요.');
     }
   };
 
@@ -233,41 +210,45 @@ const ModalBody = ({ profile, onSave }) => {
         />
       </Box>
 
-      <EditableField
-        initialValue={profile.name}
-        onChange={(value) => handleFieldChange('name', value)}
-        fontSize="24px"
-        fontWeight="bold"
-      />
-
-      <EditableField
-        initialValue={profile.position}
-        onChange={(value) => handleFieldChange('position', value)}
-        fontSize="md"
-        fontWeight="bold"
-      />
-      <div>
-        <UserStatusSelector
-          userStatus={userStatus}
-          setUserStatus={setUserStatus}
+      <Box mt={'40px'}>
+        <EditableField
+          initialValue={profile.name}
+          onChange={(value) => handleFieldChange('name', value)}
+          fontSize="24px"
+          fontWeight="bold"
         />
+      </Box>
+      <Box mt={'20px'} mb={'20px'}>
+        <EditableField
+          initialValue={profile.job || '직무를 입력해주세요'}
+          onChange={(value) => handleFieldChange('job', value)}
+          fontSize="18px"
+          fontWeight="bold"
+        />
+      </Box>
+      <div>
+        <UserStatusDisplay status={profile.status} />
       </div>
       <Divider color="#898989" my={5} />
       <Flex>
-        <Text color="#434343" fontSize="19px" fontWeight="bold">
+        <Text color="#434343" fontSize="20px" fontWeight="bold">
           연락처 정보
         </Text>
       </Flex>
-      <EditableField
-        initialValue={profile.email}
-        onChange={(value) => handleFieldChange('email', value)}
-        fontSize="md"
-      />
-      <EditableField
-        initialValue={profile.phone}
-        onChange={(value) => handleFieldChange('phone', value)}
-        fontSize="md"
-      />
+      <Box mt={'20px'}>
+        <EditableField
+          initialValue={profile.email}
+          onChange={(value) => handleFieldChange('email', value)}
+          fontSize="md"
+        />
+      </Box>
+      <Box mt={'20px'} mb={'20px'}>
+        <EditableField
+          initialValue={profile.phone}
+          onChange={(value) => handleFieldChange('phone', value)}
+          fontSize="md"
+        />
+      </Box>
 
       <Divider color="#898989" my={5} />
       <Flex>
@@ -277,25 +258,8 @@ const ModalBody = ({ profile, onSave }) => {
         </Text>
       </Flex>
 
-      <FormControl mt={5}>
-        <FormLabel sx={{ color: '#434343' }}>현재 비밀번호</FormLabel>
-        <Input
-          name="currentPassword"
-          type="password"
-          value={editedProfile.currentPassword || ''}
-          placeholder="현재 비밀번호 입력"
-          borderRadius="full"
-          borderColor="#d6d6d6"
-          onChange={(e) =>
-            setEditedProfile({
-              ...editedProfile,
-              currentPassword: e.target.value,
-            })
-          }
-        />
-      </FormControl>
-      <FormControl mt={2}>
-        <FormLabel sx={{ color: '#434343' }}>새로운 비밀번호</FormLabel>
+      <FormControl mt={6}>
+        <FormLabel sx={{ color: '#434343' }}> 새로운 비밀번호</FormLabel>
         <Input
           name="newPassword"
           type="password"
@@ -308,7 +272,7 @@ const ModalBody = ({ profile, onSave }) => {
           }
         />
       </FormControl>
-      <FormControl mt={2}>
+      <FormControl mt={3}>
         <FormLabel sx={{ color: '#434343', fontWeight: 'nomal' }}>
           새로운 비밀번호 확인
         </FormLabel>

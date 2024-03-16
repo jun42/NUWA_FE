@@ -45,7 +45,12 @@ const workAccess = () => {
           <Text width="100%" fontSize="48px" fontWeight="600" color="#575DF8">
             환영합니다!
           </Text>
-          <Text width="100%" fontSize="22px" fontWeight="200">
+          <Text
+            width="100%"
+            fontSize="22px"
+            fontWeight="200"
+            marginBottom={'10px'}
+          >
             {`${emailSlice}님의 워크스페이스`}
           </Text>
         </Flex>

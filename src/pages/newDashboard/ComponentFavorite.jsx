@@ -15,10 +15,13 @@ import FavoriteMessageIcon from '@assets/d_basecolor_message.svg';
 import FavoriteCancelIcon from '@assets/d_red_cancel.svg';
 import { useParams } from 'react-router-dom';
 import { favoriteMembers } from '../../apis/dashboard/favoriteMembers';
+import useBoundStore from '../../store/store';
 
 const ComponentFavorite = () => {
   const [teamMembers, setTeamMembers] = useState([]);
   const { workSpaceId } = useParams();
+  const { workspace } = useBoundStore();
+  const { workSpaceMemberImage } = workspace;
 
   useEffect(() => {
     const loadFavoriteTeamMembers = async () => {
@@ -79,20 +82,23 @@ const ComponentFavorite = () => {
               border={'2px solid #D6D6D6'}
             >
               <Image
-                src={member.image}
-                alt={member.name}
+                src={workSpaceMemberImage}
+                alt={''}
                 boxSize="110px"
+                border="2px solid #D6D6D6"
                 borderRadius="full"
               />
-              <Flex flexFlow={'column'} alignItems={'center'}>
+              <Flex flexFlow={'column'} alignItems={'center'} mb={'-12px'}>
                 <Text fontWeight="bold">{member.name}</Text>
-                <Text fontSize="sm">{member.job || '정보없음'}</Text>
+              </Flex>
+              <Flex flexFlow={'column'} alignItems={'center'} mb={'-12px'}>
+                <Text fontSize="sm">{member.job || '직무를 입력하세요'}</Text>
+              </Flex>
+              <Flex flexFlow={'column'} alignItems={'center'} mb={'-12px'}>
+                <Text fontSize="sm">{member.email}</Text>
               </Flex>
               <Flex flexFlow={'column'} alignItems={'center'}>
-                <Text fontSize="sm">{member.email}</Text>
-                <Text fontSize="sm" paddingTop={''}>
-                  {member.phoneNumber}
-                </Text>
+                <Text fontSize="sm">{member.phoneNumber}</Text>
               </Flex>
               <Flex gap={'10px'}>
                 <Image src={FavoriteCallIcon} />

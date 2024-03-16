@@ -3,11 +3,13 @@ import { request } from '../axios/axios';
 export const updateProfile = async (workSpaceId, profileData) => {
   try {
     const response = await request.patch(
-      `/api/workspace/${workSpaceId}/member`,
+      `/workspace/${workSpaceId}/member`,
       profileData
     );
     console.log(response.data);
+
+    return response.data;
   } catch (error) {
-    console.error(error.response.data);
+    throw error.response.data;
   }
 };

@@ -35,6 +35,7 @@ const ComponentLogin = () => {
             job: response.data.data.job,
             email: response.data.data.email,
             phone: response.data.data.phoneNumber,
+            status: response.data.data.status,
           });
         } else {
           throw new Error('프로필 정보를 불러올 수 없습니다.');
@@ -70,13 +71,13 @@ const ComponentLogin = () => {
           position="relative"
           width="150px"
           height="140px"
-          border={'1px solid green'}
+          //border={'1px solid green'}
         >
           <Image src={BorderCircle} alt="Background SVG" boxSize="100%" />
           <Image
             position="absolute"
             borderRadius="full"
-            boxSize="110px"
+            boxSize="100px"
             src={userInfo.imageUrl}
             alt=""
             top="50%"
@@ -105,14 +106,16 @@ const ComponentLogin = () => {
           width={'100%'}
           align={'center'}
           gap={'8px'}
-          border={'1px solid blue'}
+          //border={'1px solid blue'}
         >
           <Box align={'center'}>
             <Text fontSize="20px" fontWeight={'700'}>
               {userInfo.name}
             </Text>
-            <Text fontSize="15px" fontWeight={'700'}>
-              {userInfo.job}
+          </Box>
+          <Box align={'center'}>
+            <Text fontSize="15px" fontWeight={'500'} color={'#656565'}>
+              {userInfo.job || '직무를 입력하세요'}
             </Text>
           </Box>
 
@@ -121,6 +124,8 @@ const ComponentLogin = () => {
               {' '}
               {userInfo.email}
             </Text>
+          </Box>
+          <Box align={'center'}>
             <Text fontSize="14px" fontWeight={'500'} color={'#656565'}>
               {' '}
               {userInfo.phone}
