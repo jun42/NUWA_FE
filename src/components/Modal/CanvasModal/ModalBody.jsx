@@ -1,15 +1,11 @@
 import React from 'react';
 import { Textarea } from '@chakra-ui/react';
 import styled from 'styled-components';
+import CanvasTextEditor from '@components/CanvasEditor/CanvasTextEditor';
 const ModalBody = () => {
   return (
     <StContainer>
-      <Textarea
-        placeholder="여기에 입력하세요..."
-        size={'lg'}
-        width={'100%'}
-        height={'100%'}
-      />
+      <CanvasTextEditor />
     </StContainer>
   );
 };
