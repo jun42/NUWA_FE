@@ -83,23 +83,23 @@ const DirectChatPage = () => {
 
   return (
     <Box
-      width="100%"
+      width="calc(100% - 410px)"
       px={'0.5rem'}
       height={'100%'}
       display={'flex'}
       flexDirection={'column'}
-      flexGrow={0}
       gap={'0.25rem'}
     >
       {
         <>
           <DirectChatHeader receiverName={receiverName} />
           <Box
+            flexGrow={1}
             display={'flex'}
             flexDirection={'column'}
             justifyContent={'flex-start'}
-            maxH={'100%'}
             overflowY={'scroll'}
+            height={'auto'}
             ref={chatBoxRef}
             css={{
               '&::-webkit-scrollbar': {
