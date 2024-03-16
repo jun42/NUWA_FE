@@ -1,10 +1,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import ChatPreviewAvatar from './ChatPreviewAvatar';
-import Quill from 'quill';
-import ReactQuill from 'react-quill';
 
 const ChatPreviewMain = ({ lastMessage, conversationPartner }) => {
-  const Delta = Quill.import('delta');
   // let lastMessageObject;
   // if (lastMessage === '삭제된 메세지입니다.') {
   //   lastMessageObject = [{ insert: lastMessage }];
@@ -36,7 +33,7 @@ const ChatPreviewMain = ({ lastMessage, conversationPartner }) => {
             theme={false}
             style={{}}
           /> */}
-          {lastMessage !== null && lastMessage.length > 10
+          {lastMessage !== null && lastMessage.length > 20
             ? lastMessage.slice(0, 20) + '.....'
             : lastMessage}
         </Box>

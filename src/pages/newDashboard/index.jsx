@@ -7,11 +7,12 @@ import ComponentFavorite from './ComponentFavorite';
 import ComponentCalendar from './ComponentCalendar';
 import { Flex, Box } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { useOutletContext } from 'react-router-dom';
+import useBoundStore from '../../store/store';
 
 const dashBoard = () => {
-  const { alarmList } = useOutletContext();
-  console.log('Alarm', alarmList);
+  const { alarmList } = useBoundStore();
+  console.log(alarmList);
+
   return (
     <StContainer>
       <Box display={'flex'} width={'100%'} height={'40%'} gap={'20px'}>
