@@ -47,7 +47,6 @@ const SideBar = () => {
   useEffect(() => {
     fetchChatChannelList({ workSpaceId }).then((r) => setChatChList(r.content));
   }, []);
-  console.log(chatChList)
 
   const chData2 = [
     {

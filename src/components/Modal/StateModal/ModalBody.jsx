@@ -34,7 +34,6 @@ const ModalBody = ({ onSave, onClose }) => {
   //     onSave(state_seticon[selectedBox].title);
   //   }
   // };
-  console.log('111', selectedBox);
   return (
     <>
       <VStack spacing={4}>

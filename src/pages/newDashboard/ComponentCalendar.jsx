@@ -49,7 +49,7 @@ const ComponentCalendar = () => {
       >
         <Image src={CalendarIcon} />
         <Text fontSize="16px" fontWeight="bold" align={'center'}>
-          최근 받은 메세지
+          캘린더
         </Text>
       </Flex>
       <Box padding={'20px'} height={'90%'} overflowY={'auto'}>

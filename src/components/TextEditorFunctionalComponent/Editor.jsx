@@ -90,7 +90,7 @@ const Editor = forwardRef(
     }, [publish]);
 
     return (
-      <Box maxH={'15vh'} flexGrow={1} width={'100%'} marginBottom={'auto'}>
+      <Box flexGrow={0}>
         <EmojiPicker
           open={emojiPickerIsOpen}
           className="emoji-picker"

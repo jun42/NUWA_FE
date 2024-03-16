@@ -2,6 +2,7 @@ import Emitter from 'quill/core/emitter';
 import { bindings } from './keyboardBindings';
 import Quill from 'quill';
 import { uploadFile } from '../../../apis/file/file';
+import { validateFiles } from '../../../utils/validateFile';
 
 const Delta = Quill.import('delta');
 
@@ -47,6 +48,10 @@ function imageHandler() {
     fileInput.classList.add('ql-image');
     fileInput.addEventListener('change', async (e) => {
       if (fileInput.files != null && fileInput.files[0] != null) {
+        const files = validateFiles(fileInput.files);
+        if (files === null) {
+          return;
+        }
         const formData = new FormData();
         formData.append(
           'fileRequestDto',
@@ -87,6 +92,11 @@ function imageHandler() {
 }
 
 export function dataURItoBlob(dataURI) {
+  const type = dataURI.substring(
+    'data:image/'.length,
+    dataURI.indexOf(';base64')
+  );
+
   // convert base64/URLEncoded data component to raw binary data held in a string
   let byteString;
   if (dataURI.split(',')[0].indexOf('base64') >= 0)
@@ -102,5 +112,5 @@ export function dataURItoBlob(dataURI) {
     ia[i] = byteString.charCodeAt(i);
   }
 
-  return new Blob([ia], { type: mimeString });
+  return [new Blob([ia], { type: mimeString }), type];
 }

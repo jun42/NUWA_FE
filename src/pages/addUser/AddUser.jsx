@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import {
   Text,
@@ -10,16 +10,28 @@ import {
   Image,
   Grid,
 } from '@chakra-ui/react';
-import OutletSearchBar from '@components/SearchBar/OutletSearchBar';
 import IconImage from '@assets/workspace_card3.png';
 import SearchBar from '@components/SearchBar/WorkspaceSearchBar';
+import { useParams } from 'react-router-dom';
+import { workspaceMemberList } from '../../apis/workspace/workspaceMemberList';
 
 const AddUser = () => {
-  const userDataExample = Array(20).fill({
-    name: '김뿌꾸',
-    email: 'khs43833@gmail.com',
-  });
+  const { workSpaceId } = useParams();
+  const [members, setMembers] = useState([]);
 
+  useEffect(() => {
+    const fetchMembers = async () => {
+      const data = await workspaceMemberList(workSpaceId);
+      if (data && data.status === 'success') {
+        setMembers(data.data);
+      } else {
+        // 오류 처리 또는 알림
+        console.error('멤버를 조회할 수 없습니다.');
+      }
+    };
+
+    fetchMembers();
+  }, [workSpaceId]);
   return (
     <StContainer>
       <TopSection>
@@ -104,21 +116,21 @@ const AddUser = () => {
             templateColumns="repeat(auto-fill, minmax(180px, 1fr))"
             gap={'6'}
           >
-            {userDataExample.map((user, index) => (
-              <Flex key={index} justify={'space-between'}>
+            {members.map((member) => (
+              <Flex key={member.ID} justify={'space-between'}>
                 <UserData>
                   <Box>
                     <Image src={IconImage} boxSize="full" />
                   </Box>
 
                   <Box p={' 10px 20px'}>
-                    <Text fontWeight={'700'}>{user.name}</Text>
+                    <Text fontWeight={'700'}>{member.name}</Text>
                     <Text
                       fontSize={'14px'}
                       fontWeight={'500'}
                       color={'#797979'}
                     >
-                      {user.email}
+                      {member.email}
                     </Text>
                   </Box>
                 </UserData>
@@ -140,7 +152,6 @@ const StContainer = styled.div`
   gap: auto;
   margin: 0px 50px;
   justify-content: space-evenly;
-  //border: 1px solid blue;
 `;
 
 const TopSection = styled.div`
@@ -149,7 +160,6 @@ const TopSection = styled.div`
   background-color: #fbfbfb;
   margin-top: 62px;
   gap: 10px;
-  //border: 1px solid red;
 `;
 
 const BottomSection = styled.div`
@@ -158,7 +168,6 @@ const BottomSection = styled.div`
   flex-flow: column;
   margin-top: 60px;
   background-color: #ffffff;
-  //border: 1px solid green;
 `;
 
 const UserDataContainer = styled.div`

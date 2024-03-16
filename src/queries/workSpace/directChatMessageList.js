@@ -15,6 +15,7 @@ export const useDirectChatMessageListQuery = (roomId) => {
       const data = await response.data.data.content;
       return data.reverse();
     },
+    staleTime: 10 * 60 * 1000,
   });
   return {
     directChatMessageList: directChatMessageList ? directChatMessageList : [],
