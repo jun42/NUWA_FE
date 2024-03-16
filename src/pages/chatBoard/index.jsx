@@ -40,7 +40,26 @@ const ChatPage = () => {
         setWorkSpaceMemberName={setWorkSpaceMemberName}
         debounceRequest={debounceRequest}
       />
-      <Stack>
+      <Stack
+        height={'70vh'}
+        overflowY={'scroll'}
+        py={'1rem'}
+        pr={'0.5rem'}
+        css={{
+          '&::-webkit-scrollbar': {
+            width: '10px',
+          },
+          '&::-webkit-scrollbar-track': {
+            width: '6px',
+            backgroundColor: '#FCFCFC',
+            borderRadius: '10px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            borderRadius: '10px',
+            backgroundColor: '#7A7A7A',
+          },
+        }}
+      >
         {isFetching ? (
           <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
             <Spinner

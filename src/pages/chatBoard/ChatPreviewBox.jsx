@@ -42,7 +42,6 @@ const ChatPreviewBox = ({
     <>
       {!isLoading && (
         <Box
-          maxW={'100vw'}
           border={'1px'}
           p={'12px'}
           borderColor={'grey.300'}

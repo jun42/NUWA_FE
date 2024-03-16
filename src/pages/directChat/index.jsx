@@ -13,8 +13,12 @@ import { useDirectChatMessageListQuery } from '@queries/workSpace/directChatMess
 
 import useChatBoxScroll from '@hooks/directChat/useChatBoxScroll';
 import useChatBoxScrollToBottom from '@hooks/directChat/useChatBoxScrollToBottom';
+import DirectChatBoard from './DirectChatBoard';
+import useBoundStore from '../../store/store';
 //todo api 에러 핸들링시 페이지 안깨지도록
 const DirectChatPage = () => {
+  const { isDirectChatBoxExpand: isExpand } = useBoundStore();
+
   const { chatRoomInfo, userProfile } = useLoaderData();
   const { roomId, workSpaceId } = useParams();
   let totalMessageList = [];
@@ -82,69 +86,71 @@ const DirectChatPage = () => {
   }, [socketMessageDeleteList, setSocketMessageDeleteList]);
 
   return (
-    <Box
-      width="calc(100% - 410px)"
-      px={'0.5rem'}
-      height={'100%'}
-      display={'flex'}
-      flexDirection={'column'}
-      gap={'0.25rem'}
-    >
-      {
-        <>
-          <DirectChatHeader receiverName={receiverName} />
-          <Box
-            flexGrow={1}
-            display={'flex'}
-            flexDirection={'column'}
-            justifyContent={'flex-start'}
-            overflowY={'scroll'}
-            height={'auto'}
-            ref={chatBoxRef}
-            css={{
-              '&::-webkit-scrollbar': {
-                width: '10px',
-              },
-              '&::-webkit-scrollbar-track': {
-                width: '6px',
-                backgroundColor: '#FCFCFC',
-                borderRadius: '10px',
-              },
-              '&::-webkit-scrollbar-thumb': {
-                borderRadius: '10px',
-                backgroundColor: '#d6d6d6',
-              },
-            }}
-          >
-            {!directChatMessageListIsLoading &&
-              totalMessageList.map((body) => {
-                if (userId === body.senderId) {
-                  return (
-                    <MyText
-                      key={body.createdAt}
-                      content={body.content}
-                      deleteSocketMessage={deleteSocketMessage}
-                      messageId={body.messageId}
-                      isDeleted={body.isDeleted}
-                    />
-                  );
-                } else {
-                  return (
-                    <YourText
-                      key={body.createdAt}
-                      content={body.content}
-                      senderName={body.senderName}
-                      deleteSocketMessage={deleteSocketMessage}
-                      messageId={body.messageId}
-                      isDeleted={body.isDeleted}
-                    />
-                  );
-                }
-              })}
-          </Box>
-          <TextEditor publish={publish} channelId={chatRoomInfo.channelId} />
-        </>
-      }
+    <Box width="calc(100% - 410px)" px={'0.5rem'} display={'flex'}>
+      <Box
+        display={'flex'}
+        flexDirection={'column'}
+        gap={'0.25rem'}
+        height={'100%'}
+        flex={5}
+      >
+        {
+          <>
+            <DirectChatHeader receiverName={receiverName} />
+            <Box
+              flexGrow={1}
+              display={'flex'}
+              flexDirection={'column'}
+              justifyContent={'flex-start'}
+              overflowY={'scroll'}
+              height={'auto'}
+              ref={chatBoxRef}
+              css={{
+                '&::-webkit-scrollbar': {
+                  width: '10px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  width: '6px',
+                  backgroundColor: '#FCFCFC',
+                  borderRadius: '10px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  borderRadius: '10px',
+                  backgroundColor: '#d6d6d6',
+                },
+              }}
+            >
+              {!directChatMessageListIsLoading &&
+                totalMessageList.map((body) => {
+                  if (userId === body.senderId) {
+                    return (
+                      <MyText
+                        key={body.createdAt}
+                        content={body.content}
+                        deleteSocketMessage={deleteSocketMessage}
+                        messageId={body.messageId}
+                        isDeleted={body.isDeleted}
+                      />
+                    );
+                  } else {
+                    return (
+                      <YourText
+                        key={body.createdAt}
+                        content={body.content}
+                        senderName={body.senderName}
+                        deleteSocketMessage={deleteSocketMessage}
+                        messageId={body.messageId}
+                        isDeleted={body.isDeleted}
+                      />
+                    );
+                  }
+                })}
+            </Box>
+            <TextEditor publish={publish} channelId={chatRoomInfo.channelId} />
+          </>
+        }
+      </Box>
+      {!isExpand && <DirectChatBoard />}
     </Box>
   );
 };
