@@ -17,21 +17,6 @@ const HelpDeskTop = () => {
           <StContentTextDescLink>NUWA에게 문의해주세요.</StContentTextDescLink>
         </StContentTextDesc>
       </StContentText>
-
-      <StContentBtns>
-        <StContentBtn>주제</StContentBtn>
-        <StContentBtn>오디오</StContentBtn>
-        <StContentBtn>서비스 관리</StContentBtn>
-        <StContentBtn>청구 및 플랜</StContentBtn>
-        <StContentBtn>연결 문제</StContentBtn>
-        <StContentBtn>채널</StContentBtn>
-        <StContentBtn>알림</StContentBtn>
-        <StContentBtn>이벤트</StContentBtn>
-        <StContentBtn>모바일 서비스</StContentBtn>
-        <StContentBtn>서비스 관리</StContentBtn>
-        <StContentBtn>청구 및 플랜</StContentBtn>
-        <StContentBtn>오디오 및 비디오</StContentBtn>
-      </StContentBtns>
     </StContentTop>
   );
 };
@@ -58,29 +43,11 @@ const StContentTextTitle = styled.div`
   gap: 0.2rem;
 `;
 
-const StContentTextDesc = styled.p`
+const StContentTextDesc = styled.div`
   font-weight: 500;
 `;
 
-const StContentTextDescLink = styled.p`
+const StContentTextDescLink = styled.div`
   color: #575dfb;
   text-decoration: underline;
-`;
-
-const StContentBtns = styled.div`
-  display: flex;
-  flex-flow: wrap;
-  max-width: 500px;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-`;
-
-const StContentBtn = styled.a`
-  display: inline-block;
-  padding: 6px 18px;
-  border: 1px solid #66666650;
-  border-radius: 50px;
-  background-color: #fff;
-  color: #666;
 `;

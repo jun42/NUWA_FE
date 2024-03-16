@@ -9,9 +9,30 @@ export const getDirectChatRoomList = (
   size = 10,
   sortBy = 'createdAt'
 ) => {
-  return request.get(
-    `/channel/direct/v2/${workSpaceId}?page=${page}&size=${size}&sortBy=${sortBy}`
-  );
+  return request.get(`/channel/direct/v2/${workSpaceId}`, {
+    params: {
+      page,
+      size,
+      sortBy,
+    },
+  });
+};
+
+export const searchDirectChatRoomList = (
+  workSpaceId,
+  workSpaceMemberName = '',
+  page = 0,
+  size = 10,
+  sortBy = 'createdAt'
+) => {
+  return request.get(`/channel/direct/search/${workSpaceId}`, {
+    params: {
+      page,
+      size,
+      sortBy,
+      workSpaceMemberName,
+    },
+  });
 };
 
 export const getDirectChatMessageList = (
@@ -33,4 +54,12 @@ export const getDirectChatRoomInfo = (workSpaceId, directChannelRoomId) => {
   return request.get(
     `/channel/direct/info/${workSpaceId}?directChannelRoomId=${directChannelRoomId}`
   );
+};
+
+export const leaveDirectChatRoom = (workSpaceId, roomId) => {
+  return request.delete(`/channel/direct/${workSpaceId}/message`, {
+    params: {
+      roomId,
+    },
+  });
 };

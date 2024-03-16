@@ -1,17 +1,21 @@
 import { Circle, Flex, IconButton, Text } from '@chakra-ui/react';
 import { MdLocalPhone } from 'react-icons/md';
 import { MdVideocam } from 'react-icons/md';
-import { BsArrowsAngleExpand } from 'react-icons/bs';
+import { BsArrowsAngleContract, BsArrowsAngleExpand } from 'react-icons/bs';
 
 import { RxDotsVertical } from 'react-icons/rx';
+import { useState } from 'react';
+import DirectChatMenu from '../../components/Menu/DirectChatMenu';
 
 const DirectChatHeader = ({ receiverName }) => {
+  const [isExpand, setIsExpand] = useState(true);
   return (
     <Flex
       justifyContent={'space-between'}
-      p={'1rem'}
+      alignItems={'center'}
       borderBottom={'1px'}
       borderColor={'grey.300'}
+      padding={'0.5rem'}
     >
       <Flex gap={'1rem'}>
         <DirectChatHeaderIcon
@@ -29,12 +33,23 @@ const DirectChatHeader = ({ receiverName }) => {
         </Text>
       </Flex>
       <Flex gap={'1rem'}>
-        <DirectChatHeaderIcon
-          icon={<BsArrowsAngleExpand color="#C3CAD9" size={'1.25rem'} />}
-        />
-        <DirectChatHeaderIcon
-          icon={<RxDotsVertical color="#C3CAD9" size={'1.25rem'} />}
-        />
+        {isExpand ? (
+          <DirectChatHeaderIcon
+            onClick={() => {
+              setIsExpand(false);
+            }}
+            icon={<BsArrowsAngleExpand color="#C3CAD9" size={'1.25rem'} />}
+          />
+        ) : (
+          <DirectChatHeaderIcon
+            onClick={() => {
+              setIsExpand(true);
+            }}
+            icon={<BsArrowsAngleContract color="#C3CAD9" size={'1.25rem'} />}
+          />
+        )}
+
+        <DirectChatMenu />
       </Flex>
     </Flex>
   );
