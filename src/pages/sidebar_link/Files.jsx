@@ -33,6 +33,7 @@ import {
   getExtensionFiles,
   getTypeFiles,
   getSearchedFiles,
+  deleteFile,
 } from '@apis/files/files';
 import { useParams } from 'react-router-dom';
 import {
@@ -126,8 +127,6 @@ const Files = () => {
       setFileList(response);
     });
   };
-
-  //날짜 순 정렬
   const dateList = [];
   for (let i = 0; i < fileList.length; i++) {
     if (!dateList.includes(fileList[i].createdAt.substring(0, 10))) {
@@ -348,6 +347,11 @@ const Files = () => {
         dateList.map((item) => {
           fbdList.push(filterByDate(item));
         });
+        for (let i = 0; i < fbdList.length; i++) {
+          fbdList[i].content.sort((a, b) => {
+            return new Date(b.createdAt) - new Date(a.createdAt);
+          });
+        }
         return dateList.map((item, index) => (
           <Box m="64px 0" key={index}>
             <Text fontSize="22px" fontWeight="500" color="#656565" mb="27px">
@@ -500,12 +504,6 @@ const Files = () => {
   const handleSearchWordChange = (e) => {
     setFileSearchWord(e.target.value);
   };
-  const handleSearchKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      searchFiles();
-    }
-  };
   const searchFiles = async () => {
     const searchedFiles = await Promise.resolve(
       getSearchedFiles({ workSpaceId, fileName: fileSearchWord })
@@ -513,8 +511,13 @@ const Files = () => {
     if (searchedFiles.data.data.content.length > 0)
       setFileList(searchedFiles.data.data.content);
     else setFileList([]);
-    console.log('searchedFiles', searchedFiles);
     console.log('검색어:', fileSearchWord);
+  };
+  const handleSearchKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      searchFiles();
+    }
   };
   useEffect(() => {
     if (fileSearchWord === '') {
@@ -529,6 +532,12 @@ const Files = () => {
       fetchFiles();
     }
   }, [fileSearchWord]);
+
+  //파일 삭제
+  // useEffect(() => {
+  //   deleteFile({ fileId: 13 });
+  // }, []);
+  //날짜 순 정렬
   return (
     <Flex w="100%">
       <Box w="100%" p="52px 63px">

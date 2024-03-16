@@ -25,6 +25,9 @@ export const getSearchedFiles = ({ workSpaceId, fileName }) => {
   const queryParams = `?fileName=${fileName}`;
   return request.get(`/file/search/${workSpaceId}${queryParams}`);
 };
+export const deleteFile = ({ fileId }) => {
+  return request.delete(`/file/${fileId}`);
+};
 // export const uploadFiles = ({ workSpaceId, fileList }) =>
 //   request.post(`/file/upload`, {
 //     workSpaceId,
