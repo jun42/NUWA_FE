@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getToken } from '../../utils/auth';
+import { getToken } from '@utils/auth';
 
 // 로그인시 로그인페이지 회원가입페이지 제한
 
