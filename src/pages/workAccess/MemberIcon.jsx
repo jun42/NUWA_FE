@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 
 const MemberIcon = ({ image, number }) => {
-  const iconCount = Math.min(number, 5);
+  const iconCount = number === 1 ? 0 : Math.min(number, 5) - 1;
   return (
     <Flex justify={'center'} align={'center'} gap={'5px'}>
       <Flex>
