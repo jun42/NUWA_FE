@@ -31,9 +31,9 @@ const Canvas = () => {
 
       <OutletSearchBar />
 
-      <Flex justify={'flex-end'} gap={'10px'}>
-        <GreySort label="필터" />
-        <GreySort label="정렬" />
+      <Flex justify={'flex-end'} gap={'10px'} mb={'10px'}>
+        <GreySort label="전체 캔버스" />
+        <GreySort label="내가 생성한 캔버스" />
       </Flex>
       {/* <WorkSpaceModalEdit /> */}
       {/* <StateModal /> */}
@@ -61,7 +61,6 @@ const StContainer = styled.div`
   display: flex;
   flex-flow: column;
   padding: 50px;
-  border: 1px solid red;
 `;
 
 const DataContainer = styled.div`
@@ -70,13 +69,11 @@ const DataContainer = styled.div`
   flex-direction: column;
   gap: 20px;
   cursor: pointer;
-  border: 1px solid blue;
   overflow-y: auto;
 `;
 
 const NotDataSection = styled.div`
   height: 100%;
-  border: 1px solid green;
   display: flex;
   justify-content: center;
   align-items: center;
