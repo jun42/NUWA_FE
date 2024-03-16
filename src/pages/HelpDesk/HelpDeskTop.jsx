@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 import Logo from '@components/Image/Logo';
 import StTextDiv from '@components/Text/StTextDiv';
+import useAuthGuard from '../../hooks/auth/useAuthGuard';
 
 const HelpDeskTop = () => {
+  useAuthGuard();
   return (
     <StContentTop>
       <StContentText>
