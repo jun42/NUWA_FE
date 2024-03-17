@@ -17,7 +17,7 @@ const dateToMonthDay = (dateString) => {
   return `${month}월 ${day}일`;
 };
 
-const dateToHourMinute = (dateString) => {
+export const dateToHourMinute = (dateString) => {
   const dateObject = new Date(dateString);
 
   let amOrPm;

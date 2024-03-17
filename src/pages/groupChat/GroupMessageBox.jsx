@@ -1,9 +1,15 @@
 import { Avatar, Box, Flex, Stack, Text } from '@chakra-ui/react';
-import ReactQuill from 'react-quill';
-import ChatboxContentView from '../../components/TextEditorFunctionalComponent/ChatboxContentView';
-const GroupMessageBox = ({ senderName, content }) => {
+import ChatboxContentView from '@components/TextEditorFunctionalComponent/ChatboxContentView';
+import { dateToHourMinute } from '@utils/date';
+const GroupMessageBox = ({ senderName, content, createdAt }) => {
   return (
-    <Box display={'flex'} gap={'1rem'}>
+    <Box
+      display={'flex'}
+      gap={'1rem'}
+      _hover={{ backgroundColor: 'gray.50' }}
+      p={'1rem'}
+      rounded={'xl'}
+    >
       <Box>
         <Avatar size={'md'} />
       </Box>
@@ -13,10 +19,10 @@ const GroupMessageBox = ({ senderName, content }) => {
             {senderName}
           </Text>
           <Text fontSize={'12px'} color={'#adb8cc'}>
-            12:45
+            {dateToHourMinute(createdAt)}
           </Text>
         </Flex>
-        <Box border={'1px'} maxW={'50vw'}>
+        <Box maxW={'50vw'}>
           <ChatboxContentView content={content} />
         </Box>
       </Stack>
