@@ -14,6 +14,7 @@ import IconImage from '@assets/workspace_card3.png';
 import SearchBar from '@components/SearchBar/WorkspaceSearchBar';
 import { useParams } from 'react-router-dom';
 import { workspaceMemberList } from '../../apis/workspace/workspaceMemberList';
+//import { permission } from '../../assets/offline.png';
 
 const AddUser = () => {
   const { workSpaceId } = useParams();
@@ -122,17 +123,28 @@ const AddUser = () => {
                   <Box>
                     <Image src={IconImage} boxSize="full" />
                   </Box>
-
-                  <Box p={' 10px 20px'}>
-                    <Text fontWeight={'700'}>{member.name}</Text>
-                    <Text
-                      fontSize={'14px'}
-                      fontWeight={'500'}
-                      color={'#797979'}
-                    >
-                      {member.email}
-                    </Text>
-                  </Box>
+                  <Flex flexDirection={'colunm'}>
+                    <Box p={' 10px 20px'}>
+                      <Text fontWeight={'700'}>{member.name}</Text>
+                      <Text
+                        fontSize={'14px'}
+                        fontWeight={'500'}
+                        color={'#797979'}
+                      >
+                        {member.email}
+                      </Text>
+                    </Box>
+                    <Box p={' 10px 20px'}>
+                      <Text fontWeight={'700'}>{member.name}</Text>
+                      <Text
+                        fontSize={'14px'}
+                        fontWeight={'500'}
+                        color={'#797979'}
+                      >
+                        {member.email}
+                      </Text>
+                    </Box>
+                  </Flex>
                 </UserData>
               </Flex>
             ))}

@@ -13,11 +13,11 @@ import ProfileModal from '@components/Modal/ProfileEdit/index.jsx';
 import useModal from '@hooks/useModal';
 import { useParams } from 'react-router-dom';
 import { request } from '../../apis/axios/axios';
-import useBoundStor from '../../store/store';
+import useBoundStore from '../../store/store';
 
 const ComponentLogin = () => {
   const { workSpaceId } = useParams();
-  const { workspace } = useBoundStor();
+  const { workspace } = useBoundStore();
   const [userInfo, setUserInfo] = useState(null);
   const { isOpen, onOpen, onClose } = useModal();
   const { workSpaceMemberImage } = workspace;
