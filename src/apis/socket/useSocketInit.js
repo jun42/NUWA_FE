@@ -16,10 +16,11 @@ import { subscribeHandler } from './subscribeHandler';
  */
 const useSocketInit = (roomId, workSpaceId, receiverId, channelType) => {
   const [publish, setPublish] = useState(null);
+  const [updatePublish, setUpdatePublish] = useState(null);
   const [deleteSocketMessage, setDeleteSocketMessage] = useState(null);
   const [socketMessageList, setSocketMessageList] = useState([]);
   const [socketMessageDeleteList, setSocketMessageDeleteList] = useState([]);
-  const [socketMessagePatchList, setSocketMessagePatchList] = useState([]);
+  const [socketMessageUpdateList, setSocketMessageUpdateList] = useState([]);
 
   const authHeader = {
     Authorization: getToken(),
@@ -58,7 +59,8 @@ const useSocketInit = (roomId, workSpaceId, receiverId, channelType) => {
           subscribeHandler(
             socketMessageList,
             setSocketMessageList,
-            setSocketMessageDeleteList
+            setSocketMessageDeleteList,
+            setSocketMessageUpdateList
           ),
           authHeader
         );
@@ -106,6 +108,31 @@ const useSocketInit = (roomId, workSpaceId, receiverId, channelType) => {
           };
         };
         setDeleteSocketMessage((state) => lazyDelete());
+
+        const updateInfo = {
+          destination: '/pub/direct/update',
+          headers: authHeader,
+          body: {
+            id: null,
+            workSpaceId,
+            roomId,
+            content: null,
+            messageType: 'UPDATE',
+          },
+        };
+        const lazyUpdate = () => {
+          return (id, content, rawString) => {
+            const newInfo = { ...updateInfo };
+            newInfo.body = JSON.stringify({
+              ...newInfo.body,
+              id: id,
+              content,
+              rawString,
+            });
+            client.publish(newInfo);
+          };
+        };
+        setUpdatePublish((state) => lazyUpdate());
       };
 
       client.onStompError = function (frame) {
@@ -126,7 +153,7 @@ const useSocketInit = (roomId, workSpaceId, receiverId, channelType) => {
           console.log('[DISCONNECT SOCKET SUCCESS]');
         })
         .catch((err) => {
-          console.error('[DISCONNECT SOCKET FAIL]');
+          console.error('[DISCONNECT SOCKET FAIL]', err);
         });
       client.deactivate();
     };
@@ -134,11 +161,14 @@ const useSocketInit = (roomId, workSpaceId, receiverId, channelType) => {
 
   return {
     publish,
+    updatePublish,
     socketMessageList,
     setSocketMessageList,
     deleteSocketMessage,
     socketMessageDeleteList,
     setSocketMessageDeleteList,
+    socketMessageUpdateList,
+    setSocketMessageUpdateList,
   };
 };
 

@@ -12,6 +12,7 @@ const MyTextMenu = ({
   deleteSocketMessage,
   messageId,
   messageType,
+  setReadOnly,
 }) => {
   return (
     <Menu>
@@ -32,7 +33,16 @@ const MyTextMenu = ({
             메시지 삭제하기
           </MenuItem>
         )}
-        {messageType === 'TEXT' && <MenuItem>수정하기</MenuItem>}
+        {messageType === 'TEXT' && (
+          <MenuItem
+            onClick={() => {
+              console.log('수정하기');
+              setReadOnly(false);
+            }}
+          >
+            수정하기
+          </MenuItem>
+        )}
       </MenuList>
     </Menu>
   );

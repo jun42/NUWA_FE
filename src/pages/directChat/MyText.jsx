@@ -9,8 +9,11 @@ const MyText = ({
   messageId,
   isDeleted,
   messageType,
+  updatePublish,
 }) => {
   const [isHover, setIsHover] = useState(false);
+  const [readOnly, setReadOnly] = useState(true);
+  const backgrounColor = readOnly ? 'primary.100' : 'gray.100';
   return (
     <Flex
       width={'100%'}
@@ -27,8 +30,15 @@ const MyText = ({
         setIsHover(false);
       }}
     >
-      <Box borderRadius={'10px'} width={'45%'} bg={'primary.100'} py={'1px'}>
-        <ChatboxContentView content={content} isDeleted={isDeleted} />
+      <Box borderRadius={'10px'} width={'45%'} bg={backgrounColor} py={'1px'}>
+        <ChatboxContentView
+          content={content}
+          isDeleted={isDeleted}
+          readOnly={readOnly}
+          updatePublish={updatePublish}
+          messageId={messageId}
+          setReadOnly={setReadOnly}
+        />
       </Box>
       {isHover && (
         <MyTextMenu
@@ -36,6 +46,7 @@ const MyText = ({
           deleteSocketMessage={deleteSocketMessage}
           messageId={messageId}
           messageType={messageType}
+          setReadOnly={setReadOnly}
         />
       )}
     </Flex>

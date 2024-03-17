@@ -1,7 +1,8 @@
 export const subscribeHandler = (
   socketMessageList,
   setSocketMessageList,
-  setSocketMessageDeleteList
+  setSocketMessageDeleteList,
+  setSocketMessageUpdateList
 ) => {
   return (message) => {
     console.log('SUBSCRIBE MESSAGE : ', message.body);
@@ -9,8 +10,9 @@ export const subscribeHandler = (
     if (bodyObject.messageType === 'ENTER') {
       console.log('Enter sub');
     } else if (bodyObject.messageType === 'DELETE') {
-      console.log(bodyObject, socketMessageList);
       setSocketMessageDeleteList((state) => [...state, bodyObject]);
+    } else if (bodyObject.messageType === 'UPDATE') {
+      setSocketMessageUpdateList((state) => [...state, bodyObject]);
     } else {
       setSocketMessageList((state) => [...state, bodyObject]);
     }
