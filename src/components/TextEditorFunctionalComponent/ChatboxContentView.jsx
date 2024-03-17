@@ -25,13 +25,6 @@ const ChatboxContentView = ({ content, isDeleted }) => {
         modules={{ toolbar: '#chat' }}
         theme={false}
       />
-      {/* <ChatBoxQuill
-        ref={quillRef}
-        readOnly={true}
-        defaultValue={defaultValue}
-        onSelectionChange={setRange}
-        onTextChange={setLastChange}
-      /> */}
     </>
   );
 };
