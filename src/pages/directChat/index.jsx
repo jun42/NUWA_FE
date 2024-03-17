@@ -130,6 +130,7 @@ const DirectChatPage = () => {
                         deleteSocketMessage={deleteSocketMessage}
                         messageId={body.messageId}
                         isDeleted={body.isDeleted}
+                        messageType={body.messageType}
                       />
                     );
                   } else {

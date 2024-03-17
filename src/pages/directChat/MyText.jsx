@@ -3,7 +3,13 @@ import ChatboxContentView from '@components/TextEditorFunctionalComponent/Chatbo
 import { useState } from 'react';
 import MyTextMenu from '@components/Menu/MyTextMenu';
 
-const MyText = ({ content, deleteSocketMessage, messageId, isDeleted }) => {
+const MyText = ({
+  content,
+  deleteSocketMessage,
+  messageId,
+  isDeleted,
+  messageType,
+}) => {
   const [isHover, setIsHover] = useState(false);
   return (
     <Flex
@@ -29,6 +35,7 @@ const MyText = ({ content, deleteSocketMessage, messageId, isDeleted }) => {
           isDeleted={isDeleted}
           deleteSocketMessage={deleteSocketMessage}
           messageId={messageId}
+          messageType={messageType}
         />
       )}
     </Flex>
