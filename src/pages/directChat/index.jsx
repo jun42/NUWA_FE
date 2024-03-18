@@ -42,11 +42,14 @@ const DirectChatPage = () => {
 
   const {
     publish,
+    updatePublish,
     socketMessageList,
     setSocketMessageList,
     deleteSocketMessage,
     socketMessageDeleteList,
     setSocketMessageDeleteList,
+    socketMessageUpdateList,
+    setSocketMessageUpdateList,
   } = useSocketInit(roomId, workSpaceId, receiverId, 'direct');
   useChatBoxScroll(chatBoxRef, socketMessageList);
 
@@ -85,9 +88,40 @@ const DirectChatPage = () => {
     }
   }, [socketMessageDeleteList, setSocketMessageDeleteList]);
 
+  useEffect(() => {
+    if (socketMessageUpdateList.length !== 0) {
+      setSocketMessageList((state) => {
+        const newState = [...state];
+        for (let updateItem of socketMessageUpdateList) {
+          newState.forEach((item) => {
+            if (item.messageId === updateItem.id) {
+              item.createdAt = item.createdAt + 'update';
+              item.content = updateItem.content;
+            }
+            return item;
+          });
+        }
+        return newState;
+      });
+      if (directChatMessageList.length > 0) {
+        for (let updateItem of socketMessageUpdateList) {
+          directChatMessageList.forEach((item) => {
+            if (item.messageId === updateItem.id) {
+              item.createdAt = item.createdAt + 'update';
+              item.content = updateItem.content;
+            }
+            return item;
+          });
+        }
+      }
+
+      setSocketMessageUpdateList([]);
+    }
+  }, [socketMessageUpdateList]);
   return (
     <Box width="calc(100% - 410px)" px={'0.5rem'} display={'flex'}>
       <Box
+        maxW={'65%'}
         display={'flex'}
         flexDirection={'column'}
         gap={'0.25rem'}
@@ -125,17 +159,19 @@ const DirectChatPage = () => {
                   if (userId === body.senderId) {
                     return (
                       <MyText
-                        key={body.messageId}
+                        key={body.createdAt}
                         content={body.content}
                         deleteSocketMessage={deleteSocketMessage}
                         messageId={body.messageId}
                         isDeleted={body.isDeleted}
+                        messageType={body.messageType}
+                        updatePublish={updatePublish}
                       />
                     );
                   } else {
                     return (
                       <YourText
-                        key={body.messageId}
+                        key={body.createdAt}
                         content={body.content}
                         senderName={body.senderName}
                         deleteSocketMessage={deleteSocketMessage}

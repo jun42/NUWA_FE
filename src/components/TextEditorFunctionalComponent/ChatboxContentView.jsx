@@ -1,32 +1,36 @@
 // import { Delta } from 'quill';
-import ReactQuill, { Quill } from 'react-quill';
-import ChatBoxQuill from './ChatBoxQuill';
-import { useRef, useState } from 'react';
+import { Quill } from 'react-quill';
+import { memo } from 'react';
+import ChatBoxEditor from '../ChatBoxEditor/ChatBoxEditor';
 
-const ChatboxContentView = ({ content, isDeleted }) => {
+const ChatboxContentView = memo(function ChatboxContentView({
+  content,
+  isDeleted,
+  readOnly,
+  updatePublish,
+  messageId,
+  setReadOnly,
+}) {
   const Delta = Quill.import('delta');
-  // console.log(content, isDeleted);
   let defaultValue;
   if (isDeleted) {
     defaultValue = new Delta().insert('삭제된 메시지입니다.');
   } else {
     defaultValue = new Delta({ ops: JSON.parse(content) });
   }
-  const quillRef = useRef();
-  const [range, setRange] = useState();
-  const [lastChange, setLastChange] = useState();
 
   return (
     <>
       <div id="chat"></div>
-      <ReactQuill
-        readOnly={true}
+      <ChatBoxEditor
+        readOnly={readOnly === undefined ? true : readOnly}
         defaultValue={defaultValue}
-        modules={{ toolbar: '#chat' }}
-        theme={false}
+        updatePublish={updatePublish}
+        messageId={messageId}
+        setReadOnly={setReadOnly}
       />
     </>
   );
-};
+});
 
 export default ChatboxContentView;
