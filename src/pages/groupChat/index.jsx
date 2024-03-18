@@ -12,7 +12,7 @@ import useChatBoxScroll from '@hooks/directChat/useChatBoxScroll';
 import useChatBoxScrollToBottom from '@hooks/directChat/useChatBoxScrollToBottom';
 
 const GroupChatPage = () => {
-  const navitate = useNavigate();
+  const navigate = useNavigate();
   const chatBoxRef = useRef();
   const { userProfile, chatRoomInfo, isGroupMember } = useLoaderData();
   const channelId = chatRoomInfo.channelId;
@@ -139,7 +139,7 @@ const GroupChatPage = () => {
               colorScheme="secondary"
               onClick={() => {
                 joinInGroupChat(channelId, [userProfile.id]).then((r) => {
-                  navitate(`/workspace/${workSpaceId}/groupChat/${roomId}/`);
+                  navigate(`/workspace/${workSpaceId}/groupChat/${roomId}/`);
                 });
               }}
             >
