@@ -121,6 +121,7 @@ const DirectChatPage = () => {
   return (
     <Box width="calc(100% - 410px)" px={'0.5rem'} display={'flex'}>
       <Box
+        maxW={'65%'}
         display={'flex'}
         flexDirection={'column'}
         gap={'0.25rem'}

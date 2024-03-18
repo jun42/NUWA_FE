@@ -24,7 +24,7 @@ export const dateToHourMinute = (dateString) => {
   let hours = dateObject.getHours();
   const minutes = dateObject.getMinutes();
 
-  if (hours < 11) {
+  if (hours < 12) {
     amOrPm = '오전';
   } else {
     amOrPm = '오후';

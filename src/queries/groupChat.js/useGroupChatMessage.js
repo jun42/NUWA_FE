@@ -9,6 +9,7 @@ export const useGroupChatMessageQuery = (chatChannelRoomId) => {
       const data = await response.data.data.content;
       return data.reverse();
     },
+    staleTime: 10 * 60 * 1000,
   });
   return { data: data ? data : [], isFetching, isSuccess };
 };
