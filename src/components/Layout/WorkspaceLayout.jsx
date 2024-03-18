@@ -52,7 +52,8 @@ const WorkspaceLayout = () => {
             description = `${data.notificationContent}`;
             break;
           case 'CHAT':
-            title = '그룹 채팅 메세지 알림';
+            title = `${data.notificationContent}`;
+            description = `그룹채팅의 알림이 도착하였습니다.`;
             break;
         }
 
@@ -105,7 +106,7 @@ const WorkspaceLayout = () => {
     return () => {
       eventSource.close();
     };
-  }, [toast]);
+  }, [toast, workSpaceId]);
 
   return (
     <Fragment>

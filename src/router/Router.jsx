@@ -36,6 +36,7 @@ import { getDirectChatRoomInfo } from '@apis/chat/chat';
 import { getWorkspaceUserProfile } from '@apis/workspace/workspaceProfile';
 import ErrorBoundary from '@components/Error/ErrorBoundary';
 import GroupChatPage from '@pages/groupChat';
+import { getGroupChatInfo } from '../apis/chat/groupChat';
 
 export const Router = createBrowserRouter([
   {
@@ -176,18 +177,22 @@ export const Router = createBrowserRouter([
           },
           { path: '/workspace/:workSpaceId/files', element: <Files /> },
           {
-            path: '/workspace/:workSpaceId/groupChat/:roomId/:channelId',
+            path: '/workspace/:workSpaceId/groupChat/:roomId/',
             element: <GroupChatPage />,
             loader: async ({ params }) => {
-              // const chatRoomInfo = await getDirectChatRoomInfo(
-              //   params.workSpaceId,
-              //   params.roomId
-              // ).then((r) => r.data.data);
+              const chatRoomInfo = await getGroupChatInfo(
+                params.workSpaceId,
+                params.roomId
+              ).then((r) => r.data.data);
 
               const userProfile = await getWorkspaceUserProfile(
                 params.workSpaceId
               ).then((r) => r.data.data);
-              return { userProfile };
+
+              const isGroupMember = chatRoomInfo.memberList.includes(
+                userProfile.id
+              );
+              return { userProfile, chatRoomInfo, isGroupMember };
             },
           },
         ],
