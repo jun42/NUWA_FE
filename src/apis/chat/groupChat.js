@@ -23,3 +23,10 @@ export const joinInGroupChat = (chatChannelId, joinMemberIdList) =>
     chatChannelId,
     joinMemberIdList,
   });
+
+export const getGroupChatInfo = (workSpaceId, chatChannelRoomId) =>
+  request.get(`/channel/chat/Info/${workSpaceId}`, {
+    params: {
+      chatChannelRoomId,
+    },
+  });

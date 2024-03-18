@@ -106,7 +106,7 @@ const WorkspaceLayout = () => {
     return () => {
       eventSource.close();
     };
-  }, [toast]);
+  }, [toast, workSpaceId]);
 
   return (
     <Fragment>

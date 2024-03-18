@@ -26,6 +26,8 @@ export const dateToHourMinute = (dateString) => {
 
   if (hours < 12) {
     amOrPm = '오전';
+  } else if (hours === 12) {
+    amOrPm = '오후';
   } else {
     amOrPm = '오후';
     hours -= 12;

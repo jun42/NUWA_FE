@@ -3,13 +3,12 @@ import { getGroupChatMessage } from '@apis/chat/groupChat';
 
 export const useGroupChatMessageQuery = (chatChannelRoomId) => {
   const { data, isFetching, isSuccess } = useQuery({
-    queryKey: [chatChannelRoomId],
+    queryKey: ['groupChatMessage', chatChannelRoomId],
     queryFn: async () => {
       const response = await getGroupChatMessage(chatChannelRoomId);
       const data = await response.data.data.content;
-      return data.reverse();
+      return data;
     },
-    staleTime: 10 * 60 * 1000,
   });
   return { data: data ? data : [], isFetching, isSuccess };
 };
