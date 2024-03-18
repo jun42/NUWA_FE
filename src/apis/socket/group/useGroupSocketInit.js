@@ -121,7 +121,7 @@ const useGroupSocketInit = (roomId, workSpaceId, channelType) => {
         });
       client.deactivate();
     };
-  }, []);
+  }, [roomId]);
 
   return {
     publish,
