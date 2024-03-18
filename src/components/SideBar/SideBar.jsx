@@ -26,18 +26,13 @@ import Channel from './Channel';
 import WorkSpaceModalEdit from '@components/Modal/WorkspaceEdit';
 import useModal from '@hooks/useModal';
 import { useNavigate, useParams } from 'react-router-dom';
-import { fetchChatChannelList } from '@apis/channel/channel';
 import { getWorkspace } from '@apis/sidebar/getworkspace.js';
 import ChatChannel from './ChatChannel';
 
 const SideBar = () => {
   const navigate = useNavigate();
   const { workSpaceId } = useParams();
-  const [chatChList, setChatChList] = useState([]);
   const [workspaces, setWorkspaces] = useState([]); // 워크스페이스 정보를 저장할 상태
-  useEffect(() => {
-    fetchChatChannelList({ workSpaceId }).then((r) => setChatChList(r.content));
-  }, []);
 
   const chData2 = [
     {
