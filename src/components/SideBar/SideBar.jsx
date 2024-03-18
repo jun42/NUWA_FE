@@ -89,31 +89,71 @@ const SideBar = () => {
       (workspace) => workspace.workspaceId.toString() === workSpaceId
     )?.workSpaceName || 'Loading...';
 
+  // 이미지 로드 실패 핸들러
+  const handleImageError = (workspaceId) => {
+    setWorkspaces((currentWorkspaces) =>
+      currentWorkspaces.map((workspace) =>
+        workspace.workspaceId === workspaceId
+          ? { ...workspace, isImageError: true }
+          : workspace
+      )
+    );
+  };
+
   return (
     <Flex>
       <Box w="80px" backgroundColor="#5158ff" p="0 16px">
-        {workspaces.map((workspace) => (
-          <Flex
-            key={workspace.workspaceId}
-            className="workImage"
-            justify="center"
-            pt="32px"
-            cursor="pointer"
-            onClick={() => navigate(`/workspace/${workspace.workspaceId}`)}
-          >
-            <Image
-              src={workspace.workSpaceImage}
-              alt={workspace.workSpaceName}
-              boxSize="40px"
-              border={`2px solid ${
-                workSpaceId === workspace.workspaceId.toString()
-                  ? '#00FF00'
-                  : '#D9D9D9'
-              }`}
-              borderRadius="full"
-            />
-          </Flex>
-        ))}
+        {workspaces.map((workspace) =>
+          workspace.isImageError ? (
+            <Flex
+              key={workspace.workspaceId}
+              className="notworkImage"
+              justify="center"
+              align="center"
+              pt="32px"
+              cursor="pointer"
+              onClick={() => navigate(`/workspace/${workspace.workspaceId}`)}
+            >
+              <Box
+                display="flex"
+                boxSize="40px"
+                bg="white"
+                borderRadius="full"
+                alignItems="center"
+                justifyContent="center"
+                border={`2px solid ${
+                  workSpaceId === workspace.workspaceId.toString()
+                    ? '#00FF00'
+                    : '#D9D9D9'
+                }`}
+              >
+                <Text>{workspace.workSpaceImage}</Text>
+              </Box>
+            </Flex>
+          ) : (
+            <Flex
+              key={workspace.workspaceId}
+              className="workImage"
+              justify="center"
+              pt="32px"
+              cursor="pointer"
+              onClick={() => navigate(`/workspace/${workspace.workspaceId}`)}
+            >
+              <Image
+                src={workspace.workSpaceImage}
+                alt={workspace.workSpaceName}
+                boxSize="40px"
+                border={`2px solid ${
+                  workSpaceId === workspace.workspaceId.toString()
+                    ? '#00FF00'
+                    : '#D9D9D9'
+                }`}
+                borderRadius="full"
+                onError={() => handleImageError(workspace.workspaceId)}
+              />
+            </Flex>
+          )
+        )}
 
         <Flex
           justify="center"
@@ -122,6 +162,10 @@ const SideBar = () => {
           onClick={() => {
             navigate(`/create-workspace`);
           }}
+          _active={{
+            transform: 'scale(0.98)', // 클릭 시 약간 축소
+          }}
+          transition="transform 0.1s ease-in-out" // 변화가 부드럽게 적용되도록 설정
         >
           <Image src={add} alt="" />
         </Flex>

@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import {
   Text,
   FormControl,
@@ -11,17 +12,18 @@ import {
 import styled from 'styled-components';
 import { useImage } from '@queries/useImage';
 import { dataURItoBlob } from '@utils/dataURItoBlob';
+import { updateWorkspaceInfo } from '@apis/workspace/workspaceUpload.js';
 
 const ModalBody = () => {
-  const [fileName, setFileName] = useState('');
-  const [imageUrl, setImageUrl] = useState(''); // 업로드된 이미지의 URL을 저장할 상태
+  const { workSpaceId } = useParams();
+  const [workSpaceName, setWorkSpaceName] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const { mutation } = useImage();
-  const fileInputRef = useRef(null); // 파일 입력을 위한 ref
+  const fileInputRef = useRef(null);
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      setFileName(file.name);
       // FileReader를 사용하여 파일을 data URL 형태로 읽습니다.
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -31,16 +33,22 @@ const ModalBody = () => {
         // Blob을 사용하여 서버(S3)에 이미지를 업로드합니다.
         try {
           const data = await mutation.mutateAsync(blob);
-          // 업로드 성공 로그를 콘솔에 출력합니다.
           console.log('이미지가 정상적으로 S3에 도착하였습니다.');
-          // 응답에서 이미지 URL을 받아 상태를 업데이트하고, URL을 콘솔에 출력합니다.
           setImageUrl(data.location);
           console.log(`이미지 URL: ${data.location}`);
         } catch (error) {
-          // 에러 핸들링: 업로드 실패 시 콘솔에 에러 메시지를 출력합니다.
           console.error('이미지 업로드에 실패했습니다.', error);
         }
       };
+    }
+  };
+
+  const handleUpdateWorkspace = async () => {
+    try {
+      await updateWorkspaceInfo(workSpaceId, workSpaceName, imageUrl);
+      console.log('워크스페이스 정보가 성공적으로 업데이트되었습니다.');
+    } catch (error) {
+      console.error('워크스페이스 정보 업데이트에 실패했습니다.', error);
     }
   };
 
@@ -55,16 +63,17 @@ const ModalBody = () => {
           <FormLabel htmlFor="workspace-name">워크스페이스 이름</FormLabel>
           <Input
             id="workspace-name"
+            value={workSpaceName}
+            onChange={(e) => setWorkSpaceName(e.target.value)}
             borderRadius={'3px'}
-            placeholder={'새로운 워크스페이스명을 작성해주세요.'}
+            placeholder="새로운 워크스페이스명을 작성해주세요."
           />
         </FormControl>
-
         <FormControl>
           <FormLabel htmlFor="workspace-image">워크스페이스 아이콘</FormLabel>
           <InputGroup size="md">
             <Input
-              value={imageUrl || '선택된 이미지 없음'} // 업로드된 이미지 URL 또는 기본 텍스트 표시
+              value={imageUrl || '선택된 이미지 없음'}
               placeholder="선택된 이미지 없음"
               readOnly
               borderRadius={'3px'}
@@ -91,8 +100,8 @@ const ModalBody = () => {
             </Button>
           </InputGroup>
         </FormControl>
-
         <Button
+          onClick={handleUpdateWorkspace}
           width={'100%'}
           borderRadius={'3px'}
           bg={'#5158FF'}
