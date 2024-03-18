@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { getToken } from '@utils/auth';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import { disconnectDirectChatSocket } from '@apis/chat/chat';
-import { makeLazyGroupPublish, makeLazyPublish } from '../publish';
+import { makeLazyGroupPublish } from '../publish';
 import { subscribeHandler } from '../subscribeHandler';
+import { disconnectGroupChatSocket } from '@apis/chat/groupChat';
 
 /**
  *
@@ -112,7 +112,7 @@ const useGroupSocketInit = (roomId, workSpaceId, channelType) => {
     client.activate();
 
     return () => {
-      disconnectDirectChatSocket(roomId)
+      disconnectGroupChatSocket(roomId)
         .then((r) => {
           console.log('[DISCONNECT SOCKET SUCCESS]');
         })

@@ -1,18 +1,22 @@
 import { request } from '../axios/axios';
 
-export const createChatChannel = ({ workSpaceId, channelName }) => {
-  request.post('/channel/chat', {
+export const createGroupChannel = ({
+  workSpaceId,
+  channelName,
+  channelType,
+}) => {
+  request.post(`/channel/${channelType}`, {
     workSpaceId,
     chatChannelName: channelName,
   });
 };
 
-export const createVoiceChannel = ({ workSpaceId, channelName }) => {
-  request.post('/channel/voice', {
-    workSpaceId,
-    chatChannelName: channelName,
-  });
-};
+// export const createVoiceChannel = ({ workSpaceId, channelName }) => {
+//   request.post('/channel/voice', {
+//     workSpaceId,
+//     chatChannelName: channelName,
+//   });
+// };
 
 export const getChatChannelList = async ({ workSpaceId }) => {
   try {

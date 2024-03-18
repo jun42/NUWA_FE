@@ -125,7 +125,7 @@ const DirectChatPage = () => {
                   if (userId === body.senderId) {
                     return (
                       <MyText
-                        key={body.createdAt}
+                        key={body.messageId}
                         content={body.content}
                         deleteSocketMessage={deleteSocketMessage}
                         messageId={body.messageId}
@@ -135,7 +135,7 @@ const DirectChatPage = () => {
                   } else {
                     return (
                       <YourText
-                        key={body.createdAt}
+                        key={body.messageId}
                         content={body.content}
                         senderName={body.senderName}
                         deleteSocketMessage={deleteSocketMessage}
