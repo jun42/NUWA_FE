@@ -1,4 +1,3 @@
-import React from "react";
 import styled, { keyframes } from "styled-components";
 import { Flex , Text } from "@chakra-ui/react";
 import amazon from '@assets/amazon.png';
@@ -29,7 +28,7 @@ const MainCompanyLogo = () => {
       <MainSection>
       <StTextBox>
           <Flex flexDirection="column" alignItems="center" justifyContent="center">
-            <Text fontSize="38px" fontWeight="700">
+            <Text fontSize="36px" fontWeight="700" className="landingPTitle">
               전 세계 기업들이 신뢰하는 NUWA
             </Text>
           </Flex>
@@ -57,9 +56,8 @@ const StContainer = styled.div`
   overflow: hidden; 
   display: flex;
   flex-direction: column;
-  padding : 80px 20px;
-  gap: 35px;
-
+  padding : 80px 12px;
+  gap: 36px;
 `;
 
 const MainSection = styled.div`
@@ -81,12 +79,11 @@ const StImageBox = styled.div`
   animation: ${scroll} 10s linear infinite; 
   will-change: transform; 
   gap: 50px;
-
-  
+  align-items: center;
 `;
 
 const Logo = styled.img`
   width: 208px;
-  height: 60px; 
+  height: 100%; 
   margin-right: 58x; 
 `;

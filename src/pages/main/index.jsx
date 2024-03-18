@@ -1,4 +1,3 @@
-import React from 'react';
 import MainHeader from './MainHeader';
 import MainCenter from './Maincenter';
 import CustomerStories from './CustomerStories';
@@ -7,12 +6,11 @@ import styled from 'styled-components';
 import Percent from './Percent';
 
 
-const index = () => {
+const main = () => {
   return (
 
-      <StContainer>
+      <StContainer id='main' >
         <MainHeader/>
-        
         <MainCompany />
         <MainCenter/>
         <Percent/>
@@ -20,12 +18,12 @@ const index = () => {
       </StContainer>
   );
 }
- 
-export default index;
+
+export default main;
 
 const StContainer = styled.div`
   width: 100%;
-  max-width: 1920px;
+ //max-width: 1920px;
   height: 100%;
   display: flex;
   flex-direction: column;

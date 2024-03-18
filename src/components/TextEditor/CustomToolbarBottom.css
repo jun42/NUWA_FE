@@ -1,0 +1,40 @@
+.toolbar-bottom :nth-child(4) {
+  /* display: flex;
+  align-items: center;
+  width: 100%;
+  background: #242424;
+  padding-left: 0.5rem;
+  border-radius: 0px 0px 6px 6px;
+  height: 40px;
+  margin-bottom: 4rem; */
+  margin-left: auto;
+}
+
+.toolbar-bottom {
+  height: 100%;
+}
+
+#send-button {
+  width: 3rem;
+  height: 2rem;
+  background-color: var(--primary-400);
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+}
+
+.toolbar-bottom__icon {
+  border-radius: 4px;
+  padding: 4px;
+  display: flex;
+  justify-content: center;
+}
+
+.toolbar-bottom__icon:hover {
+  background-color: #434343;
+}
+.toolbar-bottom__icon:active {
+  background-color: #656565;
+}

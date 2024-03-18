@@ -1,18 +1,37 @@
 import { useEffect } from 'react';
-import { logout, reissueToken } from '@apis/axios/auth';
+import { logoutRequest, reissueToken } from '@apis/auth/auth';
 import useInterval from '@hooks/useInterval';
+import { getToken, removeToken } from '../utils/auth';
+import useBoundStore from '@store/store';
+import { useNavigate } from 'react-router-dom';
 
 const AuthProvider = ({ children }) => {
+  const { setIsLoggedIn } = useBoundStore();
+  const navigate = useNavigate();
+
+  //todo : 소셜로그인에서 다른 앱으로 진입할 때 날아가는 버그.
+  // 기능상 에러는 아니지만 의도하지는 않은거라서.. 어떻게 핸들링할지 고민중
   useEffect(() => {
-    window.addEventListener('beforeunload', logout);
+    const handleLogout = () => {
+      // removeToken();
+      // logoutRequest();
+      // setIsLoggedIn(false);
+      console.log('beforeunload event');
+    };
+    window.addEventListener('beforeunload', handleLogout);
     return () => {
-      window.removeEventListener('beforeunload', logout);
+      window.removeEventListener('beforeunload', handleLogout);
     };
   }, []);
   // 5분간격 토큰 재발행
   useInterval(() => {
-    if (localStorage.getItem('accessToken')) {
-      reissueToken();
+    if (getToken()) {
+      try {
+        reissueToken();
+      } catch {
+        removeToken();
+        navigate('/login');
+      }
     }
   }, 5 * 60 * 1000);
 
@@ -24,7 +43,11 @@ const AuthProvider = ({ children }) => {
   //     window.addEventListener('click', logout);
   //   };
   // });
-
+  useEffect(() => {
+    if (getToken()) {
+      setIsLoggedIn(true);
+    }
+  }, []);
   return <>{children}</>;
 };
 

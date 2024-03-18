@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const StPlanCard = styled.div`
-  width: 380px;
+  width: 330px;
   height: 780px;
   display: flex;
   flex-direction: column;
@@ -10,7 +10,7 @@ const StPlanCard = styled.div`
   gap: 3rem;
   border-radius: 12px;
   box-shadow: ${({ theme }) => theme.shadow.primary};
-  padding: 5rem 1.5rem;
+  padding: 4rem 1rem;
 `;
 
 export default StPlanCard;

@@ -26,13 +26,13 @@ const FeatHeader = () => {
                 alt='로고'
                 />
 
-                <StTextDiv $size={48} $weight={700} $color={'white'}>
-                    에서는 미래의 업무가 <StText $color={'primary400'}>이루어지는 곳</StText>입니다
+                <StTextDiv $size={42} $weight={700} $color={'white'}>
+                    <span className='disNone'>에서는</span> 미래의 업무가 <StText $color={'primary400'}>이루어지는 곳</StText>입니다
                 </StTextDiv>
             </StMainText>
 
             <Flex justify="center" align="center" flexDirection="center">
-                <Text fontSize="22px" fontWeight="700" color="white" textAlign="center">
+                <Text fontSize="20px" fontWeight="500" color="white" textAlign="center">
                 사람은 물론 업무에 필요한 모든 걸 한 곳에 집중시킴으로써
                 <br/>
                 기존의 업무 방식을 완전히 바꿔 보새요.
@@ -50,7 +50,7 @@ const FeatHeader = () => {
             style={{
                 zIndex:1,
                 position: 'absolute',
-                left: '15%', 
+                left: '16%', 
                 bottom: '0px'
                  }}
             />
@@ -63,7 +63,7 @@ const FeatHeader = () => {
             style={{
                 zIndex:1,
                 position: 'absolute',
-                right: '15%', 
+                right: '19%', 
                 bottom: '0px', 
                  }}
             /> 

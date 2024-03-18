@@ -9,17 +9,22 @@ import chakraTheme from '@styles/chakraTheme';
 import AuthProvider from './provider/AuthProvider';
 import { Outlet } from 'react-router-dom';
 
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+
 const queryClient = new QueryClient();
 function App() {
   return (
     <>
-      <GlobalStyle />
       <ThemeProvider theme={theme}>
         <ChakraProvider theme={chakraTheme}>
+          <GlobalStyle />
           <QueryClientProvider client={queryClient}>
             <ReactQueryDevtools initialIsOpen={false} />
             <AuthProvider>
-              <Outlet />
+              <DndProvider backend={HTML5Backend}>
+                <Outlet />
+              </DndProvider>
             </AuthProvider>
           </QueryClientProvider>
         </ChakraProvider>

@@ -7,7 +7,7 @@ const SelectPlan = () => {
   return (
     <StContainer>
       <PageTitle />
-      <StCardContainer>
+      <StCardContainer className='cardWarp'>
         {SELECT_PLAN_INFO.map((item) => {
           return item.id !== 'PRO' ? (
             <PlanCard
@@ -38,15 +38,19 @@ export default SelectPlan;
 
 // 1920 * 1080 기준
 const StContainer = styled.div`
-  padding-left: 9rem;
-  padding-right: 9rem;
   display: flex;
   flex-direction: column;
-  gap: 7rem;
+  gap: 6rem;
   justify-content: center;
   align-items: start;
+  padding: 64px 0;
+    max-width: 1440px;
+    margin: 0 auto;
 `;
 const StCardContainer = styled.div`
   display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
   gap: 2rem;
+  width: 100%;
 `;

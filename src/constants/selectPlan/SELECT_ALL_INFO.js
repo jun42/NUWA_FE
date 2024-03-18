@@ -1,7 +1,31 @@
 import Polygon from '@assets/Polygon.svg';
+import WorkspaceCard1 from '@assets/workspace_card1.png';
+import WorkspaceCard2 from '@assets/workspace_card2.png';
+import WorkspaceCard3 from '@assets/workspace_card3.png';
+import WorkspaceCard_Add from '@assets/workspace_add.png';
 import mainCard1 from '@assets/mainCard1.png';
 import mainCard2 from '@assets/mainCard2.png';
 import mainCard3 from '@assets/mainCard3.png';
+
+export const alarm_data =[
+    {name: "새로운 캔버스가 작성되었습니다.", date: "오늘 마지막으로 확인됨"},
+    {name: "NUWA 사이트를 제작중입니다. 잠시만 기다려주세요", date: "어제 마지막으로 확인됨"}, 
+    {name: "새로운 캔버스가 작성되었습니다.", date: "오늘 마지막으로 확인됨"},
+    {name: "NUWA 사이트를 제작중입니다. 잠시만 기다려주세요", date: "어제 마지막으로 확인됨"}, 
+    {name: "새로운 캔버스가 작성되었습니다.", date: "오늘 마지막으로 확인됨"},
+    {name: "NUWA 사이트를 제작중입니다. 잠시만 기다려주세요", date: "어제 마지막으로 확인됨"}, 
+    {name: "새로운 캔버스가 작성되었습니다.", date: "오늘 마지막으로 확인됨"},
+    {name: "NUWA 사이트를 제작중입니다. 잠시만 기다려주세요", date: "어제 마지막으로 확인됨"}, 
+    {name: "새로운 캔버스가 작성되었습니다.", date: "오늘 마지막으로 확인됨"},
+    {name: "NUWA 사이트를 제작중입니다. 잠시만 기다려주세요", date: "어제 마지막으로 확인됨"}, 
+    {name: "새로운 캔버스가 작성되었습니다.", date: "오늘 마지막으로 확인됨"},
+    {name: "NUWA 사이트를 제작중입니다. 잠시만 기다려주세요", date: "어제 마지막으로 확인됨"} 
+]
+
+export const canvas_data =[
+    {name: "Copy of 캔버스가 무엇인가요?", date: "오늘 마지막으로 확인됨"},
+    {name: "NUWA 사이트를 제작중입니다. 잠시만 기다려주세요", date: "어제 마지막으로 확인됨"} 
+]
 
 export const categories = [
     {name: "기능", link: '/feat-description' ,icon: Polygon},
@@ -14,51 +38,51 @@ export const categories = [
 export const footer_categories =[
     {
         text1: "NUWA",
-        text2: "NUWA vs 이메일",
+        text2: "NUWA의 장점",
         text3: "채널",
         text4: "참여",
         text5: "확장성",
-        text6: "** 영상 시청하기",
+        text6: "영상 시청하기",
 
     },
 
     {
         text1: "NUWA",
-        text2: "NUWA vs 이메일",
+        text2: "NUWA의 장점",
         text3: "채널",
         text4: "참여",
         text5: "확장성",
-        text6: "** 영상 시청하기",
+        text6: "영상 시청하기",
 
     },
 
     {
         text1: "NUWA",
-        text2: "NUWA vs 이메일",
+        text2: "NUWA의 장점",
         text3: "채널",
         text4: "참여",
         text5: "확장성",
-        text6: "** 영상 시청하기",
+        text6: "영상 시청하기",
 
     },
 
     {
         text1: "NUWA",
-        text2: "NUWA vs 이메일",
+        text2: "NUWA의 장점",
         text3: "채널",
         text4: "참여",
         text5: "확장성",
-        text6: "** 영상 시청하기",
+        text6: "영상 시청하기",
 
     },
 
     {
         text1: "NUWA",
-        text2: "NUWA vs 이메일",
+        text2: "NUWA의 장점",
         text3: "채널",
         text4: "참여",
         text5: "확장성",
-        text6: "** 영상 시청하기",
+        text6: "영상 시청하기",
 
     }
 ]
@@ -68,6 +92,14 @@ export const percent_section = [
     {number: '86', percent: '%', text:'원격 근무 능력이\n향상되었음을 느끼는 직원의 비율'},
     {number: '92', percent: '%', text:'팀과 더욱\n연계되어있음을 느낌'},
 ]
+
+export const workspace_section = [
+    {title: 'NUWA_PROJECT', image: WorkspaceCard1, number: '13' },
+    {title: 'NUWA_PROJECT', image: WorkspaceCard2, number: '15' },
+    {title: 'NUWA_PROJECT', image: WorkspaceCard3, number: '17' },
+    {title: '워크스페이스 생성', image: WorkspaceCard_Add }
+]
+
 
 export const mainCards = [
     {

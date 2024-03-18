@@ -2,7 +2,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import useBoundStore from '@store/store';
 import { Spinner } from '@chakra-ui/react';
-import { chekcDuplicateEmail } from '@apis/axios/auth';
+import { chekcDuplicateEmail } from '@apis/auth/auth';
+import styled from 'styled-components';
 
 const SocialSignupRedirect = () => {
   const navigate = useNavigate();
@@ -18,17 +19,17 @@ const SocialSignupRedirect = () => {
   setSocialEmail(email);
   setSocialProvider(provider);
 
-  setTimeout(() => {
-    navigate('/signup-social');
-  }, 1000);
-
   // 이메일 중복 체크 미리
   useEffect(() => {
     chekcDuplicateEmail(email).then(({ isValid }) => {
+      let timeoutid;
       if (isValid) {
-        setTimeout(() => {
+        timeoutid = setTimeout(() => {
           navigate('/signup-social');
-        }, 1000);
+        }, 200);
+        return () => {
+          clearTimeout(timeoutid);
+        };
       } else {
         alert('이미 사용중인 이메일입니다.');
         navigate('/signup-social');
@@ -36,17 +37,35 @@ const SocialSignupRedirect = () => {
     });
   }, []);
   return (
-    <div>
-      <Spinner
-        thickness="10px"
-        speed="0.5s"
-        emptyColor="gray.200"
-        color="secondary.500"
-        width={'200px'}
-        height={'200px'}
-      />
-    </div>
+    <StContainerWrap>
+      <StContainer>
+        <Spinner
+          thickness="10px"
+          speed="0.5s"
+          emptyColor="gray.200"
+          color="secondary.500"
+          width={'200px'}
+          height={'200px'}
+        />
+      </StContainer>
+    </StContainerWrap>
   );
 };
 
 export default SocialSignupRedirect;
+
+const StContainer = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  max-width: 468px;
+  gap: 64px;
+  margin: 0 auto;
+  align-items: center;
+`;
+
+const StContainerWrap = styled.div`
+  background-color: #f1f4f9;
+  width: 100%;
+  height: 100%;
+  padding: 64px 12px;
+`;

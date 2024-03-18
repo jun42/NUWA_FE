@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { chekcDuplicateEmail } from '@apis/axios/auth';
+import { chekcDuplicateEmail } from '@apis/auth/auth';
 import InputErrorBox from './InputErrorBox';
 import CustomInput from '../Input/CustomInput';
 import { emailPattern } from '@constants/regex';

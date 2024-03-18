@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 
@@ -14,7 +13,7 @@ const MainHeader = () => {
               하였습니다.
             </Text>
 
-            <Text width="100%" fontSize="18px" fontWeight="400">
+            <Text width="100%" fontSize="20px" fontWeight="400">
               보안과 생산성 측면에서 최고의 솔루션을 제공합니다.
             </Text>
           </Flex>
