@@ -32,21 +32,15 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import UserInfo from './UserInfo';
-import CreateChannel from '../Channel/CreateChannelModal';
 import Channel from './Channel';
 import WorkSpaceModalEdit from '@components/Modal/WorkspaceEdit';
 import useModal from '@hooks/useModal';
 import { useNavigate, useParams } from 'react-router-dom';
-import { fetchChatChannelList } from '@apis/channel/channel';
+import ChatChannel from './ChatChannel';
 
 const SideBar = () => {
   const navigate = useNavigate();
   const { workSpaceId } = useParams();
-
-  const [chatChList, setChatChList] = useState([]);
-  useEffect(() => {
-    fetchChatChannelList({ workSpaceId }).then((r) => setChatChList(r.content));
-  }, []);
 
   const chData2 = [
     {
@@ -310,7 +304,8 @@ const SideBar = () => {
 
           <Divider color="white" />
 
-          <Channel type={'chat'} data={chatChList} />
+          <ChatChannel type={'chat'} />
+
           <Channel type={'voice'} data={chData2} />
         </Box>
       </Box>

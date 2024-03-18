@@ -19,8 +19,8 @@ import {
   CHANNEL_TYPE,
 } from '@constants/channel/CHANNEL_TYPE';
 import add_sm from '@assets/add_sm.svg';
-import { createChatChannel, createVoiceChannel } from '@apis/channel/channel';
 import { useParams } from 'react-router';
+import { useChatChannelListCreateMutation } from '@queries/groupChat.js/useGroupChatList';
 
 const CreateChannelModal = () => {
   const { workSpaceId } = useParams();
@@ -28,6 +28,12 @@ const CreateChannelModal = () => {
   const [channelType, setChannelType] = useState('');
   const [channelOpenType, setChannelOpenType] = useState('');
   const [channelName, setChannelName] = useState('');
+
+  const { mutate: createGroupChannel } = useChatChannelListCreateMutation(
+    workSpaceId,
+    channelName,
+    channelType
+  );
   return (
     <>
       <IconButton
@@ -73,13 +79,8 @@ const CreateChannelModal = () => {
               width={'100%'}
               fontWeight={500}
               onClick={() => {
-                if (channelType === 'chat') {
-                  createChatChannel({ workSpaceId, channelName });
-                  onClose();
-                } else if (channelType === 'voice') {
-                  createVoiceChannel({ workSpaceId, channelName });
-                  onClose();
-                }
+                createGroupChannel({ workSpaceId, channelName, channelType });
+                onClose();
               }}
               isDisabled={channelName === ''}
             >

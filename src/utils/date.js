@@ -17,14 +17,14 @@ const dateToMonthDay = (dateString) => {
   return `${month}월 ${day}일`;
 };
 
-const dateToHourMinute = (dateString) => {
+export const dateToHourMinute = (dateString) => {
   const dateObject = new Date(dateString);
 
   let amOrPm;
   let hours = dateObject.getHours();
   const minutes = dateObject.getMinutes();
 
-  if (hours < 11) {
+  if (hours < 12) {
     amOrPm = '오전';
   } else {
     amOrPm = '오후';

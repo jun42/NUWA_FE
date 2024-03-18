@@ -178,6 +178,17 @@ export const Router = createBrowserRouter([
           {
             path: '/workspace/:workSpaceId/groupChat/:roomId/:channelId',
             element: <GroupChatPage />,
+            loader: async ({ params }) => {
+              // const chatRoomInfo = await getDirectChatRoomInfo(
+              //   params.workSpaceId,
+              //   params.roomId
+              // ).then((r) => r.data.data);
+
+              const userProfile = await getWorkspaceUserProfile(
+                params.workSpaceId
+              ).then((r) => r.data.data);
+              return { userProfile };
+            },
           },
         ],
       },
