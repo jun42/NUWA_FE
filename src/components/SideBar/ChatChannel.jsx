@@ -97,9 +97,7 @@ const ChatChannel = ({ type }) => {
                 justifyContent="flex-start"
                 backgroundColor="#f1f1f1"
                 onClick={() => {
-                  navigate(
-                    `/workspace/${workSpaceId}/groupChat/${x.roomId}/${x.channelId}`
-                  );
+                  navigate(`/workspace/${workSpaceId}/groupChat/${x.roomId}`);
                 }}
               >
                 {type === 'chat' && (

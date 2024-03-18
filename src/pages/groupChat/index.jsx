@@ -1,7 +1,7 @@
-import { Box, Button } from '@chakra-ui/react';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import { uploadFile } from '@apis/file/file';
-import { useLoaderData, useParams } from 'react-router-dom';
+import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import useGroupSocketInit from '@apis/socket/group/useGroupSocketInit';
 import TextEditor from '@components/TextEditorFunctionalComponent/TextEditor';
 import GroupChatHeader from './GroupChatHeader';
@@ -12,10 +12,12 @@ import useChatBoxScroll from '@hooks/directChat/useChatBoxScroll';
 import useChatBoxScrollToBottom from '@hooks/directChat/useChatBoxScrollToBottom';
 
 const GroupChatPage = () => {
+  const navitate = useNavigate();
   const chatBoxRef = useRef();
-  const { userProfile } = useLoaderData();
+  const { userProfile, chatRoomInfo, isGroupMember } = useLoaderData();
+  const channelId = chatRoomInfo.channelId;
   const [selectedFiles, setSelectedFiles] = useState([]);
-  const { workSpaceId, roomId, channelId } = useParams();
+  const { workSpaceId, roomId } = useParams();
   let totalMessageList = [];
 
   // 파일 선택 핸들러
@@ -77,15 +79,8 @@ const GroupChatPage = () => {
         >
           업로드
         </Button>
-        <Button
-          onClick={() => {
-            joinInGroupChat(channelId, [userProfile.id]);
-          }}
-        >
-          채팅에 참여하기
-        </Button>
       </div>
-      <GroupChatHeader />
+      <GroupChatHeader channelName={chatRoomInfo.channelName} />
       <Box
         ref={chatBoxRef}
         flexGrow={1}
@@ -122,7 +117,37 @@ const GroupChatPage = () => {
             );
           })}
       </Box>
-      <TextEditor channelId={channelId} publish={publish} />
+
+      {isGroupMember ? (
+        <TextEditor channelId={channelId} publish={publish} />
+      ) : (
+        <Box position={'relative'}>
+          <Box>
+            <TextEditor channelId={channelId} publish={publish} />
+          </Box>
+          <Flex
+            alignItems={'center'}
+            justifyContent={'center'}
+            position={'absolute'}
+            bg={'rgba(0,0,0,0.5)'}
+            width={'100%'}
+            height={'100%'}
+            top={0}
+            rounded={'lg'}
+          >
+            <Button
+              colorScheme="secondary"
+              onClick={() => {
+                joinInGroupChat(channelId, [userProfile.id]).then((r) => {
+                  navitate(`/workspace/${workSpaceId}/groupChat/${roomId}/`);
+                });
+              }}
+            >
+              채널에 참여하기
+            </Button>
+          </Flex>
+        </Box>
+      )}
     </Box>
   );
 };
