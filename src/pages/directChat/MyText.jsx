@@ -3,8 +3,17 @@ import ChatboxContentView from '@components/TextEditorFunctionalComponent/Chatbo
 import { useState } from 'react';
 import MyTextMenu from '@components/Menu/MyTextMenu';
 
-const MyText = ({ content, deleteSocketMessage, messageId, isDeleted }) => {
+const MyText = ({
+  content,
+  deleteSocketMessage,
+  messageId,
+  isDeleted,
+  messageType,
+  updatePublish,
+}) => {
   const [isHover, setIsHover] = useState(false);
+  const [readOnly, setReadOnly] = useState(true);
+  const backgrounColor = readOnly ? 'primary.100' : 'gray.100';
   return (
     <Flex
       width={'100%'}
@@ -21,14 +30,23 @@ const MyText = ({ content, deleteSocketMessage, messageId, isDeleted }) => {
         setIsHover(false);
       }}
     >
-      <Box borderRadius={'10px'} width={'45%'} bg={'primary.100'} py={'1px'}>
-        <ChatboxContentView content={content} isDeleted={isDeleted} />
+      <Box borderRadius={'10px'} width={'45%'} bg={backgrounColor} py={'1px'}>
+        <ChatboxContentView
+          content={content}
+          isDeleted={isDeleted}
+          readOnly={readOnly}
+          updatePublish={updatePublish}
+          messageId={messageId}
+          setReadOnly={setReadOnly}
+        />
       </Box>
       {isHover && (
         <MyTextMenu
           isDeleted={isDeleted}
           deleteSocketMessage={deleteSocketMessage}
           messageId={messageId}
+          messageType={messageType}
+          setReadOnly={setReadOnly}
         />
       )}
     </Flex>

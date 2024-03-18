@@ -1,5 +1,5 @@
 import { Box, Button } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { uploadFile } from '@apis/file/file';
 import { useLoaderData, useParams } from 'react-router-dom';
 import useGroupSocketInit from '@apis/socket/group/useGroupSocketInit';
@@ -8,8 +8,11 @@ import GroupChatHeader from './GroupChatHeader';
 import GroupMessageBox from './GroupMessageBox';
 import { useGroupChatMessageQuery } from '@queries/groupChat.js/useGroupChatMessage';
 import { getGroupChatMessage, joinInGroupChat } from '@apis/chat/groupChat';
+import useChatBoxScroll from '@hooks/directChat/useChatBoxScroll';
+import useChatBoxScrollToBottom from '@hooks/directChat/useChatBoxScrollToBottom';
 
 const GroupChatPage = () => {
+  const chatBoxRef = useRef();
   const { userProfile } = useLoaderData();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const { workSpaceId, roomId, channelId } = useParams();
@@ -33,9 +36,11 @@ const GroupChatPage = () => {
     isFetching,
     isSuccess,
   } = useGroupChatMessageQuery(roomId);
+  useChatBoxScrollToBottom(chatBoxRef, groupChatMessageList);
 
   totalMessageList = [...groupChatMessageList, ...socketMessageList];
 
+  useChatBoxScroll(chatBoxRef, socketMessageList);
   return (
     <Box
       width={'calc(100% - 400px)'}
@@ -82,12 +87,27 @@ const GroupChatPage = () => {
       </div>
       <GroupChatHeader />
       <Box
+        ref={chatBoxRef}
         flexGrow={1}
         display={'flex'}
         flexDirection={'column'}
-        justifyContent={'flex-end'}
+        justifyContent={'flex-start'}
         gap={'0.5rem'}
         overflowY={'scroll'}
+        css={{
+          '&::-webkit-scrollbar': {
+            width: '10px',
+          },
+          '&::-webkit-scrollbar-track': {
+            width: '6px',
+            backgroundColor: '#FCFCFC',
+            borderRadius: '10px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            borderRadius: '10px',
+            backgroundColor: '#d6d6d6',
+          },
+        }}
       >
         {!isFetching &&
           totalMessageList.map((item) => {
