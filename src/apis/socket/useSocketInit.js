@@ -157,7 +157,7 @@ const useSocketInit = (roomId, workSpaceId, receiverId, channelType) => {
         });
       client.deactivate();
     };
-  }, []);
+  }, [roomId]);
 
   return {
     publish,
