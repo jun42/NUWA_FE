@@ -1,24 +1,51 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import {
   Text,
   Flex,
   Box,
-  Divider,
   Button,
   Textarea,
   Image,
   Grid,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from '@chakra-ui/react';
 import IconImage from '@assets/workspace_card3.png';
 import SearchBar from '@components/SearchBar/WorkspaceSearchBar';
 import { useParams } from 'react-router-dom';
-import { workspaceMemberList } from '../../apis/workspace/workspaceMemberList';
-//import { permission } from '../../assets/offline.png';
+import { workspaceMemberList } from '@apis/workspace/workspaceMemberList';
+import { inviteLink } from '../../apis/link/invitationLink';
+import permission from '@assets/permission.png';
 
 const AddUser = () => {
   const { workSpaceId } = useParams();
   const [members, setMembers] = useState([]);
+  const [emailInput, setEmailInput] = useState('');
+
+  const handleInvite = async () => {
+    const emailAddresses = emailInput
+      .split(',')
+      .map((email) => email.trim())
+      .filter((email) => email !== ''); // 빈 문자열 제거
+
+    if (emailAddresses.length === 0) {
+      alert('유효한 이메일 주소를 입력하세요.');
+      return;
+    }
+
+    try {
+      const response = await inviteLink(workSpaceId, emailAddresses);
+      console.log('초대 링크 생성 성공:', response);
+      alert('초대 메일이 성공적으로 발송되었습니다.');
+      setEmailInput('');
+    } catch (error) {
+      console.error('초대 링크 생성 실패', error);
+      alert('초대 메일 발송에 실패하였습니다.');
+    }
+  };
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -26,13 +53,13 @@ const AddUser = () => {
       if (data && data.status === 'success') {
         setMembers(data.data);
       } else {
-        // 오류 처리 또는 알림
         console.error('멤버를 조회할 수 없습니다.');
       }
     };
 
     fetchMembers();
   }, [workSpaceId]);
+
   return (
     <StContainer>
       <TopSection>
@@ -47,16 +74,19 @@ const AddUser = () => {
 
         <Flex gap={'10px'}>
           <Textarea
-            placeholder="예: example@email.com,example@email.com"
+            value={emailInput}
+            onChange={(e) => setEmailInput(e.target.value)}
+            placeholder="예 :  example@email.com, example@email.com"
             border={'2px solid #F2F2F2'}
-            size={'lg'}
+            color={'#606060'}
+            size={'16px'}
             width={'70%'}
             height={'100%'}
             resize={'none'}
             sx={{
               '::placeholder': {
                 color: '#5d5d5d',
-                fontSize: '15px',
+                fontSize: '16px',
               },
             }}
           />
@@ -66,6 +96,7 @@ const AddUser = () => {
             color={'white'}
             bg={'#575DFB'}
             borderRadius={'18px'}
+            onClick={handleInvite}
           >
             추가
           </Button>
@@ -117,32 +148,38 @@ const AddUser = () => {
             templateColumns="repeat(auto-fill, minmax(180px, 1fr))"
             gap={'6'}
           >
-            {members.map((member) => (
+            {members.map((member, index) => (
               <Flex key={member.ID} justify={'space-between'}>
                 <UserData>
                   <Box>
                     <Image src={IconImage} boxSize="full" />
                   </Box>
-                  <Flex flexDirection={'colunm'}>
-                    <Box p={' 10px 20px'}>
+                  <Flex flexDirection={'colunm'} border={'1px solid blue'}>
+                    <Box
+                      p={' 10px 20px'}
+                      border={'1px solid red'}
+                      width={'90%'}
+                    >
                       <Text fontWeight={'700'}>{member.name}</Text>
                       <Text
-                        fontSize={'14px'}
+                        fontSize={'12px'}
                         fontWeight={'500'}
                         color={'#797979'}
                       >
                         {member.email}
                       </Text>
                     </Box>
-                    <Box p={' 10px 20px'}>
-                      <Text fontWeight={'700'}>{member.name}</Text>
-                      <Text
-                        fontSize={'14px'}
-                        fontWeight={'500'}
-                        color={'#797979'}
-                      >
-                        {member.email}
-                      </Text>
+                    <Box width={'10%'} border={'1px solid black'}>
+                      <Menu>
+                        <MenuButton as={Button} variant="unstyled">
+                          <img src={permission} alt="권한 변경" />
+                        </MenuButton>
+                        <MenuList>
+                          <MenuItem>관리자 변경</MenuItem>
+
+                          <MenuItem>권한 제거</MenuItem>
+                        </MenuList>
+                      </Menu>
                     </Box>
                   </Flex>
                 </UserData>
