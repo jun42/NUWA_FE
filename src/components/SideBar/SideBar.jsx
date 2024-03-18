@@ -1,9 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import workspace from '../../assets/WorkSpace.png';
 import add from '../../assets/add.svg';
-import profile from '../../assets/cham.png';
-import active from '../../assets/active.svg';
-
 import dashboard from '../../assets/dashboard.svg';
 import dm from '../../assets/dm.svg';
 import canvas from '../../assets/canvas.svg';
@@ -12,13 +9,6 @@ import exclude from '../../assets/exclude.svg';
 import todo from '../../assets/todo.svg';
 import setting from '../../assets/setting.svg';
 import group from '../../assets/user_group.svg';
-
-import arrowdown from '../../assets/arrowdown.svg';
-import add_sm from '../../assets/add_sm.svg';
-
-import chat_ch from '../../assets/chat_ch.svg';
-import voice_ch from '../../assets/voice_ch.svg';
-
 import {
   Button,
   IconButton,
@@ -32,21 +22,17 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import UserInfo from './UserInfo';
-import CreateChannel from '../Channel/CreateChannelModal';
 import Channel from './Channel';
 import WorkSpaceModalEdit from '@components/Modal/WorkspaceEdit';
 import useModal from '@hooks/useModal';
 import { useNavigate, useParams } from 'react-router-dom';
-import { fetchChatChannelList } from '@apis/channel/channel';
+import { getWorkspace } from '@apis/sidebar/getworkspace.js';
+import ChatChannel from './ChatChannel';
 
 const SideBar = () => {
   const navigate = useNavigate();
   const { workSpaceId } = useParams();
-
-  const [chatChList, setChatChList] = useState([]);
-  useEffect(() => {
-    fetchChatChannelList({ workSpaceId }).then((r) => setChatChList(r.content));
-  }, []);
+  const [workspaces, setWorkspaces] = useState([]); // 워크스페이스 정보를 저장할 상태
 
   const chData2 = [
     {
@@ -78,14 +64,105 @@ const SideBar = () => {
     onClose: onEditModalClose,
   } = useModal();
 
+  useEffect(() => {
+    const fetchWorkspaces = async () => {
+      try {
+        const response = await getWorkspace();
+        console.log('워크스페이스 정보 조회: ', response.data);
+        setWorkspaces(response.data);
+      } catch (error) {
+        console.error('워크스페이스 정보 조회 에러: ', error);
+      }
+    };
+
+    fetchWorkspaces();
+  }, [workSpaceId]);
+
+  // 현재 워크스페이스 이름 조회
+  const currentWorkspaceName =
+    workspaces.find(
+      (workspace) => workspace.workspaceId.toString() === workSpaceId
+    )?.workSpaceName || 'Loading...';
+
+  // 이미지 로드 실패 핸들러
+  const handleImageError = (workspaceId) => {
+    setWorkspaces((currentWorkspaces) =>
+      currentWorkspaces.map((workspace) =>
+        workspace.workspaceId === workspaceId
+          ? { ...workspace, isImageError: true }
+          : workspace
+      )
+    );
+  };
+
   return (
     <Flex>
       <Box w="80px" backgroundColor="#5158ff" p="0 16px">
-        <Flex justify="center" pt="32px">
-          <img src={workspace} alt="" />
-        </Flex>
-        <Flex justify="center" pt="32px">
-          <img src={add} alt="" />
+        {workspaces.map((workspace) =>
+          workspace.isImageError ? (
+            <Flex
+              key={workspace.workspaceId}
+              className="notworkImage"
+              justify="center"
+              align="center"
+              pt="32px"
+              cursor="pointer"
+              onClick={() => navigate(`/workspace/${workspace.workspaceId}`)}
+            >
+              <Box
+                display="flex"
+                boxSize="40px"
+                bg="white"
+                borderRadius="full"
+                alignItems="center"
+                justifyContent="center"
+                border={`2px solid ${
+                  workSpaceId === workspace.workspaceId.toString()
+                    ? '#00FF00'
+                    : '#D9D9D9'
+                }`}
+              >
+                <Text>{workspace.workSpaceImage}</Text>
+              </Box>
+            </Flex>
+          ) : (
+            <Flex
+              key={workspace.workspaceId}
+              className="workImage"
+              justify="center"
+              pt="32px"
+              cursor="pointer"
+              onClick={() => navigate(`/workspace/${workspace.workspaceId}`)}
+            >
+              <Image
+                src={workspace.workSpaceImage}
+                alt={workspace.workSpaceName}
+                boxSize="40px"
+                border={`2px solid ${
+                  workSpaceId === workspace.workspaceId.toString()
+                    ? '#00FF00'
+                    : '#D9D9D9'
+                }`}
+                borderRadius="full"
+                onError={() => handleImageError(workspace.workspaceId)}
+              />
+            </Flex>
+          )
+        )}
+
+        <Flex
+          justify="center"
+          pt="32px"
+          cursor={'pointer'}
+          onClick={() => {
+            navigate(`/create-workspace`);
+          }}
+          _active={{
+            transform: 'scale(0.98)', // 클릭 시 약간 축소
+          }}
+          transition="transform 0.1s ease-in-out" // 변화가 부드럽게 적용되도록 설정
+        >
+          <Image src={add} alt="" />
         </Flex>
       </Box>
       <Box
@@ -107,7 +184,7 @@ const SideBar = () => {
           cursor={'pointer'}
           onClick={onEditModalOpen}
         >
-          NUWA_PROJECT
+          {currentWorkspaceName}
         </Text>
         <WorkSpaceModalEdit
           isOpen={isEditModalOpen}
@@ -310,7 +387,8 @@ const SideBar = () => {
 
           <Divider color="white" />
 
-          <Channel type={'chat'} data={chatChList} />
+          <ChatChannel type={'chat'} />
+
           <Channel type={'voice'} data={chData2} />
         </Box>
       </Box>
