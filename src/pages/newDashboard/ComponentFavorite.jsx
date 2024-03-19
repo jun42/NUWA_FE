@@ -21,7 +21,6 @@ const ComponentFavorite = () => {
   const [teamMembers, setTeamMembers] = useState([]);
   const { workSpaceId } = useParams();
   const { workspace } = useBoundStore();
-  const { workSpaceMemberImage } = workspace;
 
   useEffect(() => {
     const loadFavoriteTeamMembers = async () => {
@@ -82,7 +81,7 @@ const ComponentFavorite = () => {
               border={'2px solid #D6D6D6'}
             >
               <Image
-                src={workSpaceMemberImage}
+                src={member.Image}
                 alt={''}
                 boxSize="110px"
                 border="2px solid #D6D6D6"
