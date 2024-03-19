@@ -11,10 +11,10 @@ export const getGroupChatMessage = (chatChannelRoomId, page = 0, size = 10) =>
 export const disconnectGroupChatSocket = (roomId) =>
   request.post(`/channel/chat/${roomId}`);
 
-export const removeGroupChat = (workSpaceId, roomId) =>
+export const removeGroupChat = (workSpaceId, channelId) =>
   request.delete(`/channel/chat/${workSpaceId}/message`, {
     params: {
-      roomId,
+      channelId,
     },
   });
 
@@ -25,7 +25,7 @@ export const joinInGroupChat = (chatChannelId, joinMemberIdList) =>
   });
 
 export const getGroupChatInfo = (workSpaceId, chatChannelRoomId) =>
-  request.get(`/channel/chat/Info/${workSpaceId}`, {
+  request.get(`/channel/chat/info/${workSpaceId}`, {
     params: {
       chatChannelRoomId,
     },
