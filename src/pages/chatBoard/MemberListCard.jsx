@@ -1,16 +1,13 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { Avatar, Box, Flex, Text } from '@chakra-ui/react';
-import useBoundStore from '@store/store';
 import { createDirectChatRoom } from '@apis/chat/chat';
 
 const MemberListCard = ({ name, id, onClose }) => {
-  const setReceiverId = useBoundStore((state) => state.setReceiverId);
   const { workSpaceId } = useParams();
   const navigate = useNavigate();
 
   const createDirectChatRoomHandler = () => {
     //채팅에서 쓸 리시버아이디 설정
-    setReceiverId(id);
     //채팅룸 생성 혹은 중복시 핸들링
     createDirectChatRoom({
       workSpaceId,
