@@ -80,7 +80,10 @@ const GroupChatPage = () => {
           업로드
         </Button>
       </div>
-      <GroupChatHeader channelName={chatRoomInfo.channelName} />
+      <GroupChatHeader
+        channelName={chatRoomInfo.channelName}
+        channelId={channelId}
+      />
       <Box
         ref={chatBoxRef}
         flexGrow={1}
