@@ -23,33 +23,34 @@ export const useChatChannelListCreateMutation = (
   channelType
 ) => {
   const queryClient = useQueryClient();
-  const { mutate } = useMutation({
+  const { mutate, mutateAsync } = useMutation({
     mutationKey: ['groupChatList', workSpaceId],
     mutationFn: () => {
-      createGroupChannel({
+      return createGroupChannel({
         workSpaceId,
         channelName,
         channelType,
       });
     },
-    onSuccess: () => {
+    onSuccess: (_, response) => {
       setTimeout(() => {
         queryClient.invalidateQueries({
           queryKey: ['groupChatList', workSpaceId],
         });
       }, 600);
+      return [_, response];
     },
   });
 
-  return { mutate };
+  return { mutate, mutateAsync };
 };
 
-export const useDeleteChatChannelMuation = (workSpaceId, roomId) => {
+export const useDeleteChatChannelMuation = (workSpaceId, channelId) => {
   const queryClient = useQueryClient();
 
   const { mutate, mutateAsync } = useMutation({
     mutationFn: () => {
-      return removeGroupChat(workSpaceId, roomId);
+      return removeGroupChat(workSpaceId, channelId);
     },
     mutationKey: ['groupChatList', workSpaceId],
     onSuccess: () => {

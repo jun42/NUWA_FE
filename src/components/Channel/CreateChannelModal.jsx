@@ -21,6 +21,8 @@ import {
 import add_sm from '@assets/add_sm.svg';
 import { useParams } from 'react-router';
 import { useChatChannelListCreateMutation } from '@queries/groupChat.js/useGroupChatList';
+import { useWorkspaceUserProfileQuery } from '../../queries/workspaceProfile';
+import { useWorkSpaceMemberListQuery } from '../../queries/workSpace/workSpaceMemberList';
 
 const CreateChannelModal = () => {
   const { workSpaceId } = useParams();
@@ -28,8 +30,15 @@ const CreateChannelModal = () => {
   const [channelType, setChannelType] = useState('');
   const [channelOpenType, setChannelOpenType] = useState('');
   const [channelName, setChannelName] = useState('');
+  //todo 퍼블릭이면 전체 회원들 join하기
+  const {
+    data: currentUserWorkspaceProfile,
+    isSuccess: currentUserProfileIsSuccess,
+  } = useWorkspaceUserProfileQuery(workSpaceId);
+  const { memberList, isSuccess: memberListIsSuccess } =
+    useWorkSpaceMemberListQuery(workSpaceId);
 
-  const { mutate: createGroupChannel } = useChatChannelListCreateMutation(
+  const { mutateAsync: createGroupChannel } = useChatChannelListCreateMutation(
     workSpaceId,
     channelName,
     channelType
@@ -53,40 +62,44 @@ const CreateChannelModal = () => {
           paddingLeft={'40px'}
           paddingRight={'27px'}
         >
-          <CreateChannelHeader />
-          <ModalBody display={'flex'} flexDirection={'column'} gap={'2rem'}>
-            <CreateChannelGuide />
-            <CreateChannelNameInput
-              channelName={channelName}
-              setChannelName={setChannelName}
-            />
-            <ChannelRadio
-              name={'채널 종류'}
-              value={channelType}
-              setValue={setChannelType}
-              RadioConstants={CHANNEL_TYPE}
-            />
-            <ChannelRadio
-              name={'채널 공개/비공개 여부'}
-              value={channelOpenType}
-              setValue={setChannelOpenType}
-              RadioConstants={CHANNEL_OPEN_TYPE}
-            />
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              colorScheme="secondary"
-              width={'100%'}
-              fontWeight={500}
-              onClick={() => {
-                createGroupChannel({ workSpaceId, channelName, channelType });
-                onClose();
-              }}
-              isDisabled={channelName === ''}
-            >
-              생성하기
-            </Button>
-          </ModalFooter>
+          {currentUserProfileIsSuccess && memberListIsSuccess && (
+            <>
+              <CreateChannelHeader />
+              <ModalBody display={'flex'} flexDirection={'column'} gap={'2rem'}>
+                <CreateChannelGuide />
+                <CreateChannelNameInput
+                  channelName={channelName}
+                  setChannelName={setChannelName}
+                />
+                <ChannelRadio
+                  name={'채널 종류'}
+                  value={channelType}
+                  setValue={setChannelType}
+                  RadioConstants={CHANNEL_TYPE}
+                />
+                <ChannelRadio
+                  name={'채널 공개/비공개 여부'}
+                  value={channelOpenType}
+                  setValue={setChannelOpenType}
+                  RadioConstants={CHANNEL_OPEN_TYPE}
+                />
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  colorScheme="secondary"
+                  width={'100%'}
+                  fontWeight={500}
+                  onClick={() => {
+                    createGroupChannel().then((r) => console.log(r));
+                    onClose();
+                  }}
+                  isDisabled={channelName === ''}
+                >
+                  생성하기
+                </Button>
+              </ModalFooter>
+            </>
+          )}
         </ModalContent>
       </Modal>
     </>

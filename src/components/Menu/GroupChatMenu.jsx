@@ -10,14 +10,14 @@ import { RxDotsVertical } from 'react-icons/rx';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDeleteChatChannelMuation } from '../../queries/groupChat.js/useGroupChatList';
 
-const GroupChatMenu = () => {
-  const { workSpaceId, roomId } = useParams();
+const GroupChatMenu = ({ channelId }) => {
+  const { workSpaceId } = useParams();
   const navigate = useNavigate();
   const toast = useToast();
 
   const { mutateAsync: removeGroupChat } = useDeleteChatChannelMuation(
     workSpaceId,
-    roomId
+    channelId
   );
   return (
     <Menu>

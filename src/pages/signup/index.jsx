@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 import WelcomeHeader from '@components/Header/WelcomeHeader';
 import Main from './Main';
-import useLoginGuard from '../../hooks/auth/useLoginGuard';
 
 const SignupPage = () => {
-  useLoginGuard();
   return (
     <StContainerWrap>
       <StContainer>
