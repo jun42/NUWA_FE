@@ -149,7 +149,7 @@ const AddUser = () => {
             gap={'6'}
           >
             {members.map((member, index) => (
-              <Flex key={member.ID} justify={'space-between'}>
+              <Flex key={`member-${index}`} justify={'space-between'}>
                 <UserData>
                   <Box>
                     <Image src={IconImage} boxSize="full" />
