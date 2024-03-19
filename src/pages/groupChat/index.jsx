@@ -20,6 +20,10 @@ const GroupChatPage = () => {
   const { workSpaceId, roomId } = useParams();
   let totalMessageList = [];
 
+  if (!isGroupMember) {
+    navigate(`/workspace/${workSpaceId}`);
+  }
+
   // 파일 선택 핸들러
   const handleFileChange = (event) => {
     setSelectedFiles([...selectedFiles, ...event.target.files]);
@@ -51,7 +55,7 @@ const GroupChatPage = () => {
       px={'1rem'}
       gap={'0.75rem'}
     >
-      <div>
+      {/* <div>
         <input
           type="file"
           multiple
@@ -79,7 +83,7 @@ const GroupChatPage = () => {
         >
           업로드
         </Button>
-      </div>
+      </div> */}
       <GroupChatHeader
         channelName={chatRoomInfo.channelName}
         channelId={channelId}
@@ -107,7 +111,8 @@ const GroupChatPage = () => {
           },
         }}
       >
-        {!isFetching &&
+        {isGroupMember &&
+          !isFetching &&
           totalMessageList.map((item) => {
             return (
               <GroupMessageBox
@@ -138,7 +143,7 @@ const GroupChatPage = () => {
             top={0}
             rounded={'lg'}
           >
-            <Button
+            {/* <Button
               colorScheme="secondary"
               onClick={() => {
                 joinInGroupChat(channelId, [userProfile.id]).then((r) => {
@@ -147,7 +152,7 @@ const GroupChatPage = () => {
               }}
             >
               채널에 참여하기
-            </Button>
+            </Button> */}
           </Flex>
         </Box>
       )}
