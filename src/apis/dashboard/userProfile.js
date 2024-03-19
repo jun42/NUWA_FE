@@ -1,6 +1,6 @@
 // import { request } from '../axios/axios';
 
-// export const fetchUserProfile = async (workSpaceId) => {
+// export const userProfile = async (workSpaceId) => {
 //   try {
 //     const response = await request.get(`/workspace/${workSpaceId}/member`);
 //     if (response.data.status === 'success') {
