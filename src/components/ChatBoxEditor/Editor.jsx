@@ -3,6 +3,12 @@ import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import { updateQuillDataHandler } from '../TextEditorFunctionalComponent/quill/utils';
 
 // Editor is an uncontrolled React component
+export const downloadImage = (src) => {
+  const a = document.createElement('a');
+  a.href = src;
+  a.click();
+};
+
 const Editor = forwardRef(
   (
     {
@@ -67,9 +73,20 @@ const Editor = forwardRef(
           },
         },
       });
-
       ref.current = quill;
 
+      if (ref.current) {
+        const ImageBlot = Quill.import('formats/image');
+        const Parchment = Quill.import('parchment');
+
+        ref.current.root.addEventListener('click', (ev) => {
+          let image = Parchment.find(ev.target);
+
+          if (image instanceof ImageBlot) {
+            downloadImage(image.domNode.getAttribute('src'));
+          }
+        });
+      }
       if (ref.current) {
         ref.current?.enable(!readOnly);
       }
