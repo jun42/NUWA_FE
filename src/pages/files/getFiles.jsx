@@ -1,4 +1,10 @@
-const getFiles = async (type) => {
+import {
+  getAllFiles,
+  getExtensionFiles,
+  getTypeFiles,
+} from '@apis/files/files';
+
+const getFiles = async (type, workSpaceId) => {
   switch (type) {
     case 'all':
       const allFiles = await Promise.resolve(getAllFiles({ workSpaceId }));
@@ -44,8 +50,8 @@ const getFiles = async (type) => {
       return Promise.reject(new Error('Invalid file type'));
   }
 };
-export const getFilesByType = (type) => {
-  getFiles(type).then((response) => {
+export const getFilesByType = ({ type, workSpaceId, setFileList }) => {
+  getFiles(type, workSpaceId).then((response) => {
     setFileList(response);
   });
 };

@@ -1,5 +1,7 @@
-import { paginateFiles } from "./loadMore";
+import { loadMoreFiles, paginateFiles } from "./loadMore";
 import { sortFiles } from "./sortFiles";
+import FileList from './FileList';
+import { Button, Box } from '@chakra-ui/react';
 
 const renderFilteredFilesList = (files, fileList, filesPerPage, switchstate, currentPage, setCurrentPage) => {
   return (

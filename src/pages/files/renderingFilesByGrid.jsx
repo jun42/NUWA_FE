@@ -1,9 +1,9 @@
 import React from 'react';
-import { Box, Text, Wrap } from '@chakra-ui/react';
+import { Box, Text, Wrap, Button } from '@chakra-ui/react';
 import FileBox from './FileBox';
 import { loadMoreFiles, paginateFiles } from './loadMore';
 
-const renderingFilesByGrid = ({
+const renderingFilesByGrid = (
   sortBy,
   fileList,
   currentPage,
@@ -11,7 +11,8 @@ const renderingFilesByGrid = ({
   switchstate,
   checkedUsers,
   filesPerPage,
-}) => {
+  filterByUsers
+) => {
   const dateList = [];
   for (let i = 0; i < fileList.length; i++) {
     if (!dateList.includes(fileList[i].createdAt.substring(0, 10))) {
@@ -124,7 +125,14 @@ const renderingFilesByGrid = ({
     return { extension: extension, content: fbe };
   };
 
-  const renderFiles = (files, list, index) => {
+  const renderFiles = (
+    files,
+    list,
+    index,
+    currentPage,
+    setCurrentPage,
+    filesPerPage
+  ) => {
     if (!currentPage.length) {
       if (list) setCurrentPage(Array(list.length).fill(0));
       else setCurrentPage([0]);
@@ -149,7 +157,7 @@ const renderingFilesByGrid = ({
           />
         ))}
         {currentPage[index] < stack.length - 1 && (
-          <Button onClick={() => loadMoreFiles(index, switchstate)}>
+          <Button onClick={() => loadMoreFiles(index, switchstate,setCurrentPage)}>
             더보기
           </Button>
         )}
@@ -159,7 +167,7 @@ const renderingFilesByGrid = ({
 
   return (
     <>
-      {renderFilesBySortType(
+      {renderFilesBySortType({
         sortBy,
         dateList,
         filterByDate,
@@ -176,13 +184,13 @@ const renderingFilesByGrid = ({
         filesPerPage,
         switchstate,
         filterByExtension,
-        renderFiles
-      )}
+        renderFiles,
+      })}
     </>
   );
 };
 
-const renderFilesBySortType = (
+const renderFilesBySortType = ({
   sortBy,
   dateList,
   filterByDate,
@@ -198,8 +206,8 @@ const renderFilesBySortType = (
   setCurrentPage,
   filesPerPage,
   filterByExtension,
-  renderFiles
-) => {
+  renderFiles,
+}) => {
   switch (sortBy) {
     case 'date':
       const fbdList = [];
@@ -224,8 +232,7 @@ const renderFilesBySortType = (
                 index,
                 currentPage,
                 setCurrentPage,
-                filesPerPage,
-                switchstate
+                filesPerPage
               )
             : renderFiles(
                 fbdList[index].content,
@@ -233,8 +240,7 @@ const renderFilesBySortType = (
                 index,
                 currentPage,
                 setCurrentPage,
-                filesPerPage,
-                switchstate
+                filesPerPage
               )}
         </Box>
       ));
@@ -255,8 +261,7 @@ const renderFilesBySortType = (
                 index,
                 currentPage,
                 setCurrentPage,
-                filesPerPage,
-                switchstate
+                filesPerPage
               )
             : renderFiles(
                 fbiList[index].content,
@@ -264,8 +269,7 @@ const renderFilesBySortType = (
                 index,
                 currentPage,
                 setCurrentPage,
-                filesPerPage,
-                switchstate
+                filesPerPage
               )}
         </Box>
       ));
@@ -279,8 +283,7 @@ const renderFilesBySortType = (
                 0,
                 currentPage,
                 setCurrentPage,
-                filesPerPage,
-                switchstate
+                filesPerPage
               )
             : renderFiles(
                 sortedBySize,
@@ -288,8 +291,7 @@ const renderFilesBySortType = (
                 0,
                 currentPage,
                 setCurrentPage,
-                filesPerPage,
-                switchstate
+                filesPerPage
               )}
         </Box>
       ) : null;
@@ -310,8 +312,7 @@ const renderFilesBySortType = (
                 index,
                 currentPage,
                 setCurrentPage,
-                filesPerPage,
-                switchstate
+                filesPerPage
               )
             : renderFiles(
                 fbeList[index].content,
@@ -319,8 +320,7 @@ const renderFilesBySortType = (
                 index,
                 currentPage,
                 setCurrentPage,
-                filesPerPage,
-                switchstate
+                filesPerPage
               )}
         </Box>
       ));
@@ -328,6 +328,5 @@ const renderFilesBySortType = (
       return null;
   }
 };
-
 
 export default renderingFilesByGrid;

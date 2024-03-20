@@ -12,9 +12,10 @@ import {
   Divider,
   Center,
   Input,
+  Checkbox,
 } from '@chakra-ui/react';
 
-import GridSwitch from '../../components/Switch/GridSwitch.jsx';
+import GridSwitch from '@components/Switch/GridSwitch.jsx';
 import { getAllFiles, getSearchedFiles, deleteFile } from '@apis/files/files';
 import { useParams } from 'react-router-dom';
 import {
@@ -23,10 +24,10 @@ import {
 } from '@queries/workSpace/workSpaceMemberList';
 import { renderFilesBySortTypeList } from './renderingFilesByList.jsx';
 import { sortFiles } from './sortFiles.jsx';
-import { renderingFilesByGrid } from './renderingFilesByGrid.jsx';
+import renderingFilesByGrid from './renderingFilesByGrid.jsx';
 import { getFilesByType } from './getFiles.jsx';
-import { UserSearchModal } from './../../components/Modal/filesModal/userSearchModal';
-import TypeSelectButton from './../../components/Button/TypeSelectButton';
+import TypeSelectButton from '@components/Button/TypeSelectButton';
+import SortSelectButton from './../../components/Button/SortSelectButton';
 
 const Files = () => {
   const { workSpaceId } = useParams();
@@ -52,6 +53,10 @@ const Files = () => {
   const [currentPage, setCurrentPage] = useState([]);
   const filesPerPage = 10;
 
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const [fileSearchWord, setFileSearchWord] = useState('');
+
   useEffect(() => {
     const fetchFiles = async () => {
       try {
@@ -67,6 +72,9 @@ const Files = () => {
   }, []);
 
   const [searchUsers, setSearchUsers] = useState([]);
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
   useEffect(() => {
     if (
       members.memberList &&
@@ -107,9 +115,7 @@ const Files = () => {
   }, [sortBy, switchstate]);
 
   //파일 검색
-  const [searchTerm, setSearchTerm] = useState('');
 
-  const [fileSearchWord, setFileSearchWord] = useState('');
   const handleSearchWordChange = (e) => {
     setFileSearchWord(e.target.value);
   };
@@ -203,16 +209,147 @@ const Files = () => {
                 )}
               </Button>
               {isOpen && (
-                <UserSearchModal
-                  setIsOpen={setIsOpen}
-                  searchTerm={searchTerm}
-                  setSearchTerm={setSearchTerm}
-                  checkedUsers={checkedUsers}
-                  searchUsers={searchUsers}
-                  setSearchUsers={setSearchUsers}
-                  filteredUsers={filteredUsers}
-                  findMyInfo={findMyInfo}
-                />
+                <>
+                  <Box
+                    position="fixed"
+                    top="0"
+                    left="0"
+                    right="0"
+                    bottom="0"
+                    zIndex="99"
+                    onClick={() => {
+                      setIsOpen(false);
+                      setSearchTerm('');
+                    }}
+                  />
+                  <Box w="180px" position="absolute" zIndex="100" mt="2px">
+                    <Flex
+                      flexDir="column"
+                      w="150%"
+                      zIndex="100"
+                      border="1px solid gray"
+                      borderRadius="md"
+                      backgroundColor="#f8f8f8"
+                      p="5px 0"
+                    >
+                      <Center>
+                        <Input
+                          m="8px"
+                          backgroundColor="white"
+                          fontSize="14px"
+                          fontWeight="500"
+                          border="1px solid #767676"
+                          borderRadius="8px"
+                          value={searchTerm}
+                          onChange={handleSearchChange}
+                          placeholder="예: 고길동"
+                          _placeholder={{ color: 'black' }}
+                        />
+                      </Center>
+                      {!searchTerm &&
+                        checkedUsers.map((item, index) => (
+                          <Checkbox
+                            key={index}
+                            fontSize="14px"
+                            fontWeight="500"
+                            color="#656565"
+                            borderColor="#656565"
+                            p="5px 10px"
+                            _hover={{
+                              backgroundColor: '#1264A3',
+                              color: 'white',
+                              borderColor: 'white',
+                            }}
+                            onChange={(e) => {
+                              const updatedData = [...searchUsers];
+                              const dataIndex = searchUsers.findIndex(
+                                (dataItem) => dataItem.email === item.email
+                              );
+                              if (dataIndex !== -1) {
+                                updatedData[dataIndex] = {
+                                  ...updatedData[dataIndex],
+                                  checked: e.target.checked,
+                                };
+                                setSearchUsers(updatedData);
+                              }
+                            }}
+                            isChecked={item.checked}
+                          >
+                            {item.nickname}
+                          </Checkbox>
+                        ))}
+                      {searchTerm &&
+                        filteredUsers.map((item, index) => (
+                          <Checkbox
+                            key={index}
+                            fontSize="14px"
+                            fontWeight="500"
+                            color="#656565"
+                            borderColor="#656565"
+                            p="5px 10px"
+                            _hover={{
+                              backgroundColor: '#1264A3',
+                              color: 'white',
+                              borderColor: 'white',
+                            }}
+                            onChange={(e) => {
+                              const updatedData = [...searchUsers];
+                              const dataIndex = searchUsers.findIndex(
+                                (dataItem) => dataItem.email === item.email
+                              );
+                              if (dataIndex !== -1) {
+                                updatedData[dataIndex] = {
+                                  ...updatedData[dataIndex],
+                                  checked: e.target.checked,
+                                };
+                                setSearchUsers(updatedData);
+                              }
+                            }}
+                            isChecked={item.checked}
+                          >
+                            {item.nickname}
+                          </Checkbox>
+                        ))}
+                      {!userChecked && (
+                        <Box>
+                          <Text p="0px 10px" fontSize="13px" color="#656565">
+                            제안
+                          </Text>
+                          <Checkbox
+                            fontSize="14px"
+                            fontWeight="500"
+                            color="#656565"
+                            borderColor="#656565"
+                            w="100%"
+                            p="5px 10px"
+                            _hover={{
+                              backgroundColor: '#1264A3',
+                              color: 'white',
+                              borderColor: 'white',
+                            }}
+                            onChange={(e) => {
+                              const updatedData = [...searchUsers];
+                              const dataIndex = searchUsers.findIndex(
+                                (dataItem) =>
+                                  dataItem.email === findMyInfo?.email
+                              );
+                              if (dataIndex !== -1) {
+                                updatedData[dataIndex] = {
+                                  ...updatedData[dataIndex],
+                                  checked: e.target.checked,
+                                };
+                                setSearchUsers(updatedData);
+                              }
+                            }}
+                            isChecked={findMyInfo?.checked}
+                          >
+                            {findMyInfo.nickname}
+                          </Checkbox>
+                        </Box>
+                      )}
+                    </Flex>
+                  </Box>
+                </>
               )}
             </Box>
 
@@ -229,6 +366,8 @@ const Files = () => {
                 getFilesByType={getFilesByType}
                 text="모든 파일"
                 type="all"
+                workSpaceId={workSpaceId}
+                setFileList={setFileList}
               />
               <TypeSelectButton
                 fileType={fileType}
@@ -236,6 +375,8 @@ const Files = () => {
                 getFilesByType={getFilesByType}
                 text="사진"
                 type="pic"
+                workSpaceId={workSpaceId}
+                setFileList={setFileList}
               />
               <TypeSelectButton
                 fileType={fileType}
@@ -243,6 +384,8 @@ const Files = () => {
                 getFilesByType={getFilesByType}
                 text="파일"
                 type="file"
+                workSpaceId={workSpaceId}
+                setFileList={setFileList}
               />
               <TypeSelectButton
                 fileType={fileType}
@@ -250,6 +393,8 @@ const Files = () => {
                 getFilesByType={getFilesByType}
                 text="ZIP"
                 type="zip"
+                workSpaceId={workSpaceId}
+                setFileList={setFileList}
               />
               <TypeSelectButton
                 fileType={fileType}
@@ -257,6 +402,8 @@ const Files = () => {
                 getFilesByType={getFilesByType}
                 text="PDF"
                 type="pdf"
+                workSpaceId={workSpaceId}
+                setFileList={setFileList}
               />
             </ButtonGroup>
 
@@ -267,66 +414,30 @@ const Files = () => {
               opacity="10%"
             />
             <ButtonGroup gap="4px">
-              <Button
-                borderRadius="8px"
-                fontSize="14px"
-                fontWeight="500"
-                p="12px 26px"
-                bgColor={sortBy === 'date' ? '#575DFB' : '#FFFFFF'}
-                color={sortBy === 'date' ? 'white' : 'black'}
-                _hover={sortBy === 'date' ? { bgColor: '#575DFB' } : undefined}
-                border={
-                  sortBy === 'date' ? '1px solid #575DFB' : '1px solid #898989'
-                }
-                onClick={() => setSortBy('date')}
-              >
-                날짜 순
-              </Button>
-              <Button
-                borderRadius="8px"
-                fontSize="14px"
-                fontWeight="500"
-                p="12px 26px"
-                bgColor={sortBy === 'name' ? '#575DFB' : '#FFFFFF'}
-                color={sortBy === 'name' ? 'white' : 'black'}
-                _hover={sortBy === 'name' ? { bgColor: '#575DFB' } : undefined}
-                border={
-                  sortBy === 'name' ? '1px solid #575DFB' : '1px solid #898989'
-                }
-                onClick={() => setSortBy('name')}
-              >
-                이름 순
-              </Button>
-              <Button
-                borderRadius="8px"
-                fontSize="14px"
-                fontWeight="500"
-                p="12px 26px"
-                bgColor={sortBy === 'size' ? '#575DFB' : '#FFFFFF'}
-                color={sortBy === 'size' ? 'white' : 'black'}
-                _hover={sortBy === 'size' ? { bgColor: '#575DFB' } : undefined}
-                border={
-                  sortBy === 'size' ? '1px solid #575DFB' : '1px solid #898989'
-                }
-                onClick={() => setSortBy('size')}
-              >
-                크기 순
-              </Button>
-              <Button
-                borderRadius="8px"
-                fontSize="14px"
-                fontWeight="500"
-                p="12px 26px"
-                bgColor={sortBy === 'type' ? '#575DFB' : '#FFFFFF'}
-                color={sortBy === 'type' ? 'white' : 'black'}
-                _hover={sortBy === 'type' ? { bgColor: '#575DFB' } : undefined}
-                border={
-                  sortBy === 'type' ? '1px solid #575DFB' : '1px solid #898989'
-                }
-                onClick={() => setSortBy('type')}
-              >
-                유형 순
-              </Button>
+              <SortSelectButton
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+                text="날짜 순"
+                type="date"
+              />
+              <SortSelectButton
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+                text="이름 순"
+                type="name"
+              />
+              <SortSelectButton
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+                text="크기 순"
+                type="size"
+              />
+              <SortSelectButton
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+                text="유형 순"
+                type="type"
+              />
             </ButtonGroup>
           </Flex>
           <GridSwitch switchstate={switchstate} onChange={handleChange} />
@@ -351,7 +462,8 @@ const Files = () => {
               setCurrentPage,
               switchstate,
               checkedUsers,
-              filesPerPage
+              filesPerPage,
+              filterByUsers
             )}
 
           {fileList.length > 0 && switchstate && (
