@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 
-const MyTextMenu = ({
+const GroupChatTextMenu = ({
   isDeleted,
   deleteSocketMessage,
   messageId,
@@ -47,4 +47,4 @@ const MyTextMenu = ({
   );
 };
 
-export default MyTextMenu;
+export default GroupChatTextMenu;

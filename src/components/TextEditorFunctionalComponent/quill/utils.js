@@ -46,9 +46,8 @@ export const updateQuillDataHandler = (quill, updatePublish, id) => {
   const textContent = content.filter((value) => !value.insert.image);
 
   if (!isQuillTextEmpty(quill)) {
-    updatePublish(id, JSON.stringify(textContent), 'TEXT', [
-      getFullText(quill),
-    ]);
+    console.log();
+    updatePublish(id, JSON.stringify(textContent), [getFullText(quill)]);
   }
   clearQuillContent(quill);
 };

@@ -16,10 +16,13 @@ import { disconnectGroupChatSocket } from '@apis/chat/groupChat';
  */
 const useGroupSocketInit = (roomId, workSpaceId, channelType) => {
   const [publish, setPublish] = useState(null);
-  const [deleteSocketMessage, setDeleteSocketMessage] = useState(null);
   const [socketMessageList, setSocketMessageList] = useState([]);
+
+  const [deleteSocketMessage, setDeleteSocketMessage] = useState(null);
   const [socketMessageDeleteList, setSocketMessageDeleteList] = useState([]);
-  const [socketMessagePatchList, setSocketMessagePatchList] = useState([]);
+
+  const [updatePublish, setUpdatePublish] = useState(null);
+  const [socketMessageUpdateList, setSocketMessageUpdateList] = useState([]);
 
   const authHeader = {
     Authorization: getToken(),
@@ -57,28 +60,17 @@ const useGroupSocketInit = (roomId, workSpaceId, channelType) => {
         subscribeHandler(
           socketMessageList,
           setSocketMessageList,
-          setSocketMessageDeleteList
+          setSocketMessageDeleteList,
+          setSocketMessageUpdateList
         ),
         authHeader
       );
-      // Do something, all subscribes must be done is this callback
-      // This is needed because this will be executed after a (re)connect
-
-      // Enter 메시지 전송
-      // client.publish({
-      //   destination: `/pub/direct/enter/${roomId}`,
-      //   headers: authHeader,
-      //   body: JSON.stringify({
-      //     roomId,
-      //   }),
-      // });
-      // send 메시지 세팅
-
+      // send 함수 정의
       makeLazyGroupPublish(authHeader, workSpaceId, roomId, client, setPublish);
 
-      // 이미지나 파일은 삭제만
+      //삭제 함수 정의
       const deleteInfo = {
-        destination: '/pub/direct/delete',
+        destination: '/pub/chat/delete',
         headers: authHeader,
         body: {
           id: null,
@@ -98,6 +90,31 @@ const useGroupSocketInit = (roomId, workSpaceId, channelType) => {
         };
       };
       setDeleteSocketMessage((state) => lazyDelete());
+      //업데이트 함수 정의
+      const updateInfo = {
+        destination: '/pub/chat/update',
+        headers: authHeader,
+        body: {
+          id: null,
+          workSpaceId,
+          roomId,
+          content: null,
+          messageType: 'UPDATE',
+        },
+      };
+      const lazyUpdate = () => {
+        return (id, content, rawString) => {
+          const newInfo = { ...updateInfo };
+          newInfo.body = JSON.stringify({
+            ...newInfo.body,
+            id: id,
+            content,
+            rawString,
+          });
+          client.publish(newInfo);
+        };
+      };
+      setUpdatePublish((state) => lazyUpdate());
     };
 
     client.onStompError = function (frame) {
@@ -130,45 +147,10 @@ const useGroupSocketInit = (roomId, workSpaceId, channelType) => {
     deleteSocketMessage,
     socketMessageDeleteList,
     setSocketMessageDeleteList,
+    updatePublish,
+    socketMessageUpdateList,
+    setSocketMessageUpdateList,
   };
 };
 
 export default useGroupSocketInit;
-
-// useEffect(() => {
-// const sockJs = new SockJS(`${import.meta.env.VITE_SERVER_SOCKJS_SOCKET}`);
-// const sockJs = new SockJS(`${import.meta.env.VITE_SERVER_SOCKET}`);
-// const sockJs = new WebSocket(`${import.meta.env.VITE_SERVER_SOCKET}`);
-// const stomp = Stomp.over(sockJs);
-// stomp.connect({}, function () {
-//   console.log('CONSOLE STOMP Connection');
-//   stomp.subscribe(
-//     '/sub/chat/' + roomId,
-//     function (chat) {
-//       console.log(chat);
-//       const content = JSON.parse(chat.body);
-//       const sender = content.sender;
-//       const message = content.message; // 추가된 부분
-//       let str;
-// if (sender === userName) {
-//     str = "<div class='col-6'><div class='alert alert-secondary'><b>" + sender + " : " + message + "</b></div></div>";
-// } else {
-//     str = "<div class='col-6'><div class='alert alert-warning'><b>" + sender + " : " + message + "</b></div></div>";
-// }
-//     const msgArea = document.getElementById('msgArea');
-//     msgArea.innerHTML += str;
-//   },
-//   headers
-// );
-// if (type === 'enter') {
-//     stomp.send('/pub/chat/enter', headers, JSON.stringify({
-//         roomId: roomId,
-//         sender: userName
-//     }));
-// }
-// });
-
-//   return () => {
-//     stomp.disconnect();
-//   };
-// }, []);
