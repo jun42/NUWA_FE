@@ -193,6 +193,7 @@ const GroupChatPage = () => {
                 messageType={item.messageType}
                 deleteSocketMessage={deleteSocketMessage}
                 updatePublish={updatePublish}
+                isMyMessage={userProfile.id === item.senderId}
                 // setReadOnly,
               />
             );
