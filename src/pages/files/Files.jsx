@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import search from '@assets/search.svg';
-import nofile from '@assets/nofile.png';
 
 import {
   Button,
@@ -28,6 +27,7 @@ import renderingFilesByGrid from './renderingFilesByGrid.jsx';
 import { getFilesByType } from './getFiles.jsx';
 import TypeSelectButton from '@components/Button/TypeSelectButton';
 import SortSelectButton from './../../components/Button/SortSelectButton';
+import NoFile from './NoFile.jsx';
 
 const Files = () => {
   const { workSpaceId } = useParams();
@@ -538,23 +538,7 @@ const Files = () => {
           {(fileList.length === 0 ||
             (checkedUsers.length > 0 &&
               filterByUsers(sortFiles(sortBy, fileList)).length === 0)) && (
-            <Center
-              w="100%"
-              h="100%"
-              flexDir="column"
-              fontSize="20px"
-              fontWeight="600"
-            >
-              <Image src={nofile} />
-              <Text>파일을 찾을 수가 없습니다.</Text>
-              <Text display="flex">
-                팀원과
-                <Text color="#575DFB" m="0 5px">
-                  파일 공유
-                </Text>
-                를 해보세요.
-              </Text>
-            </Center>
+            <NoFile />
           )}
         </Box>
       </Box>
