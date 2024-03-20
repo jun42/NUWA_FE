@@ -1,45 +1,32 @@
 import { useEffect, useState } from 'react';
-import SideBar from '@components/SideBar/SideBar';
 import search from '@assets/search.svg';
-import ellipsis_vertical from '@assets/ellipsis-vertical.svg';
-import illustratorIcon from '@assets/illustratorIcon.svg';
 import nofile from '@assets/nofile.png';
 
 import {
   Button,
   ButtonGroup,
-  IconButton,
   Flex,
   Box,
   Text,
-  Avatar,
   Image,
   Divider,
-  Switch,
-  Wrap,
-  WrapItem,
   Center,
   Input,
-  useDisclosure,
-  Checkbox,
-  FormControl,
 } from '@chakra-ui/react';
 
 import GridSwitch from '../../components/Switch/GridSwitch.jsx';
-import FileBox from './FileBox.jsx';
-import {
-  getAllFiles,
-  getExtensionFiles,
-  getTypeFiles,
-  getSearchedFiles,
-  deleteFile,
-} from '@apis/files/files';
+import { getAllFiles, getSearchedFiles, deleteFile } from '@apis/files/files';
 import { useParams } from 'react-router-dom';
 import {
   useMyInfoQuery,
   useWorkSpaceMemberListQuery,
 } from '@queries/workSpace/workSpaceMemberList';
 import { renderFilesBySortTypeList } from './renderingFilesByList.jsx';
+import { sortFiles } from './sortFiles.jsx';
+import { renderingFilesByGrid } from './renderingFilesByGrid.jsx';
+import { getFilesByType } from './getFiles.jsx';
+import { UserSearchModal } from './../../components/Modal/filesModal/userSearchModal';
+import TypeSelectButton from './../../components/Button/TypeSelectButton';
 
 const Files = () => {
   const { workSpaceId } = useParams();
@@ -62,6 +49,9 @@ const Files = () => {
 
   const [fileList, setFileList] = useState([]);
 
+  const [currentPage, setCurrentPage] = useState([]);
+  const filesPerPage = 10;
+
   useEffect(() => {
     const fetchFiles = async () => {
       try {
@@ -76,216 +66,23 @@ const Files = () => {
     fetchFiles();
   }, []);
 
-  const getFiles = async (type) => {
-    switch (type) {
-      case 'all':
-        const allFiles = await Promise.resolve(getAllFiles({ workSpaceId }));
-        return allFiles.data.data.content;
-      case 'zip':
-        const zipFiles = await Promise.resolve(
-          getExtensionFiles({ workSpaceId, fileExtension: 'zip' })
-        );
-        return zipFiles.data.data.content;
-      case 'pdf':
-        const pdfFiles = await Promise.resolve(
-          getExtensionFiles({ workSpaceId, fileExtension: 'pdf' })
-        );
-        return pdfFiles.data.data.content;
-      case 'file':
-        const fileTypeFiles = await Promise.resolve(
-          getTypeFiles({ workSpaceId, fileUploadType: 'FILE' })
-        );
-        return fileTypeFiles.data.data.content;
-      case 'pic':
-        const jpegFiles = getExtensionFiles({
-          workSpaceId,
-          fileExtension: 'jpeg',
-        });
-        const jpgFiles = getExtensionFiles({
-          workSpaceId,
-          fileExtension: 'jpg',
-        });
-        const pngFiles = getExtensionFiles({
-          workSpaceId,
-          fileExtension: 'png',
-        });
-        const [jpegFilesResponse, jpgFilesResponse, pngFilesResponse] =
-          await Promise.all([jpegFiles, jpgFiles, pngFiles]);
-        const imageFiles = [
-          ...jpegFilesResponse.data.data.content,
-          ...jpgFilesResponse.data.data.content,
-          ...pngFilesResponse.data.data.content,
-        ];
-
-        return imageFiles;
-      default:
-        return Promise.reject(new Error('Invalid file type'));
-    }
-  };
-  const getFilesByType = (type) => {
-    getFiles(type).then((response) => {
-      setFileList(response);
-    });
-  };
-  const dateList = [];
-  for (let i = 0; i < fileList.length; i++) {
-    if (!dateList.includes(fileList[i].createdAt.substring(0, 10))) {
-      dateList.push(fileList[i].createdAt.substring(0, 10));
-    }
-  }
-  const compareDates = (date1, date2) => {
-    return new Date(date2) - new Date(date1);
-  };
-  dateList.sort(compareDates);
-
-  const filterByDate = (date) => {
-    const fbd = fileList.filter((file) => {
-      return file.createdAt.substring(0, 10) === date;
-    });
-    return { date: date, content: fbd };
-  };
-
-  function removeLeadingZero(number) {
-    return String(number).replace(/^0+/, '');
-  }
-
-  
-  const [currentPage, setCurrentPage] = useState([]);
-  const filesPerPage = 10;
-  // 파일 목록을 페이지별로 분할하는 함수
-  const paginateFiles = (files) => {
-    const filesStack = [];
-    for (let i = 0; i < files.length; i += filesPerPage) {
-      filesStack.push(files.slice(i, i + filesPerPage));
-    }
-    return filesStack;
-  };
-
-  // // 더보기 버튼을 클릭할 때 호출되는 함수
-  const loadMoreFiles = (index) => {
-    if (switchstate) {
-      setCurrentPage((prev) => prev + 1);
-    } else
-      setCurrentPage((prevPages) => {
-        // 인덱스 위치의 currentPage를 1 증가시킴
-        return prevPages.map((page, i) => (i === index ? page + 1 : page));
-      });
-  };
-
-  //이름 순 정렬
-  function getInitial(text) {
-    const doubleConsonants = {
-      ㄲ: 'ㄱ',
-      ㄸ: 'ㄷ',
-      ㅃ: 'ㅂ',
-      ㅆ: 'ㅅ',
-      ㅉ: 'ㅈ',
-    };
-
-    const firstChar = text.charAt(0);
-    if (doubleConsonants.hasOwnProperty(firstChar)) {
-      return doubleConsonants[firstChar];
-    } else {
-      const initialList = [
-        'ㄱ',
-        'ㄲ',
-        'ㄴ',
-        'ㄷ',
-        'ㄸ',
-        'ㄹ',
-        'ㅁ',
-        'ㅂ',
-        'ㅃ',
-        'ㅅ',
-        'ㅆ',
-        'ㅇ',
-        'ㅈ',
-        'ㅉ',
-        'ㅊ',
-        'ㅋ',
-        'ㅌ',
-        'ㅍ',
-        'ㅎ',
-      ];
-      const unicode = text.charCodeAt(0);
-      if (unicode >= 44032 && unicode <= 55203) {
-        // 한글 유니코드 범위
-        const initialIndex = Math.floor((unicode - 44032) / 588);
-        const initial = initialList[initialIndex];
-        if (
-          initial === 'ㄲ' ||
-          initial === 'ㄸ' ||
-          initial === 'ㅃ' ||
-          initial === 'ㅆ' ||
-          initial === 'ㅉ'
-        ) {
-          return initialList[initialIndex - 1]; // 단자음으로 변환
-        }
-        return initial;
-      } else {
-        return text.charAt(0);
-      }
-    }
-  }
-
-  const initialList = [];
-  for (let i = 0; i < fileList.length; i++) {
-    if (!initialList.includes(getInitial(fileList[i].fileName).toLowerCase())) {
-      initialList.push(getInitial(fileList[i].fileName).toLowerCase());
-    }
-  }
-
-  initialList.sort();
-
-  const filterByInitial = (initial) => {
-    const fbi = fileList.filter((file) => {
-      return getInitial(file.fileName).toLowerCase() === initial;
-    });
-    return { initial: initial, content: fbi };
-  };
-
-  //크기 순 정렬
-  const sortedBySize = fileList.sort((a, b) => {
-    return b.fileSize - a.fileSize;
-  });
-
-  //유형 순 정렬
-  const extensionList = [];
-  for (let i = 0; i < fileList.length; i++) {
-    if (!extensionList.includes(fileList[i].fileExtension)) {
-      extensionList.push(fileList[i].fileExtension);
-    }
-  }
-  extensionList.sort();
-
-  const filterByExtension = (extension) => {
-    const fbe = fileList.filter((file) => {
-      return file.fileExtension === extension;
-    });
-    return { extension: extension, content: fbe };
-  };
-
-  const [searchData, setSearchData] = useState([]);
+  const [searchUsers, setSearchUsers] = useState([]);
   useEffect(() => {
     if (
       members.memberList &&
       members.memberList.length > 0 &&
-      searchData.length === 0
+      searchUsers.length === 0
     ) {
-      setSearchData(addCheckedList);
+      setSearchUsers(addCheckedList);
     }
-  }, [members.memberList, searchData, addCheckedList]);
+  }, [members.memberList, searchUsers, addCheckedList]);
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-  const filteredData = searchData.filter((item) =>
+  const filteredUsers = searchUsers.filter((item) =>
     item.nickname.includes(searchTerm)
   );
-  const checkedUsers = searchData.filter((item) => item.checked === true);
+  const checkedUsers = searchUsers.filter((item) => item.checked === true);
 
-  const findMyInfo = searchData.find((item) => {
+  const findMyInfo = searchUsers.find((item) => {
     return item.email === myInfo?.myInfo?.email;
   });
 
@@ -309,196 +106,8 @@ const Files = () => {
     if (switchstate) setCurrentPage(0);
   }, [sortBy, switchstate]);
 
-  const renderFiles = (files, list, index) => {
-    if (!currentPage.length) {
-      if (list) setCurrentPage(Array(list.length).fill(0));
-      else setCurrentPage([0]);
-    }
-    const stack = paginateFiles(files);
-    let renderedFiles = [];
-    for (let i = 0; i <= currentPage[index]; i++) {
-      const pageFiles = stack[i] || [];
-      renderedFiles = [...renderedFiles, ...pageFiles];
-    }
-    return (
-      <Wrap spacing="40px">
-        {renderedFiles.map((x, index) => (
-          <FileBox
-            key={index}
-            fileName={x.fileName}
-            fileMemberUploadName={x.fileMemberUploadName}
-            createdAt={x.createdAt}
-            fileExtension={x.fileExtension}
-            fileSize={x.fileSize}
-            fileUrl={x.fileUrl}
-          />
-        ))}
-        {currentPage[index] < stack.length - 1 && (
-          <Button onClick={() => loadMoreFiles(index)}>더보기</Button>
-        )}
-      </Wrap>
-    );
-  };
-
-  const renderFilesBySortType = () => {
-    switch (sortBy) {
-      case 'date':
-        const fbdList = [];
-        dateList.map((item) => {
-          fbdList.push(filterByDate(item));
-        });
-        for (let i = 0; i < fbdList.length; i++) {
-          fbdList[i].content.sort((a, b) => {
-            return new Date(b.createdAt) - new Date(a.createdAt);
-          });
-        }
-        return dateList.map((item, index) => (
-          <Box m="64px 0" key={index}>
-            <Text fontSize="22px" fontWeight="500" color="#656565" mb="27px">
-              {removeLeadingZero(item.substring(5, 7))}월
-              {removeLeadingZero(item.substring(8))}일
-            </Text>
-            {checkedUsers.length > 0
-              ? renderFiles(
-                  filterByUsers(fbdList[index].content),
-                  fbdList,
-                  index
-                )
-              : renderFiles(fbdList[index].content, fbdList, index)}
-          </Box>
-        ));
-      case 'name':
-        const fbiList = [];
-        initialList.map((item) => {
-          fbiList.push(filterByInitial(item));
-        });
-        return initialList.map((item, index) => (
-          <Box m="64px 0" key={index}>
-            <Text fontSize="22px" fontWeight="500" color="#656565" mb="27px">
-              {item}
-            </Text>
-            {checkedUsers.length > 0
-              ? renderFiles(
-                  filterByUsers(fbiList[index].content),
-                  fbiList,
-                  index
-                )
-              : renderFiles(fbiList[index].content, fbiList, index)}
-          </Box>
-        ));
-      case 'size':
-        return fileList.length > 0 ? (
-          <Box m="64px 0">
-            {checkedUsers.length > 0
-              ? renderFiles(filterByUsers(sortedBySize), null, 0)
-              : renderFiles(sortedBySize, null, 0)}
-          </Box>
-        ) : null;
-      case 'type':
-        const fbeList = [];
-        extensionList.map((item) => {
-          fbeList.push(filterByExtension(item));
-        });
-        return extensionList.map((item, index) => (
-          <Box m="64px 0" key={index}>
-            <Text fontSize="22px" fontWeight="500" color="#656565" mb="27px">
-              {item}
-            </Text>
-            {checkedUsers.length > 0
-              ? renderFiles(
-                  filterByUsers(fbeList[index].content),
-                  fbeList,
-                  index
-                )
-              : renderFiles(fbeList[index].content, fbeList, index)}
-          </Box>
-        ));
-      default:
-        return null;
-    }
-  };
-
-  const sortFiles = (sort) => {
-    switch (sort) {
-      case 'date':
-        const sortedByDate = fileList.sort((a, b) => {
-          const dateA = new Date(a.createdAt);
-          const dateB = new Date(b.createdAt);
-          return dateB - dateA;
-        });
-        return sortedByDate;
-      case 'name':
-        const sortedByName = fileList.sort((a, b) => {
-          const nameA = a.fileName.toLowerCase();
-          const nameB = b.fileName.toLowerCase();
-          if (nameA < nameB) return -1;
-          if (nameA > nameB) return 1;
-          return 0;
-        });
-        return sortedByName;
-      case 'size':
-        const sortedBySize = fileList.sort((a, b) => {
-          return b.fileSize - a.fileSize;
-        });
-        return sortedBySize;
-      case 'type':
-        const sortedByType = fileList.sort((a, b) => {
-          const nameA = a.fileExtension.toLowerCase();
-          const nameB = b.fileExtension.toLowerCase();
-          if (nameA < nameB) return -1;
-          if (nameA > nameB) return 1;
-          return 0;
-        });
-        return sortedByType;
-    }
-  };
-
-  const renderFilteredFilesList = (files) => {
-    return (
-      <Box mb="5rem">
-        {files.map((x, index) => (
-          <FileList
-            key={index}
-            fileName={x.fileName}
-            sharedBy={x.fileMemberUploadName}
-            date={x.createdAt}
-            type={x.fileExtension}
-            size={x.fileSize}
-            src={x.fileUrl}
-          />
-        ))}
-        {currentPage < Math.ceil(fileList.length / filesPerPage) - 1 && (
-          <Button onClick={() => loadMoreFiles(0)}>더보기</Button>
-        )}
-      </Box>
-    );
-  };
-
-  const filteredFilesOnList = (sortBy) => {
-    const filteredFiles =
-      checkedUsers.length > 0
-        ? filterByUsers(sortFiles(sortBy))
-        : sortFiles(sortBy);
-    const stack = paginateFiles(filteredFiles);
-    let renderedFiles = [];
-    for (let i = 0; i <= currentPage; i++) {
-      const pageFiles = stack[i] || [];
-      renderedFiles = [...renderedFiles, ...pageFiles];
-    }
-
-    return renderFilteredFilesList(renderedFiles);
-  };
-  const renderFilesBySortTypeList = () => {
-    switch (sortBy) {
-      case 'date':
-      case 'name':
-      case 'size':
-      case 'type':
-        return filteredFilesOnList(sortBy);
-      default:
-        return null;
-    }
-  };
+  //파일 검색
+  const [searchTerm, setSearchTerm] = useState('');
 
   const [fileSearchWord, setFileSearchWord] = useState('');
   const handleSearchWordChange = (e) => {
@@ -512,6 +121,7 @@ const Files = () => {
       setFileList(searchedFiles.data.data.content);
     else setFileList([]);
     console.log('검색어:', fileSearchWord);
+    console.log(fileList);
   };
   const handleSearchKeyDown = (e) => {
     if (e.key === 'Enter') {
@@ -593,147 +203,16 @@ const Files = () => {
                 )}
               </Button>
               {isOpen && (
-                <>
-                  <Box
-                    position="fixed"
-                    top="0"
-                    left="0"
-                    right="0"
-                    bottom="0"
-                    zIndex="99"
-                    onClick={() => {
-                      setIsOpen(false);
-                      setSearchTerm('');
-                    }}
-                  />
-                  <Box w="180px" position="absolute" zIndex="100" mt="2px">
-                    <Flex
-                      flexDir="column"
-                      w="150%"
-                      zIndex="100"
-                      border="1px solid gray"
-                      borderRadius="md"
-                      backgroundColor="#f8f8f8"
-                      p="5px 0"
-                    >
-                      <Center>
-                        <Input
-                          m="8px"
-                          backgroundColor="white"
-                          fontSize="14px"
-                          fontWeight="500"
-                          border="1px solid #767676"
-                          borderRadius="8px"
-                          value={searchTerm}
-                          onChange={handleSearchChange}
-                          placeholder="예: 고길동"
-                          _placeholder={{ color: 'black' }}
-                        />
-                      </Center>
-                      {!searchTerm &&
-                        checkedUsers.map((item, index) => (
-                          <Checkbox
-                            key={index}
-                            fontSize="14px"
-                            fontWeight="500"
-                            color="#656565"
-                            borderColor="#656565"
-                            p="5px 10px"
-                            _hover={{
-                              backgroundColor: '#1264A3',
-                              color: 'white',
-                              borderColor: 'white',
-                            }}
-                            onChange={(e) => {
-                              const updatedData = [...searchData];
-                              const dataIndex = searchData.findIndex(
-                                (dataItem) => dataItem.email === item.email
-                              );
-                              if (dataIndex !== -1) {
-                                updatedData[dataIndex] = {
-                                  ...updatedData[dataIndex],
-                                  checked: e.target.checked,
-                                };
-                                setSearchData(updatedData);
-                              }
-                            }}
-                            isChecked={item.checked}
-                          >
-                            {item.nickname}
-                          </Checkbox>
-                        ))}
-                      {searchTerm &&
-                        filteredData.map((item, index) => (
-                          <Checkbox
-                            key={index}
-                            fontSize="14px"
-                            fontWeight="500"
-                            color="#656565"
-                            borderColor="#656565"
-                            p="5px 10px"
-                            _hover={{
-                              backgroundColor: '#1264A3',
-                              color: 'white',
-                              borderColor: 'white',
-                            }}
-                            onChange={(e) => {
-                              const updatedData = [...searchData];
-                              const dataIndex = searchData.findIndex(
-                                (dataItem) => dataItem.email === item.email
-                              );
-                              if (dataIndex !== -1) {
-                                updatedData[dataIndex] = {
-                                  ...updatedData[dataIndex],
-                                  checked: e.target.checked,
-                                };
-                                setSearchData(updatedData);
-                              }
-                            }}
-                            isChecked={item.checked}
-                          >
-                            {item.nickname}
-                          </Checkbox>
-                        ))}
-                      {!userChecked && (
-                        <Box>
-                          <Text p="0px 10px" fontSize="13px" color="#656565">
-                            제안
-                          </Text>
-                          <Checkbox
-                            fontSize="14px"
-                            fontWeight="500"
-                            color="#656565"
-                            borderColor="#656565"
-                            w="100%"
-                            p="5px 10px"
-                            _hover={{
-                              backgroundColor: '#1264A3',
-                              color: 'white',
-                              borderColor: 'white',
-                            }}
-                            onChange={(e) => {
-                              const updatedData = [...searchData];
-                              const dataIndex = searchData.findIndex(
-                                (dataItem) =>
-                                  dataItem.email === findMyInfo?.email
-                              );
-                              if (dataIndex !== -1) {
-                                updatedData[dataIndex] = {
-                                  ...updatedData[dataIndex],
-                                  checked: e.target.checked,
-                                };
-                                setSearchData(updatedData);
-                              }
-                            }}
-                            isChecked={findMyInfo?.checked}
-                          >
-                            {findMyInfo.nickname}
-                          </Checkbox>
-                        </Box>
-                      )}
-                    </Flex>
-                  </Box>
-                </>
+                <UserSearchModal
+                  setIsOpen={setIsOpen}
+                  searchTerm={searchTerm}
+                  setSearchTerm={setSearchTerm}
+                  checkedUsers={checkedUsers}
+                  searchUsers={searchUsers}
+                  setSearchUsers={setSearchUsers}
+                  filteredUsers={filteredUsers}
+                  findMyInfo={findMyInfo}
+                />
               )}
             </Box>
 
@@ -744,100 +223,41 @@ const Files = () => {
               opacity="10%"
             />
             <ButtonGroup gap="4px">
-              <Button
-                borderRadius="8px"
-                fontSize="14px"
-                fontWeight="500"
-                p="12px 26px"
-                bgColor={fileType === 'all' ? '#575DFB' : '#FFFFFF'}
-                color={fileType === 'all' ? 'white' : 'black'}
-                _hover={fileType === 'all' ? { bgColor: '#575DFB' } : undefined}
-                border={
-                  fileType === 'all' ? '1px solid #575DFB' : '1px solid #898989'
-                }
-                onClick={() => {
-                  setFileType('all');
-                  getFilesByType('all');
-                }}
-              >
-                모든 파일
-              </Button>
-              <Button
-                borderRadius="8px"
-                fontSize="14px"
-                fontWeight="500"
-                p="12px 26px"
-                bgColor={fileType === 'pic' ? '#575DFB' : '#FFFFFF'}
-                color={fileType === 'pic' ? 'white' : 'black'}
-                _hover={fileType === 'pic' ? { bgColor: '#575DFB' } : undefined}
-                border={
-                  fileType === 'pic' ? '1px solid #575DFB' : '1px solid #898989'
-                }
-                onClick={() => {
-                  setFileType('pic');
-                  getFilesByType('pic');
-                }}
-              >
-                사진
-              </Button>
-              <Button
-                borderRadius="8px"
-                fontSize="14px"
-                fontWeight="500"
-                p="12px 26px"
-                bgColor={fileType === 'file' ? '#575DFB' : '#FFFFFF'}
-                color={fileType === 'file' ? 'white' : 'black'}
-                _hover={
-                  fileType === 'file' ? { bgColor: '#575DFB' } : undefined
-                }
-                border={
-                  fileType === 'file'
-                    ? '1px solid #575DFB'
-                    : '1px solid #898989'
-                }
-                onClick={() => {
-                  setFileType('file');
-                  getFilesByType('file');
-                }}
-              >
-                파일
-              </Button>
-              <Button
-                borderRadius="8px"
-                fontSize="14px"
-                fontWeight="500"
-                p="12px 26px"
-                bgColor={fileType === 'zip' ? '#575DFB' : '#FFFFFF'}
-                color={fileType === 'zip' ? 'white' : 'black'}
-                _hover={fileType === 'zip' ? { bgColor: '#575DFB' } : undefined}
-                border={
-                  fileType === 'zip' ? '1px solid #575DFB' : '1px solid #898989'
-                }
-                onClick={() => {
-                  setFileType('zip');
-                  getFilesByType('zip');
-                }}
-              >
-                ZIP
-              </Button>
-              <Button
-                borderRadius="8px"
-                fontSize="14px"
-                fontWeight="500"
-                p="12px 26px"
-                bgColor={fileType === 'pdf' ? '#575DFB' : '#FFFFFF'}
-                color={fileType === 'pdf' ? 'white' : 'black'}
-                _hover={fileType === 'pdf' ? { bgColor: '#575DFB' } : undefined}
-                border={
-                  fileType === 'pdf' ? '1px solid #575DFB' : '1px solid #898989'
-                }
-                onClick={() => {
-                  setFileType('pdf');
-                  getFilesByType('pdf');
-                }}
-              >
-                PDF
-              </Button>
+              <TypeSelectButton
+                fileType={fileType}
+                setFileType={setFileType}
+                getFilesByType={getFilesByType}
+                text="모든 파일"
+                type="all"
+              />
+              <TypeSelectButton
+                fileType={fileType}
+                setFileType={setFileType}
+                getFilesByType={getFilesByType}
+                text="사진"
+                type="pic"
+              />
+              <TypeSelectButton
+                fileType={fileType}
+                setFileType={setFileType}
+                getFilesByType={getFilesByType}
+                text="파일"
+                type="file"
+              />
+              <TypeSelectButton
+                fileType={fileType}
+                setFileType={setFileType}
+                getFilesByType={getFilesByType}
+                text="ZIP"
+                type="zip"
+              />
+              <TypeSelectButton
+                fileType={fileType}
+                setFileType={setFileType}
+                getFilesByType={getFilesByType}
+                text="PDF"
+                type="pdf"
+              />
             </ButtonGroup>
 
             <Divider
@@ -923,14 +343,22 @@ const Files = () => {
           {!switchstate &&
             (checkedUsers.length === 0 ||
               (checkedUsers.length > 0 &&
-                filterByUsers(sortFiles(sortBy)).length > 0)) &&
-            renderFilesBySortType()}
+                filterByUsers(sortFiles(sortBy, fileList)).length > 0)) &&
+            renderingFilesByGrid(
+              sortBy,
+              fileList,
+              currentPage,
+              setCurrentPage,
+              switchstate,
+              checkedUsers,
+              filesPerPage
+            )}
 
           {fileList.length > 0 && switchstate && (
             <>
               {(checkedUsers.length === 0 ||
                 (checkedUsers.length > 0 &&
-                  filterByUsers(sortFiles(sortBy)).length > 0)) && (
+                  filterByUsers(sortFiles(sortBy, fileList)).length > 0)) && (
                 <>
                   <Flex>
                     <Text
@@ -981,12 +409,23 @@ const Files = () => {
                   <Divider color="#0000001A" m="15px 0" />
                 </>
               )}
-              <Box>{renderFilesBySortTypeList()}</Box>
+              <Box>
+                {renderFilesBySortTypeList(
+                  sortBy,
+                  fileList,
+                  filesPerPage,
+                  switchstate,
+                  currentPage,
+                  setCurrentPage,
+                  checkedUsers,
+                  filterByUsers
+                )}
+              </Box>
             </>
           )}
           {(fileList.length === 0 ||
             (checkedUsers.length > 0 &&
-              filterByUsers(sortFiles(sortBy)).length === 0)) && (
+              filterByUsers(sortFiles(sortBy, fileList)).length === 0)) && (
             <Center
               w="100%"
               h="100%"
