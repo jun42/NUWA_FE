@@ -17,13 +17,48 @@ import IconImage from '@assets/workspace_card3.png';
 import SearchBar from '@components/SearchBar/WorkspaceSearchBar';
 import { useParams } from 'react-router-dom';
 import { workspaceMemberList } from '@apis/workspace/workspaceMemberList';
-import { inviteLink } from '../../apis/link/invitationLink';
+import { inviteLink } from '@apis/link/invitationLink';
+import { createInviteLink } from '@apis/link/createInviteLink';
+import { changeMemberRole } from '../../apis/workspace/changeMemberRole';
 import permission from '@assets/permission.png';
 
 const AddUser = () => {
   const { workSpaceId } = useParams();
   const [members, setMembers] = useState([]);
   const [emailInput, setEmailInput] = useState('');
+  const [createLink, setcreateLink] = useState('');
+
+  const handleChangeRole = async (workSpaceMemberId, type) => {
+    const { success, data, message } = await changeMemberRole(
+      workSpaceMemberId,
+      workSpaceId,
+      type
+    );
+    if (success) {
+      alert(`권한 변경 성공: ${data.message}`);
+      // 성공 후 멤버 목록 업데이트 로직 필요 (예시로는 상태 업데이트 또는 다시 fetchMembers 호출)
+      fetchMembers(); // 멤버 목록 다시 가져오기 (이 함수는 이미 정의된 상태에서 호출)
+    } else {
+      alert(`권한 변경 실패: ${message}`);
+    }
+  };
+
+  useEffect(() => {
+    const generateInviteLink = async () => {
+      try {
+        const response = await createInviteLink(workSpaceId);
+        if (response.status === 'success') {
+          setcreateLink(response.data.link);
+        } else {
+          console.error('초대 링크 생성에 실패했습니다:', response.message);
+        }
+      } catch (error) {
+        console.error('초대 링크 생성 과정에서 오류 발생:', error);
+      }
+    };
+
+    generateInviteLink();
+  }, [workSpaceId]);
 
   const handleInvite = async () => {
     const emailAddresses = emailInput
@@ -106,10 +141,13 @@ const AddUser = () => {
           <Text color={'#5d5d5d'} fontWeight={'380'}>
             또는 전체 팀에게 이 링크 전송:
           </Text>
-          <Text color={'#5d5d5d'}>
-            https://join.nuwa.com/t/nuwaproject/shared_invice/ztsdfsdfa...
-          </Text>
-          <Text color={'#575DFB'} fontWeight={'510'} cursor={'pointer'}>
+          <Text color={'#5d5d5d'}>{createLink}</Text>
+          <Text
+            color={'#575DFB'}
+            fontWeight={'510'}
+            cursor={'pointer'}
+            onClick={() => navigator.clipboard.writeText(createLink)}
+          >
             초대 링크 복사
           </Text>
         </Flex>
@@ -127,7 +165,6 @@ const AddUser = () => {
           >
             멤버
           </Button>
-
           <Button
             borderRadius={'full'}
             fontSize={'14px'}
@@ -154,10 +191,10 @@ const AddUser = () => {
                   <Box>
                     <Image src={IconImage} boxSize="full" />
                   </Box>
-                  <Flex flexDirection={'colunm'} border={'1px solid blue'}>
+                  <Flex flexDirection={'colunm'}>
                     <Box
                       p={' 10px 20px'}
-                      border={'1px solid red'}
+                      //border={'1px solid red'}
                       width={'90%'}
                     >
                       <Text fontWeight={'700'}>{member.name}</Text>
@@ -169,15 +206,24 @@ const AddUser = () => {
                         {member.email}
                       </Text>
                     </Box>
-                    <Box width={'10%'} border={'1px solid black'}>
+                    <Box width={'10%'}>
                       <Menu>
                         <MenuButton as={Button} variant="unstyled">
                           <img src={permission} alt="권한 변경" />
                         </MenuButton>
                         <MenuList>
-                          <MenuItem>관리자 변경</MenuItem>
-
-                          <MenuItem>권한 제거</MenuItem>
+                          <MenuItem
+                            onClick={() =>
+                              handleChangeRole(member.id, 'CREATED')
+                            }
+                          >
+                            관리자 변경
+                          </MenuItem>
+                          <MenuItem
+                            onClick={() => handleChangeRole(member.id, 'JOIN')}
+                          >
+                            권한 제거
+                          </MenuItem>
                         </MenuList>
                       </Menu>
                     </Box>
