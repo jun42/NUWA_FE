@@ -16,10 +16,11 @@ import { subscribeHandler } from './subscribeHandler';
  */
 const useSocketInit = (roomId, workSpaceId, receiverId, channelType) => {
   const [publish, setPublish] = useState(null);
+  const [updatePublish, setUpdatePublish] = useState(null);
   const [deleteSocketMessage, setDeleteSocketMessage] = useState(null);
   const [socketMessageList, setSocketMessageList] = useState([]);
   const [socketMessageDeleteList, setSocketMessageDeleteList] = useState([]);
-  const [socketMessagePatchList, setSocketMessagePatchList] = useState([]);
+  const [socketMessageUpdateList, setSocketMessageUpdateList] = useState([]);
 
   const authHeader = {
     Authorization: getToken(),
@@ -58,7 +59,8 @@ const useSocketInit = (roomId, workSpaceId, receiverId, channelType) => {
           subscribeHandler(
             socketMessageList,
             setSocketMessageList,
-            setSocketMessageDeleteList
+            setSocketMessageDeleteList,
+            setSocketMessageUpdateList
           ),
           authHeader
         );
@@ -106,6 +108,31 @@ const useSocketInit = (roomId, workSpaceId, receiverId, channelType) => {
           };
         };
         setDeleteSocketMessage((state) => lazyDelete());
+
+        const updateInfo = {
+          destination: '/pub/direct/update',
+          headers: authHeader,
+          body: {
+            id: null,
+            workSpaceId,
+            roomId,
+            content: null,
+            messageType: 'UPDATE',
+          },
+        };
+        const lazyUpdate = () => {
+          return (id, content, rawString) => {
+            const newInfo = { ...updateInfo };
+            newInfo.body = JSON.stringify({
+              ...newInfo.body,
+              id: id,
+              content,
+              rawString,
+            });
+            client.publish(newInfo);
+          };
+        };
+        setUpdatePublish((state) => lazyUpdate());
       };
 
       client.onStompError = function (frame) {
@@ -126,58 +153,23 @@ const useSocketInit = (roomId, workSpaceId, receiverId, channelType) => {
           console.log('[DISCONNECT SOCKET SUCCESS]');
         })
         .catch((err) => {
-          console.error('[DISCONNECT SOCKET FAIL]');
+          console.error('[DISCONNECT SOCKET FAIL]', err);
         });
       client.deactivate();
     };
-  }, []);
+  }, [roomId]);
 
   return {
     publish,
+    updatePublish,
     socketMessageList,
     setSocketMessageList,
     deleteSocketMessage,
     socketMessageDeleteList,
     setSocketMessageDeleteList,
+    socketMessageUpdateList,
+    setSocketMessageUpdateList,
   };
 };
 
 export default useSocketInit;
-
-// useEffect(() => {
-// const sockJs = new SockJS(`${import.meta.env.VITE_SERVER_SOCKJS_SOCKET}`);
-// const sockJs = new SockJS(`${import.meta.env.VITE_SERVER_SOCKET}`);
-// const sockJs = new WebSocket(`${import.meta.env.VITE_SERVER_SOCKET}`);
-// const stomp = Stomp.over(sockJs);
-// stomp.connect({}, function () {
-//   console.log('CONSOLE STOMP Connection');
-//   stomp.subscribe(
-//     '/sub/chat/' + roomId,
-//     function (chat) {
-//       console.log(chat);
-//       const content = JSON.parse(chat.body);
-//       const sender = content.sender;
-//       const message = content.message; // 추가된 부분
-//       let str;
-// if (sender === userName) {
-//     str = "<div class='col-6'><div class='alert alert-secondary'><b>" + sender + " : " + message + "</b></div></div>";
-// } else {
-//     str = "<div class='col-6'><div class='alert alert-warning'><b>" + sender + " : " + message + "</b></div></div>";
-// }
-//     const msgArea = document.getElementById('msgArea');
-//     msgArea.innerHTML += str;
-//   },
-//   headers
-// );
-// if (type === 'enter') {
-//     stomp.send('/pub/chat/enter', headers, JSON.stringify({
-//         roomId: roomId,
-//         sender: userName
-//     }));
-// }
-// });
-
-//   return () => {
-//     stomp.disconnect();
-//   };
-// }, []);

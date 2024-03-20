@@ -5,9 +5,16 @@ import { immer } from 'zustand/middleware/immer';
 import { createSocialSignupSlice } from './socialSignupSlice';
 import { createWorkspaceNameSlice } from './createWorkspaceNameSlice';
 import { createUserAuthSlice } from './userAuthSlice';
-import { createDirectMessageSlice } from './socketPubSlice';
+import { createSSEAlarmSlice } from './serverSentEventAlarmSlice';
+import { createDirectChatSlice } from './directChatSlice';
 
-const persistKeys = ['email', 'provider', 'workspace', 'isLoggedIn'];
+const persistKeys = [
+  'email',
+  'provider',
+  'workspace',
+  'isLoggedIn',
+  'isDirectChatBoxExpand',
+];
 
 const persistOption = {
   name: 'NUWA-Storage', // name of the item in the storage (must be unique)
@@ -28,7 +35,8 @@ const useBoundStore = create(
           ...createSocialSignupSlice(...a),
           ...createWorkspaceNameSlice(...a),
           ...createUserAuthSlice(...a),
-          ...createDirectMessageSlice(...a),
+          ...createSSEAlarmSlice(...a),
+          ...createDirectChatSlice(...a),
         }),
         persistOption
       )

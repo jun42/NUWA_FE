@@ -1,24 +1,99 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import {
   Text,
   Flex,
   Box,
-  Divider,
   Button,
   Textarea,
   Image,
   Grid,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from '@chakra-ui/react';
-import OutletSearchBar from '@components/SearchBar/OutletSearchBar';
 import IconImage from '@assets/workspace_card3.png';
 import SearchBar from '@components/SearchBar/WorkspaceSearchBar';
+import { useParams } from 'react-router-dom';
+import { workspaceMemberList } from '@apis/workspace/workspaceMemberList';
+import { inviteLink } from '@apis/link/invitationLink';
+import { createInviteLink } from '@apis/link/createInviteLink';
+import { changeMemberRole } from '../../apis/workspace/changeMemberRole';
+import permission from '@assets/permission.png';
 
 const AddUser = () => {
-  const userDataExample = Array(20).fill({
-    name: '김뿌꾸',
-    email: 'khs43833@gmail.com',
-  });
+  const { workSpaceId } = useParams();
+  const [members, setMembers] = useState([]);
+  const [emailInput, setEmailInput] = useState('');
+  const [createLink, setcreateLink] = useState('');
+
+  const handleChangeRole = async (workSpaceMemberId, type) => {
+    const { success, data, message } = await changeMemberRole(
+      workSpaceMemberId,
+      workSpaceId,
+      type
+    );
+    if (success) {
+      alert(`권한 변경 성공: ${data.message}`);
+      // 성공 후 멤버 목록 업데이트 로직 필요 (예시로는 상태 업데이트 또는 다시 fetchMembers 호출)
+      fetchMembers(); // 멤버 목록 다시 가져오기 (이 함수는 이미 정의된 상태에서 호출)
+    } else {
+      alert(`권한 변경 실패: ${message}`);
+    }
+  };
+
+  useEffect(() => {
+    const generateInviteLink = async () => {
+      try {
+        const response = await createInviteLink(workSpaceId);
+        if (response.status === 'success') {
+          setcreateLink(response.data.link);
+        } else {
+          console.error('초대 링크 생성에 실패했습니다:', response.message);
+        }
+      } catch (error) {
+        console.error('초대 링크 생성 과정에서 오류 발생:', error);
+      }
+    };
+
+    generateInviteLink();
+  }, [workSpaceId]);
+
+  const handleInvite = async () => {
+    const emailAddresses = emailInput
+      .split(',')
+      .map((email) => email.trim())
+      .filter((email) => email !== ''); // 빈 문자열 제거
+
+    if (emailAddresses.length === 0) {
+      alert('유효한 이메일 주소를 입력하세요.');
+      return;
+    }
+
+    try {
+      const response = await inviteLink(workSpaceId, emailAddresses);
+      console.log('초대 링크 생성 성공:', response);
+      alert('초대 메일이 성공적으로 발송되었습니다.');
+      setEmailInput('');
+    } catch (error) {
+      console.error('초대 링크 생성 실패', error);
+      alert('초대 메일 발송에 실패하였습니다.');
+    }
+  };
+
+  useEffect(() => {
+    const fetchMembers = async () => {
+      const data = await workspaceMemberList(workSpaceId);
+      if (data && data.status === 'success') {
+        setMembers(data.data);
+      } else {
+        console.error('멤버를 조회할 수 없습니다.');
+      }
+    };
+
+    fetchMembers();
+  }, [workSpaceId]);
 
   return (
     <StContainer>
@@ -34,16 +109,19 @@ const AddUser = () => {
 
         <Flex gap={'10px'}>
           <Textarea
-            placeholder="예: example@email.com,example@email.com"
+            value={emailInput}
+            onChange={(e) => setEmailInput(e.target.value)}
+            placeholder="예 :  example@email.com, example@email.com"
             border={'2px solid #F2F2F2'}
-            size={'lg'}
+            color={'#606060'}
+            size={'16px'}
             width={'70%'}
             height={'100%'}
             resize={'none'}
             sx={{
               '::placeholder': {
                 color: '#5d5d5d',
-                fontSize: '15px',
+                fontSize: '16px',
               },
             }}
           />
@@ -53,6 +131,7 @@ const AddUser = () => {
             color={'white'}
             bg={'#575DFB'}
             borderRadius={'18px'}
+            onClick={handleInvite}
           >
             추가
           </Button>
@@ -62,10 +141,13 @@ const AddUser = () => {
           <Text color={'#5d5d5d'} fontWeight={'380'}>
             또는 전체 팀에게 이 링크 전송:
           </Text>
-          <Text color={'#5d5d5d'}>
-            https://join.nuwa.com/t/nuwaproject/shared_invice/ztsdfsdfa...
-          </Text>
-          <Text color={'#575DFB'} fontWeight={'510'} cursor={'pointer'}>
+          <Text color={'#5d5d5d'}>{createLink}</Text>
+          <Text
+            color={'#575DFB'}
+            fontWeight={'510'}
+            cursor={'pointer'}
+            onClick={() => navigator.clipboard.writeText(createLink)}
+          >
             초대 링크 복사
           </Text>
         </Flex>
@@ -83,7 +165,6 @@ const AddUser = () => {
           >
             멤버
           </Button>
-
           <Button
             borderRadius={'full'}
             fontSize={'14px'}
@@ -104,23 +185,49 @@ const AddUser = () => {
             templateColumns="repeat(auto-fill, minmax(180px, 1fr))"
             gap={'6'}
           >
-            {userDataExample.map((user, index) => (
-              <Flex key={index} justify={'space-between'}>
+            {members.map((member, index) => (
+              <Flex key={`member-${index}`} justify={'space-between'}>
                 <UserData>
                   <Box>
                     <Image src={IconImage} boxSize="full" />
                   </Box>
-
-                  <Box p={' 10px 20px'}>
-                    <Text fontWeight={'700'}>{user.name}</Text>
-                    <Text
-                      fontSize={'14px'}
-                      fontWeight={'500'}
-                      color={'#797979'}
+                  <Flex flexDirection={'colunm'}>
+                    <Box
+                      p={' 10px 20px'}
+                      //border={'1px solid red'}
+                      width={'90%'}
                     >
-                      {user.email}
-                    </Text>
-                  </Box>
+                      <Text fontWeight={'700'}>{member.name}</Text>
+                      <Text
+                        fontSize={'12px'}
+                        fontWeight={'500'}
+                        color={'#797979'}
+                      >
+                        {member.email}
+                      </Text>
+                    </Box>
+                    <Box width={'10%'}>
+                      <Menu>
+                        <MenuButton as={Button} variant="unstyled">
+                          <img src={permission} alt="권한 변경" />
+                        </MenuButton>
+                        <MenuList>
+                          <MenuItem
+                            onClick={() =>
+                              handleChangeRole(member.id, 'CREATED')
+                            }
+                          >
+                            관리자 변경
+                          </MenuItem>
+                          <MenuItem
+                            onClick={() => handleChangeRole(member.id, 'JOIN')}
+                          >
+                            권한 제거
+                          </MenuItem>
+                        </MenuList>
+                      </Menu>
+                    </Box>
+                  </Flex>
                 </UserData>
               </Flex>
             ))}
@@ -140,7 +247,6 @@ const StContainer = styled.div`
   gap: auto;
   margin: 0px 50px;
   justify-content: space-evenly;
-  //border: 1px solid blue;
 `;
 
 const TopSection = styled.div`
@@ -149,7 +255,6 @@ const TopSection = styled.div`
   background-color: #fbfbfb;
   margin-top: 62px;
   gap: 10px;
-  //border: 1px solid red;
 `;
 
 const BottomSection = styled.div`
@@ -158,7 +263,6 @@ const BottomSection = styled.div`
   flex-flow: column;
   margin-top: 60px;
   background-color: #ffffff;
-  //border: 1px solid green;
 `;
 
 const UserDataContainer = styled.div`

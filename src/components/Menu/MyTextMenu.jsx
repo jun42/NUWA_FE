@@ -7,7 +7,13 @@ import {
 } from '@chakra-ui/react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 
-const MyTextMenu = ({ isDeleted, deleteSocketMessage, messageId }) => {
+const MyTextMenu = ({
+  isDeleted,
+  deleteSocketMessage,
+  messageId,
+  messageType,
+  setReadOnly,
+}) => {
   return (
     <Menu>
       <MenuButton
@@ -27,7 +33,15 @@ const MyTextMenu = ({ isDeleted, deleteSocketMessage, messageId }) => {
             메시지 삭제하기
           </MenuItem>
         )}
-        <MenuItem>수정하기</MenuItem>
+        {messageType === 'TEXT' && (
+          <MenuItem
+            onClick={() => {
+              setReadOnly(false);
+            }}
+          >
+            수정하기
+          </MenuItem>
+        )}
       </MenuList>
     </Menu>
   );

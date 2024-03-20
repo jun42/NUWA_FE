@@ -90,11 +90,24 @@ const Editor = forwardRef(
     }, [publish]);
 
     return (
-      <Box maxH={'15vh'} flexGrow={1} width={'100%'} marginBottom={'auto'}>
+      <Box flexGrow={0}>
         <EmojiPicker
           open={emojiPickerIsOpen}
           className="emoji-picker"
-          onEmojiClick={console.log}
+          onEmojiClick={(e) => {
+            if (ref.current) {
+              let index;
+              const range = ref.current.getSelection();
+              if (range === null) {
+                index = 0;
+              } else {
+                index = range.index;
+              }
+              ref.current.insertText(index, e.emoji);
+              ref.current.setSelection(index + e.emoji.length);
+            }
+            setEmojiPickerIsOpen(false);
+          }}
         />
         <div id="editor" ref={containerRef}></div>
         <CustomToolbarBottom setEmojiPickerIsOpen={setEmojiPickerIsOpen} />
