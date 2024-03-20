@@ -57,6 +57,8 @@ const Files = () => {
 
   const [fileSearchWord, setFileSearchWord] = useState('');
 
+  const [searchUsers, setSearchUsers] = useState([]);
+
   useEffect(() => {
     const fetchFiles = async () => {
       try {
@@ -71,7 +73,6 @@ const Files = () => {
     fetchFiles();
   }, []);
 
-  const [searchUsers, setSearchUsers] = useState([]);
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
