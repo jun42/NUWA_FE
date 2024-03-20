@@ -1,5 +1,5 @@
 import { Box, Button, Flex } from '@chakra-ui/react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { uploadFile } from '@apis/file/file';
 import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import useGroupSocketInit from '@apis/socket/group/useGroupSocketInit';
@@ -31,11 +31,14 @@ const GroupChatPage = () => {
 
   const {
     publish,
+    updatePublish,
     socketMessageList,
     setSocketMessageList,
     deleteSocketMessage,
     socketMessageDeleteList,
     setSocketMessageDeleteList,
+    socketMessageUpdateList,
+    setSocketMessageUpdateList,
   } = useGroupSocketInit(roomId, workSpaceId, 'chat');
   const {
     data: groupChatMessageList,
@@ -45,6 +48,71 @@ const GroupChatPage = () => {
   useChatBoxScrollToBottom(chatBoxRef, groupChatMessageList);
 
   totalMessageList = [...groupChatMessageList, ...socketMessageList];
+
+  useEffect(() => {
+    if (socketMessageDeleteList.length !== 0) {
+      setSocketMessageList((state) => {
+        const newState = [...state];
+        for (let deleteItem of socketMessageDeleteList) {
+          newState.forEach((item) => {
+            if (item.messageId === deleteItem.id) {
+              item.messageId = item.messageId + 'delete';
+              item.isDeleted = true;
+              item.content = deleteItem.content;
+            }
+            return item;
+          });
+        }
+        return newState;
+      });
+      if (groupChatMessageList.length > 0) {
+        for (let deleteItem of socketMessageDeleteList) {
+          groupChatMessageList.forEach((item) => {
+            if (item.messageId === deleteItem.id) {
+              item.messageId = item.messageId + 'delete';
+
+              item.isDeleted = true;
+              item.content = deleteItem.content;
+            }
+            return item;
+          });
+        }
+      }
+
+      setSocketMessageDeleteList([]);
+    }
+  }, [socketMessageDeleteList, setSocketMessageDeleteList]);
+
+  useEffect(() => {
+    if (socketMessageUpdateList.length !== 0) {
+      setSocketMessageList((state) => {
+        const newState = [...state];
+        for (let updateItem of socketMessageUpdateList) {
+          newState.forEach((item) => {
+            if (item.messageId === updateItem.id) {
+              item.messageId = item.messageId + 'update';
+              item.content = updateItem.content;
+            }
+            return item;
+          });
+        }
+        return newState;
+      });
+      if (groupChatMessageList.length > 0) {
+        for (let updateItem of socketMessageUpdateList) {
+          groupChatMessageList.forEach((item) => {
+            if (item.messageId === updateItem.id) {
+              item.messageId = item.messageId + 'update';
+              item.content = updateItem.content;
+            }
+            return item;
+          });
+        }
+      }
+
+      setSocketMessageUpdateList([]);
+    }
+  }, [socketMessageUpdateList]);
 
   useChatBoxScroll(chatBoxRef, socketMessageList);
   return (
@@ -121,6 +189,11 @@ const GroupChatPage = () => {
                 messageId={item.messageId}
                 senderName={item.senderName}
                 content={item.content}
+                isDeleted={item.isDeleted}
+                messageType={item.messageType}
+                deleteSocketMessage={deleteSocketMessage}
+                updatePublish={updatePublish}
+                // setReadOnly,
               />
             );
           })}

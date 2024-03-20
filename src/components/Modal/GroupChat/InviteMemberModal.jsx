@@ -17,7 +17,6 @@ import { joinInGroupChat } from '@apis/chat/groupChat';
 
 const InviteMemberModal = ({ isOpen, onClose }) => {
   const [selectedList, setSelectedList] = useState([]);
-  console.log(selectedList);
   const { chatRoomInfo } = useLoaderData();
   const { memberList: groupMemberList } = chatRoomInfo;
   const { workSpaceId } = useParams();
