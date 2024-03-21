@@ -19,7 +19,7 @@ import { useParams } from 'react-router-dom';
 import { workspaceMemberList } from '@apis/workspace/workspaceMemberList';
 import { inviteLink } from '@apis/link/invitationLink';
 import { createInviteLink } from '@apis/link/createInviteLink';
-import { changeMemberRole } from '../../apis/workspace/changeMemberRole';
+import { changeMemberRole } from '@apis/workspace/changeMemberRole';
 import permission from '@assets/permission.png';
 
 const AddUser = () => {
@@ -191,7 +191,7 @@ const AddUser = () => {
                   <Box>
                     <Image src={IconImage} boxSize="full" />
                   </Box>
-                  <Flex flexDirection={'colunm'}>
+                  <Flex>
                     <Box
                       p={' 10px 20px'}
                       //border={'1px solid red'}
