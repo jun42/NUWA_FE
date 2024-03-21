@@ -15,7 +15,7 @@ const ComponentDirect = () => {
         const canvasMessages = response.data.data.map((canvas) => ({
           id: canvas.canvasId,
           title: canvas.canvasTitle,
-          cotent: canvas.canvasContent,
+          content: canvas.canvasContent,
           createdAt: canvas.createdAt,
         }));
         setCanvases(canvasMessages);
@@ -68,7 +68,7 @@ const ComponentDirect = () => {
                     {canvas.title}{' '}
                   </Text>
                 </Flex>
-                <Text width={'80%'}>{canvas.cotent} </Text>
+                <Text width={'80%'}>{canvas.content} </Text>
               </Flex>
             </Box>
           ))
