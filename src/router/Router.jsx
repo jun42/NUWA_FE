@@ -13,7 +13,7 @@ import UserInfo from '@pages/createWorkspace/create/userInfo';
 import Work from '@pages/createWorkspace/create/work';
 import SignupSocialPage from '@pages/signupSocial';
 import Feature from '@pages/Feature';
-import Files from '@pages/sidebar_link/Files';
+import Files from '@pages/files/Files';
 import WorkAccess from '@pages/workAccess';
 import SocialSignupRedirect from '@pages/signupSocial/SocialSignupRedirect';
 import SocialLoginRedirect from '@pages/signupSocial/SocialLoginRedirect';
