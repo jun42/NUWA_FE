@@ -20,6 +20,7 @@ const createInstance = () => {
 export const axiosImgInstance = createInstance();
 
 import AWS from 'aws-sdk';
+import S3 from 'aws-sdk/clients/s3'; // Import only the S3 client
 
 export const uploadS3 = (imageFile) => {
   const formData = new FormData();
@@ -36,8 +37,7 @@ export const uploadS3 = (imageFile) => {
     secretAccessKey: SECRET_ACESS_KEY_ID,
   });
 
-  console.log(formData, imageFile);
-  const upload = new AWS.S3.ManagedUpload({
+  const upload = new S3.ManagedUpload({
     params: {
       ACL: 'public-read',
       Bucket: 'nuwa-image-bucket',
