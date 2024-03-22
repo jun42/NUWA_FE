@@ -656,6 +656,9 @@
 .ql-snow .ql-editor img {
   max-width: 100%;
 }
+.ql-editor p img {
+  cursor: pointer;
+}
 .ql-snow .ql-picker {
   color: #444;
   display: inline-block;

@@ -12,6 +12,7 @@ const GroupMessageBox = ({
   messageId,
   messageType,
   updatePublish,
+  isMyMessage,
 }) => {
   const [isHover, setIsHover] = useState(false);
   const [readOnly, setReadOnly] = useState(true);
@@ -45,7 +46,7 @@ const GroupMessageBox = ({
           <Text fontSize={'12px'} color={'#adb8cc'}>
             {dateToHourMinute(createdAt)}
           </Text>
-          {isHover && (
+          {isHover && isMyMessage && (
             <GroupChatTextMenu
               isDeleted={isDeleted}
               deleteSocketMessage={deleteSocketMessage}

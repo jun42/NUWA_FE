@@ -24,6 +24,9 @@ jobs:
           echo VITE_SERVER_SOCKJS_SOCKET=${{ secrets.VITE_SERVER_SOCKJS_SOCKET }} >> .env
           echo VITE_SERVER_SOCKET=${{ secrets.VITE_SERVER_SOCKET }} >> .env
           echo VITE_SERVER_IMAGE_ADDRESS=${{ secrets.VITE_SERVER_IMAGE_ADDRESS }} >> .env
+          echo VITE_APP_REGION = ${{ secrets.AWS_DEFAULT_REGION }} >> .env
+          echo VITE_APP_ACCESS_KEY_ID = ${{secrets.AWS_ACCESS_KEY_ID}} >> .env
+          echo VITE_APP_SECRET_ACCESS_KEY_ID = ${{ secrets.AWS_SECRET_ACCESS_KEY }}>> .env
           cat .env
       - name: Npm Install
         run: |
