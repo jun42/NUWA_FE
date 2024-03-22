@@ -11,7 +11,9 @@ import { axiosImgInstance, uploadS3 } from '../axios/axiosImage';
 export const createProfile = async (data) => {
   const file = new File([data], `${new Date()}-image.png`);
 
-  const location = await uploadS3(file).then((r) => r.Location);
+  const location = await uploadS3(file).then((r) => {
+    return r.Location;
+  });
   // const formData = new FormData();
   // formData.append('img', data, 'image.jpg');
   // const response = await uploadS3(formData);

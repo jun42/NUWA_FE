@@ -18,9 +18,8 @@ const createInstance = () => {
 };
 
 export const axiosImgInstance = createInstance();
-
-import AWS from 'aws-sdk';
-import S3 from 'aws-sdk/clients/s3'; // Import only the S3 client
+import { Upload } from '@aws-sdk/lib-storage';
+import { S3Client } from '@aws-sdk/client-s3';
 
 export const uploadS3 = (imageFile) => {
   const formData = new FormData();
@@ -28,23 +27,25 @@ export const uploadS3 = (imageFile) => {
   formData.append('name', imageFile.name);
 
   const REGION = import.meta.env.VITE_APP_REGION;
-  const ACESS_KEY_ID = import.meta.env.VITE_APP_ACCESS_KEY_ID;
-  const SECRET_ACESS_KEY_ID = import.meta.env.VITE_APP_SECRET_ACCESS_KEY_ID;
+  const ACCESS_KEY_ID = import.meta.env.VITE_APP_ACCESS_KEY_ID;
+  const SECRET_ACCESS_KEY_ID = import.meta.env.VITE_APP_SECRET_ACCESS_KEY_ID;
 
-  AWS.config.update({
+  const client = new S3Client({
     region: REGION,
-    accessKeyId: ACESS_KEY_ID,
-    secretAccessKey: SECRET_ACESS_KEY_ID,
+    credentials: {
+      accessKeyId: ACCESS_KEY_ID,
+      secretAccessKey: SECRET_ACCESS_KEY_ID,
+    },
   });
 
-  const upload = new S3.ManagedUpload({
+  const upload = new Upload({
+    client: client,
     params: {
-      ACL: 'public-read',
       Bucket: 'nuwa-image-bucket',
       Key: `upload/${imageFile.name}`,
       Body: imageFile,
     },
   });
 
-  return upload.promise();
+  return upload.done();
 };
