@@ -20,11 +20,13 @@ const WorkspaceCard = ({ workspace_section }) => {
             justify={'center'}
             align={'center'}
             gap={'32px'}
+            border={'1px solid blue'}
+            width={'100%'}
           >
             <Link to={`/workspace/${item.workspaceId}`}>
               <Box
-                width={'98px'}
-                height={'98px'}
+                width={'120px'}
+                height={'120px'}
                 border={'1px solid #ccc'}
                 borderRadius={'full'}
                 backgroundImage={`url(${workSpaceImage || ''})`}
@@ -34,12 +36,18 @@ const WorkspaceCard = ({ workspace_section }) => {
               />
             </Link>
 
-            <Flex flexDirection={'column'} justify={'center'} align={'center'}>
+            <Flex
+              flexDirection={'column'}
+              justify={'center'}
+              align={'center'}
+              border={'1px solid black'}
+            >
               <Text
                 fontSize="20px"
                 fontWeight="700"
                 isTruncated
                 maxWidth="150px"
+                mt={'-20px'}
               >
                 {item.workSpaceName}
               </Text>
@@ -80,7 +88,7 @@ const WorkspaceCard = ({ workspace_section }) => {
 export default WorkspaceCard;
 
 const CardContainer = styled.div`
-  width: 35%;
+  width: 100%;
   padding: 40px 52px;
   display: flex;
   justify-content: center;

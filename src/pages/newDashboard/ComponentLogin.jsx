@@ -13,11 +13,11 @@ import ProfileModal from '@components/Modal/ProfileEdit/index.jsx';
 import useModal from '@hooks/useModal';
 import { useParams } from 'react-router-dom';
 import { request } from '../../apis/axios/axios';
-import useBoundStor from '../../store/store';
+import useBoundStore from '../../store/store';
 
 const ComponentLogin = () => {
   const { workSpaceId } = useParams();
-  const { workspace } = useBoundStor();
+  const { workspace } = useBoundStore();
   const [userInfo, setUserInfo] = useState(null);
   const { isOpen, onOpen, onClose } = useModal();
   const { workSpaceMemberImage } = workspace;
@@ -28,8 +28,8 @@ const ComponentLogin = () => {
         const response = await request.get(`/workspace/${workSpaceId}/member`);
         if (response.data.status === 'success') {
           setUserInfo({
-            imageUrl:
-              workSpaceMemberImage ||
+            image:
+              response.data.data.image ||
               'https://search.pstatic.net/sunny/?src=http%3A%2F%2Fthumbnail.10x10.co.kr%2Fwebimage%2Fimage%2Fadd2_600%2F141%2FA001410223_02.jpg%3Fcmd%3Dthumb%26w%3D500%26h%3D500%26fit%3Dtrue%26ws%3Dfalse&type=sc960_832', // 이미지가 없는 경우 대체 이미지 사용
             name: response.data.data.name,
             job: response.data.data.job,
@@ -78,7 +78,7 @@ const ComponentLogin = () => {
             position="absolute"
             borderRadius="full"
             boxSize="100px"
-            src={userInfo.imageUrl}
+            src={userInfo.image}
             alt=""
             top="50%"
             left="50%"

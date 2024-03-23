@@ -1,5 +1,5 @@
 import { Box, Button, Flex } from '@chakra-ui/react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { uploadFile } from '@apis/file/file';
 import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import useGroupSocketInit from '@apis/socket/group/useGroupSocketInit';
@@ -20,6 +20,10 @@ const GroupChatPage = () => {
   const { workSpaceId, roomId } = useParams();
   let totalMessageList = [];
 
+  if (!isGroupMember) {
+    navigate(`/workspace/${workSpaceId}`);
+  }
+
   // 파일 선택 핸들러
   const handleFileChange = (event) => {
     setSelectedFiles([...selectedFiles, ...event.target.files]);
@@ -27,11 +31,14 @@ const GroupChatPage = () => {
 
   const {
     publish,
+    updatePublish,
     socketMessageList,
     setSocketMessageList,
     deleteSocketMessage,
     socketMessageDeleteList,
     setSocketMessageDeleteList,
+    socketMessageUpdateList,
+    setSocketMessageUpdateList,
   } = useGroupSocketInit(roomId, workSpaceId, 'chat');
   const {
     data: groupChatMessageList,
@@ -42,6 +49,71 @@ const GroupChatPage = () => {
 
   totalMessageList = [...groupChatMessageList, ...socketMessageList];
 
+  useEffect(() => {
+    if (socketMessageDeleteList.length !== 0) {
+      setSocketMessageList((state) => {
+        const newState = [...state];
+        for (let deleteItem of socketMessageDeleteList) {
+          newState.forEach((item) => {
+            if (item.messageId === deleteItem.id) {
+              item.messageId = item.messageId + 'delete';
+              item.isDeleted = true;
+              item.content = deleteItem.content;
+            }
+            return item;
+          });
+        }
+        return newState;
+      });
+      if (groupChatMessageList.length > 0) {
+        for (let deleteItem of socketMessageDeleteList) {
+          groupChatMessageList.forEach((item) => {
+            if (item.messageId === deleteItem.id) {
+              item.messageId = item.messageId + 'delete';
+
+              item.isDeleted = true;
+              item.content = deleteItem.content;
+            }
+            return item;
+          });
+        }
+      }
+
+      setSocketMessageDeleteList([]);
+    }
+  }, [socketMessageDeleteList, setSocketMessageDeleteList]);
+
+  useEffect(() => {
+    if (socketMessageUpdateList.length !== 0) {
+      setSocketMessageList((state) => {
+        const newState = [...state];
+        for (let updateItem of socketMessageUpdateList) {
+          newState.forEach((item) => {
+            if (item.messageId === updateItem.id) {
+              item.messageId = item.messageId + 'update';
+              item.content = updateItem.content;
+            }
+            return item;
+          });
+        }
+        return newState;
+      });
+      if (groupChatMessageList.length > 0) {
+        for (let updateItem of socketMessageUpdateList) {
+          groupChatMessageList.forEach((item) => {
+            if (item.messageId === updateItem.id) {
+              item.messageId = item.messageId + 'update';
+              item.content = updateItem.content;
+            }
+            return item;
+          });
+        }
+      }
+
+      setSocketMessageUpdateList([]);
+    }
+  }, [socketMessageUpdateList]);
+
   useChatBoxScroll(chatBoxRef, socketMessageList);
   return (
     <Box
@@ -51,7 +123,7 @@ const GroupChatPage = () => {
       px={'1rem'}
       gap={'0.75rem'}
     >
-      <div>
+      {/* <div>
         <input
           type="file"
           multiple
@@ -79,8 +151,11 @@ const GroupChatPage = () => {
         >
           업로드
         </Button>
-      </div>
-      <GroupChatHeader channelName={chatRoomInfo.channelName} />
+      </div> */}
+      <GroupChatHeader
+        channelName={chatRoomInfo.channelName}
+        channelId={channelId}
+      />
       <Box
         ref={chatBoxRef}
         flexGrow={1}
@@ -104,7 +179,8 @@ const GroupChatPage = () => {
           },
         }}
       >
-        {!isFetching &&
+        {isGroupMember &&
+          !isFetching &&
           totalMessageList.map((item) => {
             return (
               <GroupMessageBox
@@ -113,6 +189,12 @@ const GroupChatPage = () => {
                 messageId={item.messageId}
                 senderName={item.senderName}
                 content={item.content}
+                isDeleted={item.isDeleted}
+                messageType={item.messageType}
+                deleteSocketMessage={deleteSocketMessage}
+                updatePublish={updatePublish}
+                isMyMessage={userProfile.id === item.senderId}
+                // setReadOnly,
               />
             );
           })}
@@ -135,7 +217,7 @@ const GroupChatPage = () => {
             top={0}
             rounded={'lg'}
           >
-            <Button
+            {/* <Button
               colorScheme="secondary"
               onClick={() => {
                 joinInGroupChat(channelId, [userProfile.id]).then((r) => {
@@ -144,7 +226,7 @@ const GroupChatPage = () => {
               }}
             >
               채널에 참여하기
-            </Button>
+            </Button> */}
           </Flex>
         </Box>
       )}

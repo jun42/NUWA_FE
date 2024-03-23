@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { updateProfile } from '../../../apis/dashboard/updateProfile';
-import { changePassword } from '../../../apis/dashboard/changePassword';
+import { updateProfile } from '@apis/dashboard/updateProfile';
+import { changePassword } from '@apis/dashboard/changePassword';
 import {
   Button,
   FormControl,

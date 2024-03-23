@@ -3,6 +3,12 @@ import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import { updateQuillDataHandler } from '../TextEditorFunctionalComponent/quill/utils';
 
 // Editor is an uncontrolled React component
+export const downloadImage = (src) => {
+  const a = document.createElement('a');
+  a.href = src;
+  a.click();
+};
+
 const Editor = forwardRef(
   (
     {
@@ -26,9 +32,12 @@ const Editor = forwardRef(
       onSelectionChangeRef.current = onSelectionChange;
     });
 
-    useEffect(() => {
-      ref.current?.enable(!readOnly);
-    }, [ref, readOnly]);
+    // useEffect(() => {
+    //   console.log('eeeeeeeeeeee', readOnly, ref.current);
+    //   if (ref.current) {
+    //     ref.current?.enable(!readOnly);
+    //   }
+    // }, [ref, readOnly, updatePublish]);
 
     useEffect(() => {
       const container = containerRef.current;
@@ -56,7 +65,6 @@ const Editor = forwardRef(
                   const updatePublish =
                     this.quill.options.externalLayer.updatePublish;
                   const quill = this.quill;
-                  console.log(this);
                   updateQuillDataHandler(quill, updatePublish, messageId);
                   setReadOnly(true);
                 },
@@ -65,8 +73,23 @@ const Editor = forwardRef(
           },
         },
       });
-
       ref.current = quill;
+
+      if (ref.current) {
+        const ImageBlot = Quill.import('formats/image');
+        const Parchment = Quill.import('parchment');
+
+        ref.current.root.addEventListener('click', (ev) => {
+          let image = Parchment.find(ev.target);
+
+          if (image instanceof ImageBlot) {
+            downloadImage(image.domNode.getAttribute('src'));
+          }
+        });
+      }
+      if (ref.current) {
+        ref.current?.enable(!readOnly);
+      }
 
       if (defaultValueRef.current) {
         quill.setContents(defaultValueRef.current);

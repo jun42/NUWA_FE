@@ -3,21 +3,32 @@ import { Flex, Text, Button } from '@chakra-ui/react';
 import StText from '@components/Text/StText';
 import StTextDiv from '@components/Text/StText';
 import { percent_section } from '@constants/selectPlan/SELECT_ALL_INFO';
+import BackGroundImg from '@assets/blacklinear.png';
 const Percent = () => {
   return (
     <StContainer>
       <PercentContainer>
         <Flex flexDirection={'column'} gap={'24px'}>
-          <Text fontSize={'40px'} fontWeight={'700'} color={'white'} className='landingPTitle'>
+          <Text
+            fontSize={'40px'}
+            fontWeight={'700'}
+            color={'white'}
+            className="landingPTitle"
+          >
             크고 작은 팀들 모두 NUWA를 사용합니다
           </Text>
-          <Text fontSize={18} fontWeight={500} color={'white'} className='landingPSubTitle'>
+          <Text
+            fontSize={18}
+            fontWeight={500}
+            color={'white'}
+            className="landingPSubTitle"
+          >
             NUWA는 세계 최대 규모의 기업들이 안전하게 협업할 수 있도록 지원을
             확대하고 있습니다
           </Text>
         </Flex>
 
-        <Flex justifyContent={'space-between'} className='percentText'>
+        <Flex justifyContent={'space-between'} className="percentText">
           {percent_section.map((item, index) => (
             <Flex
               flexDirection={'column'}
@@ -41,7 +52,7 @@ const Percent = () => {
           ))}
         </Flex>
 
-        <Flex justify={'flex-end'} gap={'12px'} className='percentBtns'>
+        <Flex justify={'flex-end'} gap={'12px'} className="percentBtns">
           <Button
             borderRadius={'50px'}
             bg={'#D6D6D6'}
@@ -82,7 +93,7 @@ const StContainer = styled.div`
   display: flex;
   width: 100%;
   padding: 80px 12px;
-  background: url('src/assets/blacklinear.png');
+  background: url(${BackGroundImg});
 `;
 
 const PercentContainer = styled.div`

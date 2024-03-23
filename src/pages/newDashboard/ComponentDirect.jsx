@@ -1,93 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { Box, VStack, Text, Flex, Image } from '@chakra-ui/react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { Box, Text, Flex, Image } from '@chakra-ui/react';
 import DirectMessageIcon from '@assets/message_icon.svg';
-const mockMessages = [
-  {
-    id: 1,
-    sender: '쿠키몬스터',
-    imageUrl: 'https://via.placeholder.com/100',
-    summary: '프로젝트 회의 일정 확인해주세요.',
-    receivedAt: '2023-02-15',
-  },
-  {
-    id: 2,
-    imageUrl: 'https://via.placeholder.com/100',
-    sender: '버트',
-    summary: '금주 중으로 미팅 가능한 날짜 회신바랍니다.',
-    receivedAt: '2023-02-14',
-  },
-  {
-    id: 2,
-    imageUrl: 'https://via.placeholder.com/100',
-    sender: '버트',
-    summary: '금주 중으로 미팅 가능한 날짜 회신바랍니다.',
-    receivedAt: '2023-02-14',
-  },
-  {
-    id: 2,
-    imageUrl: 'https://via.placeholder.com/100',
-    sender: '버트',
-    summary: '금주 중으로 미팅 가능한 날짜 회신바랍니다.',
-    receivedAt: '2023-02-14',
-  },
-  {
-    id: 2,
-    imageUrl: 'https://via.placeholder.com/100',
-    sender: '버트',
-    summary: '금주 중으로 미팅 가능한 날짜 회신바랍니다.',
-    receivedAt: '2023-02-14',
-  },
-  {
-    id: 2,
-    imageUrl: 'https://via.placeholder.com/100',
-    sender: '버트',
-    summary: '금주 중으로 미팅 가능한 날짜 회신바랍니다.',
-    receivedAt: '2023-02-14',
-  },
-  {
-    id: 2,
-    imageUrl: 'https://via.placeholder.com/100',
-    sender: '버트',
-    summary: '금주 중으로 미팅 가능한 날짜 회신바랍니다.',
-    receivedAt: '2023-02-14',
-  },
-  {
-    id: 2,
-    imageUrl: 'https://via.placeholder.com/100',
-    sender: '버트',
-    summary: '금주 중으로 미팅 가능한 날짜 회신바랍니다.',
-    receivedAt: '2023-02-14',
-  },
-  {
-    id: 2,
-    imageUrl: 'https://via.placeholder.com/100',
-    sender: '버트',
-    summary: '금주 중으로 미팅 가능한 날짜 회신바랍니다.',
-    receivedAt: '2023-02-14',
-  },
-  {
-    id: 2,
-    imageUrl: 'https://via.placeholder.com/100',
-    sender: '버트',
-    summary: '금주 중으로 미팅 가능한 날짜 회신바랍니다.',
-    receivedAt: '2023-02-14',
-  },
-  {
-    id: 3,
-    imageUrl: 'https://via.placeholder.com/100',
-    sender: '빅버드',
-    summary: '보고서 전송 부탁드립니다.',
-    receivedAt: '2023-02-08',
-  },
-];
+import { fetchCanvases } from '@apis/dashboard/fetchCanvases';
 
 const ComponentDirect = () => {
-  const [messages, setMessages] = useState([]);
+  const [canvases, setCanvases] = useState([]);
+  const { workSpaceId } = useParams();
 
   useEffect(() => {
-    //api 호출시 대체 로직 구현예정
-    setMessages(mockMessages);
-  }, []);
+    const fetchData = async () => {
+      try {
+        const response = await fetchCanvases(workSpaceId);
+        const canvasMessages = response.data.data.map((canvas) => ({
+          id: canvas.canvasId,
+          title: canvas.canvasTitle,
+          cotent: canvas.canvasContent,
+          createdAt: canvas.createdAt,
+        }));
+        setCanvases(canvasMessages);
+      } catch (error) {
+        console.error('캔버스 데이터 조회 중 오류가 발생했습니다.', error);
+      }
+    };
+
+    fetchData();
+  }, [workSpaceId]);
 
   return (
     <>
@@ -102,7 +40,7 @@ const ComponentDirect = () => {
       >
         <Image src={DirectMessageIcon} />
         <Text fontSize="16px" fontWeight="bold" align={'center'}>
-          최근 받은 메세지
+          캔버스
         </Text>
       </Flex>
 
@@ -115,8 +53,8 @@ const ComponentDirect = () => {
         flexFlow={'column'}
         gap={'12px'}
       >
-        {messages.length > 0 ? (
-          messages.map((message, index) => (
+        {canvases.length > 0 ? (
+          canvases.map((canvas, index) => (
             <Box
               key={index}
               borderWidth="1px"
@@ -124,28 +62,18 @@ const ComponentDirect = () => {
               display={'flex'}
               gap={'10px'}
             >
-              <Image
-                borderRadius="full"
-                boxSize="45px"
-                src={message.imageUrl}
-                alt="프로필사진"
-              />
-
               <Flex flexFlow={'column'} width={'100%'}>
                 <Flex align={'center'} justify={'space-between'}>
                   <Text fontSize={'16px'} fontWeight={'700'}>
-                    {message.sender}{' '}
-                  </Text>
-                  <Text fontSize={'12px'} fontWeight={'700'}>
-                    {message.receivedAt}
+                    {canvas.title}{' '}
                   </Text>
                 </Flex>
-                <Text width={'80%'}>{message.summary} </Text>
+                <Text width={'80%'}>{canvas.cotent} </Text>
               </Flex>
             </Box>
           ))
         ) : (
-          <Text>메세지가 없습니다,</Text>
+          <Text>캔버스가 존재하지 않습니다</Text>
         )}
       </Box>
     </>
