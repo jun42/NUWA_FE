@@ -5,7 +5,7 @@ const CanvasModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
   return (
     <StModal isOpen={isOpen} onClose={onClose} modalTitle="새 캔버스 작성">
-      <ModalBody />
+      <ModalBody onClose={onClose} />
     </StModal>
   );
 };
