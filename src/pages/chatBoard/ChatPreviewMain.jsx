@@ -19,7 +19,7 @@ const ChatPreviewMain = ({ lastMessage, conversationPartner }) => {
 
   return (
     <Flex gap={4} width={'20vw'}>
-      <ChatPreviewAvatar />
+      <ChatPreviewAvatar conversationPartner={conversationPartner} />
       <Flex direction={'column'} justifyContent={'space-between'}>
         <Text fontWeight={'bold'} color={'#4D5E80'}>
           {conversationPartner}
