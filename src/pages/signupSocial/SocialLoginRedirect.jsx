@@ -2,16 +2,24 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Spinner } from '@chakra-ui/react';
 import { setTokenInStorage } from '@utils/auth';
+import useBoundStore from '../../store/store';
 
 const SocialLoginRedirect = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
+  const { isInvited } = useBoundStore();
 
   const accessToken = searchParams.get('accessToken');
   setTokenInStorage(accessToken);
   useEffect(() => {
-    setTimeout(navigate('/'), 1000);
+    setTimeout(() => {
+      if (isInvited) {
+        navigate('/join');
+      } else {
+        navigate('/');
+      }
+    }, 1000);
   }, []);
   return (
     <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>

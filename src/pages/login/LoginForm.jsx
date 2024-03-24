@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import useBoundStore from '@store/store';
 
 const LoginForm = () => {
-  const { setIsLoggedIn } = useBoundStore();
+  const { setIsLoggedIn, isInvited } = useBoundStore();
   const navigate = useNavigate();
   const toast = useToast();
   const {
@@ -43,7 +43,12 @@ const LoginForm = () => {
         position: 'top',
       });
       setIsLoggedIn(true);
-      navigate('/');
+
+      if (isInvited) {
+        navigate('/join');
+      } else {
+        navigate('/');
+      }
     }
   };
   return (
