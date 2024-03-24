@@ -4,36 +4,44 @@ import styled from 'styled-components';
 import CanvasTextEditor from '@components/CanvasEditor/CanvasTextEditor.jsx';
 import { createCanvas } from '@apis/canvas/postCanvas.js';
 import { useParams } from 'react-router-dom';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const ModalBody = ({ onClose }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const { workSpaceId } = useParams();
+  const queryClient = useQueryClient();
+  // useMutation을 사용하여 createCanvas 함수를 비동기적으로 실행
+  const { mutate, isLoading, error } = useMutation({
+    mutationFn: () => createCanvas(workSpaceId, title, content),
+    onSuccess: (data) => {
+      // 성공 처리 로직
+      if (data.success) {
+        queryClient.invalidateQueries(['canvasData']);
+        alert('캔버스가 성공적으로 생성되었습니다.');
+        onClose();
+      } else {
+        alert(`캔버스 생성 실패: ${data.message}`);
+      }
+    },
+    onError: (error) => {
+      // 에러 처리 로직
+      console.error(error);
+      alert('캔버스 생성 중 오류가 발생했습니다.');
+    },
+  });
 
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleContentChange = (newContent) => {
-    // 텍스트만 추출하기
     setContent(newContent.ops.map((op) => op.insert).join(''));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!title.trim() || !content.trim()) {
       alert('제목과 내용을 모두 입력해주세요.');
       return;
     }
-
-    try {
-      const response = await createCanvas(workSpaceId, title, content);
-      if (response.success) {
-        alert('캔버스가 성공적으로 생성되었습니다.');
-        onClose();
-      } else {
-        alert(`캔버스 생성 실패: ${response.message}`);
-      }
-    } catch (error) {
-      console.error(error);
-      alert('캔버스 생성 중 오류가 발생했습니다.');
-    }
+    mutate();
   };
 
   return (
@@ -44,7 +52,9 @@ const ModalBody = ({ onClose }) => {
         onChange={handleTitleChange}
       />
       <CanvasTextEditor onContentChange={handleContentChange} />
-      <Button onClick={handleSubmit}>캔버스를 백엔드에게 전송하기</Button>
+      <Button onClick={handleSubmit} isLoading={isLoading}>
+        캔버스를 백엔드에게 전송하기
+      </Button>
     </StContainer>
   );
 };

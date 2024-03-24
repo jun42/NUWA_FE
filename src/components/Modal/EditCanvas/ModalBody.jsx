@@ -41,11 +41,7 @@ const ModalBody = ({
 
   return (
     <StContainer>
-      <Input
-        placeholder="제목을 입력하세요"
-        value={title}
-        onChange={handleTitleChange}
-      />
+      <Input value={title} onChange={handleTitleChange} />
       <EditCanvasEditor
         onContentChange={handleContentChange}
         initialContent={content} // Quill에 initialContent를 직접 전달

@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
-import workspace from '../../assets/WorkSpace.png';
+import { useState } from 'react';
 import add from '../../assets/add.svg';
 import dashboard from '../../assets/dashboard.svg';
 import dm from '../../assets/dm.svg';
@@ -9,18 +8,7 @@ import exclude from '../../assets/exclude.svg';
 import todo from '../../assets/todo.svg';
 import setting from '../../assets/setting.svg';
 import group from '../../assets/user_group.svg';
-import {
-  Button,
-  IconButton,
-  Flex,
-  Box,
-  Text,
-  Avatar,
-  Image,
-  Divider,
-  useOutsideClick,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Button, Flex, Box, Text, Image, Divider } from '@chakra-ui/react';
 import UserInfo from './UserInfo';
 import Channel from './Channel';
 import WorkSpaceModalEdit from '@components/Modal/WorkspaceEdit';
@@ -28,11 +16,10 @@ import useModal from '@hooks/useModal';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getWorkspace } from '@apis/sidebar/getworkspace.js';
 import ChatChannel from './ChatChannel';
-
+import { useQuery } from '@tanstack/react-query';
 const SideBar = () => {
   const navigate = useNavigate();
   const { workSpaceId } = useParams();
-  const [workspaces, setWorkspaces] = useState([]); // 워크스페이스 정보를 저장할 상태
 
   const chData2 = [
     {
@@ -41,18 +28,6 @@ const SideBar = () => {
     },
     {
       name: 'BE-회의실',
-      chType: 'voice',
-    },
-    {
-      name: 'UI-회의실',
-      chType: 'voice',
-    },
-    {
-      name: 'UI-회의실',
-      chType: 'voice',
-    },
-    {
-      name: 'UI-회의실',
       chType: 'voice',
     },
   ];
@@ -64,91 +39,70 @@ const SideBar = () => {
     onClose: onEditModalClose,
   } = useModal();
 
-  useEffect(() => {
-    const fetchWorkspaces = async () => {
-      try {
-        const response = await getWorkspace();
-        console.log('워크스페이스 정보 조회: ', response.data);
-        setWorkspaces(response.data);
-      } catch (error) {
-        console.error('워크스페이스 정보 조회 에러: ', error);
-      }
-    };
+  const { data: response } = useQuery({
+    queryKey: ['workspaces'],
+    queryFn: getWorkspace,
+    enabled: !!workSpaceId,
+  });
 
-    fetchWorkspaces();
-  }, [workSpaceId]);
+  const workspaces = response?.data || [];
 
-  // 현재 워크스페이스 이름 조회
   const currentWorkspaceName =
-    workspaces.find(
+    workspaces?.find(
       (workspace) => workspace.workspaceId.toString() === workSpaceId
     )?.workSpaceName || 'Loading...';
-
-  // 이미지 로드 실패 핸들러
-  const handleImageError = (workspaceId) => {
-    setWorkspaces((currentWorkspaces) =>
-      currentWorkspaces.map((workspace) =>
-        workspace.workspaceId === workspaceId
-          ? { ...workspace, isImageError: true }
-          : workspace
-      )
-    );
-  };
 
   return (
     <Flex>
       <Box w="80px" backgroundColor="#5158ff" p="0 16px">
-        {workspaces.map((workspace) =>
-          workspace.isImageError ? (
+        {workspaces.map((workspace) => {
+          const shouldDisplayInitial =
+            !workspace.workSpaceImage || workspace.workSpaceImage.length <= 1;
+          return (
             <Flex
               key={workspace.workspaceId}
-              className="notworkImage"
               justify="center"
               align="center"
               pt="32px"
               cursor="pointer"
               onClick={() => navigate(`/workspace/${workspace.workspaceId}`)}
             >
-              <Box
-                display="flex"
-                boxSize="40px"
-                bg="white"
-                borderRadius="full"
-                alignItems="center"
-                justifyContent="center"
-                border={`2px solid ${
-                  workSpaceId === workspace.workspaceId.toString()
-                    ? '#00FF00'
-                    : '#D9D9D9'
-                }`}
-              >
-                <Text>{workspace.workSpaceImage}</Text>
-              </Box>
+              {shouldDisplayInitial ? (
+                <Box
+                  display="flex"
+                  boxSize="40px"
+                  bg="white"
+                  borderRadius="full"
+                  alignItems="center"
+                  justifyContent="center"
+                  border={`2px solid ${
+                    workSpaceId === workspace.workspaceId.toString()
+                      ? '#00FF00'
+                      : '#D9D9D9'
+                  }`}
+                >
+                  <Text>{workspace.workSpaceName.charAt(0)}</Text>
+                </Box>
+              ) : (
+                <Image
+                  src={workspace.workSpaceImage}
+                  alt={workspace.workSpaceName}
+                  boxSize="40px"
+                  borderRadius="full"
+                  border={`2px solid ${
+                    workSpaceId === workspace.workspaceId.toString()
+                      ? '#00FF00'
+                      : '#D9D9D9'
+                  }`}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.style.display = 'none';
+                  }}
+                />
+              )}
             </Flex>
-          ) : (
-            <Flex
-              key={workspace.workspaceId}
-              className="workImage"
-              justify="center"
-              pt="32px"
-              cursor="pointer"
-              onClick={() => navigate(`/workspace/${workspace.workspaceId}`)}
-            >
-              <Image
-                src={workspace.workSpaceImage}
-                alt={workspace.workSpaceName}
-                boxSize="40px"
-                border={`2px solid ${
-                  workSpaceId === workspace.workspaceId.toString()
-                    ? '#00FF00'
-                    : '#D9D9D9'
-                }`}
-                borderRadius="full"
-                onError={() => handleImageError(workspace.workspaceId)}
-              />
-            </Flex>
-          )
-        )}
+          );
+        })}
 
         <Flex
           justify="center"
@@ -189,6 +143,7 @@ const SideBar = () => {
         <WorkSpaceModalEdit
           isOpen={isEditModalOpen}
           onClose={onEditModalClose}
+          currentWorkspaceName={currentWorkspaceName}
         />
         <UserInfo />
         <Box>
