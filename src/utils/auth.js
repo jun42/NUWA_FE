@@ -6,8 +6,6 @@ export const setTokenInStorage = (accessToken) => {
 };
 
 export const getToken = () => {
-  console.log('get Token from Storage');
-
   const accessToken = Cookies.get('accessToken');
   if (!accessToken) console.error('Token Empty');
   return accessToken;

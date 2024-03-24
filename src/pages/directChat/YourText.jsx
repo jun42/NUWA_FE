@@ -1,5 +1,6 @@
 import { Avatar, Box, Flex, Text } from '@chakra-ui/react';
 import ChatboxContentView from '@components/TextEditorFunctionalComponent/ChatboxContentView';
+import { dateToHourMinute } from '../../utils/date';
 
 const YourText = ({
   senderName,
@@ -24,7 +25,7 @@ const YourText = ({
             {senderName}
           </Text>
           <Text color={'#ADB8CC'} fontSize={'14px'} fontWeight={700}>
-            12:45
+            {dateToHourMinute(sendedTime)}
           </Text>
         </Flex>
         <Box borderRadius={'10px'} bg={'#f5f7ff'} py={'14px'} px={'30px'}>
