@@ -3,10 +3,14 @@ import styled from 'styled-components';
 import StTextDiv from '@components/Text/StTextDiv';
 import StText from '@components/Text/StText';
 import { Button, Center, Flex } from '@chakra-ui/react';
+import { useNavigate } from 'react-router';
+import { getToken } from '../../utils/auth';
 const FreeTrial = () => {
+  const navigate = useNavigate();
+  const accessToken = getToken();
   return (
     <StContainer>
-      <Flex align="center" justify="center" className='FreeTrialText'>
+      <Flex align="center" justify="center" className="FreeTrialText">
         <Logo width={'150px'} height={'48px'} />
         <StTextDiv $size={42} $weight={700}>
           에서 <StText $color={'primary400'}>무료 회원가입</StText>
@@ -28,6 +32,13 @@ const FreeTrial = () => {
         color={'white'}
         fontSize={'24px'}
         fontWeight={'700'}
+        onClick={() => {
+          if (accessToken) {
+            navigate('/workAccess');
+          } else {
+            navigate('/login');
+          }
+        }}
       >
         무료체험
       </Button>
