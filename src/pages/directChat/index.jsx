@@ -15,6 +15,9 @@ import useChatBoxScroll from '@hooks/directChat/useChatBoxScroll';
 import useChatBoxScrollToBottom from '@hooks/directChat/useChatBoxScrollToBottom';
 import DirectChatBoard from './DirectChatBoard';
 import useBoundStore from '../../store/store';
+import useDeleteDirectChatMessage from './useDeleteDirectChatMessage';
+import useUpdateDirectChatMessage from './useUpdateDirectChatMessage';
+import { getReceiver } from './utils';
 //todo api 에러 핸들링시 페이지 안깨지도록
 const DirectChatPage = () => {
   const { isDirectChatBoxExpand: isExpand } = useBoundStore();
@@ -25,15 +28,8 @@ const DirectChatPage = () => {
 
   // define receiver
   let userId = userProfile?.id;
-  let receiverId;
-  let receiverName;
-  if (chatRoomInfo.createMemberId === userId) {
-    receiverId = chatRoomInfo.joinMemberId;
-    receiverName = chatRoomInfo.joinMemberName;
-  } else {
-    receiverId = chatRoomInfo.createMemberId;
-    receiverName = chatRoomInfo.createMemberName;
-  }
+
+  const { receiverId, receiverName } = getReceiver(userId, chatRoomInfo);
 
   const chatBoxRef = useRef(null);
   const { directChatMessageList, isLoading: directChatMessageListIsLoading } =
@@ -51,73 +47,24 @@ const DirectChatPage = () => {
     socketMessageUpdateList,
     setSocketMessageUpdateList,
   } = useSocketInit(roomId, workSpaceId, receiverId, 'direct');
+
   useChatBoxScroll(chatBoxRef, socketMessageList);
 
   totalMessageList = [...directChatMessageList, ...socketMessageList];
-  // 서로 다른 뷰 까지 고려해야함
-  useEffect(() => {
-    if (socketMessageDeleteList.length !== 0) {
-      setSocketMessageList((state) => {
-        const newState = [...state];
-        for (let deleteItem of socketMessageDeleteList) {
-          newState.forEach((item) => {
-            if (item.messageId === deleteItem.id) {
-              item.createdAt = item.createdAt + 'delete';
-              item.isDeleted = true;
-              item.content = deleteItem.content;
-            }
-            return item;
-          });
-        }
-        return newState;
-      });
-      if (directChatMessageList.length > 0) {
-        for (let deleteItem of socketMessageDeleteList) {
-          directChatMessageList.forEach((item) => {
-            if (item.messageId === deleteItem.id) {
-              item.createdAt = item.createdAt + 'delete';
-              item.isDeleted = true;
-              item.content = deleteItem.content;
-            }
-            return item;
-          });
-        }
-      }
 
-      setSocketMessageDeleteList([]);
-    }
-  }, [socketMessageDeleteList, setSocketMessageDeleteList]);
+  useDeleteDirectChatMessage({
+    socketMessageDeleteList,
+    directChatMessageList,
+    setSocketMessageList,
+    setSocketMessageDeleteList,
+  });
 
-  useEffect(() => {
-    if (socketMessageUpdateList.length !== 0) {
-      setSocketMessageList((state) => {
-        const newState = [...state];
-        for (let updateItem of socketMessageUpdateList) {
-          newState.forEach((item) => {
-            if (item.messageId === updateItem.id) {
-              item.createdAt = item.createdAt + 'update';
-              item.content = updateItem.content;
-            }
-            return item;
-          });
-        }
-        return newState;
-      });
-      if (directChatMessageList.length > 0) {
-        for (let updateItem of socketMessageUpdateList) {
-          directChatMessageList.forEach((item) => {
-            if (item.messageId === updateItem.id) {
-              item.createdAt = item.createdAt + 'update';
-              item.content = updateItem.content;
-            }
-            return item;
-          });
-        }
-      }
-
-      setSocketMessageUpdateList([]);
-    }
-  }, [socketMessageUpdateList]);
+  useUpdateDirectChatMessage({
+    socketMessageUpdateList,
+    setSocketMessageList,
+    directChatMessageList,
+    setSocketMessageUpdateList,
+  });
   return (
     <Box width="calc(100% - 410px)" px={'0.5rem'} display={'flex'}>
       <Box
@@ -159,7 +106,7 @@ const DirectChatPage = () => {
                   if (userId === body.senderId) {
                     return (
                       <MyText
-                        key={body.createdAt}
+                        key={body.messageId}
                         content={body.content}
                         deleteSocketMessage={deleteSocketMessage}
                         messageId={body.messageId}
@@ -171,7 +118,7 @@ const DirectChatPage = () => {
                   } else {
                     return (
                       <YourText
-                        key={body.createdAt}
+                        key={body.messageId}
                         content={body.content}
                         senderName={body.senderName}
                         deleteSocketMessage={deleteSocketMessage}

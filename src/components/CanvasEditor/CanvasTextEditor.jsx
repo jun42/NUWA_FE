@@ -26,7 +26,7 @@ const CanvasTextEditor = ({ channelId, onContentChange }) => {
   }, [onContentChange]);
 
   return (
-    <Box>
+    <Box className="canvas">
       <Editor
         ref={quillRef}
         readOnly={false}

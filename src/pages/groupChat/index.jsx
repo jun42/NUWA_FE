@@ -10,6 +10,8 @@ import { useGroupChatMessageQuery } from '@queries/groupChat.js/useGroupChatMess
 import { getGroupChatMessage, joinInGroupChat } from '@apis/chat/groupChat';
 import useChatBoxScroll from '@hooks/directChat/useChatBoxScroll';
 import useChatBoxScrollToBottom from '@hooks/directChat/useChatBoxScrollToBottom';
+import useDeleteGroupChatMessage from './useDeleteGroupChatMessage';
+import useUpdateGroupChatMessage from './useUpdateGroupChatMessage';
 
 const GroupChatPage = () => {
   const navigate = useNavigate();
@@ -49,70 +51,19 @@ const GroupChatPage = () => {
 
   totalMessageList = [...groupChatMessageList, ...socketMessageList];
 
-  useEffect(() => {
-    if (socketMessageDeleteList.length !== 0) {
-      setSocketMessageList((state) => {
-        const newState = [...state];
-        for (let deleteItem of socketMessageDeleteList) {
-          newState.forEach((item) => {
-            if (item.messageId === deleteItem.id) {
-              item.messageId = item.messageId + 'delete';
-              item.isDeleted = true;
-              item.content = deleteItem.content;
-            }
-            return item;
-          });
-        }
-        return newState;
-      });
-      if (groupChatMessageList.length > 0) {
-        for (let deleteItem of socketMessageDeleteList) {
-          groupChatMessageList.forEach((item) => {
-            if (item.messageId === deleteItem.id) {
-              item.messageId = item.messageId + 'delete';
+  useDeleteGroupChatMessage({
+    socketMessageDeleteList,
+    setSocketMessageDeleteList,
+    setSocketMessageList,
+    groupChatMessageList,
+  });
 
-              item.isDeleted = true;
-              item.content = deleteItem.content;
-            }
-            return item;
-          });
-        }
-      }
-
-      setSocketMessageDeleteList([]);
-    }
-  }, [socketMessageDeleteList, setSocketMessageDeleteList]);
-
-  useEffect(() => {
-    if (socketMessageUpdateList.length !== 0) {
-      setSocketMessageList((state) => {
-        const newState = [...state];
-        for (let updateItem of socketMessageUpdateList) {
-          newState.forEach((item) => {
-            if (item.messageId === updateItem.id) {
-              item.messageId = item.messageId + 'update';
-              item.content = updateItem.content;
-            }
-            return item;
-          });
-        }
-        return newState;
-      });
-      if (groupChatMessageList.length > 0) {
-        for (let updateItem of socketMessageUpdateList) {
-          groupChatMessageList.forEach((item) => {
-            if (item.messageId === updateItem.id) {
-              item.messageId = item.messageId + 'update';
-              item.content = updateItem.content;
-            }
-            return item;
-          });
-        }
-      }
-
-      setSocketMessageUpdateList([]);
-    }
-  }, [socketMessageUpdateList]);
+  useUpdateGroupChatMessage({
+    socketMessageUpdateList,
+    setSocketMessageList,
+    groupChatMessageList,
+    setSocketMessageUpdateList,
+  });
 
   useChatBoxScroll(chatBoxRef, socketMessageList);
   return (

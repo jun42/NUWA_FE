@@ -7,6 +7,7 @@ import { createWorkspaceNameSlice } from './createWorkspaceNameSlice';
 import { createUserAuthSlice } from './userAuthSlice';
 import { createSSEAlarmSlice } from './serverSentEventAlarmSlice';
 import { createDirectChatSlice } from './directChatSlice';
+import { createInviteSlice } from './createInviteSlice';
 
 const persistKeys = [
   'email',
@@ -14,6 +15,8 @@ const persistKeys = [
   'workspace',
   'isLoggedIn',
   'isDirectChatBoxExpand',
+  'isInvited',
+  'invitingWorkSpaceId',
 ];
 
 const persistOption = {
@@ -37,6 +40,7 @@ const useBoundStore = create(
           ...createUserAuthSlice(...a),
           ...createSSEAlarmSlice(...a),
           ...createDirectChatSlice(...a),
+          ...createInviteSlice(...a),
         }),
         persistOption
       )

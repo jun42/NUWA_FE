@@ -30,6 +30,9 @@ const CardMiddle = ({ middlePrimary, id }) => {
         paddingTop={'13px'}
         paddingBottom={'13px'}
         height={'3rem'}
+        onClick={() => {
+          alert('현재 개발중인 서비스입니다.');
+        }}
       >
         <StText $color="grey100" $size={20} $weight={600}>
           시작하기
