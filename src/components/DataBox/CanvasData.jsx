@@ -5,12 +5,16 @@ import CanvasIcon from '@assets/white_canvas.svg';
 const CanvasData = ({
   canvasId,
   title,
+  content,
   date,
   name,
   workSpaceId,
   deleteMutation,
+  onClick,
 }) => {
-  const handleDelete = () => {
+  const handleDelete = (event) => {
+    // 이벤트 버블링을 막아 상위 컴포넌트의 onClick 이벤트가 호출되지 않도록 합니다.
+    event.stopPropagation();
     deleteMutation.mutate({ workSpaceId, canvasId });
   };
 
@@ -22,6 +26,7 @@ const CanvasData = ({
       padding="12px"
       borderRadius="10px"
       alignItems="center"
+      onClick={() => onClick({ id: canvasId, title, content })}
     >
       <Box
         boxSize="42px"

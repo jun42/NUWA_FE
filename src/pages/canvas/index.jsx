@@ -9,16 +9,27 @@ import CanvasModal from '@components/Modal/CanvasModal/index.jsx';
 import useModal from '@hooks/useModal';
 import { useParams } from 'react-router-dom';
 import useCanvasData from '@hooks/canvas/useCanvasData';
-
+import CanvasEditModal from '@components/Modal/EditCanvas/index.jsx';
 const Canvas = () => {
   const { isOpen, onOpen, onClose } = useModal();
+  const {
+    isOpen: isEditModalOpen,
+    onOpen: onEditModalOpen,
+    onClose: onEditModalClose,
+  } = useModal(); // 편집 모달 제어용
+  const [selectedCanvasId, setSelectedCanvasId] = useState(null); // 선택된 CanvasData의 ID 저장용
+  const [selectedCanvas, setSelectedCanvas] = useState({
+    id: null,
+    title: '',
+    content: '',
+  });
+
   const { workSpaceId } = useParams();
   const [filter, setFilter] = useState('ALL');
   const {
     data: canvasData,
     isLoading,
     error,
-    refetch,
     deleteMutation, // useCanvasData에서 deleteMutation을 받음
   } = useCanvasData(workSpaceId, filter);
   const [searchTerm, setSearchTerm] = useState('');
@@ -34,8 +45,10 @@ const Canvas = () => {
     }
   }, [searchTerm, canvasData, isLoading, error]);
 
-  const handleDeleteSuccess = () => {
-    refetch();
+  // CanvasData 클릭 이벤트 핸들러
+  const handleCanvasDataClick = (canvas) => {
+    setSelectedCanvas(canvas); // canvas 객체 전체를 상태로 저장
+    onEditModalOpen();
   };
 
   return (
@@ -73,10 +86,18 @@ const Canvas = () => {
               key={data.canvasId}
               canvasId={data.canvasId}
               title={data.canvasTitle}
+              content={data.canvasContent}
               name={data.createMemberName}
               date={data.createdAt}
               workSpaceId={workSpaceId}
               deleteMutation={deleteMutation}
+              onClick={() =>
+                handleCanvasDataClick({
+                  id: data.canvasId,
+                  title: data.canvasTitle,
+                  content: data.canvasContent,
+                })
+              }
             />
           ))
         ) : (
@@ -85,6 +106,13 @@ const Canvas = () => {
           </NotDataSection>
         )}
       </DataContainer>
+      <CanvasEditModal
+        isOpen={isEditModalOpen}
+        onClose={onEditModalClose}
+        canvasId={selectedCanvas.id}
+        canvasTitle={selectedCanvas.title}
+        canvasContent={selectedCanvas.content}
+      />
     </StContainer>
   );
 };

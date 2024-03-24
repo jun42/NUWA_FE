@@ -8,18 +8,49 @@ import {
   VStack,
   Button,
   InputGroup,
+  useToast, // useToast 훅 추가
 } from '@chakra-ui/react';
 import styled from 'styled-components';
 import { useImage } from '@queries/useImage';
 import { dataURItoBlob } from '@utils/dataURItoBlob';
 import { updateWorkspaceInfo } from '@apis/workspace/workspaceUpload.js';
-
-const ModalBody = () => {
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+const ModalBody = ({ currentWorkspaceName, onClose }) => {
   const { workSpaceId } = useParams();
-  const [workSpaceName, setWorkSpaceName] = useState('');
+  const [workSpaceName, setWorkSpaceName] = useState(currentWorkspaceName);
   const [imageUrl, setImageUrl] = useState('');
   const { mutation } = useImage();
   const fileInputRef = useRef(null);
+  const toast = useToast();
+  const queryClient = useQueryClient(); // 쿼리 클라이언트 사용
+
+  const { mutate: updateWorkspace } = useMutation({
+    mutationFn: () => updateWorkspaceInfo(workSpaceId, workSpaceName, imageUrl),
+    onSuccess: () => {
+      // 성공 토스트 메시지 표시
+      toast({
+        title: 'Success',
+        description: 'Workspace information updated successfully.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+      onClose(); // 요청 성공 시 모달 닫기
+      queryClient.invalidateQueries(['workspaces']); // 워크스페이스 목록 쿼리를 무효화하여 갱신
+    },
+    onError: (error) => {
+      // 에러 토스트 메시지 표시
+      toast({
+        title: 'Error',
+        description:
+          error.message ||
+          'An error occurred while updating workspace information.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    },
+  });
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
@@ -43,13 +74,8 @@ const ModalBody = () => {
     }
   };
 
-  const handleUpdateWorkspace = async () => {
-    try {
-      await updateWorkspaceInfo(workSpaceId, workSpaceName, imageUrl);
-      console.log('워크스페이스 정보가 성공적으로 업데이트되었습니다.');
-    } catch (error) {
-      console.error('워크스페이스 정보 업데이트에 실패했습니다.', error);
-    }
+  const handleUpdateWorkspace = () => {
+    updateWorkspace();
   };
 
   return (

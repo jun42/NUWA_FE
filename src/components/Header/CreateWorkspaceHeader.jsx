@@ -15,8 +15,9 @@ export default CreateWorkspaceHeader;
 const StContainer = styled.div`
   display: flex;
   width: 100%;
-  padding: 17px 33px;
   flex-direction: column;
   align-items: flex-start;
   background-color: black;
+  justify-content: center;
+  padding: 20px;
 `;
