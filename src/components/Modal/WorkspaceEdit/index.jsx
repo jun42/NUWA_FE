@@ -1,7 +1,7 @@
 import React from 'react';
 import StModal from '../StModal';
 import ModalBody from './ModalBody';
-const WorkSpaceModalEdit = ({ isOpen, onClose }) => {
+const WorkSpaceModalEdit = ({ isOpen, onClose, currentWorkspaceName }) => {
   if (!isOpen) return null;
   return (
     <StModal
@@ -11,7 +11,10 @@ const WorkSpaceModalEdit = ({ isOpen, onClose }) => {
       width={'30%'}
       height={'auto'}
     >
-      <ModalBody />
+      <ModalBody
+        currentWorkspaceName={currentWorkspaceName}
+        onClose={onClose}
+      />
     </StModal>
   );
 };

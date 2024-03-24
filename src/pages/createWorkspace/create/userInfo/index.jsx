@@ -17,9 +17,8 @@ import useBoundStore from '@store/store';
 import { getToken } from '@utils/auth';
 import { jwtDecode } from 'jwt-decode';
 
-
 const UserInfo = () => {
-  const email = jwtDecode(getToken()).sub
+  const email = jwtDecode(getToken()).sub;
 
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -33,7 +32,7 @@ const UserInfo = () => {
     workSpaceMemberJob: '',
     workSpaceMemberImage: '',
   });
-console.log(userInfo)
+  console.log(userInfo);
 
   const handleFormChange = (event) => {
     const { name, value } = event.target;
@@ -46,7 +45,7 @@ console.log(userInfo)
 
   const handleButttonClick = () => {
     navigate('/create-workspace/work', { state: { ...state } });
-    setWorkspace({...workspace, ...userInfo})
+    setWorkspace({ ...workspace, ...userInfo });
   };
 
   useEffect(() => {
@@ -59,7 +58,7 @@ console.log(userInfo)
       });
   }, [workSpaceMemberName, workSpaceMemberJob, workSpaceMemberImage]);
   return (
-    <>
+    <Flex justify={'center'} align={'center'}>
       <CreateProfileImage
         isOpen={isOpen}
         onClose={onClose}
@@ -141,7 +140,7 @@ console.log(userInfo)
           <Image src={UserInfoImg} alt="" />
         </Box>
       </Flex>
-    </>
+    </Flex>
   );
 };
 

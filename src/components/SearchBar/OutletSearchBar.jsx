@@ -18,7 +18,7 @@ const OutletSearchBar = () => {
         border="1px solid #767676"
         borderRadius="8px"
         p="0 40px"
-        placeholder="파일명으로 검색해주세요."
+        placeholder="채널명으로 검색해주세요."
         _placeholder={{ color: 'black' }}
       />
     </InputGroup>

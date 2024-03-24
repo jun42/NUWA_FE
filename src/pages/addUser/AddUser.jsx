@@ -28,20 +28,20 @@ const AddUser = () => {
   const [emailInput, setEmailInput] = useState('');
   const [createLink, setcreateLink] = useState('');
 
-  const handleChangeRole = async (workSpaceMemberId, type) => {
-    const { success, data, message } = await changeMemberRole(
-      workSpaceMemberId,
-      workSpaceId,
-      type
-    );
-    if (success) {
-      alert(`권한 변경 성공: ${data.message}`);
-      // 성공 후 멤버 목록 업데이트 로직 필요 (예시로는 상태 업데이트 또는 다시 fetchMembers 호출)
-      fetchMembers(); // 멤버 목록 다시 가져오기 (이 함수는 이미 정의된 상태에서 호출)
-    } else {
-      alert(`권한 변경 실패: ${message}`);
-    }
-  };
+  // const handleChangeRole = async (workSpaceMemberId, type) => {
+  //   const { success, data, message } = await changeMemberRole(
+  //     workSpaceMemberId,
+  //     workSpaceId,
+  //     type
+  //   );
+  //   if (success) {
+  //     alert(`권한 변경 성공: ${data.message}`);
+  //     // 성공 후 멤버 목록 업데이트 로직 필요 (예시로는 상태 업데이트 또는 다시 fetchMembers 호출)
+  //     fetchMembers(); // 멤버 목록 다시 가져오기 (이 함수는 이미 정의된 상태에서 호출)
+  //   } else {
+  //     alert(`권한 변경 실패: ${message}`);
+  //   }
+  // };
 
   useEffect(() => {
     const generateInviteLink = async () => {

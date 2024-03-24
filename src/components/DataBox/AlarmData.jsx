@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Box, Text, Flex, Image } from '@chakra-ui/react';
-import DirectMessage from '@assets/direct_message.svg';
-import Canvas from '@assets/canvas.svg';
+import DirectMessage from '@assets/chat.svg';
+import Chat from '@assets/direct_message.svg';
+import Canvas from '@assets/white_canvas.svg';
 import Todo from '@assets/todo.svg';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -13,6 +14,8 @@ const getIcon = (type) => {
       return Canvas;
     case 'TODO':
       return Todo;
+    case 'CHAT':
+      return Chat;
     default:
       return null;
   }
@@ -23,6 +26,7 @@ const getMessage = (type, partner, count) => {
     DIRECT: `${partner}님에게 ${count}개의 메세지가 도착하였습니다.`,
     CANVAS: '새로운 캔버스가 생성되었습니다.',
     TODO: '새로운 투두리스트가 생성되었습니다.',
+    CHAT: `그룹채팅에 ${partner}님이 새로운 메세지를 작성하였습니다.`,
   };
 
   return messages[type] || '알 수 없는 타입이 생성되었습니다.';

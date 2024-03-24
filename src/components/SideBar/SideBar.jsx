@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
-import workspace from '../../assets/WorkSpace.png';
+import { useState } from 'react';
 import add from '../../assets/add.svg';
 import dashboard from '../../assets/dashboard.svg';
 import dm from '../../assets/dm.svg';
@@ -11,16 +10,21 @@ import setting from '../../assets/setting.svg';
 import group from '../../assets/user_group.svg';
 import {
   Button,
-  IconButton,
   Flex,
   Box,
   Text,
-  Avatar,
   Image,
   Divider,
-  useOutsideClick,
-  useDisclosure,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
 } from '@chakra-ui/react';
+import { ChevronDownIcon } from '@chakra-ui/icons';
 import UserInfo from './UserInfo';
 import Channel from './Channel';
 import WorkSpaceModalEdit from '@components/Modal/WorkspaceEdit';
@@ -28,12 +32,12 @@ import useModal from '@hooks/useModal';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getWorkspace } from '@apis/sidebar/getworkspace.js';
 import ChatChannel from './ChatChannel';
-
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteWorkspace } from '@apis/workspace/deleteWorkspace.js'; // 경로 확인 필요
 const SideBar = () => {
   const navigate = useNavigate();
   const { workSpaceId } = useParams();
-  const [workspaces, setWorkspaces] = useState([]); // 워크스페이스 정보를 저장할 상태
-
+  const queryClient = useQueryClient();
   const chData2 = [
     {
       name: 'FE-회의실',
@@ -41,18 +45,6 @@ const SideBar = () => {
     },
     {
       name: 'BE-회의실',
-      chType: 'voice',
-    },
-    {
-      name: 'UI-회의실',
-      chType: 'voice',
-    },
-    {
-      name: 'UI-회의실',
-      chType: 'voice',
-    },
-    {
-      name: 'UI-회의실',
       chType: 'voice',
     },
   ];
@@ -64,93 +56,92 @@ const SideBar = () => {
     onClose: onEditModalClose,
   } = useModal();
 
-  useEffect(() => {
-    const fetchWorkspaces = async () => {
-      try {
-        const response = await getWorkspace();
-        console.log('워크스페이스 정보 조회: ', response.data);
-        setWorkspaces(response.data);
-      } catch (error) {
-        console.error('워크스페이스 정보 조회 에러: ', error);
-      }
-    };
+  const { data: response } = useQuery({
+    queryKey: ['workspaces'],
+    queryFn: getWorkspace,
+    enabled: !!workSpaceId,
+  });
 
-    fetchWorkspaces();
-  }, [workSpaceId]);
+  const workspaces = response?.data || [];
 
-  // 현재 워크스페이스 이름 조회
   const currentWorkspaceName =
-    (workspaces.length > 0 &&
-      workspaces.find(
-        (workspace) => workspace.workspaceId.toString() === workSpaceId
-      )?.workSpaceName) ||
-    'Loading...';
+    workspaces?.find(
+      (workspace) => workspace.workspaceId.toString() === workSpaceId
+    )?.workSpaceName || 'Loading...';
 
-  // 이미지 로드 실패 핸들러
-  const handleImageError = (workspaceId) => {
-    setWorkspaces((currentWorkspaces) =>
-      currentWorkspaces.map((workspace) =>
-        workspace.workspaceId === workspaceId
-          ? { ...workspace, isImageError: true }
-          : workspace
-      )
-    );
+  // 삭제 로직을 처리하는 mutation
+  const { mutate: deleteWorkspaceMutate } = useMutation({
+    mutationFn: deleteWorkspace,
+    onSuccess: () => {
+      // 성공 시 워크스페이스 목록 쿼리 무효화 및 리디렉션
+      queryClient.invalidateQueries(['workspaces']);
+      navigate('/'); // 또는 원하는 대로 경로를 변경
+    },
+    onError: (error) => {
+      // 에러 처리
+      console.error('워크스페이스 삭제 실패:', error);
+      alert('워크스페이스 삭제에 실패했습니다.');
+    },
+  });
+
+  // '워크스페이스 나가기' 클릭 핸들러
+  const handleLeaveWorkspace = () => {
+    if (window.confirm('워크스페이스를 나가시겠습니까?')) {
+      deleteWorkspaceMutate(workSpaceId);
+    }
   };
 
   return (
     <Flex>
       <Box w="80px" backgroundColor="#5158ff" p="0 16px">
-        {workspaces.map((workspace) =>
-          workspace.isImageError ? (
+        {workspaces.map((workspace) => {
+          const shouldDisplayInitial =
+            !workspace.workSpaceImage || workspace.workSpaceImage.length <= 1;
+          return (
             <Flex
               key={workspace.workspaceId}
-              className="notworkImage"
               justify="center"
               align="center"
               pt="32px"
               cursor="pointer"
               onClick={() => navigate(`/workspace/${workspace.workspaceId}`)}
             >
-              <Box
-                display="flex"
-                boxSize="40px"
-                bg="white"
-                borderRadius="full"
-                alignItems="center"
-                justifyContent="center"
-                border={`2px solid ${
-                  workSpaceId === workspace.workspaceId.toString()
-                    ? '#00FF00'
-                    : '#D9D9D9'
-                }`}
-              >
-                <Text>{workspace.workSpaceImage}</Text>
-              </Box>
+              {shouldDisplayInitial ? (
+                <Box
+                  display="flex"
+                  boxSize="40px"
+                  bg="white"
+                  borderRadius="full"
+                  alignItems="center"
+                  justifyContent="center"
+                  border={`2px solid ${
+                    workSpaceId === workspace.workspaceId.toString()
+                      ? '#00FF00'
+                      : '#D9D9D9'
+                  }`}
+                >
+                  <Text>{workspace.workSpaceName.charAt(0)}</Text>
+                </Box>
+              ) : (
+                <Image
+                  src={workspace.workSpaceImage}
+                  alt={workspace.workSpaceName}
+                  boxSize="40px"
+                  borderRadius="full"
+                  border={`2px solid ${
+                    workSpaceId === workspace.workspaceId.toString()
+                      ? '#00FF00'
+                      : '#D9D9D9'
+                  }`}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.style.display = 'none';
+                  }}
+                />
+              )}
             </Flex>
-          ) : (
-            <Flex
-              key={workspace.workspaceId}
-              className="workImage"
-              justify="center"
-              pt="32px"
-              cursor="pointer"
-              onClick={() => navigate(`/workspace/${workspace.workspaceId}`)}
-            >
-              <Image
-                src={workspace.workSpaceImage}
-                alt={workspace.workSpaceName}
-                boxSize="40px"
-                border={`2px solid ${
-                  workSpaceId === workspace.workspaceId.toString()
-                    ? '#00FF00'
-                    : '#D9D9D9'
-                }`}
-                borderRadius="full"
-                onError={() => handleImageError(workspace.workspaceId)}
-              />
-            </Flex>
-          )
-        )}
+          );
+        })}
 
         <Flex
           justify="center"
@@ -168,7 +159,7 @@ const SideBar = () => {
         </Flex>
       </Box>
       <Box
-        w="327px"
+        w="300px"
         backgroundColor="#f1f1f1"
         p="0 18px"
         overflowY={isOpen ? 'hidden' : 'scroll'}
@@ -178,21 +169,42 @@ const SideBar = () => {
           },
         }}
       >
-        <Text
-          fontSize="20px"
-          fontWeight="bold"
-          textAlign="center"
-          m="50px 20px 0"
-          cursor={'pointer'}
-          onClick={onEditModalOpen}
-        >
-          {currentWorkspaceName}
-        </Text>
-        <WorkSpaceModalEdit
-          isOpen={isEditModalOpen}
-          onClose={onEditModalClose}
-        />
-        <UserInfo />
+        <Flex flexDirection={'column'} justify={'center'} align={'center'}>
+          <Flex
+            align={'center'}
+            justify={'center'}
+            m="40px 20px 0"
+            fontSize="20px"
+            fontWeight="bold"
+          >
+            <Menu textAlign="center">
+              <MenuButton
+                as={Button}
+                fontSize="20px"
+                fontWeight="bold"
+                backgroundColor="#f1f1f1"
+              >
+                {currentWorkspaceName}
+              </MenuButton>
+              <MenuList fontSize="16px">
+                <MenuItem onClick={onEditModalOpen}>
+                  워크스페이스 정보편집
+                </MenuItem>
+                <MenuItem onClick={handleLeaveWorkspace}>
+                  워크스페이스 나가기
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </Flex>
+          <WorkSpaceModalEdit
+            isOpen={isEditModalOpen}
+            onClose={onEditModalClose}
+            currentWorkspaceName={currentWorkspaceName}
+          />
+          <UserInfo />
+
+          <Divider color="white" mt={'30px'} mb={'10px'} />
+        </Flex>
         <Box>
           <Box mb="10px">
             <Button

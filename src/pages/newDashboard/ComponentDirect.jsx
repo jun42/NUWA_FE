@@ -15,7 +15,7 @@ const ComponentDirect = () => {
         const canvasMessages = response.data.data.map((canvas) => ({
           id: canvas.canvasId,
           title: canvas.canvasTitle,
-          cotent: canvas.canvasContent,
+          content: canvas.canvasContent,
           createdAt: canvas.createdAt,
         }));
         setCanvases(canvasMessages);
@@ -68,12 +68,14 @@ const ComponentDirect = () => {
                     {canvas.title}{' '}
                   </Text>
                 </Flex>
-                <Text width={'80%'}>{canvas.cotent} </Text>
+                <Text width={'80%'}>{canvas.content} </Text>
               </Flex>
             </Box>
           ))
         ) : (
-          <Text>캔버스가 존재하지 않습니다</Text>
+          <Flex height={'90%'} align={'center'} justify={'center'}>
+            <Text fontSize="17px">캔버스가 존재하지 않습니다.</Text>
+          </Flex>
         )}
       </Box>
     </>
