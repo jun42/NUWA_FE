@@ -2,9 +2,7 @@ import { useState, useEffect } from 'react';
 import {
   Box,
   Text,
-  VStack,
   Image,
-  Button,
   Flex,
   Table,
   Thead,
@@ -15,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import FilesIconTitle from '@assets/files_icon.svg';
 import { useParams } from 'react-router-dom';
-import { getTopFiles } from '../../apis/dashboard/getTopFiles';
+import { getTopFiles } from '@apis/dashboard/getTopFiles';
 
 const ComponentSentfile = () => {
   const [files, setFiles] = useState([]);
@@ -77,7 +75,7 @@ const ComponentSentfile = () => {
               ))
             ) : (
               <Tr>
-                <Td colSpan="4" textAlign="center">
+                <Td colSpan="4" fontSize={'16px'} textAlign="center">
                   파일이 없습니다.
                 </Td>
               </Tr>

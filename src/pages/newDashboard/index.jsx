@@ -7,7 +7,7 @@ import ComponentFavorite from './ComponentFavorite';
 import ComponentCalendar from './ComponentCalendar';
 import { Flex, Box } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import useBoundStore from '../../store/store';
+import useBoundStore from '@store/store';
 
 const dashBoard = () => {
   const { alarmList } = useBoundStore();
@@ -51,7 +51,6 @@ const dashBoard = () => {
         >
           <ComponentFavorite />
         </Box>
-        {/* Box4가 2열을 차지하도록 설정 */}
         <Box
           width={'27%'}
           border={'1px solid #D9D9D9'}

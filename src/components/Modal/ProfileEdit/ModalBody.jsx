@@ -1,5 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { updateProfile } from '@apis/dashboard/updateProfile';
+import {
+  updateProfile,
+  uploadProfileImage,
+} from '@apis/dashboard/updateProfile';
 import { changePassword } from '@apis/dashboard/changePassword';
 import {
   Button,
@@ -11,12 +14,7 @@ import {
   Divider,
   Text,
   Flex,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
 } from '@chakra-ui/react';
-import { ChevronDownIcon } from '@chakra-ui/icons';
 import { useParams } from 'react-router-dom';
 
 const EditableField = ({
@@ -109,7 +107,7 @@ const UserStatusDisplay = ({ status }) => {
 
 const ModalBody = ({ profile, onSave, onClose }) => {
   const [editedProfile, setEditedProfile] = useState(profile);
-  const [userStatus, setUserStatus] = useState(profile.status);
+  //  const [userStatus, setUserStatus] = useState(profile.status);
   const { workSpaceId } = useParams();
   const [imagePreview, setImagePreview] = useState(profile.image?.url || '');
   const fileInputRef = useRef(null);
@@ -126,16 +124,11 @@ const ModalBody = ({ profile, onSave, onClose }) => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result);
-        setEditedProfile((prev) => ({
-          ...prev,
-          imageUrl: reader.result,
-        }));
+        setImagePreview(reader.result); // 로컬에서 생성된 이미지의 미리보기 URL로 업데이트
       };
       reader.readAsDataURL(file);
     }
   };
-
   const triggerFileInput = () => {
     fileInputRef.current.click();
   };
@@ -156,7 +149,6 @@ const ModalBody = ({ profile, onSave, onClose }) => {
     e.preventDefault();
 
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-
     if (
       editedProfile.newPassword &&
       !passwordRegex.test(editedProfile.newPassword)
@@ -172,22 +164,31 @@ const ModalBody = ({ profile, onSave, onClose }) => {
       return;
     }
 
+    const file = fileInputRef.current.files[0];
     try {
-      await updateProfile(workSpaceId, {
+      let imageUrl = '';
+      if (file) {
+        imageUrl = await uploadProfileImage(file);
+      }
+
+      const profileData = {
+        workSpaceMemberImage: imageUrl,
         workSpaceMemberName: editedProfile.name,
         workSpaceMemberJob: editedProfile.job,
-      });
+      };
+
+      await updateProfile(workSpaceId, profileData);
 
       if (editedProfile.newPassword) {
         await changePassword(editedProfile.newPassword);
         alert('비밀번호가 성공적으로 변경되었습니다.');
       }
 
-      alert('프로필이 성공적으로 업데이트되었습니다.');
+      alert('프로필 업데이트에 성공했습니다.');
       onClose(); // 모달 닫기
     } catch (error) {
       console.error('업데이트 실패:', error);
-      alert('업데이트에 실패했습니다. 다시 시도해주세요.');
+      alert(error.message || '업데이트에 실패했습니다. 다시 시도해주세요.');
     }
   };
 
@@ -195,7 +196,7 @@ const ModalBody = ({ profile, onSave, onClose }) => {
     <form onSubmit={handleSubmit}>
       <Box textAlign="center" py={5}>
         <Image
-          src={imagePreview || 'https://via.placeholder.com/100'}
+          src={imagePreview || profile.image}
           boxSize="100px"
           borderRadius="full"
           mx="auto"

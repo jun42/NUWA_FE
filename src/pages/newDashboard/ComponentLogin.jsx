@@ -1,41 +1,30 @@
 import { useState, useEffect } from 'react';
 import BorderCircle from '@assets/border_circle.svg';
-import {
-  Box,
-  Image,
-  Text,
-  Button,
-  VStack,
-  Flex,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Box, Image, Text, Button, Flex } from '@chakra-ui/react';
 import ProfileModal from '@components/Modal/ProfileEdit/index.jsx';
 import useModal from '@hooks/useModal';
 import { useParams } from 'react-router-dom';
-import { request } from '../../apis/axios/axios';
-import useBoundStore from '../../store/store';
+import { userProfile } from '@apis/dashboard/userProfile';
 
 const ComponentLogin = () => {
   const { workSpaceId } = useParams();
-  const { workspace } = useBoundStore();
   const [userInfo, setUserInfo] = useState(null);
   const { isOpen, onOpen, onClose } = useModal();
-  const { workSpaceMemberImage } = workspace;
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await request.get(`/workspace/${workSpaceId}/member`);
-        if (response.data.status === 'success') {
+        const data = await userProfile(workSpaceId);
+        if (data.status === 'success') {
           setUserInfo({
             image:
-              response.data.data.image ||
+              data.data.image ||
               'https://search.pstatic.net/sunny/?src=http%3A%2F%2Fthumbnail.10x10.co.kr%2Fwebimage%2Fimage%2Fadd2_600%2F141%2FA001410223_02.jpg%3Fcmd%3Dthumb%26w%3D500%26h%3D500%26fit%3Dtrue%26ws%3Dfalse&type=sc960_832', // 이미지가 없는 경우 대체 이미지 사용
-            name: response.data.data.name,
-            job: response.data.data.job,
-            email: response.data.data.email,
-            phone: response.data.data.phoneNumber,
-            status: response.data.data.status,
+            name: data.data.name,
+            job: data.data.job,
+            email: data.data.email,
+            phone: data.data.phoneNumber,
+            status: data.data.status,
           });
         } else {
           throw new Error('프로필 정보를 불러올 수 없습니다.');
@@ -54,7 +43,7 @@ const ComponentLogin = () => {
   };
 
   if (!userInfo) {
-    return <div>Loading</div>;
+    return <div>Loading...</div>;
   }
 
   return (
@@ -62,17 +51,11 @@ const ComponentLogin = () => {
       <Flex
         flexFlow={'column'}
         height={'100%'}
-        border={'1px solid red'}
         align={'center'}
         justify={'center'}
         marginTop={'10px'}
       >
-        <Box
-          position="relative"
-          width="150px"
-          height="140px"
-          //border={'1px solid green'}
-        >
+        <Box position="relative" width="150px" height="140px">
           <Image src={BorderCircle} alt="Background SVG" boxSize="100%" />
           <Image
             position="absolute"
@@ -101,13 +84,7 @@ const ComponentLogin = () => {
             2
           </Box>
         </Box>
-        <Flex
-          flexFlow={'column'}
-          width={'100%'}
-          align={'center'}
-          gap={'8px'}
-          //border={'1px solid blue'}
-        >
+        <Flex flexFlow={'column'} width={'100%'} align={'center'} gap={'8px'}>
           <Box align={'center'}>
             <Text fontSize="20px" fontWeight={'700'}>
               {userInfo.name}
