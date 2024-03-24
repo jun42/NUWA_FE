@@ -4,7 +4,7 @@ const useChatBoxScroll = (ref, deps) => {
   useEffect(() => {
     if (ref.current) {
       const { offsetHeight, scrollHeight, scrollTop } = ref.current;
-      if (scrollHeight <= scrollTop + offsetHeight + 200) {
+      if (scrollHeight <= scrollTop + offsetHeight + 500) {
         ref.current?.scrollTo(0, scrollHeight);
       }
     }

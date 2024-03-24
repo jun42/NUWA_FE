@@ -47,6 +47,7 @@ export const Router = createBrowserRouter([
     children: [
       {
         element: <MainLayout />,
+        errorElement: <ErrorBoundary />,
         children: [
           {
             index: true,
@@ -142,7 +143,7 @@ export const Router = createBrowserRouter([
       {
         path: '/workspace/:workSpaceId',
         element: <WorkspaceLayout />,
-        // errorElement: <ErrorBoundary />,
+        errorElement: <ErrorBoundary />,
         children: [
           {
             element: <DashBoard />,

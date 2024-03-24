@@ -159,6 +159,21 @@ const useSocketInit = (roomId, workSpaceId, receiverId, channelType) => {
     };
   }, [roomId]);
 
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      disconnectDirectChatSocket(roomId)
+        .then((r) => {
+          console.log('[DISCONNECT SOCKET SUCCESS]');
+        })
+        .catch((err) => {
+          console.error('[DISCONNECT SOCKET FAIL]', err);
+        });
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
   return {
     publish,
     updatePublish,

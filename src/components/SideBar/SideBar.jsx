@@ -80,9 +80,11 @@ const SideBar = () => {
 
   // 현재 워크스페이스 이름 조회
   const currentWorkspaceName =
-    workspaces.find(
-      (workspace) => workspace.workspaceId.toString() === workSpaceId
-    )?.workSpaceName || 'Loading...';
+    (workspaces.length > 0 &&
+      workspaces.find(
+        (workspace) => workspace.workspaceId.toString() === workSpaceId
+      )?.workSpaceName) ||
+    'Loading...';
 
   // 이미지 로드 실패 핸들러
   const handleImageError = (workspaceId) => {
