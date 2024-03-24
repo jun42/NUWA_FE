@@ -1,11 +1,14 @@
-import React from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { Text, Flex, Box, Divider } from '@chakra-ui/react';
 import OutletSearchBar from '@components/SearchBar/OutletSearchBar';
 import GreySort from '@components/Button/GreySort';
-import online from '@assets/online.png';
 
 const FindChannel = () => {
+  useEffect(() => {
+    alert('현 서비스는 개발 예정 입니다.');
+  }, []);
+
   return (
     <StContainer>
       <Text fontSize={'28px'} fontWeight={'700'}>
