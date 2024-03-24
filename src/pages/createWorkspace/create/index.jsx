@@ -7,11 +7,12 @@ import Paragraph from '@components/Paragraph/Paragraph';
 import LinkButton from '@components/Button/LinkButton';
 import { jwtDecode } from 'jwt-decode';
 import { getToken } from '@utils/auth';
+import { Flex, Box } from '@chakra-ui/react';
 
 const Create = () => {
-  const emailSlice = jwtDecode(getToken()).sub.split('@')[0]
+  const emailSlice = jwtDecode(getToken()).sub.split('@')[0];
   return (
-    <>
+    <Flex flexFlow={'column'} align={'center'}>
       <Image src={CreateWorkspaceImg} alt="create-workspace" />
       <StWrap>
         <SingleColor
@@ -35,12 +36,11 @@ const Create = () => {
             buttonText="생성하기"
           />
           <Paragraph>
-            다른 이메일로 {' '}
-            <Link to="/login">로그인하기</Link>
+            다른 이메일로 <Link to="/login">로그인하기</Link>
           </Paragraph>
         </ButtonWrap>
       </StWrap>
-    </>
+    </Flex>
   );
 };
 

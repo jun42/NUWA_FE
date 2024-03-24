@@ -41,7 +41,12 @@ const workAccess = () => {
   return (
     <StContainer>
       <WorkspaceContainer>
-        <Flex flexDirection={'column'} gap={'20px'}>
+        <Flex
+          flexDirection={'column'}
+          gap={'20px'}
+          justify={'center'}
+          align={'center'}
+        >
           <Text width="100%" fontSize="48px" fontWeight="600" color="#575DF8">
             환영합니다!
           </Text>
@@ -56,7 +61,7 @@ const workAccess = () => {
         </Flex>
         <WorkspaceCard workspace_section={workspaces} />
 
-        <Flex flexDirection={'column'} marginTop={'120px'}>
+        <Flex flexDirection={'column'} marginTop={'10px'}>
           <Text width="100%" fontSize="20px" fontWeight="200">
             다른 이메일로{' '}
             <Link to="/login" style={{ color: '#575DF8' }}>
@@ -80,16 +85,10 @@ const StContainer = styled.div`
 
 const WorkspaceContainer = styled.div`
   width: 100%;
+  height: 800px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-`;
-
-const CardSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 `;

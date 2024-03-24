@@ -10,7 +10,7 @@ const InviteMember = () => {
   const { workspace } = useBoundStore();
   const { workSpaceName } = workspace;
   return (
-    <Flex justifyContent="space-between" w="920px">
+    <Flex justify={'center'} align={'center'} gap={'100px'}>
       <Flex flexDirection="column">
         <SingleColor
           firstText={workSpaceName}

@@ -8,7 +8,23 @@ import exclude from '../../assets/exclude.svg';
 import todo from '../../assets/todo.svg';
 import setting from '../../assets/setting.svg';
 import group from '../../assets/user_group.svg';
-import { Button, Flex, Box, Text, Image, Divider } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  Box,
+  Text,
+  Image,
+  Divider,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
+} from '@chakra-ui/react';
+import { ChevronDownIcon } from '@chakra-ui/icons';
 import UserInfo from './UserInfo';
 import Channel from './Channel';
 import WorkSpaceModalEdit from '@components/Modal/WorkspaceEdit';
@@ -16,11 +32,12 @@ import useModal from '@hooks/useModal';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getWorkspace } from '@apis/sidebar/getworkspace.js';
 import ChatChannel from './ChatChannel';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteWorkspace } from '@apis/workspace/deleteWorkspace.js'; // 경로 확인 필요
 const SideBar = () => {
   const navigate = useNavigate();
   const { workSpaceId } = useParams();
-
+  const queryClient = useQueryClient();
   const chData2 = [
     {
       name: 'FE-회의실',
@@ -51,6 +68,28 @@ const SideBar = () => {
     workspaces?.find(
       (workspace) => workspace.workspaceId.toString() === workSpaceId
     )?.workSpaceName || 'Loading...';
+
+  // 삭제 로직을 처리하는 mutation
+  const { mutate: deleteWorkspaceMutate } = useMutation({
+    mutationFn: deleteWorkspace,
+    onSuccess: () => {
+      // 성공 시 워크스페이스 목록 쿼리 무효화 및 리디렉션
+      queryClient.invalidateQueries(['workspaces']);
+      navigate('/'); // 또는 원하는 대로 경로를 변경
+    },
+    onError: (error) => {
+      // 에러 처리
+      console.error('워크스페이스 삭제 실패:', error);
+      alert('워크스페이스 삭제에 실패했습니다.');
+    },
+  });
+
+  // '워크스페이스 나가기' 클릭 핸들러
+  const handleLeaveWorkspace = () => {
+    if (window.confirm('워크스페이스를 나가시겠습니까?')) {
+      deleteWorkspaceMutate(workSpaceId);
+    }
+  };
 
   return (
     <Flex>
@@ -120,7 +159,7 @@ const SideBar = () => {
         </Flex>
       </Box>
       <Box
-        w="327px"
+        w="300px"
         backgroundColor="#f1f1f1"
         p="0 18px"
         overflowY={isOpen ? 'hidden' : 'scroll'}
@@ -130,22 +169,42 @@ const SideBar = () => {
           },
         }}
       >
-        <Text
-          fontSize="20px"
-          fontWeight="bold"
-          textAlign="center"
-          m="50px 20px 0"
-          cursor={'pointer'}
-          onClick={onEditModalOpen}
-        >
-          {currentWorkspaceName}
-        </Text>
-        <WorkSpaceModalEdit
-          isOpen={isEditModalOpen}
-          onClose={onEditModalClose}
-          currentWorkspaceName={currentWorkspaceName}
-        />
-        <UserInfo />
+        <Flex flexDirection={'column'} justify={'center'} align={'center'}>
+          <Flex
+            align={'center'}
+            justify={'center'}
+            m="40px 20px 0"
+            fontSize="20px"
+            fontWeight="bold"
+          >
+            <Menu textAlign="center">
+              <MenuButton
+                as={Button}
+                fontSize="20px"
+                fontWeight="bold"
+                backgroundColor="#f1f1f1"
+              >
+                {currentWorkspaceName}
+              </MenuButton>
+              <MenuList fontSize="16px">
+                <MenuItem onClick={onEditModalOpen}>
+                  워크스페이스 정보편집
+                </MenuItem>
+                <MenuItem onClick={handleLeaveWorkspace}>
+                  워크스페이스 나가기
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </Flex>
+          <WorkSpaceModalEdit
+            isOpen={isEditModalOpen}
+            onClose={onEditModalClose}
+            currentWorkspaceName={currentWorkspaceName}
+          />
+          <UserInfo />
+
+          <Divider color="white" mt={'30px'} mb={'10px'} />
+        </Flex>
         <Box>
           <Box mb="10px">
             <Button
