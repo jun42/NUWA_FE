@@ -1,17 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Flex, Text, Button, Image, useDisclosure } from '@chakra-ui/react';
+import { Flex, Text, Button, Image, useToast } from '@chakra-ui/react';
 import Exclude from '@assets/Exclude.png';
-import OutletSearchBar from '@components/SearchBar/OutletSearchBar';
-import GreySort from '@components/Button/GreySort';
+import CanvasSearchBar from '@components/SearchBar/CanvasSearchBar';
 import CanvasData from '@components/DataBox/CanvasData';
-import { canvas_data } from '@constants/selectPlan/SELECT_ALL_INFO';
 import NotCanvasData from '@components/DataBox/NotCanvasData';
 import CanvasModal from '@components/Modal/CanvasModal/index.jsx';
 import useModal from '@hooks/useModal';
-import WorkSpaceModalEdit from '@components/Modal/WorkspaceEdit';
+import { useParams } from 'react-router-dom';
+import useCanvasData from '@hooks/canvas/useCanvasData';
+
 const Canvas = () => {
   const { isOpen, onOpen, onClose } = useModal();
+  const { workSpaceId } = useParams();
+  const [filter, setFilter] = useState('ALL');
+  const {
+    data: canvasData,
+    isLoading,
+    error,
+    refetch,
+    deleteMutation, // useCanvasData에서 deleteMutation을 받음
+  } = useCanvasData(workSpaceId, filter);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
+
+  // 검색어에 따라 canvasData를 필터링하는 효과
+  useEffect(() => {
+    if (!isLoading && !error) {
+      const filtered = canvasData.filter((data) =>
+        data.canvasTitle.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredData(filtered);
+    }
+  }, [searchTerm, canvasData, isLoading, error]);
+
+  const handleDeleteSuccess = () => {
+    refetch();
+  };
+
   return (
     <StContainer>
       <Flex justify={'space-between'} align={'center'} width={'100%'}>
@@ -29,19 +55,29 @@ const Canvas = () => {
         </Button>
       </Flex>
 
-      <OutletSearchBar />
+      <CanvasSearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
       <Flex justify={'flex-end'} gap={'10px'} mb={'10px'}>
-        <GreySort label="전체 캔버스" />
-        <GreySort label="내가 생성한 캔버스" />
+        <Button onClick={() => setFilter('ALL')}>전체 캔버스 조회</Button>
+        <Button onClick={() => setFilter('MINE')}>
+          내가 작성한 캔버스 조회
+        </Button>
       </Flex>
-      {/* <WorkSpaceModalEdit /> */}
-      {/* <StateModal /> */}
+
       <CanvasModal isOpen={isOpen} onClose={onClose} />
+
       <DataContainer>
-        {canvas_data.length > 0 ? (
-          canvas_data.map((data, index) => (
-            <CanvasData key={index} name={data.name} date={data.date} />
+        {filteredData && filteredData.length > 0 ? (
+          filteredData.map((data) => (
+            <CanvasData
+              key={data.canvasId}
+              canvasId={data.canvasId}
+              title={data.canvasTitle}
+              name={data.createMemberName}
+              date={data.createdAt}
+              workSpaceId={workSpaceId}
+              deleteMutation={deleteMutation}
+            />
           ))
         ) : (
           <NotDataSection>
