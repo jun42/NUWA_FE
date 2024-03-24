@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Box } from '@chakra-ui/react';
 import { useLoaderData, useParams } from 'react-router-dom';
 
@@ -24,7 +24,7 @@ const DirectChatPage = () => {
 
   const { chatRoomInfo, userProfile } = useLoaderData();
   const { roomId, workSpaceId } = useParams();
-  let totalMessageList = [];
+  const [totalMessageList, setTotalMessageList] = useState([]);
 
   // define receiver
   let userId = userProfile?.id;
@@ -50,7 +50,9 @@ const DirectChatPage = () => {
 
   useChatBoxScroll(chatBoxRef, socketMessageList);
 
-  totalMessageList = [...directChatMessageList, ...socketMessageList];
+  useEffect(() => {
+    setTotalMessageList([...directChatMessageList, ...socketMessageList]);
+  }, [directChatMessageList, socketMessageList]);
 
   useDeleteDirectChatMessage({
     socketMessageDeleteList,
@@ -65,6 +67,11 @@ const DirectChatPage = () => {
     directChatMessageList,
     setSocketMessageUpdateList,
   });
+
+  // const loaderRef = useRef(null);
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver();
+  // }, []);
   return (
     <Box width="calc(100% - 410px)" px={'0.5rem'} display={'flex'}>
       <Box
@@ -101,6 +108,7 @@ const DirectChatPage = () => {
                 },
               }}
             >
+              {/* <Box ref={loaderRef} height={'10px'} /> */}
               {!directChatMessageListIsLoading &&
                 totalMessageList.map((body) => {
                   if (userId === body.senderId) {
