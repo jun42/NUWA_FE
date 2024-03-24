@@ -1,4 +1,4 @@
-import { Flex, Box, Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import styled from 'styled-components';
 import React, { useState } from 'react';
 import Polygon from '@assets/Polygon.svg';
@@ -13,7 +13,7 @@ const FAQBox = () => {
 
   return (
     <>
-      <BoxContainer className='faqBoxWarp'>
+      <BoxContainer className="faqBoxWarp">
         {FAQ_text.map((FAQ, index) => (
           <React.Fragment key={index}>
             <TextBoxContainer onClick={() => toggleDetail(index)}>
@@ -28,7 +28,7 @@ const FAQBox = () => {
             </TextBoxContainer>
 
             {activeIndex === index && (
-              <DetailContainer className='faqDetailBox'>
+              <DetailContainer className="faqDetailBox">
                 <Flex gap={'15px'}>
                   <ButtonBox color={'#575dfb99'}>답변</ButtonBox>
                   <Text fontSize={'14px'} fontWeight={'500'}>
@@ -63,6 +63,7 @@ const TextBoxContainer = styled.div`
   border-radius: 12px;
   gap: 15px;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const ButtonBox = styled.div`

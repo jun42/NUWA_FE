@@ -36,7 +36,7 @@ const MemberListCard = ({ name, id, onClose }) => {
       onClick={createDirectChatRoomHandler}
     >
       <Flex alignItems={'center'} gap={'24px'}>
-        <Avatar size={'md'} />
+        <Avatar size={'md'} name={name} />
         <Text fontWeight={700} fontSize={'14px'} color={'#4d5e80'}>
           {name}
         </Text>

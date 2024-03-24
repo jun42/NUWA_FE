@@ -31,7 +31,7 @@ const FeatCard = ({
     });
 
   return (
-    <StCardContainer backgroundImage={backgroudImage}>
+    <StCardContainer $backgroundImage={backgroudImage}>
       <StTextBox>
         <StTextDiv $size={36} $weight={700} $color={textColor}>
           {styledText}
@@ -64,7 +64,7 @@ export default FeatCard;
 const StCardContainer = styled.div`
   width: 90%;
   border-radius: 20px;
-  background-image: url(${(props) => props.backgroundImage});
+  background-image: url(${(props) => props.$backgroundImage});
   display: flex;
   padding: 58px 52px;
   justify-content: center;
