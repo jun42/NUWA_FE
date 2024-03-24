@@ -104,6 +104,7 @@ const WorkspaceLayout = () => {
     };
 
     return () => {
+      console.log('SERVER SENT EVENT CLOSE');
       eventSource.close();
     };
   }, [toast, workSpaceId]);
