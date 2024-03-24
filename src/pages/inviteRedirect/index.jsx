@@ -3,6 +3,7 @@ import { Spinner } from '@chakra-ui/spinner';
 import { useNavigate, useParams } from 'react-router';
 import useBoundStore from '../../store/store';
 import { getToken } from '../../utils/auth';
+import { useEffect } from 'react';
 const InviteRedirectPage = () => {
   const navigate = useNavigate();
   const { inviteCode } = useParams();
@@ -18,16 +19,20 @@ const InviteRedirectPage = () => {
 
   // check auth
   const accessToken = getToken();
-  if (!accessToken) {
-    setTimeout(() => {
-      navigate('/login');
-      alert('로그인이 필요합니다.');
-    }, 700);
-  } else {
-    setTimeout(() => {
-      navigate('/join'); //
-    }, 700);
-  }
+
+  useEffect(() => {
+    if (!accessToken) {
+      setTimeout(() => {
+        navigate('/login');
+        alert('로그인이 필요합니다.');
+      }, 700);
+    } else {
+      setTimeout(() => {
+        navigate('/join'); //
+      }, 700);
+    }
+  }, []);
+
   // not auth
   // 로그인/ 회원가입
 
