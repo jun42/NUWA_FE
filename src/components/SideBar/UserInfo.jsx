@@ -53,7 +53,7 @@ const UserInfo = () => {
         flexDirection="column"
         alignItems="center"
         textAlign="center"
-        m="20px 0"
+        m="10px 0"
         position="relative"
       >
         <Box
@@ -62,15 +62,19 @@ const UserInfo = () => {
           fontSize="12px"
           fontWeight="900"
           color="white"
-          backgroundColor="#3361ff"
+          backgroundColor="#D9D9D9"
+          border={'2px solid #3361ff'}
           borderRadius="70%"
           lineHeight="30px"
           position="absolute"
-          right="75px"
-          bottom="130px"
+          right="10px"
+          bottom="100px"
           zIndex="10"
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'center'}
         >
-          2
+          <Image src={StatusIcon} alt="" m="0 3px" boxSize={'14px'} />
         </Box>
         <Flex
           justify="center"
@@ -80,7 +84,7 @@ const UserInfo = () => {
           border="2px solid #3361ff"
           borderRight="2px solid #DADEE6"
           borderRadius="70%"
-          m="28px"
+          m="10px"
         >
           <Avatar
             size="2xl"
@@ -89,7 +93,7 @@ const UserInfo = () => {
         </Flex>
         <Box m="13px 0">
           <Text fontSize="16px" fontWeight="900" color="#656565">
-            {userProfile.name} 님
+            {userProfile.name}
           </Text>
           <Text fontSize="14px" fontWeight="500" color="#656565">
             {userProfile.email}

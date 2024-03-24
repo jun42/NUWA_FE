@@ -6,25 +6,7 @@ const mockEvents = [
   {
     id: 1,
     title: 'Figma UI 수정하기',
-    date: '2023-02-12',
-    daysLeft: 3,
-  },
-  {
-    id: 2,
-    title: 'Figma UI 수정하기',
-    date: '2023-02-12',
-    daysLeft: 3,
-  },
-  {
-    id: 3,
-    title: 'Figma UI 수정하기',
-    date: '2023-02-12',
-    daysLeft: 3,
-  },
-  {
-    id: 4,
-    title: 'Figma UI 수정하기',
-    date: '2023-02-12',
+    date: '2023-04-12',
     daysLeft: 3,
   },
 ];

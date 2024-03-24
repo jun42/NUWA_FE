@@ -28,12 +28,12 @@ const Work = () => {
   };
   const handleChange = (event) => {
     const { value } = event.target;
-    console.log(value)
+    console.log(value);
     setWorkSpaceIntroduce(value);
     setWorkspace({ ...workspace, workSpaceIntroduce: value });
   };
   return (
-    <Flex justifyContent="space-around" w="960px">
+    <Flex align={'center'} justifyContent="center" gap={'100px'}>
       <Flex flexDirection="column">
         <Box>
           <DefaultBreak

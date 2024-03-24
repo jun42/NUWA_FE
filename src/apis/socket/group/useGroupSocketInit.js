@@ -140,6 +140,22 @@ const useGroupSocketInit = (roomId, workSpaceId, channelType) => {
     };
   }, [roomId]);
 
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      disconnectGroupChatSocket(roomId)
+        .then((r) => {
+          console.log('[DISCONNECT SOCKET SUCCESS]');
+        })
+        .catch((err) => {
+          console.error('[DISCONNECT SOCKET FAIL]', err);
+        });
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
   return {
     publish,
     socketMessageList,

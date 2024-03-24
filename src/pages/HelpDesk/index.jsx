@@ -25,4 +25,5 @@ const StContentBox = styled.div`
   max-width: 1000px;
   margin: 0 auto;
   gap: 50px;
+  padding: 50px;
 `;
