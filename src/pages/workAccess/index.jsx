@@ -80,7 +80,6 @@ const StContainer = styled.div`
 
 const WorkspaceContainer = styled.div`
   width: 100%;
-  height: 896px;
   display: flex;
   flex-direction: column;
   justify-content: center;
