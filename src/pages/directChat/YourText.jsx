@@ -12,7 +12,7 @@ const YourText = ({
   return (
     <Flex width={'100%'} justifyContent={'flex-start'} py="0.75rem" px={'1rem'}>
       <Box height={'100%'} width={'4rem'}>
-        <Avatar />
+        <Avatar name={senderName} />
       </Box>
       <Box width={'45%'}>
         <Flex

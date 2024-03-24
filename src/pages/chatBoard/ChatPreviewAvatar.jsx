@@ -1,9 +1,9 @@
 import { Avatar, AvatarBadge, Box } from '@chakra-ui/react';
 
-const ChatPreviewAvatar = () => {
+const ChatPreviewAvatar = ({ conversationPartner }) => {
   return (
     <Box display={'flex'} alignItems={'center'} justifyContent={'center'}>
-      <Avatar size={'lg'}>
+      <Avatar size={'lg'} name={conversationPartner}>
         <AvatarBadge
           boxSize={'1rem'}
           bg={'#29cc39'}

@@ -31,7 +31,7 @@ const GroupMessageBox = ({
       }}
     >
       <Box>
-        <Avatar size={'md'} />
+        <Avatar size={'md'} name={senderName} />
       </Box>
       <Stack>
         <Flex
