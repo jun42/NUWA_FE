@@ -73,7 +73,9 @@ const ComponentDirect = () => {
             </Box>
           ))
         ) : (
-          <Text>캔버스가 존재하지 않습니다</Text>
+          <Flex height={'90%'} align={'center'} justify={'center'}>
+            <Text fontSize="17px">캔버스가 존재하지 않습니다.</Text>
+          </Flex>
         )}
       </Box>
     </>
