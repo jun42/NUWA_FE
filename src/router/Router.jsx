@@ -37,6 +37,8 @@ import { getWorkspaceUserProfile } from '@apis/workspace/workspaceProfile';
 import ErrorBoundary from '@components/Error/ErrorBoundary';
 import GroupChatPage from '@pages/groupChat';
 import { getGroupChatInfo } from '../apis/chat/groupChat';
+import InviteRedirectPage from '../pages/inviteRedirect';
+import JoinPage from '../pages/inviteJoin';
 
 export const Router = createBrowserRouter([
   {
@@ -94,8 +96,16 @@ export const Router = createBrowserRouter([
           },
           { path: '/helpdesk', element: <HelpDesk /> },
           {
-            path: '/join',
+            path: '/dev/join',
             element: <JoinMemberPage />,
+          },
+          {
+            path: '/api/invite/:inviteCode',
+            element: <InviteRedirectPage />,
+          },
+          {
+            path: '/join',
+            element: <JoinPage />,
           },
         ],
       },
