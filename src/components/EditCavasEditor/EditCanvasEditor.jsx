@@ -6,13 +6,13 @@ import Editor from './Editor';
 
 import '@components/CanvasEditor/quill.custom.snow2.css';
 
-const CanvasTextEditor = ({ channelId, onContentChange }) => {
+const EditCanvasEditor = ({ onContentChange, initialContent }) => {
   const Delta = Quill.import('delta');
   const [range, setRange] = useState();
   const [lastChange, setLastChange] = useState();
 
   const quillRef = useRef();
-  const defaultValue = new Delta().insert('기본 값');
+  const defaultValue = new Delta().insert(initialContent);
 
   useEffect(() => {
     if (quillRef.current) {
@@ -33,10 +33,9 @@ const CanvasTextEditor = ({ channelId, onContentChange }) => {
         onSelectionChange={setRange}
         onTextChange={setLastChange}
         defaultValue={defaultValue}
-        channelId={channelId}
       />
     </Box>
   );
 };
 
-export default CanvasTextEditor;
+export default EditCanvasEditor;

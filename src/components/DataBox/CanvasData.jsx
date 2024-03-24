@@ -5,10 +5,12 @@ import CanvasIcon from '@assets/white_canvas.svg';
 const CanvasData = ({
   canvasId,
   title,
+  content,
   date,
   name,
   workSpaceId,
   deleteMutation,
+  onClick,
 }) => {
   const handleDelete = () => {
     deleteMutation.mutate({ workSpaceId, canvasId });
@@ -22,6 +24,7 @@ const CanvasData = ({
       padding="12px"
       borderRadius="10px"
       alignItems="center"
+      onClick={() => onClick({ id: canvasId, title, content })}
     >
       <Box
         boxSize="42px"

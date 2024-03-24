@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 const ModalBody = ({ onClose }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const { workSpaceId } = useParams(); // useParams 사용
+  const { workSpaceId } = useParams();
 
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleContentChange = (newContent) => {
