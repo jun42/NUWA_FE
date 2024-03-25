@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import TitleText from './TitleText';
 import FAQBox from './FAQBox';
 
-const index = () => {
+const FAQ = () => {
   return (
     <StContainer>
       <TitleText />
@@ -11,7 +11,7 @@ const index = () => {
   );
 };
 
-export default index;
+export default FAQ;
 
 const StContainer = styled.div`
   max-width: 1280px;

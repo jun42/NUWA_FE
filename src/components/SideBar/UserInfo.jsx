@@ -90,6 +90,7 @@ const UserInfo = () => {
             size="2xl"
             src={userProfile.image !== 'N' ? userProfile.image : undefined}
             position={'relative'}
+            name={userProfile.name}
           >
             <Box
               w="30px"

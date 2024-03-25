@@ -75,6 +75,7 @@ const ChatPage = () => {
             return (
               <ChatPreviewBox
                 key={chat.roomId}
+                image={chat.image}
                 messageCreatedAt={chat.messageCreatedAt}
                 lastMessage={chat.lastMessage}
                 unReadCount={chat.unReadCount}

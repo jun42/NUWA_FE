@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Flex, Text, Image } from '@chakra-ui/react';
 
-import illustratorIcon from '@assets/illustratorIcon.svg';
+import illustratorIcon from '@assets/addfiles.png';
 
 const FileList = ({ fileName, sharedBy, date, type, size }) => {
   return (
@@ -10,11 +10,11 @@ const FileList = ({ fileName, sharedBy, date, type, size }) => {
       <Flex
         w="52%"
         align="center"
-        fontSize="18px"
-        fontWeight="600"
+        fontSize="16px"
+        fontWeight="400"
         cursor="pointer"
       >
-        <Image src={illustratorIcon} m="0 15px" />
+        <Image src={illustratorIcon} m="0 15px" boxSize={'35px'} />
         <Text overflow="hidden" whiteSpace="nowrap" textOverflow="ellipsis">
           {fileName}
         </Text>
@@ -22,8 +22,8 @@ const FileList = ({ fileName, sharedBy, date, type, size }) => {
       <Text
         w="12%"
         align="center"
-        fontSize="18px"
-        fontWeight="600"
+        fontSize="16px"
+        fontWeight="400"
         color="#2B2B2B"
       >
         {sharedBy}
@@ -31,8 +31,8 @@ const FileList = ({ fileName, sharedBy, date, type, size }) => {
       <Text
         w="12%"
         align="center"
-        fontSize="18px"
-        fontWeight="600"
+        fontSize="16px"
+        fontWeight="400"
         color="#2B2B2B"
       >
         {date.substring(0, 10)}
@@ -40,8 +40,8 @@ const FileList = ({ fileName, sharedBy, date, type, size }) => {
       <Text
         w="12%"
         align="center"
-        fontSize="18px"
-        fontWeight="600"
+        fontSize="16px"
+        fontWeight="400"
         color="#2B2B2B"
       >
         {type}
@@ -49,8 +49,8 @@ const FileList = ({ fileName, sharedBy, date, type, size }) => {
       <Text
         w="12%"
         align="center"
-        fontSize="18px"
-        fontWeight="600"
+        fontSize="16px"
+        fontWeight="400"
         color="#2B2B2B"
       >
         {size}

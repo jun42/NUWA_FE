@@ -9,7 +9,7 @@ import { Flex, Box } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import useBoundStore from '@store/store';
 
-const dashBoard = () => {
+const DashBoard = () => {
   const { alarmList } = useBoundStore();
   console.log(alarmList);
 
@@ -17,7 +17,8 @@ const dashBoard = () => {
     <StContainer>
       <Box display={'flex'} width={'100%'} height={'40%'} gap={'20px'}>
         <Box
-          width={'17%'}
+          width={'18%'}
+          minW={'160px'}
           border={'1px solid #D9D9D9'}
           borderTopRadius={'10px'}
           shadow={'md'}
@@ -25,7 +26,7 @@ const dashBoard = () => {
           <ComponentLogin />
         </Box>
         <Box
-          width={'60%'}
+          width={'50%'}
           border={'1px solid #D9D9D9'}
           borderTopRadius={'10px'}
           shadow={'md'}
@@ -33,7 +34,7 @@ const dashBoard = () => {
           <ComponentSentfile />
         </Box>
         <Box
-          width={'27%'}
+          width={'32%'}
           border={'1px solid #D9D9D9'}
           borderTopRadius={'10px'}
           shadow={'md'}
@@ -41,10 +42,18 @@ const dashBoard = () => {
           <ComponentDirect />
         </Box>
       </Box>
+
       <Flex height={'60%'} gap={'20px'}>
-        <ComponentFavorite />
         <Box
-          width={'27%'}
+          width={'calc(67% + 20px)'}
+          border={'1px solid #D9D9D9'}
+          borderRadius={'10px'}
+          shadow={'md'}
+        >
+          <ComponentFavorite />
+        </Box>
+        <Box
+          width={'32%'}
           border={'1px solid #D9D9D9'}
           borderTopRadius={'10px'}
           shadow={'md'}
@@ -56,7 +65,7 @@ const dashBoard = () => {
   );
 };
 
-export default dashBoard;
+export default DashBoard;
 
 const StContainer = styled.div`
   width: 100%;

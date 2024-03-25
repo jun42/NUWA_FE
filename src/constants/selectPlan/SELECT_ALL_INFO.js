@@ -3,9 +3,9 @@ import WorkspaceCard1 from '@assets/workspace_card1.png';
 import WorkspaceCard2 from '@assets/workspace_card2.png';
 import WorkspaceCard3 from '@assets/workspace_card3.png';
 import WorkspaceCard_Add from '@assets/workspace_add.png';
-import mainCard1 from '@assets/mainCard1.png';
-import mainCard2 from '@assets/mainCard2.png';
-import mainCard3 from '@assets/mainCard3.png';
+import mainCard1 from '@assets/maincard1.jpg';
+import mainCard2 from '@assets/maincard2.jpg';
+import mainCard3 from '@assets/maincard3.jpg';
 
 export const alarm_data =[
     {name: "새로운 캔버스가 작성되었습니다.", date: "오늘 마지막으로 확인됨"},

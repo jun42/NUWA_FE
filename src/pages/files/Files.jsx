@@ -12,8 +12,12 @@ import {
   Center,
   Input,
   Checkbox,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from '@chakra-ui/react';
-
+import { ChevronDownIcon } from '@chakra-ui/icons';
 import GridSwitch from '@components/Switch/GridSwitch.jsx';
 import { getAllFiles, getSearchedFiles, deleteFile } from '@apis/files/files';
 import { useParams } from 'react-router-dom';
@@ -58,7 +62,7 @@ const Files = () => {
   const [fileSearchWord, setFileSearchWord] = useState('');
 
   const [searchUsers, setSearchUsers] = useState([]);
-
+  const [selectedAction, setSelectedAction] = useState('모든파일');
   useEffect(() => {
     const fetchFiles = async () => {
       try {
@@ -150,11 +154,10 @@ const Files = () => {
     }
   }, [fileSearchWord]);
 
-  //파일 삭제
-  // useEffect(() => {
-  //   deleteFile({ fileId: 13 });
-  // }, []);
-  //날짜 순 정렬
+  // 메뉴 항목 선택 핸들러
+  const handleMenuItemClick = (text) => {
+    setSelectedAction(text); // 선택된 메뉴 항목의 텍스트로 상태 업데이트
+  };
   return (
     <Flex w="100%">
       <Box w="100%" p="52px 63px">
@@ -186,6 +189,7 @@ const Files = () => {
             onKeyDown={handleSearchKeyDown}
           />
         </Box>
+
         <Flex position="relative" justify="space-between" m="32px 0">
           <Flex>
             <Box position="relative">
@@ -360,53 +364,96 @@ const Files = () => {
               border="1px"
               opacity="10%"
             />
-            <ButtonGroup gap="4px">
-              <TypeSelectButton
-                fileType={fileType}
-                setFileType={setFileType}
-                getFilesByType={getFilesByType}
-                text="모든 파일"
-                type="all"
-                workSpaceId={workSpaceId}
-                setFileList={setFileList}
-              />
-              <TypeSelectButton
-                fileType={fileType}
-                setFileType={setFileType}
-                getFilesByType={getFilesByType}
-                text="사진"
-                type="pic"
-                workSpaceId={workSpaceId}
-                setFileList={setFileList}
-              />
-              <TypeSelectButton
-                fileType={fileType}
-                setFileType={setFileType}
-                getFilesByType={getFilesByType}
-                text="파일"
-                type="file"
-                workSpaceId={workSpaceId}
-                setFileList={setFileList}
-              />
-              <TypeSelectButton
-                fileType={fileType}
-                setFileType={setFileType}
-                getFilesByType={getFilesByType}
-                text="ZIP"
-                type="zip"
-                workSpaceId={workSpaceId}
-                setFileList={setFileList}
-              />
-              <TypeSelectButton
-                fileType={fileType}
-                setFileType={setFileType}
-                getFilesByType={getFilesByType}
-                text="PDF"
-                type="pdf"
-                workSpaceId={workSpaceId}
-                setFileList={setFileList}
-              />
-            </ButtonGroup>
+
+            <Menu>
+              <MenuButton
+                as={Button}
+                rightIcon={<ChevronDownIcon />}
+                bg={'#575DFB'}
+                _hover={{ bg: '#5056ff' }}
+                _active={{ bg: '#5056ff' }}
+                color={'#ffffff'}
+              >
+                {selectedAction}
+              </MenuButton>
+              <MenuList p={'0px'}>
+                <MenuItem
+                  p={'0px'}
+                  _hover={{ bg: '#5056ff', color: 'white' }}
+                  onClick={() => setSelectedAction('모든 파일')}
+                >
+                  <TypeSelectButton
+                    fileType={fileType}
+                    setFileType={setFileType}
+                    getFilesByType={getFilesByType}
+                    text="모든 파일"
+                    type="all"
+                    workSpaceId={workSpaceId}
+                    setFileList={setFileList}
+                  />
+                </MenuItem>
+                <MenuItem
+                  _hover={{ bg: '#5056ff', color: 'white' }}
+                  p={'0px'}
+                  onClick={() => setSelectedAction('사진')}
+                >
+                  <TypeSelectButton
+                    fileType={fileType}
+                    setFileType={setFileType}
+                    getFilesByType={getFilesByType}
+                    text="사진"
+                    type="pic"
+                    workSpaceId={workSpaceId}
+                    setFileList={setFileList}
+                  />
+                </MenuItem>
+                <MenuItem
+                  _hover={{ bg: '#5056ff', color: 'white' }}
+                  p={'0px'}
+                  onClick={() => setSelectedAction('파일')}
+                >
+                  <TypeSelectButton
+                    fileType={fileType}
+                    setFileType={setFileType}
+                    getFilesByType={getFilesByType}
+                    text="파일"
+                    type="file"
+                    workSpaceId={workSpaceId}
+                    setFileList={setFileList}
+                  />
+                </MenuItem>
+                <MenuItem
+                  _hover={{ bg: '#5056ff', color: 'white' }}
+                  p={'0px'}
+                  onClick={() => setSelectedAction('ZIP')}
+                >
+                  <TypeSelectButton
+                    fileType={fileType}
+                    setFileType={setFileType}
+                    getFilesByType={getFilesByType}
+                    text="ZIP"
+                    type="zip"
+                    workSpaceId={workSpaceId}
+                    setFileList={setFileList}
+                  />
+                </MenuItem>
+                <MenuItem
+                  _hover={{ bg: '#5056ff', color: 'white' }}
+                  p={'0px'}
+                  onClick={() => setSelectedAction('PDF')}
+                >
+                  <TypeSelectButton
+                    fileType={fileType}
+                    setFileType={setFileType}
+                    getFilesByType={getFilesByType}
+                    text="PDF"
+                    type="pdf"
+                    workSpaceId={workSpaceId}
+                    setFileList={setFileList}
+                  />
+                </MenuItem>
+              </MenuList>
+            </Menu>
 
             <Divider
               orientation="vertical"
@@ -414,6 +461,7 @@ const Files = () => {
               border="1px"
               opacity="10%"
             />
+
             <ButtonGroup gap="4px">
               <SortSelectButton
                 sortBy={sortBy}
