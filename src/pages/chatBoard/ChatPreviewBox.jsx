@@ -17,6 +17,7 @@ const ChatPreviewBox = ({
   joinMemberId,
   createMemberName,
   onClick,
+  image,
 }) => {
   const { workSpaceId } = useParams();
 
@@ -55,6 +56,7 @@ const ChatPreviewBox = ({
           <ChatPreviewMain
             lastMessage={lastMessage}
             conversationPartner={conversationPartner}
+            image={image}
           />
           <Box
             display={'flex'}

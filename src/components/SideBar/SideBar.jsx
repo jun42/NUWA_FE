@@ -23,6 +23,7 @@ import {
   MenuGroup,
   MenuOptionGroup,
   MenuDivider,
+  Avatar,
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import UserInfo from './UserInfo';
@@ -95,8 +96,6 @@ const SideBar = () => {
     <Flex>
       <Box w="80px" backgroundColor="#5158ff" p="0 16px">
         {workspaces.map((workspace) => {
-          const shouldDisplayInitial =
-            !workspace.workSpaceImage || workspace.workSpaceImage.length <= 1;
           return (
             <Flex
               key={workspace.workspaceId}
@@ -106,43 +105,21 @@ const SideBar = () => {
               cursor="pointer"
               onClick={() => navigate(`/workspace/${workspace.workspaceId}`)}
             >
-              {shouldDisplayInitial ? (
-                <Box
-                  display="flex"
-                  boxSize="40px"
-                  bg="white"
-                  borderRadius="full"
-                  alignItems="center"
-                  justifyContent="center"
-                  border={`2px solid ${
-                    workSpaceId === workspace.workspaceId.toString()
-                      ? '#00FF00'
-                      : '#D9D9D9'
-                  }`}
-                >
-                  <Text>{workspace.workSpaceName.charAt(0)}</Text>
-                </Box>
-              ) : (
-                <Image
-                  src={workspace.workSpaceImage}
-                  alt={workspace.workSpaceName}
-                  boxSize="40px"
-                  borderRadius="full"
-                  border={`2px solid ${
-                    workSpaceId === workspace.workspaceId.toString()
-                      ? '#00FF00'
-                      : '#D9D9D9'
-                  }`}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.style.display = 'none';
-                  }}
-                />
-              )}
+              <Avatar
+                // boxSize="md"
+                size={'md'}
+                src={workspace.workSpaceImage}
+                name={workspace.workSpaceName}
+                border={`2px solid ${
+                  workSpaceId === workspace.workspaceId.toString()
+                    ? '#00FF00'
+                    : '#D9D9D9'
+                }`}
+                _hover={{ transform: 'scale(1.04)' }}
+              />
             </Flex>
           );
         })}
-
         <Flex
           justify="center"
           pt="32px"

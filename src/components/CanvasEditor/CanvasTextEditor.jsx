@@ -12,7 +12,7 @@ const CanvasTextEditor = ({ channelId, onContentChange }) => {
   const [lastChange, setLastChange] = useState();
 
   const quillRef = useRef();
-  const defaultValue = new Delta().insert('기본 값');
+  const defaultValue = new Delta().insert('');
 
   useEffect(() => {
     if (quillRef.current) {
