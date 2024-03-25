@@ -24,6 +24,7 @@ const Channel = ({ type, data }) => {
         position="relative"
         mb="8px"
         pl="12px"
+        align={'center'}
       >
         <IconButton
           size="xs"

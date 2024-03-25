@@ -59,9 +59,9 @@ const ComponentLogin = () => {
         src={userInfo.image}
         alt=""
         border={'2px solid #d9d9d9'}
-        mb={'20px'}
+        mb={'10px'}
       />
-      <Flex flexFlow={'column'} width={'100%'} align={'center'} gap={'10px'}>
+      <Flex flexFlow={'column'} width={'100%'} align={'center'} gap={'5px'}>
         <Flex flexFlow={'column'} align={'center'} gap={'2px'}>
           <Text fontSize="18px" fontWeight={'700'}>
             {userInfo.name}
@@ -105,10 +105,10 @@ export default ComponentLogin;
 const ProfileButton = styled.div`
   cursor: pointer;
   background-color: #575df8;
-  margin-top: 20px;
+  margin-top: 10px;
   font-size: 14px;
   color: white;
   font-weight: bold;
-  padding: 10px 30px;
+  padding: 5px 30px;
   border-radius: 10px;
 `;

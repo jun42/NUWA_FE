@@ -60,6 +60,7 @@ const StContainer = styled.div`
   flex-direction: column;
   padding: 80px 12px;
   gap: 36px;
+  background-color: #f3f3f3;
 `;
 
 const MainSection = styled.div`
