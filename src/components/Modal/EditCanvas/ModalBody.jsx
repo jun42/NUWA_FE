@@ -41,12 +41,21 @@ const ModalBody = ({
 
   return (
     <StContainer>
-      <Input value={title} onChange={handleTitleChange} />
+      <Input value={title} onChange={handleTitleChange} mb={'10px'} />
       <EditCanvasEditor
         onContentChange={handleContentChange}
         initialContent={content} // Quill에 initialContent를 직접 전달
       />
-      <Button onClick={handleSubmit}>캔버스 수정하기</Button>
+      <Button
+        width={'100%'}
+        onClick={handleSubmit}
+        bg={'#575DFB'}
+        color={'white'}
+        _hover={{ bg: '#5056ff' }}
+        mt={'10px'}
+      >
+        캔버스 수정하기
+      </Button>
     </StContainer>
   );
 };

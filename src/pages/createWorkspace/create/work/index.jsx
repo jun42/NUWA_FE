@@ -11,7 +11,7 @@ import { useCreateWorkspace } from '@queries/useCreateWorkspace';
 
 const Work = () => {
   const navigate = useNavigate();
-  const { workspace, setWorkspace } = useBoundStore();
+  const { workspace, setWorkspace, setNewWorkSpaceId } = useBoundStore();
   const { mutation } = useCreateWorkspace();
   const [workspaceUrl, setWorkspaceUrl] = useState('');
   const [workSpaceIntroduce, setWorkSpaceIntroduce] = useState('');
@@ -20,6 +20,7 @@ const Work = () => {
     const { name } = event.target;
     if (name === 'next') {
       const urlData = await mutation.mutateAsync(workspace);
+      setNewWorkSpaceId(urlData.data.workSpaceId);
       setWorkspaceUrl(urlData);
       navigate('/create-workspace/invite-member', {
         state: { workspaceUrl: workspaceUrl },
@@ -28,7 +29,7 @@ const Work = () => {
   };
   const handleChange = (event) => {
     const { value } = event.target;
-    console.log(value);
+    // console.log(value);
     setWorkSpaceIntroduce(value);
     setWorkspace({ ...workspace, workSpaceIntroduce: value });
   };

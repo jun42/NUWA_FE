@@ -12,10 +12,12 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Avatar,
+  useToast,
 } from '@chakra-ui/react';
 import IconImage from '@assets/workspace_card3.png';
 import SearchBar from '@components/SearchBar/WorkspaceSearchBar';
-import { useParams } from 'react-router-dom';
+import { useLoaderData, useParams } from 'react-router-dom';
 import { workspaceMemberList } from '@apis/workspace/workspaceMemberList';
 import { inviteLink } from '@apis/link/invitationLink';
 import { createInviteLink } from '@apis/link/createInviteLink';
@@ -27,21 +29,24 @@ const AddUser = () => {
   const [members, setMembers] = useState([]);
   const [emailInput, setEmailInput] = useState('');
   const [createLink, setcreateLink] = useState('');
+  const { userProfile } = useLoaderData();
+  const [userAuth, setUserAuth] = useState('JOIN'); // CREATED
+  const toast = useToast();
 
-  // const handleChangeRole = async (workSpaceMemberId, type) => {
-  //   const { success, data, message } = await changeMemberRole(
-  //     workSpaceMemberId,
-  //     workSpaceId,
-  //     type
-  //   );
-  //   if (success) {
-  //     alert(`권한 변경 성공: ${data.message}`);
-  //     // 성공 후 멤버 목록 업데이트 로직 필요 (예시로는 상태 업데이트 또는 다시 fetchMembers 호출)
-  //     fetchMembers(); // 멤버 목록 다시 가져오기 (이 함수는 이미 정의된 상태에서 호출)
-  //   } else {
-  //     alert(`권한 변경 실패: ${message}`);
-  //   }
-  // };
+  const handleChangeRole = async (workSpaceMemberId, type) => {
+    const { success, data, message } = await changeMemberRole(
+      workSpaceMemberId,
+      workSpaceId,
+      type
+    );
+    if (success) {
+      alert(`권한 변경 성공: ${data.message}`);
+      // 성공 후 멤버 목록 업데이트 로직 필요 (예시로는 상태 업데이트 또는 다시 fetchMembers 호출)
+      // fetchMembers(); // 멤버 목록 다시 가져오기 (이 함수는 이미 정의된 상태에서 호출)
+    } else {
+      alert(`권한 변경 실패: ${message}`);
+    }
+  };
 
   useEffect(() => {
     const generateInviteLink = async () => {
@@ -87,6 +92,11 @@ const AddUser = () => {
       const data = await workspaceMemberList(workSpaceId);
       if (data && data.status === 'success') {
         setMembers(data.data);
+        data.data.forEach((member) => {
+          if (member.id === userProfile.id) {
+            setUserAuth(member.workSpaceMemberType);
+          }
+        });
       } else {
         console.error('멤버를 조회할 수 없습니다.');
       }
@@ -95,6 +105,10 @@ const AddUser = () => {
     fetchMembers();
   }, [workSpaceId]);
 
+  //todo
+  // 현재 유저 정보 가져와서
+  // 자기 자신 빼고
+  // join 권한이면 메뉴창은 안보이게.
   return (
     <StContainer>
       <TopSection>
@@ -137,7 +151,7 @@ const AddUser = () => {
           </Button>
         </Flex>
 
-        <Flex gap={'12px'} fontSize={'16px'}>
+        <Flex gap={'12px'} fontSize={'16px'} flexFlow={'wrap'}>
           <Text color={'#5d5d5d'} fontWeight={'380'}>
             또는 전체 팀에게 이 링크 전송:
           </Text>
@@ -146,7 +160,17 @@ const AddUser = () => {
             color={'#575DFB'}
             fontWeight={'510'}
             cursor={'pointer'}
-            onClick={() => navigator.clipboard.writeText(createLink)}
+            onClick={() => {
+              navigator.clipboard.writeText(createLink);
+              toast({
+                title: '링크 복사 완료!',
+                description: '초대 링크가 복사되었습니다!',
+                status: 'success',
+                duration: 9000,
+                isClosable: true,
+                position: 'top',
+              });
+            }}
           >
             초대 링크 복사
           </Text>
@@ -182,55 +206,70 @@ const AddUser = () => {
 
         <UserDataContainer>
           <Grid
+            pb={'1rem'}
             templateColumns="repeat(auto-fill, minmax(180px, 1fr))"
             gap={'6'}
           >
-            {members.map((member, index) => (
-              <Flex key={`member-${index}`} justify={'space-between'}>
-                <UserData>
-                  <Box>
-                    <Image src={IconImage} boxSize="full" />
-                  </Box>
-                  <Flex>
-                    <Box
-                      p={' 10px 20px'}
-                      //border={'1px solid red'}
-                      width={'90%'}
-                    >
-                      <Text fontWeight={'700'}>{member.name}</Text>
-                      <Text
-                        fontSize={'12px'}
-                        fontWeight={'500'}
-                        color={'#797979'}
+            {members
+              .filter((item) => item.id !== userProfile.id)
+              .map((member, index) => (
+                <Flex key={`member-${index}`} justify={'space-between'}>
+                  <UserData>
+                    <Box height={'160px'}>
+                      {/* <Image src={IconImage} boxSize="full" /> */}
+                      <Avatar
+                        size={'2xl'}
+                        name={member.name}
+                        boxSize="full"
+                        rounded={'sm'}
+                        borderRadius={'0'}
+                        src={member.image}
+                      />
+                    </Box>
+                    <Flex>
+                      <Box
+                        p={' 10px 20px'}
+                        //border={'1px solid red'}
+                        width={'90%'}
                       >
-                        {member.email}
-                      </Text>
-                    </Box>
-                    <Box width={'10%'}>
-                      <Menu>
-                        <MenuButton as={Button} variant="unstyled">
-                          <img src={permission} alt="권한 변경" />
-                        </MenuButton>
-                        <MenuList>
-                          <MenuItem
-                            onClick={() =>
-                              handleChangeRole(member.id, 'CREATED')
-                            }
-                          >
-                            관리자 변경
-                          </MenuItem>
-                          <MenuItem
-                            onClick={() => handleChangeRole(member.id, 'JOIN')}
-                          >
-                            권한 제거
-                          </MenuItem>
-                        </MenuList>
-                      </Menu>
-                    </Box>
-                  </Flex>
-                </UserData>
-              </Flex>
-            ))}
+                        <Text fontWeight={'700'}>{member.name}</Text>
+                        <Text
+                          fontSize={'12px'}
+                          fontWeight={'500'}
+                          color={'#797979'}
+                        >
+                          {member.email}
+                        </Text>
+                      </Box>
+                      <Box width={'10%'}>
+                        {userAuth === 'CREATED' && (
+                          <Menu>
+                            <MenuButton as={Button} variant="unstyled">
+                              <img src={permission} alt="권한 변경" />
+                            </MenuButton>
+                            <MenuList>
+                              <MenuItem
+                                onClick={() =>
+                                  handleChangeRole(member.id, 'CREATED')
+                                }
+                              >
+                                관리자 임명
+                              </MenuItem>
+                              <MenuItem
+                                onClick={() =>
+                                  handleChangeRole(member.id, 'JOIN')
+                                }
+                              >
+                                권한 제거
+                              </MenuItem>
+                            </MenuList>
+                          </Menu>
+                        )}
+                      </Box>
+                    </Flex>
+                  </UserData>
+                </Flex>
+              ))}
           </Grid>
         </UserDataContainer>
       </BottomSection>
@@ -246,22 +285,20 @@ const StContainer = styled.div`
   flex-flow: column;
   gap: auto;
   margin: 0px 50px;
-  justify-content: space-evenly;
+  justify-content: space-between;
 `;
 
 const TopSection = styled.div`
   display: flex;
   flex-flow: column;
-  background-color: #fbfbfb;
   margin-top: 62px;
   gap: 10px;
 `;
 
 const BottomSection = styled.div`
-  height: 70%;
+  height: 62%;
   display: flex;
   flex-flow: column;
-  margin-top: 60px;
   background-color: #ffffff;
 `;
 
@@ -269,6 +306,7 @@ const UserDataContainer = styled.div`
   width: 100%;
   height: 100%;
   overflow-y: auto;
+  padding-right: 0.6rem;
 `;
 
 const UserData = styled.div`

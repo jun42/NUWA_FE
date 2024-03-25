@@ -50,10 +50,19 @@ const ModalBody = ({ onClose }) => {
         placeholder="제목을 입력하세요"
         value={title}
         onChange={handleTitleChange}
+        mb={'10px'}
       />
       <CanvasTextEditor onContentChange={handleContentChange} />
-      <Button onClick={handleSubmit} isLoading={isLoading}>
-        캔버스를 백엔드에게 전송하기
+      <Button
+        onClick={handleSubmit}
+        isLoading={isLoading}
+        width={'100%'}
+        mt={'10px'}
+        bg={'#575DFB'}
+        _hover={{ bg: '#5056ff' }}
+        color={'white'}
+      >
+        새로운 캔버스 생성하기
       </Button>
     </StContainer>
   );

@@ -21,7 +21,6 @@ const JoinPage = () => {
 
   useEffect(() => {
     if (isAuthChecked && !isInvited) {
-      console.log('eeeeeeee');
       alert('초대가 필요합니다.');
       navigate('/');
     }

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import BorderCircle from '@assets/border_circle.svg';
-import { Box, Image, Text, Button, Flex } from '@chakra-ui/react';
+import { Box, Image, Text, Button, Flex, Avatar } from '@chakra-ui/react';
 import ProfileModal from '@components/Modal/ProfileEdit/index.jsx';
 import useModal from '@hooks/useModal';
 import { useParams } from 'react-router-dom';
 import { userProfile } from '@apis/dashboard/userProfile';
-
+import styled from 'styled-components';
 const ComponentLogin = () => {
   const { workSpaceId } = useParams();
   const [userInfo, setUserInfo] = useState(null);
@@ -47,91 +47,68 @@ const ComponentLogin = () => {
   }
 
   return (
-    <>
-      <Flex
-        flexFlow={'column'}
-        height={'100%'}
-        align={'center'}
-        justify={'center'}
-        marginTop={'10px'}
-      >
-        <Box position="relative" width="150px" height="140px">
-          <Image src={BorderCircle} alt="Background SVG" boxSize="100%" />
-          <Image
-            position="absolute"
-            borderRadius="full"
-            boxSize="100px"
-            src={userInfo.image}
-            alt=""
-            top="50%"
-            left="50%"
-            transform="translate(-50%, -50%)"
-          />
-          <Box
-            position="absolute"
-            borderRadius={'full'}
-            boxSize={'31px'}
-            bg={'#3361FF'}
-            display={'flex'}
-            alignItems={'center'}
-            justifyContent={'center'}
-            color={'white'}
-            fontWeight={'700'}
-            fontSize={'14px'}
-            top={'60%'}
-            left={'70%'}
-          >
-            2
-          </Box>
-        </Box>
-        <Flex flexFlow={'column'} width={'100%'} align={'center'} gap={'8px'}>
-          <Box align={'center'}>
-            <Text fontSize="20px" fontWeight={'700'}>
-              {userInfo.name}
-            </Text>
-          </Box>
-          <Box align={'center'}>
-            <Text fontSize="15px" fontWeight={'500'} color={'#656565'}>
-              {userInfo.job || '직무를 입력하세요'}
-            </Text>
-          </Box>
-
-          <Box align={'center'}>
-            <Text fontSize="14px" fontWeight={'500'} color={'#656565'}>
-              {' '}
-              {userInfo.email}
-            </Text>
-          </Box>
-          <Box align={'center'}>
-            <Text fontSize="14px" fontWeight={'500'} color={'#656565'}>
-              {' '}
-              {userInfo.phone}
-            </Text>
-          </Box>
-          <Button
-            mt={'5px'}
-            onClick={onOpen}
-            width={'80%'}
-            height={'100%'}
-            p={'8px 0px'}
-            fontSize="14"
-            color="white"
-            borderRadius="full"
-            bgColor="#575DF8"
-          >
-            프로필 편집
-          </Button>
+    <Flex
+      flexFlow={'column'}
+      height={'100%'}
+      align={'center'}
+      justify={'center'}
+    >
+      <Avatar
+        borderRadius="full"
+        size="xl"
+        src={userInfo.image}
+        alt=""
+        border={'2px solid #d9d9d9'}
+        mb={'20px'}
+      />
+      <Flex flexFlow={'column'} width={'100%'} align={'center'} gap={'10px'}>
+        <Flex flexFlow={'column'} align={'center'} gap={'2px'}>
+          <Text fontSize="18px" fontWeight={'700'}>
+            {userInfo.name}
+          </Text>
+          <Text fontSize="14px" fontWeight={'500'} color={'#656565'}>
+            {userInfo.job || '직무를 입력하세요'}
+          </Text>
+        </Flex>
+        <Flex flexFlow={'column'} align={'center'} gap={'2px'}>
+          <Text fontSize="12px" fontWeight={'500'} color={'#656565'}>
+            {userInfo.email}
+          </Text>
+          <Text fontSize="12px" fontWeight={'500'} color={'#656565'}>
+            {userInfo.phone}
+          </Text>
         </Flex>
       </Flex>
-
+      <ProfileButton
+        onClick={onOpen}
+        fontSize="14px"
+        color="white"
+        borderRadius="full"
+        bgColor="#575DF8"
+        mt={'10px'}
+        width={'80%'}
+      >
+        프로필 편집
+      </ProfileButton>
       <ProfileModal
         isOpen={isOpen}
         onClose={onClose}
         profile={userInfo}
         onSave={handleProfileSave}
       />
-    </>
+    </Flex>
   );
 };
 
 export default ComponentLogin;
+
+const ProfileButton = styled.div`
+  cursor: pointer;
+  background-color: #575df8;
+  margin-top: 20px;
+  font-size: 14px;
+  color: white;
+  font-weight: bold;
+  padding: 10px 30px;
+  border-radius: 10px;
+`;
