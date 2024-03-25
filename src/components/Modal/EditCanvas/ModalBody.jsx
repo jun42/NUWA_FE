@@ -40,7 +40,7 @@ const ModalBody = ({
   };
 
   return (
-    <StContainer>
+    <StContainer className="canvas">
       <Input value={title} onChange={handleTitleChange} />
       <EditCanvasEditor
         onContentChange={handleContentChange}

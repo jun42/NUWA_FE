@@ -5,10 +5,12 @@ import CopyLink from '@components/CopyLink/CopyLink';
 import { Box, Button, ButtonGroup, Flex } from '@chakra-ui/react';
 import InviteImg from '@assets/invite.png';
 import useBoundStore from '@store/store';
+import { useNavigate } from 'react-router-dom';
 
 const InviteMember = () => {
   const { workspace } = useBoundStore();
   const { workSpaceName } = workspace;
+  const navigate = useNavigate();
   return (
     <Flex justify={'center'} align={'center'} gap={'100px'}>
       <Flex flexDirection="column">
@@ -30,7 +32,13 @@ const InviteMember = () => {
           <Button rounded="50px" w="80px">
             이전
           </Button>
-          <Button rounded="50px" w="80px">
+          <Button
+            rounded="50px"
+            w="80px"
+            onClick={() => {
+              navigate('/workAccess');
+            }}
+          >
             다음
           </Button>
         </ButtonGroup>

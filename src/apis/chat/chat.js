@@ -38,7 +38,7 @@ export const searchDirectChatRoomList = (
 export const getDirectChatMessageList = (
   directChannelRoomId,
   page = 0,
-  size = 15,
+  size = 20,
   sortBy = 'createdAt',
   sortOrder = 'asc'
 ) =>
