@@ -42,9 +42,8 @@ const ChatPage = () => {
       />
       <Stack
         height={'70vh'}
-        overflowY={'scroll'}
+        overflowY={'auto'}
         py={'1rem'}
-        pr={'0.5rem'}
         css={{
           '&::-webkit-scrollbar': {
             width: '10px',

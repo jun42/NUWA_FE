@@ -185,6 +185,12 @@ export const Router = createBrowserRouter([
           {
             path: '/workspace/:workSpaceId/adduser',
             element: <AddUser />,
+            loader: async ({ params }) => {
+              const userProfile = await getWorkspaceUserProfile(
+                params.workSpaceId
+              ).then((r) => r.data.data);
+              return { userProfile };
+            },
           },
           { path: '/workspace/:workSpaceId/files', element: <Files /> },
           {

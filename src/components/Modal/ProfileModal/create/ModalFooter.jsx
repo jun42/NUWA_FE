@@ -4,8 +4,7 @@ import {
   ModalFooter as CharkModalFooter,
 } from '@chakra-ui/react';
 
-const ModalFooter = ({ onClose, handleSaveFile  }) => {
-
+const ModalFooter = ({ onClose, handleSaveFile, imageSrc }) => {
   return (
     <CharkModalFooter p="20px 0">
       <ButtonGroup>
@@ -14,10 +13,12 @@ const ModalFooter = ({ onClose, handleSaveFile  }) => {
         </Button>
         <Button
           color="#fff"
-          bg="#5158FF"
+          // bg="#5158FF"
+          colorScheme="secondary"
           rounded="50px"
           w="120px"
           onClick={handleSaveFile}
+          isDisabled={imageSrc.length === 0}
         >
           설정
         </Button>

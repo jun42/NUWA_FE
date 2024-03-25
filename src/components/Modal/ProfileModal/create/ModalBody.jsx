@@ -20,18 +20,18 @@ import { dataURItoBlob } from '@utils/dataURItoBlob';
 const ASPECT_RATIO = 1;
 const MIN_DIMENSION = 500;
 
-const ModalContent = ({ userInfo,email, onClose, setUserInfo }) => {
+const ModalContent = ({ userInfo, email, onClose, setUserInfo }) => {
   const { workSpaceMemberName, workSpaceMemberJob } = userInfo;
   const { crop, setCrop, imageSrc, setImageSrc } = useImageCrop();
-  const { mutation} = useImage();
+  const { mutation } = useImage();
 
   const [corpImageSrc, setCorpImageSrc] = useState('');
   const fileInputRef = useRef(null);
-  const handleSaveFile = async() => {
+  const handleSaveFile = async () => {
     const blob = dataURItoBlob(imageSrc);
     const data = await mutation.mutateAsync(blob);
-    setUserInfo({...userInfo, workSpaceMemberImage: data.location})
-    onClose()
+    setUserInfo({ ...userInfo, workSpaceMemberImage: data.location });
+    onClose();
   };
   const handleFileChange = (event) => {
     const selectedFile = event.target.files?.[0];
@@ -144,12 +144,17 @@ const ModalContent = ({ userInfo,email, onClose, setUserInfo }) => {
               mb="18px"
               onClick={() => {
                 setImageSrc('');
+                onClose();
               }}
             >
               설정하지 않기
             </Button>
           </ButtonGroup>
-          <ModalFooter onClose={onClose} handleSaveFile={handleSaveFile} />
+          <ModalFooter
+            onClose={onClose}
+            handleSaveFile={handleSaveFile}
+            imageSrc={imageSrc}
+          />
         </>
       )}
     </>

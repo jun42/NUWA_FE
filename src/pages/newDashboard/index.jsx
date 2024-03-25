@@ -42,14 +42,7 @@ const dashBoard = () => {
         </Box>
       </Box>
       <Flex height={'60%'} gap={'20px'}>
-        <Box
-          width={'calc(77% + 20px)'}
-          border={'1px solid #D9D9D9'}
-          borderRadius={'10px'}
-          shadow={'md'}
-        >
-          <ComponentFavorite />
-        </Box>
+        <ComponentFavorite />
         <Box
           width={'27%'}
           border={'1px solid #D9D9D9'}

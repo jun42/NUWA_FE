@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import IconImage from '@assets/workspace_card3.png';
 import SearchBar from '@components/SearchBar/WorkspaceSearchBar';
-import { useParams } from 'react-router-dom';
+import { useLoaderData, useParams } from 'react-router-dom';
 import { workspaceMemberList } from '@apis/workspace/workspaceMemberList';
 import { inviteLink } from '@apis/link/invitationLink';
 import { createInviteLink } from '@apis/link/createInviteLink';
@@ -29,6 +29,8 @@ const AddUser = () => {
   const [members, setMembers] = useState([]);
   const [emailInput, setEmailInput] = useState('');
   const [createLink, setcreateLink] = useState('');
+  const { userProfile } = useLoaderData();
+  const [userAuth, setUserAuth] = useState('JOIN'); // CREATED
   const toast = useToast();
 
   const handleChangeRole = async (workSpaceMemberId, type) => {
@@ -90,6 +92,11 @@ const AddUser = () => {
       const data = await workspaceMemberList(workSpaceId);
       if (data && data.status === 'success') {
         setMembers(data.data);
+        data.data.forEach((member) => {
+          if (member.id === userProfile.id) {
+            setUserAuth(member.workSpaceMemberType);
+          }
+        });
       } else {
         console.error('멤버를 조회할 수 없습니다.');
       }
@@ -144,7 +151,7 @@ const AddUser = () => {
           </Button>
         </Flex>
 
-        <Flex gap={'12px'} fontSize={'16px'}>
+        <Flex gap={'12px'} fontSize={'16px'} flexFlow={'wrap'}>
           <Text color={'#5d5d5d'} fontWeight={'380'}>
             또는 전체 팀에게 이 링크 전송:
           </Text>
@@ -199,62 +206,70 @@ const AddUser = () => {
 
         <UserDataContainer>
           <Grid
+            pb={'1rem'}
             templateColumns="repeat(auto-fill, minmax(180px, 1fr))"
             gap={'6'}
           >
-            {members.map((member, index) => (
-              <Flex key={`member-${index}`} justify={'space-between'}>
-                <UserData>
-                  <Box height={'160px'}>
-                    {/* <Image src={IconImage} boxSize="full" /> */}
-                    <Avatar
-                      name={member.name}
-                      boxSize="full"
-                      rounded={'sm'}
-                      borderRadius={'0'}
-                      src={member.image}
-                    />
-                  </Box>
-                  <Flex>
-                    <Box
-                      p={' 10px 20px'}
-                      //border={'1px solid red'}
-                      width={'90%'}
-                    >
-                      <Text fontWeight={'700'}>{member.name}</Text>
-                      <Text
-                        fontSize={'12px'}
-                        fontWeight={'500'}
-                        color={'#797979'}
+            {members
+              .filter((item) => item.id !== userProfile.id)
+              .map((member, index) => (
+                <Flex key={`member-${index}`} justify={'space-between'}>
+                  <UserData>
+                    <Box height={'160px'}>
+                      {/* <Image src={IconImage} boxSize="full" /> */}
+                      <Avatar
+                        size={'2xl'}
+                        name={member.name}
+                        boxSize="full"
+                        rounded={'sm'}
+                        borderRadius={'0'}
+                        src={member.image}
+                      />
+                    </Box>
+                    <Flex>
+                      <Box
+                        p={' 10px 20px'}
+                        //border={'1px solid red'}
+                        width={'90%'}
                       >
-                        {member.email}
-                      </Text>
-                    </Box>
-                    <Box width={'10%'}>
-                      <Menu>
-                        <MenuButton as={Button} variant="unstyled">
-                          <img src={permission} alt="권한 변경" />
-                        </MenuButton>
-                        <MenuList>
-                          <MenuItem
-                            onClick={() =>
-                              handleChangeRole(member.id, 'CREATED')
-                            }
-                          >
-                            관리자 임명
-                          </MenuItem>
-                          <MenuItem
-                            onClick={() => handleChangeRole(member.id, 'JOIN')}
-                          >
-                            권한 제거
-                          </MenuItem>
-                        </MenuList>
-                      </Menu>
-                    </Box>
-                  </Flex>
-                </UserData>
-              </Flex>
-            ))}
+                        <Text fontWeight={'700'}>{member.name}</Text>
+                        <Text
+                          fontSize={'12px'}
+                          fontWeight={'500'}
+                          color={'#797979'}
+                        >
+                          {member.email}
+                        </Text>
+                      </Box>
+                      <Box width={'10%'}>
+                        {userAuth === 'CREATED' && (
+                          <Menu>
+                            <MenuButton as={Button} variant="unstyled">
+                              <img src={permission} alt="권한 변경" />
+                            </MenuButton>
+                            <MenuList>
+                              <MenuItem
+                                onClick={() =>
+                                  handleChangeRole(member.id, 'CREATED')
+                                }
+                              >
+                                관리자 임명
+                              </MenuItem>
+                              <MenuItem
+                                onClick={() =>
+                                  handleChangeRole(member.id, 'JOIN')
+                                }
+                              >
+                                권한 제거
+                              </MenuItem>
+                            </MenuList>
+                          </Menu>
+                        )}
+                      </Box>
+                    </Flex>
+                  </UserData>
+                </Flex>
+              ))}
           </Grid>
         </UserDataContainer>
       </BottomSection>
@@ -270,7 +285,7 @@ const StContainer = styled.div`
   flex-flow: column;
   gap: auto;
   margin: 0px 50px;
-  justify-content: space-evenly;
+  justify-content: space-between;
 `;
 
 const TopSection = styled.div`
@@ -281,10 +296,9 @@ const TopSection = styled.div`
 `;
 
 const BottomSection = styled.div`
-  height: 70%;
+  height: 62%;
   display: flex;
   flex-flow: column;
-  margin-top: 60px;
   background-color: #ffffff;
 `;
 
@@ -292,6 +306,7 @@ const UserDataContainer = styled.div`
   width: 100%;
   height: 100%;
   overflow-y: auto;
+  padding-right: 0.6rem;
 `;
 
 const UserData = styled.div`
