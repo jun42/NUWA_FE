@@ -18,7 +18,7 @@ const MemberListCard = ({ name, id, onClose }) => {
         navigate(`/workspace/${workSpaceId}/direct-chat/${roomId}`);
       })
       .catch((err) => {
-        console.log(err.response);
+        // console.log(err.response);
         if (err.response.status === 400) {
           const roomId = err.response.data.message;
           navigate(`/workspace/${workSpaceId}/direct-chat/${roomId}`);

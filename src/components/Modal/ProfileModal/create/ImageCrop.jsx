@@ -16,7 +16,7 @@ const ImageCrop = ({
 }) => {
   const { imgRef, previewCanvasRef } = useImageCrop();
 
-  console.log(previewCanvasRef);
+  // console.log(previewCanvasRef);
   return (
     <>
       <ReactCrop
@@ -40,7 +40,7 @@ const ImageCrop = ({
           }}
         />
       )}
-      <ModalFooter  p="20px 0">
+      <ModalFooter p="20px 0">
         <ButtonGroup>
           <Button rounded="50px" w="120px" onClick={() => setCorpImageSrc('')}>
             취소

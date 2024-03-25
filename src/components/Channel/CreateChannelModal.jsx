@@ -90,7 +90,7 @@ const CreateChannelModal = () => {
                   width={'100%'}
                   fontWeight={500}
                   onClick={() => {
-                    createGroupChannel().then((r) => console.log(r));
+                    createGroupChannel();
                     onClose();
                   }}
                   isDisabled={channelName === ''}

@@ -41,6 +41,7 @@ const dashBoard = () => {
           <ComponentDirect />
         </Box>
       </Box>
+
       <Flex height={'55%'} gap={'20px'}>
         <Box
           width={'calc(70% + 20px)'}
