@@ -15,9 +15,9 @@ const dashBoard = () => {
 
   return (
     <StContainer>
-      <Box display={'flex'} width={'100%'} height={'45%'} gap={'20px'}>
+      <Box display={'flex'} width={'100%'} height={'40%'} gap={'20px'}>
         <Box
-          width={'20%'}
+          width={'18%'}
           border={'1px solid #D9D9D9'}
           borderTopRadius={'10px'}
           shadow={'md'}
@@ -33,7 +33,7 @@ const dashBoard = () => {
           <ComponentSentfile />
         </Box>
         <Box
-          width={'30%'}
+          width={'32%'}
           border={'1px solid #D9D9D9'}
           borderTopRadius={'10px'}
           shadow={'md'}
@@ -42,9 +42,9 @@ const dashBoard = () => {
         </Box>
       </Box>
 
-      <Flex height={'55%'} gap={'20px'}>
+      <Flex height={'60%'} gap={'20px'}>
         <Box
-          width={'calc(70% + 20px)'}
+          width={'calc(67% + 20px)'}
           border={'1px solid #D9D9D9'}
           borderRadius={'10px'}
           shadow={'md'}
@@ -52,7 +52,7 @@ const dashBoard = () => {
           <ComponentFavorite />
         </Box>
         <Box
-          width={'30%'}
+          width={'32%'}
           border={'1px solid #D9D9D9'}
           borderTopRadius={'10px'}
           shadow={'md'}

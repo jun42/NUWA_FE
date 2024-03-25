@@ -45,7 +45,8 @@ const ComponentFavorite = () => {
   }, [workSpaceId]);
   return (
     <Box
-      width={'calc(70% + 20px)'}
+      width={'100%'}
+      height={'100%'}
       border={'1px solid #D9D9D9'}
       borderRadius={'10px'}
       shadow={'md'}
