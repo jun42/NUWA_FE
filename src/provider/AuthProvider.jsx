@@ -30,10 +30,11 @@ const AuthProvider = ({ children }) => {
         reissueToken();
       } catch {
         removeToken();
+        setIsLoggedIn(false);
         navigate('/login');
       }
     }
-  }, 5 * 60 * 1000);
+  }, 15 * 60 * 1000);
 
   //todo 뒤로가기  제어
 

@@ -4,9 +4,9 @@ import FeatFooter from './FeatFooter';
 import FreeTrial from './FreeTrial';
 import FeatLink from '../../components/FeatLink/FeatLink';
 import styled from 'styled-components';
-const index = () => {
+const FeatureGuidePage = () => {
   return (
-    <StContainer id='featurePage'>
+    <StContainer id="featurePage">
       <FeatHeader />
       <FeatCenter />
       <FeatFooter />
@@ -16,7 +16,7 @@ const index = () => {
   );
 };
 
-export default index;
+export default FeatureGuidePage;
 
 const StContainer = styled.div`
   max-width: 1920px;

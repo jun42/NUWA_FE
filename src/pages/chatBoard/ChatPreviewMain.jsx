@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import ChatPreviewAvatar from './ChatPreviewAvatar';
 
-const ChatPreviewMain = ({ lastMessage, conversationPartner }) => {
+const ChatPreviewMain = ({ lastMessage, conversationPartner, image }) => {
   // let lastMessageObject;
   // if (lastMessage === '삭제된 메세지입니다.') {
   //   lastMessageObject = [{ insert: lastMessage }];
@@ -19,7 +19,10 @@ const ChatPreviewMain = ({ lastMessage, conversationPartner }) => {
 
   return (
     <Flex gap={4} width={'20vw'}>
-      <ChatPreviewAvatar conversationPartner={conversationPartner} />
+      <ChatPreviewAvatar
+        conversationPartner={conversationPartner}
+        image={image}
+      />
       <Flex direction={'column'} justifyContent={'space-between'}>
         <Text fontWeight={'bold'} color={'#4D5E80'}>
           {conversationPartner}

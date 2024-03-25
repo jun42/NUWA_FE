@@ -60,6 +60,7 @@ const ComponentLogin = () => {
         alt=""
         border={'2px solid #d9d9d9'}
         mb={'15px'}
+        name={userInfo.name}
       />
       <Flex flexFlow={'column'} width={'100%'} align={'center'} gap={'10px'}>
         <Flex flexFlow={'column'} align={'center'} gap={'2px'}>

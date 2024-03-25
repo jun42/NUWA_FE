@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getToken } from '@utils/auth';
+import { reissueToken } from '../auth/auth';
 
 const createInstance = (contentType) => {
   const config = {
@@ -10,7 +11,9 @@ const createInstance = (contentType) => {
     },
     withCredentials: true,
   };
+
   const instance = axios.create(config);
+
   instance.interceptors.request.use((config) => {
     const token = getToken();
     if (token) {
@@ -18,6 +21,26 @@ const createInstance = (contentType) => {
     }
     return config;
   });
+
+  axios.interceptors.response.use(
+    (res) => res,
+    async (err) => {
+      const {
+        config,
+        response: { status },
+      } = err;
+
+      if (status !== 401 || config.sent) {
+        return Promise.reject(err);
+      }
+
+      /** 2 */
+      config.sent = true;
+      reissueToken();
+
+      return axios(config);
+    }
+  );
 
   // instance.interceptors.response.use(
   //   (response) => response,

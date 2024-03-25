@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 
 export const setTokenInStorage = (accessToken) => {
-  console.log('set Token in Storage:', accessToken);
+  // console.log('set Token in Storage:', accessToken);
   Cookies.set('accessToken', accessToken);
 };
 

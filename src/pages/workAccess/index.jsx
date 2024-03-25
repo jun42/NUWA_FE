@@ -8,7 +8,7 @@ import { jwtDecode } from 'jwt-decode';
 import { getToken } from '@utils/auth';
 //import { workspace_section } from '@constants/selectPlan/SELECT_ALL_INFO';
 
-const workAccess = () => {
+const WorkAccess = () => {
   const [workspaces, setWorkspaces] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -74,7 +74,7 @@ const workAccess = () => {
   );
 };
 
-export default workAccess;
+export default WorkAccess;
 
 const StContainer = styled.div`
   width: 100%;

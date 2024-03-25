@@ -9,7 +9,7 @@ import { Flex, Box } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import useBoundStore from '@store/store';
 
-const dashBoard = () => {
+const DashBoard = () => {
   const { alarmList } = useBoundStore();
   console.log(alarmList);
 
@@ -18,6 +18,7 @@ const dashBoard = () => {
       <Box display={'flex'} width={'100%'} height={'40%'} gap={'20px'}>
         <Box
           width={'18%'}
+          minW={'160px'}
           border={'1px solid #D9D9D9'}
           borderTopRadius={'10px'}
           shadow={'md'}
@@ -64,7 +65,7 @@ const dashBoard = () => {
   );
 };
 
-export default dashBoard;
+export default DashBoard;
 
 const StContainer = styled.div`
   width: 100%;

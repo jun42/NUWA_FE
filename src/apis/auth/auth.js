@@ -1,5 +1,7 @@
 import { removeToken, setTokenInStorage } from '@utils/auth';
 import { request } from '../axios/axios';
+import { jwtDecode } from 'jwt-decode';
+import { getToken } from '@utils/auth';
 
 export const createAccount = async ({
   nickname,
@@ -137,9 +139,18 @@ export const logoutRequest = async () =>
       removeToken();
     });
 
-export const reissueToken = async () => {
-  return await request
-    .post('/reissue')
+export const reissueToken = () => {
+  const emailSlice = jwtDecode(getToken()).sub;
+  return request
+    .post(
+      '/reissue',
+      {},
+      {
+        params: {
+          email: emailSlice,
+        },
+      }
+    )
     .then((r) => {
       if (r.data?.status === 'success') {
         setTokenInStorage(r.data.data.accessToken);
