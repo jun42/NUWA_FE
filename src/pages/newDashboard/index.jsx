@@ -21,7 +21,6 @@ const dashBoard = () => {
           border={'1px solid #D9D9D9'}
           borderTopRadius={'10px'}
           shadow={'md'}
-          padding={'0px 20px 20px 20px'}
         >
           <ComponentLogin />
         </Box>
@@ -70,29 +69,19 @@ const StContainer = styled.div`
   width: 100%;
   display: flex;
   flex-flow: column;
-  padding: 70px;
-  gap: 20px;
-
-  width: 100%;
-  display: flex;
-  flex-flow: column;
-  padding: 70px;
   gap: 20px;
   justify-content: center;
+  padding: 50px;
 
-  @media (max-width: 480px) {
+  /* @media (min-width: 481px) and (max-width: 768px) {
     padding: 20px;
   }
 
-  @media (min-width: 481px) and (max-width: 768px) {
-    padding: 40px;
-  }
-
   @media (min-width: 769px) and (max-width: 1440px) {
-    padding: 50px;
+    padding: 30px;
   }
 
   @media (min-width: 1441px) {
-    padding: 70px;
-  }
+    padding: 50px;
+  } */
 `;
