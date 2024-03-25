@@ -1,13 +1,29 @@
-import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import styled, { keyframes } from 'styled-components';
 import { Flex, Text, Button } from '@chakra-ui/react';
-import mainTool from '@assets/mainTool.png';
+import mainTool from '@assets/mainpage1.jpg';
+import mainTool2 from '@assets/mainpage2.jpg';
+import mainTool3 from '@assets/mainpage2_1.jpg';
+import mainTool4 from '@assets/mainpage2_2.jpg';
+import mainTool5 from '@assets/mainpage3.jpg';
 import { useNavigate } from 'react-router-dom';
 
+const images = [mainTool, mainTool2, mainTool3, mainTool4, mainTool5]; // 이미지 배열
+
 const MainHeader = () => {
+  const [currentImage, setCurrentImage] = useState(0);
   const navigate = useNavigate();
   const handleButtonClick = () => {
     navigate('/create-workspace');
   };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentImage((prevIndex) => (prevIndex + 1) % images.length);
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <StContainer>
@@ -51,7 +67,7 @@ const MainHeader = () => {
 
         <StImageBox>
           <img
-            src={mainTool}
+            src={images[currentImage]}
             alt="메인 툴 이미지"
             width={'880px'}
             height={'600px'}
@@ -67,7 +83,7 @@ export default MainHeader;
 const StContainer = styled.div`
   width: 100%;
   padding: 80px 12px;
-  background-color: #ebecee;
+  background-color: #ffffff;
 `;
 
 const MainSection = styled.div`
@@ -86,4 +102,20 @@ const StTextBox = styled.div`
   padding: 32px 0;
 `;
 
-const StImageBox = styled.div``;
+const slideAnimation = keyframes`
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+`;
+
+const StImageBox = styled.div`
+  img {
+    object-fit: cover;
+    animation: ${slideAnimation} 1s ease-out;
+  }
+`;

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Box, Text, Wrap, Button } from '@chakra-ui/react';
+import { Box, Text, Wrap, Button, Image } from '@chakra-ui/react';
 import FileBox from './FileBox';
 import { loadMoreFiles, paginateFiles } from './loadMore';
+import Plus from '@assets/plus.png';
 
 const renderingFilesByGrid = (
   sortBy,
@@ -157,9 +158,29 @@ const renderingFilesByGrid = (
           />
         ))}
         {currentPage[index] < stack.length - 1 && (
-          <Button onClick={() => loadMoreFiles(index, switchstate,setCurrentPage)}>
-            더보기
-          </Button>
+          <Box
+            width={'245px'}
+            height={'185px'}
+            border={'1px solid #d9d9d9'}
+            borderRadius={'13px'}
+            display={'flex'}
+            flexDirection={'column'}
+            justifyContent={'center'}
+            alignItems={'center'}
+            gap={'15px'}
+            bg={'#ebebeb'}
+            cursor={'pointer'}
+            _active={{
+              transform: 'scale(0.98)', // 클릭 시 약간 축소
+            }}
+            transition="transform 0.1s ease-in-out" // 변화가 부드럽게 적용되도록 설정
+            onClick={() => loadMoreFiles(index, switchstate, setCurrentPage)}
+          >
+            <Image src={Plus} boxSize={'80px'} />
+            <Text fontSize={'16px'} color={'#959595'} fontWeight={'bold'}>
+              더보기
+            </Text>
+          </Box>
         )}
       </Wrap>
     );

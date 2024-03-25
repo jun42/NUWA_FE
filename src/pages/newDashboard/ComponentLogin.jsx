@@ -59,7 +59,7 @@ const ComponentLogin = () => {
         src={userInfo.image}
         alt=""
         border={'2px solid #d9d9d9'}
-        mb={'20px'}
+        mb={'15px'}
       />
       <Flex flexFlow={'column'} width={'100%'} align={'center'} gap={'10px'}>
         <Flex flexFlow={'column'} align={'center'} gap={'2px'}>
@@ -105,7 +105,7 @@ export default ComponentLogin;
 const ProfileButton = styled.div`
   cursor: pointer;
   background-color: #575df8;
-  margin-top: 20px;
+  margin-top: 15px;
   font-size: 14px;
   color: white;
   font-weight: bold;
