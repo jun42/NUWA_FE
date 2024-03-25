@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Flex, Box, Text, Avatar, Image } from '@chakra-ui/react';
+import { Flex, Box, Text, Avatar, Image, AvatarBadge } from '@chakra-ui/react';
 import StateModal from '@components/Modal/StateModal';
 import useModal from '@hooks/useModal';
 import { getProfile } from '../../apis/sidebar/getProfile';
@@ -56,7 +56,7 @@ const UserInfo = () => {
         m="10px 0"
         position="relative"
       >
-        <Box
+        {/* <Box
           w="30px"
           h="30px"
           fontSize="12px"
@@ -75,7 +75,7 @@ const UserInfo = () => {
           justifyContent={'center'}
         >
           <Image src={StatusIcon} alt="" m="0 3px" boxSize={'14px'} />
-        </Box>
+        </Box> */}
         <Flex
           justify="center"
           align="center"
@@ -89,7 +89,29 @@ const UserInfo = () => {
           <Avatar
             size="2xl"
             src={userProfile.image !== 'N' ? userProfile.image : undefined}
-          />
+            position={'relative'}
+          >
+            <Box
+              w="30px"
+              h="30px"
+              fontSize="12px"
+              fontWeight="900"
+              color="white"
+              backgroundColor="#D9D9D9"
+              border={'2px solid #3361ff'}
+              borderRadius="70%"
+              lineHeight="30px"
+              position="absolute"
+              zIndex="10"
+              display={'flex'}
+              alignItems={'center'}
+              justifyContent={'center'}
+              right={'-4px'}
+              bottom={'-4px'}
+            >
+              <Image src={StatusIcon} alt="" m="0 3px" boxSize={'14px'} />
+            </Box>
+          </Avatar>
         </Flex>
         <Box m="13px 0">
           <Text fontSize="16px" fontWeight="900" color="#656565">

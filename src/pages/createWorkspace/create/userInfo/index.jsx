@@ -34,6 +34,7 @@ const UserInfo = () => {
   });
   console.log(userInfo);
 
+  const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true);
   const handleFormChange = (event) => {
     const { name, value } = event.target;
     setUserInfo({ ...userInfo, [name]: value });
@@ -41,6 +42,14 @@ const UserInfo = () => {
       ...workspace,
       [name]: value,
     });
+    if (
+      userInfo.workSpaceMemberJob.trim().length > 0 &&
+      userInfo.workSpaceMemberName.trim().length > 0
+    ) {
+      setIsNextButtonDisabled(false);
+    } else {
+      setIsNextButtonDisabled(true);
+    }
   };
 
   const handleButttonClick = () => {
@@ -129,6 +138,7 @@ const UserInfo = () => {
                   w="170px"
                   name="next"
                   onClick={handleButttonClick}
+                  isDisabled={isNextButtonDisabled}
                 >
                   다음
                 </Button>
