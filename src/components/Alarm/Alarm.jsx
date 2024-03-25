@@ -67,7 +67,7 @@ const Alarm = () => {
           _active={'grey.700'}
           onClick={() => handleClick(size)}
           key={size}
-        ></IconButton>
+        />
       ))}
 
       <Drawer onClose={onClose} isOpen={isOpen} size={size}>

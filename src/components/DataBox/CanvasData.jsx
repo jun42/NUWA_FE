@@ -27,6 +27,10 @@ const CanvasData = ({
       borderRadius="10px"
       alignItems="center"
       onClick={() => onClick({ id: canvasId, title, content })}
+      _active={{
+        transform: 'scale(0.995)', // 클릭 시 약간 축소
+      }}
+      transition="transform 0.1s ease-in-out" // 변화가 부드럽게 적용되도록 설정s
     >
       <Box
         boxSize="42px"

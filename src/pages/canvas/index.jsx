@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Flex, Text, Button, Image, useToast } from '@chakra-ui/react';
+import {
+  Flex,
+  Text,
+  Button,
+  Image,
+  useToast,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import Exclude from '@assets/Exclude.png';
 import CanvasSearchBar from '@components/SearchBar/CanvasSearchBar';
 import CanvasData from '@components/DataBox/CanvasData';
@@ -35,6 +42,12 @@ const Canvas = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredData, setFilteredData] = useState([]);
 
+  // 버튼 스타일을 위한 컬러 모드 값
+  const activeBgColor = useColorModeValue('#575DFB', '#575DFB');
+  const inactiveBgColor = useColorModeValue('gray.200', 'gray.600');
+  const activeColor = useColorModeValue('white', 'white');
+  const inactiveColor = useColorModeValue('black', 'white');
+
   // 검색어에 따라 canvasData를 필터링하는 효과
   useEffect(() => {
     if (!isLoading && !error) {
@@ -60,9 +73,15 @@ const Canvas = () => {
         <Button
           className={'apple'}
           leftIcon={<Image src={Exclude} boxSize="20px" />}
-          colorScheme="blue"
+          bg={'#575DFB'}
           variant="solid"
           onClick={onOpen}
+          color={'white'}
+          _hover={{ bg: '#5056ff' }}
+          _active={{
+            transform: 'scale(0.98)', // 클릭 시 약간 축소
+          }}
+          transition="transform 0.1s ease-in-out" // 변화가 부드럽게 적용되도록 설정
         >
           새 캔버스
         </Button>
@@ -71,8 +90,32 @@ const Canvas = () => {
       <CanvasSearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
       <Flex justify={'flex-end'} gap={'10px'} mb={'10px'}>
-        <Button onClick={() => setFilter('ALL')}>전체 캔버스 조회</Button>
-        <Button onClick={() => setFilter('MINE')}>
+        <Button
+          onClick={() => setFilter('ALL')}
+          bg={filter === 'ALL' ? activeBgColor : inactiveBgColor}
+          color={filter === 'ALL' ? activeColor : inactiveColor}
+          _hover={{
+            bg: filter === 'ALL' ? activeBgColor : inactiveBgColor,
+          }}
+          _active={{
+            transform: 'scale(0.98)', // 클릭 시 약간 축소
+          }}
+          transition="transform 0.1s ease-in-out" // 변화가 부드럽게 적용되도록 설정
+        >
+          전체 캔버스 조회
+        </Button>
+        <Button
+          onClick={() => setFilter('MINE')}
+          bg={filter === 'MINE' ? activeBgColor : inactiveBgColor}
+          color={filter === 'MINE' ? activeColor : inactiveColor}
+          _hover={{
+            bg: filter === 'MINE' ? activeBgColor : inactiveBgColor,
+          }}
+          _active={{
+            transform: 'scale(0.98)', // 클릭 시 약간 축소
+          }}
+          transition="transform 0.1s ease-in-out" // 변화가 부드럽게 적용되도록 설정s
+        >
           내가 작성한 캔버스 조회
         </Button>
       </Flex>
