@@ -12,6 +12,8 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Avatar,
+  useToast,
 } from '@chakra-ui/react';
 import IconImage from '@assets/workspace_card3.png';
 import SearchBar from '@components/SearchBar/WorkspaceSearchBar';
@@ -27,21 +29,22 @@ const AddUser = () => {
   const [members, setMembers] = useState([]);
   const [emailInput, setEmailInput] = useState('');
   const [createLink, setcreateLink] = useState('');
+  const toast = useToast();
 
-  // const handleChangeRole = async (workSpaceMemberId, type) => {
-  //   const { success, data, message } = await changeMemberRole(
-  //     workSpaceMemberId,
-  //     workSpaceId,
-  //     type
-  //   );
-  //   if (success) {
-  //     alert(`권한 변경 성공: ${data.message}`);
-  //     // 성공 후 멤버 목록 업데이트 로직 필요 (예시로는 상태 업데이트 또는 다시 fetchMembers 호출)
-  //     fetchMembers(); // 멤버 목록 다시 가져오기 (이 함수는 이미 정의된 상태에서 호출)
-  //   } else {
-  //     alert(`권한 변경 실패: ${message}`);
-  //   }
-  // };
+  const handleChangeRole = async (workSpaceMemberId, type) => {
+    const { success, data, message } = await changeMemberRole(
+      workSpaceMemberId,
+      workSpaceId,
+      type
+    );
+    if (success) {
+      alert(`권한 변경 성공: ${data.message}`);
+      // 성공 후 멤버 목록 업데이트 로직 필요 (예시로는 상태 업데이트 또는 다시 fetchMembers 호출)
+      // fetchMembers(); // 멤버 목록 다시 가져오기 (이 함수는 이미 정의된 상태에서 호출)
+    } else {
+      alert(`권한 변경 실패: ${message}`);
+    }
+  };
 
   useEffect(() => {
     const generateInviteLink = async () => {
@@ -95,6 +98,10 @@ const AddUser = () => {
     fetchMembers();
   }, [workSpaceId]);
 
+  //todo
+  // 현재 유저 정보 가져와서
+  // 자기 자신 빼고
+  // join 권한이면 메뉴창은 안보이게.
   return (
     <StContainer>
       <TopSection>
@@ -146,7 +153,17 @@ const AddUser = () => {
             color={'#575DFB'}
             fontWeight={'510'}
             cursor={'pointer'}
-            onClick={() => navigator.clipboard.writeText(createLink)}
+            onClick={() => {
+              navigator.clipboard.writeText(createLink);
+              toast({
+                title: '링크 복사 완료!',
+                description: '초대 링크가 복사되었습니다!',
+                status: 'success',
+                duration: 9000,
+                isClosable: true,
+                position: 'top',
+              });
+            }}
           >
             초대 링크 복사
           </Text>
@@ -188,8 +205,15 @@ const AddUser = () => {
             {members.map((member, index) => (
               <Flex key={`member-${index}`} justify={'space-between'}>
                 <UserData>
-                  <Box>
-                    <Image src={IconImage} boxSize="full" />
+                  <Box height={'160px'}>
+                    {/* <Image src={IconImage} boxSize="full" /> */}
+                    <Avatar
+                      name={member.name}
+                      boxSize="full"
+                      rounded={'sm'}
+                      borderRadius={'0'}
+                      src={member.image}
+                    />
                   </Box>
                   <Flex>
                     <Box
@@ -217,7 +241,7 @@ const AddUser = () => {
                               handleChangeRole(member.id, 'CREATED')
                             }
                           >
-                            관리자 변경
+                            관리자 임명
                           </MenuItem>
                           <MenuItem
                             onClick={() => handleChangeRole(member.id, 'JOIN')}
@@ -252,7 +276,6 @@ const StContainer = styled.div`
 const TopSection = styled.div`
   display: flex;
   flex-flow: column;
-  background-color: #fbfbfb;
   margin-top: 62px;
   gap: 10px;
 `;

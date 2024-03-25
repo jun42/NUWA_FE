@@ -4,8 +4,10 @@ const useChatBoxScroll = (ref, deps) => {
   useEffect(() => {
     if (ref.current) {
       const { offsetHeight, scrollHeight, scrollTop } = ref.current;
-      if (scrollHeight <= scrollTop + offsetHeight + 200) {
-        ref.current?.scrollTo(0, scrollHeight);
+      if (scrollHeight <= scrollTop + offsetHeight + 100) {
+        setTimeout(() => {
+          ref.current?.scrollTo(0, scrollHeight);
+        }, 300);
       }
     }
   }, [deps, ref]);

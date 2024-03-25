@@ -33,7 +33,7 @@ const GroupChatTextMenu = ({
             메시지 삭제하기
           </MenuItem>
         )}
-        {messageType === 'TEXT' && (
+        {!isDeleted && messageType === 'TEXT' && (
           <MenuItem
             onClick={() => {
               setReadOnly(false);

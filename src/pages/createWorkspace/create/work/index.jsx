@@ -20,6 +20,7 @@ const Work = () => {
     const { name } = event.target;
     if (name === 'next') {
       const urlData = await mutation.mutateAsync(workspace);
+
       setWorkspaceUrl(urlData);
       navigate('/create-workspace/invite-member', {
         state: { workspaceUrl: workspaceUrl },
@@ -28,7 +29,7 @@ const Work = () => {
   };
   const handleChange = (event) => {
     const { value } = event.target;
-    console.log(value);
+    // console.log(value);
     setWorkSpaceIntroduce(value);
     setWorkspace({ ...workspace, workSpaceIntroduce: value });
   };

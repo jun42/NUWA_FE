@@ -67,7 +67,7 @@ const ComponentLogin = () => {
             left="50%"
             transform="translate(-50%, -50%)"
           />
-          <Box
+          {/* <Box
             position="absolute"
             borderRadius={'full'}
             boxSize={'31px'}
@@ -82,7 +82,7 @@ const ComponentLogin = () => {
             left={'70%'}
           >
             2
-          </Box>
+          </Box> */}
         </Box>
         <Flex flexFlow={'column'} width={'100%'} align={'center'} gap={'8px'}>
           <Box align={'center'}>

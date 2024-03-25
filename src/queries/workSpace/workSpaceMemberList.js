@@ -15,6 +15,7 @@ export const useWorkSpaceMemberListQuery = (workSpaceId) => {
       );
       return data;
     },
+    initialData: [],
   });
 
   return { memberList, isLoading, isSuccess };
