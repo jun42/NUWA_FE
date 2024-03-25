@@ -51,7 +51,7 @@ const PhoneNumberInput = ({ control, errors }) => {
 
 export default PhoneNumberInput;
 
-const phoneNumberMask = (value) => {
+export const phoneNumberMask = (value) => {
   const digits = value.replace(/\D/g, '');
   if (digits.length <= 3) {
     return digits;

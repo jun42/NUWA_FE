@@ -24,7 +24,7 @@ const ChatPageHeader = ({
           onChange={(e) => {
             setWorkSpaceMemberName(e.target.value);
             if (e.target.value.length === 0) {
-              console.log('empty');
+              // console.log('empty');
             } else {
               debounceRequest();
             }

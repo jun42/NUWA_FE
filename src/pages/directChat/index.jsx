@@ -62,7 +62,7 @@ const DirectChatPage = () => {
       ...totalMessageList.slice(0, pageSize),
     ];
     const uniqueMessageById = _.uniqBy(newDirectMessage, 'messageId');
-    console.log(newDirectMessage, uniqueMessageById);
+    // console.log(newDirectMessage, uniqueMessageById);
     setTotalMessageList((state) => [
       ...uniqueMessageById,
       ...state.slice(pageSize),
