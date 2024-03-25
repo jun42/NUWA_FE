@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Box } from '@chakra-ui/react';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import { useLoaderData, useParams } from 'react-router-dom';
 
 import DirectChatHeader from './DirectChatHeader';
@@ -18,6 +18,7 @@ import useBoundStore from '../../store/store';
 import useDeleteDirectChatMessage from './useDeleteDirectChatMessage';
 import useUpdateDirectChatMessage from './useUpdateDirectChatMessage';
 import { getReceiver } from './utils';
+import _ from 'lodash';
 //todo api 에러 핸들링시 페이지 안깨지도록
 const DirectChatPage = () => {
   const { isDirectChatBoxExpand: isExpand } = useBoundStore();
@@ -32,9 +33,14 @@ const DirectChatPage = () => {
   const { receiverId, receiverName } = getReceiver(userId, chatRoomInfo);
 
   const chatBoxRef = useRef(null);
+
+  const [messageIndex, setMessageIndex] = useState(0);
+  const pageSize = 20;
   const { directChatMessageList, isLoading: directChatMessageListIsLoading } =
-    useDirectChatMessageListQuery(roomId);
-  useChatBoxScrollToBottom(chatBoxRef, directChatMessageList);
+    useDirectChatMessageListQuery(roomId, messageIndex, pageSize);
+  useChatBoxScrollToBottom(chatBoxRef, directChatMessageList, messageIndex);
+
+  // useDirectChatMessageInfiniteQuery(roomId, messageIndex, size);
 
   const {
     publish,
@@ -51,8 +57,23 @@ const DirectChatPage = () => {
   useChatBoxScroll(chatBoxRef, socketMessageList);
 
   useEffect(() => {
-    setTotalMessageList([...directChatMessageList, ...socketMessageList]);
-  }, [directChatMessageList, socketMessageList]);
+    const newDirectMessage = [
+      ...directChatMessageList,
+      ...totalMessageList.slice(0, pageSize),
+    ];
+    const uniqueMessageById = _.uniqBy(newDirectMessage, 'messageId');
+    console.log(newDirectMessage, uniqueMessageById);
+    setTotalMessageList((state) => [
+      ...uniqueMessageById,
+      ...state.slice(pageSize),
+    ]);
+  }, [directChatMessageList]);
+
+  useEffect(() => {
+    setTotalMessageList((state) =>
+      _.uniqBy([...state, ...socketMessageList], 'messageId')
+    );
+  }, [socketMessageList]);
 
   useDeleteDirectChatMessage({
     socketMessageDeleteList,
@@ -72,6 +93,12 @@ const DirectChatPage = () => {
   // useEffect(() => {
   //   const observer = new IntersectionObserver();
   // }, []);
+
+  const moreMessageButtonHandler = () => {
+    ///  0 1 2 3 4 5
+    const index = Math.floor(totalMessageList.length / 20);
+    setMessageIndex(index);
+  };
   return (
     <Box width="calc(100% - 410px)" px={'0.5rem'} display={'flex'}>
       <Box
@@ -108,7 +135,9 @@ const DirectChatPage = () => {
                 },
               }}
             >
-              {/* <Box ref={loaderRef} height={'10px'} /> */}
+              <Flex justifyContent={'center'} pt={'1rem'} pb={'2rem'}>
+                <Button onClick={moreMessageButtonHandler}>더보기</Button>
+              </Flex>
               {!directChatMessageListIsLoading &&
                 totalMessageList.map((body) => {
                   if (userId === body.senderId) {
