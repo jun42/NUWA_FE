@@ -40,7 +40,6 @@ const DirectChatPage = () => {
 
   // const { directChatMessageList, isLoading: directChatMessageListIsLoading } =
   //   useDirectChatMessageListQuery(roomId, messageIndex, pageSize);
-  // useChatBoxScrollToBottom(chatBoxRef, directChatMessageList, messageIndex);
 
   const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
     useDirectChatMessageInfiniteQuery(roomId, messageIndex, pageSize);
@@ -58,6 +57,7 @@ const DirectChatPage = () => {
     }
   }, [data]);
 
+  useChatBoxScrollToBottom(chatBoxRef, fetchedMessage, messageIndex);
   // useEffect(() => {
   //   console.log('eeeeeeeeee total', totalMessageList);
   // }, [totalMessageList]);
@@ -76,7 +76,6 @@ const DirectChatPage = () => {
 
   useChatBoxScroll(chatBoxRef, socketMessageList);
 
-  //불필요 로직
   useEffect(() => {
     setTotalMessageList([...fetchedMessage, ...socketMessageList]);
   }, [fetchedMessage]);
