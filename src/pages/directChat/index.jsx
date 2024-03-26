@@ -19,28 +19,48 @@ import useDeleteDirectChatMessage from './useDeleteDirectChatMessage';
 import useUpdateDirectChatMessage from './useUpdateDirectChatMessage';
 import { getReceiver } from './utils';
 import _ from 'lodash';
-//todo api 에러 핸들링시 페이지 안깨지도록
+import { useDirectChatMessageInfiniteQuery } from '../../queries/workSpace/directChatMessageList';
 const DirectChatPage = () => {
   const { isDirectChatBoxExpand: isExpand } = useBoundStore();
 
   const { chatRoomInfo, userProfile } = useLoaderData();
   const { roomId, workSpaceId } = useParams();
-  const [totalMessageList, setTotalMessageList] = useState([]);
 
   // define receiver
   let userId = userProfile?.id;
-
   const { receiverId, receiverName } = getReceiver(userId, chatRoomInfo);
+
+  const pageSize = 10;
+  const [messageIndex, setMessageIndex] = useState(0);
+  const [fetchedMessage, setFetchedMessage] = useState([]);
+
+  const [totalMessageList, setTotalMessageList] = useState([]);
 
   const chatBoxRef = useRef(null);
 
-  const [messageIndex, setMessageIndex] = useState(0);
-  const pageSize = 20;
-  const { directChatMessageList, isLoading: directChatMessageListIsLoading } =
-    useDirectChatMessageListQuery(roomId, messageIndex, pageSize);
-  useChatBoxScrollToBottom(chatBoxRef, directChatMessageList, messageIndex);
+  // const { directChatMessageList, isLoading: directChatMessageListIsLoading } =
+  //   useDirectChatMessageListQuery(roomId, messageIndex, pageSize);
+  // useChatBoxScrollToBottom(chatBoxRef, directChatMessageList, messageIndex);
 
-  // useDirectChatMessageInfiniteQuery(roomId, messageIndex, size);
+  const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
+    useDirectChatMessageInfiniteQuery(roomId, messageIndex, pageSize);
+
+  useEffect(() => {
+    const arr = [];
+    if (!isLoading) {
+      data.pages.map((pageData) => {
+        pageData.content.map((body) => {
+          arr.push(body);
+        });
+      });
+      const uniqArr = _.uniqBy(arr, 'messageId');
+      setFetchedMessage(uniqArr.reverse());
+    }
+  }, [data]);
+
+  // useEffect(() => {
+  //   console.log('eeeeeeeeee total', totalMessageList);
+  // }, [totalMessageList]);
 
   const {
     publish,
@@ -56,28 +76,37 @@ const DirectChatPage = () => {
 
   useChatBoxScroll(chatBoxRef, socketMessageList);
 
+  //불필요 로직
   useEffect(() => {
-    const newDirectMessage = [
-      ...directChatMessageList,
-      ...totalMessageList.slice(0, pageSize),
-    ];
-    const uniqueMessageById = _.uniqBy(newDirectMessage, 'messageId');
-    // console.log(newDirectMessage, uniqueMessageById);
-    setTotalMessageList((state) => [
-      ...uniqueMessageById,
-      ...state.slice(pageSize),
-    ]);
-  }, [directChatMessageList]);
+    setTotalMessageList([...fetchedMessage, ...socketMessageList]);
+  }, [fetchedMessage]);
+
+  let previousScrollPosition;
+  if (chatBoxRef.current) {
+    previousScrollPosition = chatBoxRef.current.scrollHeight;
+  }
+  useEffect(() => {
+    let id;
+
+    if (chatBoxRef) {
+      const remainScrollHandler = () => {
+        chatBoxRef.current.scrollTop =
+          chatBoxRef.current.scrollHeight - previousScrollPosition;
+      };
+      id = setTimeout(remainScrollHandler, 300);
+    }
+    return () => {
+      clearTimeout(id);
+    };
+  }, [fetchedMessage]);
 
   useEffect(() => {
-    setTotalMessageList((state) =>
-      _.uniqBy([...state, ...socketMessageList], 'messageId')
-    );
+    setTotalMessageList((state) => [...fetchedMessage, ...socketMessageList]);
   }, [socketMessageList]);
 
   useDeleteDirectChatMessage({
     socketMessageDeleteList,
-    directChatMessageList,
+    directChatMessageList: fetchedMessage,
     setSocketMessageList,
     setSocketMessageDeleteList,
   });
@@ -85,24 +114,32 @@ const DirectChatPage = () => {
   useUpdateDirectChatMessage({
     socketMessageUpdateList,
     setSocketMessageList,
-    directChatMessageList,
+    directChatMessageList: fetchedMessage,
     setSocketMessageUpdateList,
   });
 
-  // const loaderRef = useRef(null);
-  // useEffect(() => {
-  //   const observer = new IntersectionObserver();
-  // }, []);
-
   const moreMessageButtonHandler = () => {
-    ///  0 1 2 3 4 5
-    const index = Math.floor(totalMessageList.length / 20);
+    const index = Math.floor(totalMessageList.length / pageSize);
     setMessageIndex(index);
   };
+  useEffect(() => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  }, [messageIndex]);
+  // console.log(
+  //   'fetched',
+  //   fetchedMessage,
+  //   'socket',
+  //   socketMessageList,
+  //   '\n',
+  //   'total',
+  //   totalMessageList
+  // );
   return (
-    <Box width="calc(100% - 410px)" px={'0.5rem'} display={'flex'}>
+    <Box width="calc(100% - 380px)" px={'0.5rem'} display={'flex'}>
       <Box
-        maxW={'65%'}
+        maxW={'100%'}
         display={'flex'}
         flexDirection={'column'}
         gap={'0.25rem'}
@@ -136,36 +173,70 @@ const DirectChatPage = () => {
               }}
             >
               <Flex justifyContent={'center'} pt={'1rem'} pb={'2rem'}>
-                <Button onClick={moreMessageButtonHandler}>더보기</Button>
+                <Button
+                  onClick={moreMessageButtonHandler}
+                  isDisabled={!hasNextPage}
+                >
+                  더보기
+                </Button>
               </Flex>
-              {!directChatMessageListIsLoading &&
-                totalMessageList.map((body) => {
-                  if (userId === body.senderId) {
-                    return (
-                      <MyText
-                        key={body.messageId}
-                        content={body.content}
-                        deleteSocketMessage={deleteSocketMessage}
-                        messageId={body.messageId}
-                        isDeleted={body.isDeleted}
-                        messageType={body.messageType}
-                        updatePublish={updatePublish}
-                      />
-                    );
-                  } else {
-                    return (
-                      <YourText
-                        key={body.messageId}
-                        content={body.content}
-                        senderName={body.senderName}
-                        deleteSocketMessage={deleteSocketMessage}
-                        messageId={body.messageId}
-                        isDeleted={body.isDeleted}
-                        sendedTime={body.createdAt}
-                      />
-                    );
-                  }
-                })}
+              {
+                !isLoading &&
+                  totalMessageList.map((body) => {
+                    if (userId === body.senderId) {
+                      return (
+                        <MyText
+                          key={body.messageId}
+                          content={body.content}
+                          deleteSocketMessage={deleteSocketMessage}
+                          messageId={body.messageId}
+                          isDeleted={body.isDeleted}
+                          messageType={body.messageType}
+                          updatePublish={updatePublish}
+                        />
+                      );
+                    } else {
+                      return (
+                        <YourText
+                          key={body.messageId}
+                          content={body.content}
+                          senderName={body.senderName}
+                          deleteSocketMessage={deleteSocketMessage}
+                          messageId={body.messageId}
+                          isDeleted={body.isDeleted}
+                          sendedTime={body.createdAt}
+                        />
+                      );
+                    }
+                  })
+                // totalMessageList.map((body) => {
+                //   if (userId === body.senderId) {
+                //     return (
+                //       <MyText
+                //         key={body.messageId}
+                //         content={body.content}
+                //         deleteSocketMessage={deleteSocketMessage}
+                //         messageId={body.messageId}
+                //         isDeleted={body.isDeleted}
+                //         messageType={body.messageType}
+                //         updatePublish={updatePublish}
+                //       />
+                //     );
+                //   } else {
+                //     return (
+                //       <YourText
+                //         key={body.messageId}
+                //         content={body.content}
+                //         senderName={body.senderName}
+                //         deleteSocketMessage={deleteSocketMessage}
+                //         messageId={body.messageId}
+                //         isDeleted={body.isDeleted}
+                //         sendedTime={body.createdAt}
+                //       />
+                //     );
+                //   }
+                // })
+              }
             </Box>
             <TextEditor publish={publish} channelId={chatRoomInfo.channelId} />
           </>

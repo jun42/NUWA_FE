@@ -12,15 +12,18 @@ import useChatBoxScroll from '@hooks/directChat/useChatBoxScroll';
 import useChatBoxScrollToBottom from '@hooks/directChat/useChatBoxScrollToBottom';
 import useDeleteGroupChatMessage from './useDeleteGroupChatMessage';
 import useUpdateGroupChatMessage from './useUpdateGroupChatMessage';
+import _ from 'lodash';
+import useGroupChatBoxScroll from './useGroupChatBoxScroll';
 
 const GroupChatPage = () => {
   const navigate = useNavigate();
   const chatBoxRef = useRef();
   const { userProfile, chatRoomInfo, isGroupMember } = useLoaderData();
   const channelId = chatRoomInfo.channelId;
+  const totalMessageList = useRef([]);
+
   const [selectedFiles, setSelectedFiles] = useState([]);
   const { workSpaceId, roomId } = useParams();
-  let totalMessageList = [];
 
   if (!isGroupMember) {
     navigate(`/workspace/${workSpaceId}`);
@@ -42,14 +45,39 @@ const GroupChatPage = () => {
     socketMessageUpdateList,
     setSocketMessageUpdateList,
   } = useGroupSocketInit(roomId, workSpaceId, 'chat');
+  const [messageIndex, setMessageIndex] = useState(0);
+  const pageSize = 20;
   const {
     data: groupChatMessageList,
     isFetching,
     isSuccess,
-  } = useGroupChatMessageQuery(roomId);
-  useChatBoxScrollToBottom(chatBoxRef, groupChatMessageList);
+  } = useGroupChatMessageQuery(roomId, messageIndex, pageSize);
+  useChatBoxScrollToBottom(chatBoxRef, groupChatMessageList, messageIndex);
 
-  totalMessageList = [...groupChatMessageList, ...socketMessageList];
+  useEffect(() => {
+    if (groupChatMessageList.length > pageSize) {
+      const newGroupMessage = [
+        ...groupChatMessageList,
+        ...totalMessageList.current.slice(0, pageSize),
+      ];
+      const uniqueMessageById = _.uniqBy(newGroupMessage, 'messageId');
+      // console.log(newDirectMessage, uniqueMessageById);
+      totalMessageList.current = [
+        ...uniqueMessageById,
+        ...totalMessageList.slice(pageSize),
+      ];
+    } else {
+      totalMessageList.current = [...groupChatMessageList];
+    }
+
+    totalMessageList.current = _.uniqBy(
+      [...totalMessageList.current, ...socketMessageList],
+      'messageId'
+    );
+    return () => {
+      totalMessageList.current = [];
+    };
+  }, [groupChatMessageList, socketMessageList]);
 
   useDeleteGroupChatMessage({
     socketMessageDeleteList,
@@ -65,7 +93,13 @@ const GroupChatPage = () => {
     setSocketMessageUpdateList,
   });
 
-  useChatBoxScroll(chatBoxRef, socketMessageList);
+  useGroupChatBoxScroll(chatBoxRef, socketMessageList);
+
+  const moreMessageButtonHandler = () => {
+    const index = Math.floor(totalMessageList.current.length / 20);
+    console.log(index);
+    setMessageIndex(index);
+  };
   return (
     <Box
       width={'calc(100% - 400px)'}
@@ -130,9 +164,11 @@ const GroupChatPage = () => {
           },
         }}
       >
+        <Button onClick={moreMessageButtonHandler}>더보기</Button>
+
         {isGroupMember &&
           !isFetching &&
-          totalMessageList.map((item) => {
+          totalMessageList.current.map((item) => {
             return (
               <GroupMessageBox
                 key={item.messageId}

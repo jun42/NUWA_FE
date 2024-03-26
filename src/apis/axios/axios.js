@@ -22,7 +22,7 @@ const createInstance = (contentType) => {
     return config;
   });
 
-  axios.interceptors.response.use(
+  instance.interceptors.response.use(
     (res) => res,
     async (err) => {
       const {
