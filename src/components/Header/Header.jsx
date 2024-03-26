@@ -24,10 +24,13 @@ const Header = () => {
   return (
     <>
       <HeaderTop>
-        <StText $size={14} $color={'white'} $weight={700}>
-          100인 이하 그룹이라면 누구나 무료!:+1: 무료 협업 메신저 누와로
-          시작하세요
-        </StText>
+        <Text
+          fontSize={{ SE: '12px', sm: '14px' }}
+          color={'white'}
+          fontWeight={'700'}
+        >
+          100인 이하 그룹이라면 누구나 무료!👍 협업 메신저 누와로 시작하세요
+        </Text>
       </HeaderTop>
       <HeaderWarp>
         <HeaderCenter>
@@ -111,7 +114,7 @@ const Header = () => {
                   bgColor={'primary400'}
                   padding={'9px 22px'}
                   color={'white'}
-                  fontSize={'16px'}
+                  fontSize={{ SE: '14px', sm: '14px', md: '16px', lg: '16px' }}
                   fontWeight={'700'}
                 >
                   로그인
@@ -127,7 +130,7 @@ const Header = () => {
                 bgColor={'primary400'}
                 padding={'9px 22px'}
                 color={'white'}
-                fontSize={'16px'}
+                fontSize={{ SE: '14px', sm: '14px', md: '16px', lg: '16px' }}
                 fontWeight={'700'}
                 onClick={handleLogoutButton}
               >
@@ -143,7 +146,7 @@ const Header = () => {
                   bgColor={'primary400'}
                   padding={'9px 22px'}
                   color={'white'}
-                  fontSize={'16px'}
+                  fontSize={{ SE: '14px', sm: '14px', md: '16px', lg: '16px' }}
                   fontWeight={'700'}
                 >
                   무료 회원가입

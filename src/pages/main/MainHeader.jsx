@@ -29,23 +29,43 @@ const MainHeader = () => {
     <StContainer>
       <MainSection>
         <StTextBox>
-          <Flex flexDirection="column" gap="32px">
+          <Flex
+            flexDirection="column"
+            gap={{
+              SE: '10px',
+              sm: '32px',
+            }}
+          >
             <Text
               width="100%"
-              fontSize="52px"
+              fontSize={{
+                SE: '22px',
+                sm: '28px',
+                md: '34px',
+                lg: '40px',
+                xl: '48px',
+                xxl: '56px',
+              }}
               fontWeight="700"
               lineHeight="3.5rem"
-              className="landingPTitle"
+              align={{ SE: 'center', sm: 'left' }}
             >
               생산성 향상을 위한 간편한 협업툴
             </Text>
 
             <Text
               width="100%"
-              fontSize="18px"
+              fontSize={{
+                SE: '10px',
+                md: '12px',
+                lg: '14px',
+                xl: '16px',
+                xxl: '18px',
+              }}
               fontWeight="500"
               color="#24242490"
               className="landingPSubTitle"
+              align={{ SE: 'center', sm: 'left' }}
             >
               필요없는 기능으로 복잡해진 협업툴은 그만! 간편하게 다이렉트
               메세지와 채팅, 파일공유 메일을 사용해보세요.
@@ -55,7 +75,13 @@ const MainHeader = () => {
             onClick={handleButtonClick}
             width="45%"
             padding="12px"
-            fontSize="16px"
+            fontSize={{
+              SE: '12px',
+              md: '14px',
+              lg: '14px',
+              xl: '16px',
+              xxl: '16px',
+            }}
             fontWeight="700"
             color="white"
             borderRadius="full"

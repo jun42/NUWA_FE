@@ -81,7 +81,7 @@ img.FooterLogo {
 
   /* featurePage */
   #featurePage>div:first-child {
-    padding-bottom: 200px;
+
   }
   #featurePage>div:nth-child(4)>div:last-child {
     width: auto;
