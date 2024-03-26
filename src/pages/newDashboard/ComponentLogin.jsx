@@ -84,9 +84,6 @@ const ComponentLogin = () => {
         onClick={onOpen}
         fontSize="14px"
         color="white"
-        borderRadius="full"
-        bgColor="#575DF8"
-        mt={'10px'}
         width={'80%'}
       >
         프로필 편집

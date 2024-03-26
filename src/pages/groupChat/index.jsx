@@ -12,15 +12,19 @@ import useChatBoxScroll from '@hooks/directChat/useChatBoxScroll';
 import useChatBoxScrollToBottom from '@hooks/directChat/useChatBoxScrollToBottom';
 import useDeleteGroupChatMessage from './useDeleteGroupChatMessage';
 import useUpdateGroupChatMessage from './useUpdateGroupChatMessage';
-
+import _ from 'lodash';
+import useGroupChatBoxScroll from './useGroupChatBoxScroll';
+import { useGroupChatMessageInfiniteQuery } from '../../queries/groupChat.js/useGroupChatMessage';
 const GroupChatPage = () => {
   const navigate = useNavigate();
   const chatBoxRef = useRef();
   const { userProfile, chatRoomInfo, isGroupMember } = useLoaderData();
   const channelId = chatRoomInfo.channelId;
+  const [totalMessageList, setTotalMessageList] = useState([]);
+  const [fetchedMessage, setFetchedMessage] = useState([]);
+
   const [selectedFiles, setSelectedFiles] = useState([]);
   const { workSpaceId, roomId } = useParams();
-  let totalMessageList = [];
 
   if (!isGroupMember) {
     navigate(`/workspace/${workSpaceId}`);
@@ -42,30 +46,80 @@ const GroupChatPage = () => {
     socketMessageUpdateList,
     setSocketMessageUpdateList,
   } = useGroupSocketInit(roomId, workSpaceId, 'chat');
-  const {
-    data: groupChatMessageList,
-    isFetching,
-    isSuccess,
-  } = useGroupChatMessageQuery(roomId);
-  useChatBoxScrollToBottom(chatBoxRef, groupChatMessageList);
+  const [messageIndex, setMessageIndex] = useState(0);
+  const pageSize = 20;
+  // const {
+  //   data: groupChatMessageList,
+  //   isFetching,
+  //   isSuccess,
+  // } = useGroupChatMessageQuery(roomId, messageIndex, pageSize);
 
-  totalMessageList = [...groupChatMessageList, ...socketMessageList];
+  const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
+    useGroupChatMessageInfiniteQuery(roomId, messageIndex, pageSize);
+  useEffect(() => {
+    const arr = [];
+    if (!isLoading) {
+      data.pages.map((pageData) => {
+        pageData.content.map((body) => {
+          arr.push(body);
+        });
+      });
+      const uniqArr = _.uniqBy(arr, 'messageId');
+      setFetchedMessage(uniqArr.reverse());
+    }
+  }, [data]);
+
+  useChatBoxScrollToBottom(chatBoxRef, fetchedMessage, messageIndex);
+
+  useEffect(() => {
+    setTotalMessageList([...fetchedMessage, ...socketMessageList]);
+  }, [fetchedMessage]);
+
+  let previousScrollPosition;
+  if (chatBoxRef.current) {
+    previousScrollPosition = chatBoxRef.current.scrollHeight;
+  }
+  useEffect(() => {
+    let id;
+
+    if (chatBoxRef) {
+      const remainScrollHandler = () => {
+        chatBoxRef.current.scrollTop =
+          chatBoxRef.current.scrollHeight - previousScrollPosition;
+      };
+      id = setTimeout(remainScrollHandler, 300);
+    }
+    return () => {
+      clearTimeout(id);
+    };
+  }, [fetchedMessage]);
 
   useDeleteGroupChatMessage({
     socketMessageDeleteList,
     setSocketMessageDeleteList,
     setSocketMessageList,
-    groupChatMessageList,
+    groupChatMessageList: fetchedMessage,
   });
 
   useUpdateGroupChatMessage({
     socketMessageUpdateList,
     setSocketMessageList,
-    groupChatMessageList,
+    groupChatMessageList: fetchedMessage,
     setSocketMessageUpdateList,
   });
 
-  useChatBoxScroll(chatBoxRef, socketMessageList);
+  useGroupChatBoxScroll(chatBoxRef, socketMessageList);
+
+  const moreMessageButtonHandler = () => {
+    const index = Math.floor(totalMessageList.length / 20);
+    console.log(index);
+    setMessageIndex(index);
+  };
+  useEffect(() => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  }, [messageIndex]);
   return (
     <Box
       width={'calc(100% - 400px)'}
@@ -130,6 +184,10 @@ const GroupChatPage = () => {
           },
         }}
       >
+        <Button onClick={moreMessageButtonHandler} isDisabled={!hasNextPage}>
+          더보기
+        </Button>
+
         {isGroupMember &&
           !isFetching &&
           totalMessageList.map((item) => {

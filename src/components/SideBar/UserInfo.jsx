@@ -39,7 +39,7 @@ const UserInfo = () => {
     }),
     enabled: !!workSpaceId,
   });
-  console.log({ profileData });
+  // console.log({ profileData });
   const userProfile = profileData ? profileData : { image: undefined };
 
   const StatusIcon = state_seticon.find(

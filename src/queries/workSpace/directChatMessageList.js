@@ -1,9 +1,10 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getDirectChatMessageList } from '../../apis/chat/chat';
-
+import { request } from '../../apis/axios/axios';
+import InfiniteScroll from 'react-infinite-scroller';
 export const useDirectChatMessageListQuery = (roomId, messageIndex, size) => {
   const { data, isLoading } = useQuery({
-    queryKey: ['directChatMessageList', roomId, messageIndex],
+    queryKey: ['directChatMessageList', roomId],
     queryFn: async () => {
       const response = await getDirectChatMessageList(
         roomId,
@@ -22,37 +23,34 @@ export const useDirectChatMessageListQuery = (roomId, messageIndex, size) => {
   };
 };
 
-// export const useDirectChatMessageInfiniteQuery = (
-//   roomId,
-//   messageIndex,
-//   size
-// ) => {
-//   const {
-//     data,
-//     fetchNextPage,
-//     fetchPreviousPage,
-//     hasNextPage,
-//     hasPreviousPage,
-//     isFetchingNextPage,
-//   } = useInfiniteQuery({
-//     queryKey: ['directChatMessageInfinite', roomId],
-//     queryFn: async ({ pageParam = 0 }) => {
-//       return getDirectChatMessageList(
-//         roomId,
-//         pageParam,
-//         size,
-//         'createAt',
-//         'asc'
-//       );
-//       // const data = await response.data.data.content;
-//       // return data.reverse();
-//     },
-//     initialPageParam: {
-//       roomId,
-//       messageIndex,
-//       size,
-//       sortBy: 'createAt',
-//       orderBy: 'asc',
-//     },
-//   });
-// };
+export const useDirectChatMessageInfiniteQuery = (
+  roomId,
+  messageIndex,
+  size,
+  sortBy = 'createAt',
+  sortOrder = 'asc'
+) => {
+  const fetchUrl = `/message/direct/${roomId}?page=${messageIndex}&size=${size}&sortBy=${sortBy}&sortOrder=${sortOrder}`;
+
+  const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
+    useInfiniteQuery({
+      queryKey: ['directChatMessageInfinite', roomId],
+      queryFn: ({ pageParam = fetchUrl }) =>
+        request.get(pageParam).then((r) => r.data.data),
+      getNextPageParam: (lastPage) => {
+        if (lastPage.last) {
+          return undefined;
+        } else {
+          return fetchUrl;
+        }
+      },
+      gcTime: 0,
+    });
+  return {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isLoading,
+  };
+};
