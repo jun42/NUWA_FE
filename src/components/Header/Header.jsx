@@ -17,7 +17,7 @@ const Header = () => {
   };
   const handleLogoutButton = () => {
     logoutRequest();
-    // removeToken();
+    removeToken();
     setIsLoggedIn(false);
     navigate('/login');
   };
