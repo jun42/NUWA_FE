@@ -12,6 +12,9 @@ import { setTokenInStorage } from '@utils/auth';
 const SignUpForm = () => {
   const email = useBoundStore((state) => state.email);
   const provider = useBoundStore((state) => state.provider);
+  const isInvited = useBoundStore((state) => state.isInvited);
+  const setIsLoggedIn = useBoundStore((state) => state.setIsLoggedIn);
+
   const resetSocialSignupInfo = useBoundStore(
     (state) => state.resetSocialSignupInfo
   );
@@ -44,9 +47,13 @@ const SignUpForm = () => {
         if (response.data.status === 'success') {
           resetSocialSignupInfo();
           setTokenInStorage(response.data.data.accessToken);
+          setIsLoggedIn(true);
           // todo : to main page
-
-          navigate('/');
+          if (isInvited) {
+            navigate('/join');
+          } else {
+            navigate('/');
+          }
         }
       }, 1000);
     } catch (error) {

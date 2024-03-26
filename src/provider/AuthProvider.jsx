@@ -13,9 +13,6 @@ const AuthProvider = ({ children }) => {
   // 기능상 에러는 아니지만 의도하지는 않은거라서.. 어떻게 핸들링할지 고민중
   useEffect(() => {
     const handleLogout = () => {
-      // removeToken();
-      // logoutRequest();
-      // setIsLoggedIn(false);
       console.log('beforeunload event');
     };
     window.addEventListener('beforeunload', handleLogout);
@@ -23,7 +20,7 @@ const AuthProvider = ({ children }) => {
       window.removeEventListener('beforeunload', handleLogout);
     };
   }, []);
-  // 5분간격 토큰 재발행
+  //  토큰 재발행
   useInterval(() => {
     if (getToken()) {
       try {
@@ -34,16 +31,10 @@ const AuthProvider = ({ children }) => {
         navigate('/login');
       }
     }
-  }, 15 * 60 * 1000);
+  }, 25 * 60 * 1000);
 
   //todo 뒤로가기  제어
 
-  // useEffect(() => {
-  //   window.addEventListener('click', logout);
-  //   return () => {
-  //     window.addEventListener('click', logout);
-  //   };
-  // });
   useEffect(() => {
     if (getToken()) {
       setIsLoggedIn(true);
