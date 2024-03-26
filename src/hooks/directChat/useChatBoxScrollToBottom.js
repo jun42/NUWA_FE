@@ -4,7 +4,10 @@ const useChatBoxScrollToBottom = (ref, deps, messageIndex) => {
   useEffect(() => {
     if (ref.current && messageIndex === 0) {
       const { scrollHeight } = ref.current;
-      ref.current?.scrollTo(0, scrollHeight);
+
+      setTimeout(() => {
+        ref.current?.scrollTo(0, scrollHeight);
+      }, 200);
     }
   }, [deps, ref]);
 };

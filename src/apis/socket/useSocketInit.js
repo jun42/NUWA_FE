@@ -37,9 +37,9 @@ const useSocketInit = (roomId, workSpaceId, receiverId, channelType) => {
     const client = new Client({
       // brokerURL: `${import.meta.env.VITE_SERVER_SOCKJS_SOCKET}`,
       connectHeaders: headers,
-      debug: function (str) {
-        console.log('[STOMP DEBUGGING]', str);
-      },
+      // debug: function (str) {
+      //   console.log('[STOMP DEBUGGING]', str);
+      // },
       reconnectDelay: 15000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
@@ -53,7 +53,6 @@ const useSocketInit = (roomId, workSpaceId, receiverId, channelType) => {
         return new SockJS(`${import.meta.env.VITE_SERVER_SOCKJS_SOCKET}`);
       };
       client.onConnect = function (frame) {
-        console.log('[STOMP ON CONNECT]', frame);
         client.subscribe(
           `/sub/direct/${roomId}`,
           subscribeHandler(
