@@ -5,7 +5,7 @@ export const createGroupChannel = ({
   channelName,
   channelType,
 }) => {
-  request.post(`/channel/${channelType}`, {
+  return request.post(`/channel/${channelType}`, {
     workSpaceId,
     chatChannelName: channelName,
   });
