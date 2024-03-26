@@ -10,9 +10,6 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import useBoundStore from '@store/store';
 
 const DashBoard = () => {
-  const { alarmList } = useBoundStore();
-  console.log(alarmList);
-
   return (
     <StContainer>
       <Box display={'flex'} width={'100%'} height={'40%'} gap={'20px'}>

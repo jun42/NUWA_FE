@@ -23,6 +23,7 @@ import { useParams } from 'react-router';
 import { useChatChannelListCreateMutation } from '@queries/groupChat.js/useGroupChatList';
 import { useWorkspaceUserProfileQuery } from '../../queries/workspaceProfile';
 import { useWorkSpaceMemberListQuery } from '../../queries/workSpace/workSpaceMemberList';
+import { joinInGroupChat } from '../../apis/chat/groupChat';
 
 const CreateChannelModal = () => {
   const { workSpaceId } = useParams();
@@ -90,7 +91,17 @@ const CreateChannelModal = () => {
                   width={'100%'}
                   fontWeight={500}
                   onClick={() => {
-                    createGroupChannel();
+                    createGroupChannel().then((r) => {
+                      const channelId = r.data.data.chatChannelRoomId;
+                      const joinMemberList = memberList
+                        .filter(
+                          (item) => item.id !== currentUserWorkspaceProfile.id
+                        )
+                        .map((item) => item.id);
+                      if (channelOpenType === 'public') {
+                        joinInGroupChat(channelId, joinMemberList);
+                      }
+                    });
                     onClose();
                   }}
                   isDisabled={channelName === ''}
