@@ -3,19 +3,25 @@ import StTextDiv from '@components/Text/StTextDiv';
 import StText from '@components/Text/StText';
 import newfeatillustrator from '@assets/newfeatillustrator.png';
 import { Feat_link_card } from '@constants/selectPlan/SELECT_FEAT_INFO';
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Text, Image } from '@chakra-ui/react';
 
 const FeatLink = () => {
   return (
     <StContainer $backgroundColor={'primary400'}>
       <IllustratorBox>
-        <StTextDiv $color={'white'} $size={42} $weight={700}>
+        <Text
+          color={'white'}
+          fontSize={{ SE: '24px', sm: '28px', md: '38px', lg: '42px' }}
+          fontWeight={'700'}
+          textAlign={{ SE: 'center', xl: 'left' }}
+          mb={'20px'}
+        >
           새로운 업무 방식을
           <br /> 더 자세히 알아보세요
-        </StTextDiv>
-        <img
-          width={'450px'}
-          height={'400px'}
+        </Text>
+        <Image
+          width={{ SE: '250px', sm: '300px', md: '370px', lg: '450px' }}
+          height={{ SE: '200px', sm: '250px', md: '320px', lg: '400px' }}
           src={newfeatillustrator}
           alt="사람 일러스트"
         />
@@ -23,16 +29,25 @@ const FeatLink = () => {
       <CardBox>
         {Feat_link_card.map((Card, index) => (
           <FeatCard key={index}>
-            <Box width={'250px'} height={170}>
-              <StText $size={36} $weight={700}>
+            <Box width={{ SE: '200px', lg: '250px' }} height={'170px'}>
+              <Text
+                fontSize={{ SE: '26px', sm: '30px', md: '32px', lg: '36px' }}
+                fontWeight={'700'}
+              >
                 {Card.HeaderText}
-              </StText>
+              </Text>
             </Box>
-            <StTextDiv $size={36}>{Card.Icon}</StTextDiv>
+            <Text fontSize={{ SE: '30px', sm: '32px', md: '34px', lg: '36px' }}>
+              {Card.Icon}
+            </Text>
 
-            <StTextDiv $size={20} $weight={700} $color={'primary400'}>
+            <Text
+              fontSize={{ SE: '16px', sm: '16px', md: '20px', lg: '20px' }}
+              fontWeight={'700'}
+              color={'#575DFB'}
+            >
               {Card.LinkText}
-            </StTextDiv>
+            </Text>
           </FeatCard>
         ))}
       </CardBox>

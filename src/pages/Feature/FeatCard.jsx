@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import StTextDiv from '@components/Text/StTextDiv';
+import { Text, Image } from '@chakra-ui/react';
 const FeatCard = ({
   backgroudImage,
   icon,
@@ -33,26 +33,37 @@ const FeatCard = ({
   return (
     <StCardContainer $backgroundImage={backgroudImage}>
       <StTextBox>
-        <StTextDiv $size={36} $weight={700} $color={textColor}>
+        <Text
+          fontSize={{ SE: '24px', sm: '28px', md: '32px', lg: '36px' }}
+          fontWeight={'700'}
+          color={textColor}
+        >
           {styledText}
 
-          <img
-            width={'58px'}
-            height={'58px'}
+          <Image
+            boxSize={{ SE: '24px', sm: '38px', md: '44px', lg: '54px' }}
             src={icon}
             alt={alt}
             style={{ marginTop: '20px' }}
           />
-        </StTextDiv>
+        </Text>
 
         <StTextSubBox>
-          <StTextDiv $size={16} $weight={700} $color={textColor}>
+          <Text
+            fontSize={{ SE: '10px', sm: '12px', md: '14px', lg: '16px' }}
+            fontWeight={'700'}
+            color={textColor}
+          >
             {subText}
-          </StTextDiv>
+          </Text>
 
-          <StTextDiv $size={16} $weight={700} $color={'primary400'}>
+          <Text
+            fontSize={{ SE: '10px', sm: '12px', md: '14px', lg: '16px' }}
+            fontWeight={'700'}
+            color={'#575DFB'}
+          >
             {detailText}
-          </StTextDiv>
+          </Text>
         </StTextSubBox>
       </StTextBox>
     </StCardContainer>
@@ -76,10 +87,16 @@ const StTextBox = styled.div`
   flex-direction: column;
   gap: 200px;
   white-space: pre-line;
+  @media (max-width: 1024px) {
+    gap: 80px;
+  }
 `;
 
 const StTextSubBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 40px;
+  @media (max-width: 1024px) {
+    gap: 20px;
+  }
 `;

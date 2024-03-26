@@ -31,7 +31,10 @@ const MainCompanyLogo = () => {
             alignItems="center"
             justifyContent="center"
           >
-            <Text fontSize="36px" fontWeight="700" className="landingPTitle">
+            <Text
+              fontSize={{ SE: '22px', sm: '24px', md: '36px' }}
+              fontWeight="700"
+            >
               전 세계 기업들이 신뢰하는 NUWA
             </Text>
           </Flex>
