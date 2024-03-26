@@ -107,6 +107,9 @@ const GroupChatPage = () => {
     groupChatMessageList: fetchedMessage,
     setSocketMessageUpdateList,
   });
+  useEffect(() => {
+    setTotalMessageList((state) => [...fetchedMessage, ...socketMessageList]);
+  }, [socketMessageList]);
 
   useGroupChatBoxScroll(chatBoxRef, socketMessageList);
 
