@@ -7,6 +7,7 @@ import { sendQuillDataHandler } from './quill/utils';
 import { imageMatcher } from './quill/clipboard';
 import { Box } from '@chakra-ui/react';
 import Quill from 'quill';
+import useBoundStore from '../../store/store';
 // Editor is an uncontrolled React component
 // const Delta = Quill.import('delta');
 
@@ -24,6 +25,7 @@ const Editor = forwardRef(
     },
     ref
   ) => {
+    const uploadType = useBoundStore((state) => state.uploadType);
     const { workSpaceId } = useParams();
 
     const containerRef = useRef(null);
@@ -54,10 +56,11 @@ const Editor = forwardRef(
         workSpaceId,
         channelId,
         publish,
+        uploadType,
       };
       const quill = new Quill(editorContainer, options);
       quill.clipboard.addMatcher('img', function (node) {
-        return imageMatcher(node, quill, workSpaceId, channelId);
+        return imageMatcher(node, quill, workSpaceId, channelId, uploadType);
       });
       // quill.clipboard.addMatcher('IMG', (node, delta) => {
       //   const Delta = Quill.import('delta');

@@ -26,8 +26,12 @@ const DirectChatPage = () => {
     isDirectChatBoxExpand: isExpand,
     messageIndex,
     setMessageIndex,
+    setUploadType,
+    uploadType,
   } = useBoundStore();
-
+  if (uploadType !== 'DIRECT') {
+    setUploadType('DIRECT');
+  }
   const { chatRoomInfo, userProfile } = useLoaderData();
   const { roomId, workSpaceId } = useParams();
 

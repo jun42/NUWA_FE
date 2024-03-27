@@ -2,6 +2,7 @@ import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import Quill from 'quill';
 import { useParams } from 'react-router-dom';
 import { imageMatcher } from '@components/TextEditorFunctionalComponent/quill/clipboard';
+import useBoundStore from '../../store/store';
 
 const Editor = forwardRef(
   (
@@ -9,7 +10,7 @@ const Editor = forwardRef(
     ref
   ) => {
     const { workSpaceId } = useParams();
-
+    const uploadType = useBoundStore((state) => state.uploadType);
     const containerRef = useRef(null);
     const onTextChangeRef = useRef(onTextChange);
     const onSelectionChangeRef = useRef(onSelectionChange);
@@ -36,7 +37,7 @@ const Editor = forwardRef(
       });
 
       quill.clipboard.addMatcher('img', function (node) {
-        return imageMatcher(node, quill, workSpaceId, channelId);
+        return imageMatcher(node, quill, workSpaceId, channelId, uploadType);
       });
       // quill.clipboard.addMatcher('IMG', (node, delta) => {
       //   const Delta = Quill.import('delta');

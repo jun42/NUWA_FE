@@ -23,7 +23,12 @@ const GroupChatPage = () => {
   const channelId = chatRoomInfo.channelId;
   const [totalMessageList, setTotalMessageList] = useState([]);
   const [fetchedMessage, setFetchedMessage] = useState([]);
-  const { messageIndex, setMessageIndex } = useBoundStore();
+  const { messageIndex, setMessageIndex, setUploadType, uploadType } =
+    useBoundStore();
+
+  if (uploadType !== 'CHAT') {
+    setUploadType('CHAT');
+  }
   const [selectedFiles, setSelectedFiles] = useState([]);
   const { workSpaceId, roomId } = useParams();
 
