@@ -203,7 +203,7 @@ const GroupChatPage = () => {
           totalMessageList.map((item) => {
             return (
               <GroupMessageBox
-                key={item.messageId}
+                key={item.key}
                 createdAt={item.createdAt}
                 messageId={item.messageId}
                 senderName={item.senderName}
