@@ -8,7 +8,7 @@ export const subscribeHandler = (
     // console.log('SUBSCRIBE MESSAGE : ', message.body);
     const bodyObject = JSON.parse(message.body);
     //enter는 없음
-    bodyObject.key = bodyObject.id;
+    bodyObject.key = bodyObject.messageId;
 
     if (bodyObject.messageType === 'ENTER') {
       console.log('SUBSCIREB ENTER');

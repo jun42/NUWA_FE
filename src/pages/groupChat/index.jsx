@@ -15,6 +15,7 @@ import useUpdateGroupChatMessage from './useUpdateGroupChatMessage';
 import _ from 'lodash';
 import useGroupChatBoxScroll from './useGroupChatBoxScroll';
 import { useGroupChatMessageInfiniteQuery } from '../../queries/groupChat.js/useGroupChatMessage';
+import useBoundStore from '../../store/store';
 const GroupChatPage = () => {
   const navigate = useNavigate();
   const chatBoxRef = useRef();
@@ -22,7 +23,7 @@ const GroupChatPage = () => {
   const channelId = chatRoomInfo.channelId;
   const [totalMessageList, setTotalMessageList] = useState([]);
   const [fetchedMessage, setFetchedMessage] = useState([]);
-
+  const { messageIndex, setMessageIndex } = useBoundStore();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const { workSpaceId, roomId } = useParams();
 
@@ -46,34 +47,36 @@ const GroupChatPage = () => {
     socketMessageUpdateList,
     setSocketMessageUpdateList,
   } = useGroupSocketInit(roomId, workSpaceId, 'chat');
-  const [messageIndex, setMessageIndex] = useState(0);
   const pageSize = 20;
+
   // const {
   //   data: groupChatMessageList,
   //   isFetching,
   //   isSuccess,
   // } = useGroupChatMessageQuery(roomId, messageIndex, pageSize);
 
-  const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
+  const { data, fetchNextPage, hasNextPage, isFetching, isLoading, isSuccess } =
     useGroupChatMessageInfiniteQuery(roomId, messageIndex, pageSize);
   useEffect(() => {
     const arr = [];
     if (!isLoading) {
       data.pages.map((pageData) => {
         pageData.content.map((body) => {
+          body.key = body.messageId;
           arr.push(body);
         });
       });
-      const uniqArr = _.uniqBy(arr, 'messageId');
-      setFetchedMessage(uniqArr.reverse());
+      setFetchedMessage(arr.reverse());
     }
   }, [data]);
 
   useChatBoxScrollToBottom(chatBoxRef, fetchedMessage, messageIndex);
 
   useEffect(() => {
-    setTotalMessageList([...fetchedMessage, ...socketMessageList]);
-  }, [fetchedMessage]);
+    setTotalMessageList(
+      _.uniqBy([...fetchedMessage, ...socketMessageList], 'messageId')
+    );
+  }, [fetchedMessage, roomId]);
 
   let previousScrollPosition;
   if (chatBoxRef.current) {
@@ -116,19 +119,23 @@ const GroupChatPage = () => {
   useGroupChatBoxScroll(chatBoxRef, socketMessageList);
 
   const moreMessageButtonHandler = () => {
-    const index = Math.floor(totalMessageList.length / 20);
+    const index = Math.floor(totalMessageList.length / pageSize);
     console.log(index);
     setMessageIndex(index);
   };
+
   useEffect(() => {
     if (hasNextPage) {
       fetchNextPage();
     }
   }, [messageIndex]);
-
   useEffect(() => {
     setSocketMessageList([]);
     setTotalMessageList([]);
+    setFetchedMessage([]);
+    return () => {
+      setMessageIndex(0);
+    };
   }, [roomId]);
 
   return (

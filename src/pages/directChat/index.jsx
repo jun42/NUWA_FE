@@ -20,8 +20,13 @@ import useUpdateDirectChatMessage from './useUpdateDirectChatMessage';
 import { getReceiver } from './utils';
 import _ from 'lodash';
 import { useDirectChatMessageInfiniteQuery } from '../../queries/workSpace/directChatMessageList';
+
 const DirectChatPage = () => {
-  const { isDirectChatBoxExpand: isExpand } = useBoundStore();
+  const {
+    isDirectChatBoxExpand: isExpand,
+    messageIndex,
+    setMessageIndex,
+  } = useBoundStore();
 
   const { chatRoomInfo, userProfile } = useLoaderData();
   const { roomId, workSpaceId } = useParams();
@@ -31,7 +36,6 @@ const DirectChatPage = () => {
   const { receiverId, receiverName } = getReceiver(userId, chatRoomInfo);
 
   const pageSize = 10;
-  const [messageIndex, setMessageIndex] = useState(0);
   const [fetchedMessage, setFetchedMessage] = useState([]);
 
   const [totalMessageList, setTotalMessageList] = useState([]);
@@ -49,11 +53,11 @@ const DirectChatPage = () => {
     if (!isLoading) {
       data.pages.map((pageData) => {
         pageData.content.map((body) => {
+          body.key = body.messageId;
           arr.push(body);
         });
       });
-      const uniqArr = _.uniqBy(arr, 'messageId');
-      setFetchedMessage(uniqArr.reverse());
+      setFetchedMessage(arr.reverse());
     }
   }, [data]);
 
@@ -77,8 +81,10 @@ const DirectChatPage = () => {
   useChatBoxScroll(chatBoxRef, socketMessageList);
 
   useEffect(() => {
-    setTotalMessageList([...fetchedMessage, ...socketMessageList]);
-  }, [fetchedMessage]);
+    setTotalMessageList(
+      _.uniqBy([...fetchedMessage, ...socketMessageList], 'messageId')
+    );
+  }, [fetchedMessage, roomId]);
 
   let previousScrollPosition;
   if (chatBoxRef.current) {
@@ -100,7 +106,7 @@ const DirectChatPage = () => {
   }, [fetchedMessage]);
 
   useEffect(() => {
-    setTotalMessageList((state) => [...fetchedMessage, ...socketMessageList]);
+    setTotalMessageList([...fetchedMessage, ...socketMessageList]);
   }, [socketMessageList]);
 
   useDeleteDirectChatMessage({
@@ -126,15 +132,16 @@ const DirectChatPage = () => {
       fetchNextPage();
     }
   }, [messageIndex]);
-  // console.log(
-  //   'fetched',
-  //   fetchedMessage,
-  //   'socket',
-  //   socketMessageList,
-  //   '\n',
-  //   'total',
-  //   totalMessageList
-  // );
+
+  useEffect(() => {
+    setSocketMessageList([]);
+    setTotalMessageList([]);
+    setFetchedMessage([]);
+    return () => {
+      setMessageIndex(0);
+    };
+  }, [roomId]);
+  console.log('eeeeeeeeeee', fetchedMessage);
   return (
     <Box width="calc(100% - 380px)" px={'0.5rem'} display={'flex'}>
       <Box
