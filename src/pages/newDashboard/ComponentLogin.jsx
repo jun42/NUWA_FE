@@ -51,7 +51,9 @@ const ComponentLogin = () => {
       flexFlow={'column'}
       height={'100%'}
       align={'center'}
-      justify={'center'}
+      justify={'space-between'}
+      gap={'auto'}
+      py={'0.8rem'}
     >
       <Avatar
         borderRadius="full"
@@ -62,24 +64,18 @@ const ComponentLogin = () => {
         mb={'15px'}
         name={userInfo.name}
       />
-      <Flex flexFlow={'column'} width={'100%'} align={'center'} gap={'10px'}>
-        <Flex flexFlow={'column'} align={'center'} gap={'2px'}>
-          <Text fontSize="18px" fontWeight={'700'}>
-            {userInfo.name}
-          </Text>
-          <Text fontSize="14px" fontWeight={'500'} color={'#656565'}>
-            {userInfo.job || '직무를 입력하세요'}
-          </Text>
-        </Flex>
-        <Flex flexFlow={'column'} align={'center'} gap={'2px'}>
-          <Text fontSize="12px" fontWeight={'500'} color={'#656565'}>
-            {userInfo.email}
-          </Text>
-          <Text fontSize="12px" fontWeight={'500'} color={'#656565'}>
-            {userInfo.phone}
-          </Text>
-        </Flex>
-      </Flex>
+      <Text fontSize="18px" fontWeight={'700'}>
+        {userInfo.name}
+      </Text>
+      <Text fontSize="14px" fontWeight={'500'} color={'#656565'}>
+        {userInfo.job || '직무를 입력하세요'}
+      </Text>
+      <Text fontSize="12px" fontWeight={'500'} color={'#656565'}>
+        {userInfo.email}
+      </Text>
+      <Text fontSize="12px" fontWeight={'500'} color={'#656565'}>
+        {userInfo.phone}
+      </Text>
       <ProfileButton
         onClick={onOpen}
         fontSize="14px"
