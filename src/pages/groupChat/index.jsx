@@ -107,8 +107,10 @@ const GroupChatPage = () => {
     groupChatMessageList: fetchedMessage,
     setSocketMessageUpdateList,
   });
+
+  // 왜 소켓메시지가 두번씩 들어가는지 모르겠다
   useEffect(() => {
-    setTotalMessageList((state) => [...fetchedMessage, ...socketMessageList]);
+    setTotalMessageList([...fetchedMessage, ...socketMessageList]);
   }, [socketMessageList]);
 
   useGroupChatBoxScroll(chatBoxRef, socketMessageList);
@@ -129,7 +131,6 @@ const GroupChatPage = () => {
     setTotalMessageList([]);
   }, [roomId]);
 
-  console.log('total', totalMessageList);
   return (
     <Box
       width={'calc(100% - 400px)'}
@@ -205,7 +206,7 @@ const GroupChatPage = () => {
           totalMessageList.map((item) => {
             return (
               <GroupMessageBox
-                key={item.messageId}
+                key={item.key}
                 createdAt={item.createdAt}
                 messageId={item.messageId}
                 senderName={item.senderName}

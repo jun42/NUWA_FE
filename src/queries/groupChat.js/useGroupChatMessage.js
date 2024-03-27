@@ -43,7 +43,7 @@ export const useGroupChatMessageInfiniteQuery = (
           return fetchUrl;
         }
       },
-      gcTime: 0,
+      staleTime: 30 * 60 * 1000,
     });
   return {
     data,
