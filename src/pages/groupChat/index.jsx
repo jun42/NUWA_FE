@@ -108,7 +108,7 @@ const GroupChatPage = () => {
     setSocketMessageUpdateList,
   });
 
-  // 왜 소켓메시지가 두번씩 들어가는지 모르겠다 아오
+  // 왜 소켓메시지가 두번씩 들어가는지 모르겠다
   useEffect(() => {
     setTotalMessageList([...fetchedMessage, ...socketMessageList]);
   }, [socketMessageList]);
