@@ -187,9 +187,11 @@ const GroupChatPage = () => {
           },
         }}
       >
-        <Button onClick={moreMessageButtonHandler} isDisabled={!hasNextPage}>
-          더보기
-        </Button>
+        <Box display={'flex'} justifyContent={'center'}>
+          <Button onClick={moreMessageButtonHandler} isDisabled={!hasNextPage}>
+            더보기
+          </Button>
+        </Box>
 
         {isGroupMember &&
           !isFetching &&
