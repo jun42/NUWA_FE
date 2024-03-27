@@ -32,7 +32,15 @@ const getMessage = (type, partner, count) => {
   return messages[type] || '알 수 없는 타입이 생성되었습니다.';
 };
 
-const AlarmData = ({ boolean, url, type, partner, count, onRead }) => {
+const AlarmData = ({
+  boolean,
+  url,
+  type,
+  partner,
+  count,
+  onRead,
+  notificationId,
+}) => {
   const { workSpaceId } = useParams();
   const navigate = useNavigate();
   const Icon = getIcon(type);
@@ -42,7 +50,7 @@ const AlarmData = ({ boolean, url, type, partner, count, onRead }) => {
 
   const handleClick = () => {
     navigate(`/workspace/${workSpaceId}${url}`);
-    onRead(type, setIsRead);
+    onRead(notificationId, type, setIsRead);
   };
 
   return (

@@ -51,9 +51,8 @@ const ComponentLogin = () => {
       flexFlow={'column'}
       height={'100%'}
       align={'center'}
-      justify={'space-between'}
-      gap={'auto'}
-      py={'0.8rem'}
+      justify={'space-around'}
+      py={'0.3rem'}
     >
       <Avatar
         borderRadius="full"
@@ -98,7 +97,6 @@ export default ComponentLogin;
 const ProfileButton = styled.div`
   cursor: pointer;
   background-color: #575df8;
-  margin-top: 15px;
   font-size: 14px;
   color: white;
   font-weight: bold;

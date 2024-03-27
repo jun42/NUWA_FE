@@ -93,13 +93,8 @@ const Alarm = () => {
                     type={alarm.notificationType}
                     partner={alarm.senderName}
                     count={alarm.contentCount}
-                    onRead={() =>
-                      handleReadNotification(
-                        alarm.notificationId,
-                        alarm.notificationType,
-                        setIsRead
-                      )
-                    }
+                    notificationId={alarm.notificationId}
+                    onRead={handleReadNotification}
                   />
                 ))}
               </Box>
