@@ -1,5 +1,4 @@
 import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
-import Quill from 'quill';
 import CustomToolbarBottom from '../TextEditor/CustomToolbarBottom';
 import { myOptions as options } from './quill/customOptions';
 import EmojiPicker from 'emoji-picker-react';
@@ -7,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { sendQuillDataHandler } from './quill/utils';
 import { imageMatcher } from './quill/clipboard';
 import { Box } from '@chakra-ui/react';
+import Quill from 'quill';
 // Editor is an uncontrolled React component
 // const Delta = Quill.import('delta');
 
@@ -56,9 +56,16 @@ const Editor = forwardRef(
         publish,
       };
       const quill = new Quill(editorContainer, options);
-
-      quill.clipboard.addMatcher('img', function (node) {
-        return imageMatcher(node, quill, workSpaceId, channelId);
+      // quill.clipboard.addMatcher('img', function (node) {
+      //   return imageMatcher(node, quill, workSpaceId, channelId);
+      // });
+      quill.clipboard.addMatcher('IMG', (node, delta) => {
+        const Delta = Quill.import('delta');
+        return new Delta().insert('');
+      });
+      quill.clipboard.addMatcher('PICTURE', (node, delta) => {
+        const Delta = Quill.import('delta');
+        return new Delta().insert('');
       });
       ref.current = quill;
 
@@ -109,7 +116,13 @@ const Editor = forwardRef(
             setEmojiPickerIsOpen(false);
           }}
         />
-        <div id="editor" ref={containerRef}></div>
+        <div
+          id="editor"
+          ref={containerRef}
+          onDragOver={(e) => {
+            e.preventDefault;
+          }}
+        ></div>
         <CustomToolbarBottom setEmojiPickerIsOpen={setEmojiPickerIsOpen} />
       </Box>
     );
