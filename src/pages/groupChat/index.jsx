@@ -123,6 +123,13 @@ const GroupChatPage = () => {
       fetchNextPage();
     }
   }, [messageIndex]);
+
+  useEffect(() => {
+    setSocketMessageList([]);
+    setTotalMessageList([]);
+  }, [roomId]);
+
+  console.log('total', totalMessageList);
   return (
     <Box
       width={'calc(100% - 400px)'}
