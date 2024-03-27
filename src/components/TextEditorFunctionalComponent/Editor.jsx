@@ -56,17 +56,17 @@ const Editor = forwardRef(
         publish,
       };
       const quill = new Quill(editorContainer, options);
-      // quill.clipboard.addMatcher('img', function (node) {
-      //   return imageMatcher(node, quill, workSpaceId, channelId);
+      quill.clipboard.addMatcher('img', function (node) {
+        return imageMatcher(node, quill, workSpaceId, channelId);
+      });
+      // quill.clipboard.addMatcher('IMG', (node, delta) => {
+      //   const Delta = Quill.import('delta');
+      //   return new Delta().insert('');
       // });
-      quill.clipboard.addMatcher('IMG', (node, delta) => {
-        const Delta = Quill.import('delta');
-        return new Delta().insert('');
-      });
-      quill.clipboard.addMatcher('PICTURE', (node, delta) => {
-        const Delta = Quill.import('delta');
-        return new Delta().insert('');
-      });
+      // quill.clipboard.addMatcher('PICTURE', (node, delta) => {
+      //   const Delta = Quill.import('delta');
+      //   return new Delta().insert('');
+      // });
       ref.current = quill;
 
       if (defaultValueRef.current) {
