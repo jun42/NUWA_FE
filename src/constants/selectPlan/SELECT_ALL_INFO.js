@@ -90,7 +90,7 @@ export const footer_categories =[
 export const percent_section = [
     {number: '85', percent: '%', text:'NUWA가 커뮤니케이션을\n개선했다고 답변한 사용자의 비율'},
     {number: '86', percent: '%', text:'원격 근무 능력이\n향상되었음을 느끼는 직원의 비율'},
-    {number: '92', percent: '%', text:'팀과 더욱\n연계되어있음을 느낌'},
+    {number: '92', percent: '%', text:'팀과 더욱\n연계,소통되고 있음을 느끼는 비율'},
 ]
 
 export const workspace_section = [
@@ -105,15 +105,15 @@ export const mainCards = [
     {
       src: mainCard1 ,
       alt: '메인카드1',
-      title: '도구들을 한곳에 모아\n더 빠르게\n업무를 진행하세요',
-      description: '생산형 AI의 강력한 기능으로 자리비움 루틴을\n자동화하고 자주 사용하는 앱을 \nNuwa에서 바로 사용할 수 있도록 워크플로를 간소화합니다',
+      title: '도구들을 한곳에 모아 더 빠르게 업무를 진행하세요',
+      description: '생산형 AI의 강력한 기능으로 자리비움 루틴을 자동화하고 자주 사용하는 앱을 Nuwa에서 바로 사용할 수 있도록 워크플로를 간소화합니다',
       detail: 'Slack 플랫폼에 관해 자세히 알아보기 >',
     },
     {
       src: mainCard2 ,
       alt: '메인카드2',
-      title: '원하는 업무 방식을\n선택하세요 ' ,
-      description: 'Nuwa는 사용자가 언제,어디서,어떻게 일하든 최적의 환경\n을 제공하는 유연성을 갖추고 있습니다. 쉽게 채팅하고,오디오\n나 비디오 클립을 전송하고,또  실시간 논의를 위해 허들\n에 참여할 수 있습니다' ,
+      title: '원하는 업무 방식을 선택하고 사용하세요 ' ,
+      description: 'Nuwa는 사용자가 언제,어디서,어떻게 일하든 최적의 환경을 제공하는 유연성을 갖추고 있습니다. 쉽게 채팅하고,오디오나 비디오 클립을 전송하고,또  실시간 논의를 위해 허들에 참여할 수 있습니다' ,
       detail: '간편한 커뮤니케이션에 관해 자세히 알아보기 >',
   
   
@@ -121,8 +121,8 @@ export const mainCards = [
     {
       src: mainCard3 ,
       alt: '메인카드3',
-      title: '팀을 모두 한곳으로 모아\n 편하게 관리하세요 ' ,
-      description: 'Nuwa의 중심에는 모든인력과 업무에 필요한 모든것을 체계화\n할 수 있간인 채널이 있습니다. 채널에서는 부서,사무실,다른시간\n대 뿐만 아니라 심지어 다른 회사와의 연결도 더욱 수월해집니다.' ,
+      title: '팀을 모두 한곳으로 모아 편하게 관리하세요 ' ,
+      description: 'Nuwa의 중심에는 모든인력과 업무에 필요한 모든것을 체계화할 수 있간인 채널이 있습니다. 채널에서는 다른시간대 뿐만 아니라 심지어 다른 회사와의 연결도 더욱 수월해집니다.' ,
       detail: '채널에 관해 자세히 알아보기 >',
   
     }

@@ -33,6 +33,16 @@ const chakraTheme = extendTheme({
       700: '#242424',
     },
   },
+
+  breakpoints: {
+    SE: '20em', // 320px, 예를 들어 아이폰 SE의 가로 화면 크기
+    // 아이폰 미니나 아이폰 15 프로의 화면 크기를 추가할 수 있습니다.
+    sm: '30em', // 480px
+    md: '48em', // 768px
+    lg: '62em', // 992px
+    xl: '80em', // 1280px
+    xxl: '96em', // 1536px
+  },
 });
 
 export default chakraTheme;

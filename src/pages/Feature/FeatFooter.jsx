@@ -1,18 +1,19 @@
 import styled from 'styled-components';
 import StText from '@components/Text/StText';
-import StTextDiv from '@components/Text/StTextDiv';
-import kanban_board from '@assets/kanban_board.png';
-import circle_one from '@assets/circle_one.png';
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, Text, Image, Box } from '@chakra-ui/react';
 import { Sub_Feat } from '@constants/selectPlan/SELECT_FEAT_INFO';
 
 const FeatFooter = () => {
   return (
     <StContainer>
-      <StText $color={'white'} $size={42} $weight={700}>
+      <Text
+        fontSize={{ SE: '22px', sm: '28px', md: '38px', lg: '42px' }}
+        fontWeight={'700'}
+        color={'white'}
+      >
         새롭게 추가된 기능
-      </StText>
-      <Flex gap={'24px'}>
+      </Text>
+      <Flex gap={'20px'}>
         {Sub_Feat.map((item, index) => (
           <NewFeatCard key={index}>
             <img
@@ -24,21 +25,20 @@ const FeatFooter = () => {
 
             <Flex
               width={'250px'}
-              height={'162px'}
+              height={{ SE: '132px', sm: '132px', md: '162px', lg: '162px' }}
               flexDirection={'column'}
               align={'center'}
-              gap={'35px'}
+              gap={{ SE: '20px', sm: '25px', md: '30px', lg: '35px' }}
               textAlign={'center'}
             >
-              <img
-                width={'48px'}
-                height={'48px'}
+              <Image
+                boxSize={{ SE: '28px', sm: '32px', md: '38px', lg: '48px' }}
                 src={item.Icon}
                 alt="1번 원형 아이콘"
               />
 
               <Text
-                fontSize={'22px'}
+                fontSize={{ SE: '16px', sm: '18px', md: '20px', lg: '22px' }}
                 fontWeight={700}
                 textAlign={'center'}
                 color={'white'}

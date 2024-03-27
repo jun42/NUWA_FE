@@ -2,7 +2,7 @@ import Logo from '@components/Image/Logo';
 import styled from 'styled-components';
 import StTextDiv from '@components/Text/StTextDiv';
 import StText from '@components/Text/StText';
-import { Button, Center, Flex } from '@chakra-ui/react';
+import { Button, Flex, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 import { getToken } from '../../utils/auth';
 const FreeTrial = () => {
@@ -10,15 +10,32 @@ const FreeTrial = () => {
   const accessToken = getToken();
   return (
     <StContainer>
-      <Flex align="center" justify="center" className="FreeTrialText">
-        <Logo width={'150px'} height={'48px'} />
-        <StTextDiv $size={42} $weight={700}>
-          에서 <StText $color={'primary400'}>무료 회원가입</StText>
-        </StTextDiv>
+      <Flex
+        align="center"
+        justify="center"
+        className="FreeTrialText"
+        gap={'10px'}
+      >
+        <StImageBox>
+          <Logo width={'150px'} height={'48px'} />
+        </StImageBox>
+        <Text
+          fontSize={{ SE: '22px', sm: '28px', md: '38px', lg: '42px' }}
+          fontWeight={'700'}
+        >
+          무료 회원가입
+        </Text>
       </Flex>
-      <StTextDiv $size={26} $weight={700} $textAlign={Center}>
-        팀 협업에 사용해보세요. 이메일보다 빠르고 안전하게 무료로 사용해보기
-      </StTextDiv>
+      <Text
+        fontSize={{ SE: '14px', sm: '18px', md: '22px', lg: '26px' }}
+        fontWeight={'700'}
+        textAlign={{ SE: 'center' }}
+        color={'#a1a1a1'}
+        mt={{ SE: '10px' }}
+      >
+        팀 협업에 사용해보세요. 이메일 보다 빠르고 안전하며 다양한 기능으로
+        팀원과 협업해보세요 전보다 빠른 생산성과 편의성을 제공 해드립니다
+      </Text>
 
       <Button
         marginTop="83px"
@@ -26,11 +43,11 @@ const FreeTrial = () => {
         bg={'#575DFB'}
         _hover={{ bg: '#5055f3' }}
         _active={{ bg: '#5359f6' }}
-        width={'250px'}
-        height={'65px'}
+        width={{ SE: '200px', sm: '210px', md: '230px', lg: '250px' }}
+        height={{ SE: '35px', sm: '45px', md: '55px', lg: '65px' }}
         bgColor={'primary400'}
         color={'white'}
-        fontSize={'24px'}
+        fontSize={{ SE: '14px', sm: '16px', md: '20px', lg: '24px' }}
         fontWeight={'700'}
         onClick={() => {
           if (accessToken) {
@@ -56,4 +73,10 @@ const StContainer = styled.div`
   width: 100%;
   padding: 80px 12px;
   background-color: #f1f4f9;
+`;
+
+const StImageBox = styled.div`
+  @media (max-width: 479px) {
+    width: 100px; // 화면 너비가 479px 이하일 때 너비를 100px로 조정
+  }
 `;

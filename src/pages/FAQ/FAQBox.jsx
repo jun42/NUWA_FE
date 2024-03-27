@@ -35,8 +35,6 @@ const FAQBox = () => {
                     {FAQ.AnswerText}
                   </Text>
                 </Flex>
-
-                <img src={Polygon} alt="삼각형 아이콘" />
               </DetailContainer>
             )}
           </React.Fragment>
@@ -64,6 +62,7 @@ const TextBoxContainer = styled.div`
   gap: 15px;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 `;
 
 const ButtonBox = styled.div`
@@ -89,4 +88,5 @@ const DetailContainer = styled.div`
   gap: 15px;
   justify-content: space-between;
   border-radius: 12px;
+  cursor: pointer;
 `;
