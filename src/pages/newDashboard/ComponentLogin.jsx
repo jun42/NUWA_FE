@@ -6,6 +6,7 @@ import useModal from '@hooks/useModal';
 import { useParams } from 'react-router-dom';
 import { userProfile } from '@apis/dashboard/userProfile';
 import styled from 'styled-components';
+import { phoneNumberMask } from '../../components/Form/PhoneNumberInput';
 const ComponentLogin = () => {
   const { workSpaceId } = useParams();
   const [userInfo, setUserInfo] = useState(null);
@@ -17,9 +18,8 @@ const ComponentLogin = () => {
         const data = await userProfile(workSpaceId);
         if (data.status === 'success') {
           setUserInfo({
-            image:
-              data.data.image ||
-              'https://search.pstatic.net/sunny/?src=http%3A%2F%2Fthumbnail.10x10.co.kr%2Fwebimage%2Fimage%2Fadd2_600%2F141%2FA001410223_02.jpg%3Fcmd%3Dthumb%26w%3D500%26h%3D500%26fit%3Dtrue%26ws%3Dfalse&type=sc960_832', // 이미지가 없는 경우 대체 이미지 사용
+            image: data.data.image,
+            // 'https://search.pstatic.net/sunny/?src=http%3A%2F%2Fthumbnail.10x10.co.kr%2Fwebimage%2Fimage%2Fadd2_600%2F141%2FA001410223_02.jpg%3Fcmd%3Dthumb%26w%3D500%26h%3D500%26fit%3Dtrue%26ws%3Dfalse&type=sc960_832', // 이미지가 없는 경우 대체 이미지 사용
             name: data.data.name,
             job: data.data.job,
             email: data.data.email,
@@ -51,7 +51,9 @@ const ComponentLogin = () => {
       flexFlow={'column'}
       height={'100%'}
       align={'center'}
-      justify={'center'}
+      justify={'space-between'}
+      gap={'auto'}
+      py={'0.8rem'}
     >
       <Avatar
         borderRadius="full"
@@ -59,27 +61,20 @@ const ComponentLogin = () => {
         src={userInfo.image}
         alt=""
         border={'2px solid #d9d9d9'}
-        mb={'15px'}
         name={userInfo.name}
       />
-      <Flex flexFlow={'column'} width={'100%'} align={'center'} gap={'10px'}>
-        <Flex flexFlow={'column'} align={'center'} gap={'2px'}>
-          <Text fontSize="18px" fontWeight={'700'}>
-            {userInfo.name}
-          </Text>
-          <Text fontSize="14px" fontWeight={'500'} color={'#656565'}>
-            {userInfo.job || '직무를 입력하세요'}
-          </Text>
-        </Flex>
-        <Flex flexFlow={'column'} align={'center'} gap={'2px'}>
-          <Text fontSize="12px" fontWeight={'500'} color={'#656565'}>
-            {userInfo.email}
-          </Text>
-          <Text fontSize="12px" fontWeight={'500'} color={'#656565'}>
-            {userInfo.phone}
-          </Text>
-        </Flex>
-      </Flex>
+      <Text fontSize="18px" fontWeight={'700'}>
+        {userInfo.name}
+      </Text>
+      <Text fontSize="14px" fontWeight={'500'} color={'#656565'}>
+        {userInfo.job || '직무를 입력하세요'}
+      </Text>
+      <Text fontSize="12px" fontWeight={'500'} color={'#656565'}>
+        {userInfo.email}
+      </Text>
+      <Text fontSize="12px" fontWeight={'500'} color={'#656565'}>
+        {phoneNumberMask(userInfo.phone)}
+      </Text>
       <ProfileButton
         onClick={onOpen}
         fontSize="14px"
