@@ -45,6 +45,7 @@ export const useDirectChatMessageInfiniteQuery = (
         }
       },
       gcTime: 0,
+      enabled: false,
     });
   return {
     data,

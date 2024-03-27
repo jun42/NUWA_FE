@@ -44,6 +44,7 @@ export const useGroupChatMessageInfiniteQuery = (
         }
       },
       gcTime: 0,
+      enabled: false,
     });
   return {
     data,
