@@ -91,5 +91,5 @@ const StForm = styled.form`
 `;
 
 const unmaskPhoneNumber = (phoneNumber) => {
-  return phoneNumber.replaceAll(/\D/, '');
+  return phoneNumber.replaceAll(/\D/g, '');
 };
