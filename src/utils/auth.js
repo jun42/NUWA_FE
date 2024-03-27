@@ -8,7 +8,6 @@ export const setTokenInStorage = (accessToken) => {
 
 export const getToken = () => {
   const accessToken = Cookies.get('accessToken');
-  console.log(accessToken);
   if (!accessToken) {
     console.error('Token Empty');
     // location.href = '/login';
