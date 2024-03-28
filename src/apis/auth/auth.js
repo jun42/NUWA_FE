@@ -128,8 +128,8 @@ export const login = async ({ email, password }) => {
     });
 };
 
-export const logoutRequest = async () =>
-  await request
+export const logoutRequest = () =>
+  request
     .post('/logout')
     .then(() => {
       removeToken();
